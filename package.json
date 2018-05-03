@@ -1,0 +1,21 @@
+{
+  "name": "chronos",
+  "version": "1.0.0",
+  "description": "Chronos is a tool for non-programmers to build and share amazing D3 graphics",
+  "main": "index.js",
+  "scripts": {
+    "start-dev": "NODE_ENV='development' npm run build-client-watch & npm run start-server",
+    "test": "NODE_ENV='test' mocha ./server/**/*.spec.js ./server/**/**/*.spec.js ./client/**/*.spec.js --watch --require @babel/polyfill --require @babel/register"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Capstone-Chronos/chronos.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Capstone-Chronos/chronos/issues"
+  },
+  "homepage": "https://github.com/Capstone-Chronos/chronos#readme"
+}
