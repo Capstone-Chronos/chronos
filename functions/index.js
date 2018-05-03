@@ -11,5 +11,3 @@ app.get('/hi', (req, res, next) => {
 // // https://firebase.google.com/docs/functions/write-firebase-functions
 //
 exports.app = functions.https.onRequest(app);
-
-

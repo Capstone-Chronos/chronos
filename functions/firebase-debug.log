@@ -1,48 +1,51 @@
-[debug] [2018-05-03T17:57:38.847Z] ----------------------------------------------------------------------
-[debug] [2018-05-03T17:57:38.852Z] Command:       /usr/local/bin/node /Users/chung/.npm-global/bin/firebase serve --only functions,hosting
-[debug] [2018-05-03T17:57:38.853Z] CLI Version:   3.18.4
-[debug] [2018-05-03T17:57:38.853Z] Platform:      darwin
-[debug] [2018-05-03T17:57:38.853Z] Node Version:  v6.11.5
-[debug] [2018-05-03T17:57:38.854Z] Time:          Thu May 03 2018 13:57:38 GMT-0400 (EDT)
-[debug] [2018-05-03T17:57:38.854Z] ----------------------------------------------------------------------
+[debug] [2018-05-03T21:03:10.304Z] ----------------------------------------------------------------------
+[debug] [2018-05-03T21:03:10.306Z] Command:       /usr/local/bin/node /usr/local/bin/firebase serve --only functions,hosting
+[debug] [2018-05-03T21:03:10.307Z] CLI Version:   3.18.4
+[debug] [2018-05-03T21:03:10.307Z] Platform:      darwin
+[debug] [2018-05-03T21:03:10.307Z] Node Version:  v7.7.4
+[debug] [2018-05-03T21:03:10.308Z] Time:          Thu May 03 2018 17:03:10 GMT-0400 (EDT)
+[debug] [2018-05-03T21:03:10.308Z] ----------------------------------------------------------------------
 [debug] 
-[debug] [2018-05-03T17:57:38.913Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
-[debug] [2018-05-03T17:57:38.914Z] > authorizing via signed-in user
-[debug] [2018-05-03T17:57:38.923Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
-[debug] [2018-05-03T17:57:38.923Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
- { refresh_token: '1/Qvc4D4WSVUkqZgLvOyMSwH2FsCJMp6svTaYFyCnCGwUPBrD7KK6xnxB-RBjnO1hH',
+[debug] [2018-05-03T21:03:10.324Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-05-03T21:03:10.325Z] > authorizing via signed-in user
+[debug] [2018-05-03T21:03:10.326Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2018-05-03T21:03:10.327Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ { refresh_token: '1/K_96XufPIKoxvJjo21W8RgLmoxOg9a9Htr2TQSuZL-k',
   client_id: '563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com',
   client_secret: 'j9iVZfS8kkCEFUPaAeJV0sAi',
   grant_type: 'refresh_token',
   scope: 'email https://www.googleapis.com/auth/cloud-platform https://www.googleapis.com/auth/cloudplatformprojects.readonly https://www.googleapis.com/auth/firebase openid' } 
- Thu May 03 2018 13:57:38 GMT-0400 (EDT)
-[debug] [2018-05-03T17:57:39.187Z] <<< HTTP RESPONSE 200
-[debug] [2018-05-03T17:57:39.205Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/chronos-d08ff  
+ Thu May 03 2018 17:03:10 GMT-0400 (EDT)
+[debug] [2018-05-03T21:03:10.555Z] <<< HTTP RESPONSE 200
+[debug] [2018-05-03T21:03:10.572Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/chronos-d08ff  
   
- Thu May 03 2018 13:57:39 GMT-0400 (EDT)
-[debug] [2018-05-03T17:57:39.540Z] <<< HTTP RESPONSE 200
-[debug] [2018-05-03T17:57:39.541Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/chronos-d08ff/tokens  
+ Thu May 03 2018 17:03:10 GMT-0400 (EDT)
+[debug] [2018-05-03T21:03:10.858Z] <<< HTTP RESPONSE 200
+[debug] [2018-05-03T21:03:10.859Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/chronos-d08ff/tokens  
   
- Thu May 03 2018 13:57:39 GMT-0400 (EDT)
-[debug] [2018-05-03T17:57:39.868Z] <<< HTTP RESPONSE 200
-[debug] [2018-05-03T17:57:39.870Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/chronos-d08ff  
+ Thu May 03 2018 17:03:10 GMT-0400 (EDT)
+[debug] [2018-05-03T21:03:11.364Z] <<< HTTP RESPONSE 200
+[debug] [2018-05-03T21:03:11.366Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/chronos-d08ff  
   
- Thu May 03 2018 13:57:39 GMT-0400 (EDT)
-[debug] [2018-05-03T17:57:40.151Z] <<< HTTP RESPONSE 200
+ Thu May 03 2018 17:03:11 GMT-0400 (EDT)
+[debug] [2018-05-03T21:03:11.649Z] <<< HTTP RESPONSE 200
 [info] 
-[info] === Serving from '/Users/chung/Desktop/FULLSTACK/Senior-Phase/Capstone/chronos'...
+[info] === Serving from '/Users/PeterCoyle/Documents/FullStack/Capstone/Chronos/chronos'...
 [info] 
 [info] i  functions: Preparing to emulate functions.
-[debug] [2018-05-03T17:57:41.944Z] Fetching environment
-[debug] [2018-05-03T17:57:41.948Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/915480064490:getServerAppConfig  
+[debug] [2018-05-03T21:03:13.073Z] Fetching environment
+[debug] [2018-05-03T21:03:13.075Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/915480064490:getServerAppConfig  
   
- Thu May 03 2018 13:57:41 GMT-0400 (EDT)
-[debug] [2018-05-03T17:57:41.949Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/915480064490/clients/_:getWebAppConfig  
+ Thu May 03 2018 17:03:13 GMT-0400 (EDT)
+[debug] [2018-05-03T21:03:13.076Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/915480064490/clients/_:getWebAppConfig  
   
- Thu May 03 2018 13:57:41 GMT-0400 (EDT)
-[debug] [2018-05-03T17:57:42.483Z] <<< HTTP RESPONSE 200
-[debug] [2018-05-03T17:57:42.484Z] Starting @google-cloud/functions-emulator
-[debug] [2018-05-03T17:57:42.514Z] <<< HTTP RESPONSE 200
+ Thu May 03 2018 17:03:13 GMT-0400 (EDT)
+[debug] [2018-05-03T21:03:13.582Z] <<< HTTP RESPONSE 200
 [info] i  hosting: Serving hosting files from: public
 [info] ✔  hosting: Local server: http://localhost:5000
 
+[debug] [2018-05-03T21:03:14.227Z] <<< HTTP RESPONSE 200
+[debug] [2018-05-03T21:03:14.228Z] Starting @google-cloud/functions-emulator
+[debug] [2018-05-03T21:03:16.299Z] Parsing function triggers
+[info] ✔  functions: app: http://localhost:5001/chronos-d08ff/us-central1/app
+[info] [hosting] Rewriting /hi to local function app
