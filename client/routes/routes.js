@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Route, Switch, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import {Navbar, Footer, Main } from '../components';
+import {Navbar, Footer, Main, AllTimelines } from '../components';
 
 /**
  * COMPONENT
@@ -16,7 +16,8 @@ class Routes extends Component {
     return (
       <div>
         <Switch>
-          <Route path="/" component={Main} />
+          <Route exact path="/" component={Main} />
+          <Route exact path="/timelines" component={AllTimelines} />
         </Switch>
       </div>
     );
