@@ -8,3 +8,4 @@ yarn-error.log
 functions/node_modules
 functions/firebase-debug.log
 firebase-debug.log
+v8-compile-cache-0
