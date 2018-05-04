@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import SingleSelection from './SingleSelection';
+import { Card } from 'semantic-ui-react';
 
 // import { fetchTimelines } from '../store';
 
@@ -20,20 +22,19 @@ export default class AllTimelines extends React.Component {
   //   }
 
   render() {
+    console.log('Loaded')
     return (
       <div>
         <h2>Select a Timeline to View</h2>
-        <ul>
-          {
-            timelines.map(timeline => {
-              return (
-                <li key={timeline.id}>
-                  <Link to={`/timelines/${timeline.id}`}>{timeline.name}</Link>
-                </li>
-              );
-            })
-          }
-        </ul>
+        <Card.Group>
+          {timelines.map(timeline => (
+            <SingleSelection
+              key={timeline.id}
+              name={timeline.name}
+              url={`/timelines/${timeline.id}`}
+            />
+          ))}
+        </Card.Group>
       </div>
     );
   }
