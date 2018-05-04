@@ -1,9 +1,9 @@
 import React from 'react';
+import Carousel from './ImageCarousel';
 
 const Main = () => (
-  <div>
-    <h1>It worked!</h1>
-    <p>Hello world!</p>
+  <div className="main-view">
+    <Carousel />
   </div>
 )
 
