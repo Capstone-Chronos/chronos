@@ -5,9 +5,13 @@ import { Link } from 'react-router-dom';
 import { logout } from '../store';
 
 const Navbar = ({ handleClick, isLoggedIn, user }) => (
-  <nav >
-
-  </nav>
+  <header>
+    <h1>CHRONOS</h1>
+    <div className="logo">
+    </div>
+    <nav>
+    </nav>
+  </header>
 );
 
 /**
