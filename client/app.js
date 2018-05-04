@@ -11,13 +11,9 @@ import Routes from './routes/routes';
 const App = () => {
   return (
     <div >
-      <Provider store={store}>
-        <Router history={history}>
-          <Navbar />
-          <Routes />
-          <Footer />
-        </Router>
-      </Provider>
+      <Navbar />
+      <Routes />
+      <Footer />
     </div>
   );
 };

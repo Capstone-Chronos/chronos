@@ -2,20 +2,23 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Route, Switch, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import {Navbar, Footer, Main } from '../components';
 
 /**
  * COMPONENT
  */
 class Routes extends Component {
   componentDidMount() {
-    this.props.loadInitialData();
+    console.log('Routes mounted!')
   }
 
   render() {
     return (
-      <Switch>
-        {/* Routes placed here are available to all visitors */}
-      </Switch>
+      <div>
+        <Switch>
+          <Route path="/" component={Main} />
+        </Switch>
+      </div>
     );
   }
 }
