@@ -4,12 +4,13 @@
   "description": "Chronos is a tool for non-programmers to build and share amazing D3 graphics",
   "main": "index.js",
   "scripts": {
-    "start-dev": "NODE_ENV=‘development’ npm run build-client && firebase serve --only functions,hosting",
+    "start-dev": "NODE_ENV=‘development’ npm run build-client -watch && firebase serve --only functions,hosting",
     "build-client": "webpack",
     "build-client-watch": "webpack -w",
     "test": "NODE_ENV='test' mocha ./server/**/*.spec.js ./client/**/*.spec.js --watch --require @babel/polyfill --require @babel/register"
   },
   "dependencies": {
+    "prop-types": "^15.6.1",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
     "react-redux": "^5.0.7",
