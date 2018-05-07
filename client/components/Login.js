@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom'
 import { Toaster, Intent } from '@blueprintjs/core'
-import { app, facebookProvider } from '../base'
+import { app, googleProvider } from '../base'
 import { Form, Button } from 'semantic-ui-react';
 
 // export default class Login extends Component {
@@ -43,10 +43,10 @@ class Login extends Component {
   }
 
   authWithGoogle() {
-    app.auth().signInWithPopup(facebookProvider)
+    app.auth().signInWithPopup(googleProvider)
       .then((user, error) => {
         if (error) {
-          this.toaster.show({ intent: Intent.DANGER, message: "Unable to sign in with Facebook" })
+          this.toaster.show({ intent: Intent.DANGER, message: "Unable to sign in with Google" })
         } else {
           this.props.setCurrentUser(user)
           this.setState({ redirect: true })
@@ -66,7 +66,7 @@ class Login extends Component {
           // create user
           return app.auth().createUserWithEmailAndPassword(email, password)
         } else if (providers.indexOf("password") === -1) {
-          // they used facebook
+          // they used google
           this.loginForm.reset()
           this.toaster.show({ intent: Intent.WARNING, message: "Try alternative login." })
         } else {
@@ -89,32 +89,34 @@ class Login extends Component {
   render() {
     const { from } = this.props.location.state || { from: { pathname: '/' } }
 
+    console.log('hi')
+
     if (this.state.redirect === true) {
       return <Redirect to={from} />
     }
 
     return (
-      <div style={loginStyles}>
+      <div>
         <Toaster ref={(element) => { this.toaster = element }} />
-        <button style={{width: "100%"}} className="pt-button pt-intent-primary" onClick={() => { this.authWithGoogle() }}>Log In with Facebook</button>
-        <hr style={{marginTop: "10px", marginBottom: "10px"}}/>
+        <button onClick={() => { this.authWithGoogle() }}>Log In with Google</button>
+        <hr />
         <form onSubmit={(event) => { this.authWithEmailPassword(event) }} ref={(form) => { this.loginForm = form }}>
-          <div style={{marginBottom: "10px"}} className="pt-callout pt-icon-info-sign">
+          <div>
             <h5>Note</h5>
             If you don't have an account already, this form will create your account.
           </div>
-          <label className="pt-label">
+          <label>
             Email
-            <input style={{width: "100%"}} className="pt-input" name="email" type="email" ref={(input) => { this.emailInput = input }} placeholder="Email"></input>
+            <input name="email" type="email" ref={(input) => { this.emailInput = input }} placeholder="Email"></input>
           </label>
-          <label className="pt-label">
+          <label>
             Password
-            <input style={{width: "100%"}} className="pt-input" name="password" type="password" ref={(input) => { this.passwordInput = input }} placeholder="Password"></input>
+            <input name="password" type="password" ref={(input) => { this.passwordInput = input }} placeholder="Password"></input>
           </label>
-          <input style={{width: "100%"}} type="submit" className="pt-button pt-intent-primary" value="Log In"></input>
+          <input type="submit" value="Log In"></input>
         </form>
       </div>
     )
   }
 }
-export default Login
+export default Login;

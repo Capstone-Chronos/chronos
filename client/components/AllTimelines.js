@@ -12,17 +12,17 @@ const timelines = [{id: 1, name: 'timeline 1'}, {id: 2, name: 'timeline 2'}, {id
 export default class AllTimelines extends React.Component {
   constructor(props){
     super(props);
-    // this.state = {
-    //   timelines: [{id: 1, name: 'timeline 1'}, {id: 2, name: 'timeline 2'}, {id: 3, name: 'timeline 3'}]
-    // };
+    this.state = {
+      timelines: [{id: 1, name: 'timeline 1'}, {id: 2, name: 'timeline 2'}, {id: 3, name: 'timeline 3'}]
+    };
   }
 
-  //   componentDidMount() {
-  //     this.props.fetchAllTimelines();
-  //   }
+  componentDidMount() {
+    this.props.fetchAllTimelines();
+  }
 
   render() {
-    console.log('Loaded')
+    console.log('Loaded');
     return (
       <div>
         <h2>Select a Timeline to View</h2>

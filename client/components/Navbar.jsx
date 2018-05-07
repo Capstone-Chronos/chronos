@@ -6,9 +6,7 @@ import { Link } from 'react-router-dom';
 
 const Navbar = ({ handleClick, isLoggedIn, user }) => (
   <nav>
-    <div>
-      <img src="/images/logo.png" width="250" height="160" />
-    </div>
+   
 
     <Link to="/">
     Home
