@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Route, Switch, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { Navbar, Footer, Main, AllTimelines, SignUp } from '../components';
+import { Navbar, Footer, Main, AllTimelines, EditTimeline, SignUp, Login } from '../components';
 
 /**
  * COMPONENT
@@ -18,7 +18,9 @@ class Routes extends Component {
         <Switch>
           <Route exact path="/" component={Main} />
           <Route exact path="/timelines" component={AllTimelines} />
+          <Route exact path="/create" component={EditTimeline} />
           <Route exact path="/signup" component={SignUp} />
+          <Route exact path="/login" component={Login} />
         </Switch>
       </div>
     );

@@ -11,7 +11,6 @@ import Routes from './routes/routes';
 const App = () => {
   return (
     <div className="site">
-      <Navbar />
       <div className="site-content">
         <Routes />
       </div>
