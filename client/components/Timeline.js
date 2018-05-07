@@ -2,8 +2,6 @@ import React from 'react';
 import d3 from 'd3';
 import svg from 'svg';
 
-var xaxis = d3.axisBottom(100);
-
 export default class Timeline extends React.Component {
   constructor(props) {
     super(props);
@@ -13,13 +11,12 @@ export default class Timeline extends React.Component {
   }
 
   componentDidMount() {
-
+    d3.select("svg")
+      .append("g")
+      .attr('transform', )
   }
 
   render() {
-    {d3.select("axis")
-      .call(d3.axisBottom(100))
-  }
     return <div>
       <svg width="90vw" height="90vh" id="timeline" style={color}>
       <div id="axis"></div>
