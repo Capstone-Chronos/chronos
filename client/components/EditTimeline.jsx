@@ -16,8 +16,15 @@ class EditTimeline extends Component {
   toggleVisibility = () => this.setState({ visible: !this.state.visible })
 
   render() {
-    const { visible } = this.state;
-    const { children, content } = this.props;
+    const { visible } = this.state
+    const { children, content } = this.props
+    var node = document.createElement('div')
+    let d3 = d3
+    // let circle = canvas.append("circle")
+    // .attr("cx", 250)
+    // .attr('cy', 250)
+    // .attr('r', 50)
+    // .attr('fill', 'red');
     return (
       <div style={toolsStyle}>
         <Sidebar.Pushable as={Segment}>
@@ -42,11 +49,14 @@ class EditTimeline extends Component {
               <Timeline />
               <div>
                 <Button secondary style={publishStyle}>Publish</Button>
+                <div id="d3Component">
+                  <PieChart />
+                </div>
               </div>
             </Segment>
           </Sidebar.Pusher>
         </Sidebar.Pushable>
-      </div >
+      </div>
     );
   }
 }

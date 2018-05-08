@@ -15,7 +15,7 @@ export default class Carousel extends React.Component {
         let intervalId = setInterval(() => {
             this.setState({ index: this.state.index + 1 });
         }, 5000);
-        this.setState({intervalId:intervalId});
+        this.setState({ intervalId: intervalId });
     }
 
     componentWillUnmount() {
@@ -33,8 +33,12 @@ export default class Carousel extends React.Component {
                         <Icon name='right arrow' />
                         </Button>
                     </div>
-                    <Image className={(this.state.index%2 === 1) ? "carousel-image" : "carousel-image hidden"} src="/images/background1.png" />
-                    <Image className={(this.state.index%2 === 0) ? "carousel-image" : "carousel-image hidden"} src="/images/background2.jpg" />
+                    <Image
+                        className={(this.state.index % 2 === 1) ? "carousel-image" : "carousel-image hidden"}
+                        src="http://www.railbaltica.org/wp-content/uploads/2017/04/Rail-Baltica-Project-Timeline.png" />
+                    <Image
+                        className={(this.state.index % 2 === 0) ? "carousel-image" : "carousel-image hidden"} 
+                        src="https://c1.staticflickr.com/8/7447/27544789976_d9ef43a082_b.jpg" />
                 </section>
             </Container>
         )
