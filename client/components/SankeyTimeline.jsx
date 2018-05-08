@@ -44,7 +44,7 @@ class SankeyTimeline extends React.Component {
       format = function(d) {
         return formatNumber(d) + ' ' + units;
       };
-    // color = d3.scale.category20();
+    // color = d3.schemeCategory20();
 
     // append the svg canvas to the page
     var svg = d3
