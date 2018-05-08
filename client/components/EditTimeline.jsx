@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Sidebar, Segment, Button, Menu, Image, Icon, Header } from 'semantic-ui-react'
 import PropTypes from 'prop-types';
+import PieChart from './PieChart'
+import d3, { select } from 'd3';
+
 
 class EditTimeline extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      imageUrl: 'https://www.researchgate.net/profile/Carlos_Pinho3/publication/303916561/figure/fig6/AS:372571687145475@1465839420211/Sankey-and-Grassmann-for-Un-0300-0400.png',
       visible: false
     }
     this.toggleVisibility.bind(this);
@@ -18,6 +20,13 @@ class EditTimeline extends Component {
   render() {
     const { visible } = this.state
     const { children, content } = this.props
+    var node = document.createElement('div')
+    let d3 = d3
+    // let circle = canvas.append("circle")
+    // .attr("cx", 250)
+    // .attr('cy', 250)
+    // .attr('r', 50)
+    // .attr('fill', 'red');
     return (
       <div style={toolsStyle}>
         <Button onClick={this.toggleVisibility} style={buttonStyle}>Show Tools</Button>
@@ -43,7 +52,9 @@ class EditTimeline extends Component {
             {/* Insert the actual timeline component here */}
               <div>
                 <Button secondary style={publishStyle}>Publish</Button>
-                <img src={this.state.imageUrl} style={imageStyle}/>
+                <div id="d3Component">
+                  <PieChart />
+                </div>
               </div>
             </Segment>
           </Sidebar.Pusher>

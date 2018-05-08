@@ -10,6 +10,7 @@
     "test": "NODE_ENV='test' mocha ./server/**/*.spec.js ./client/**/*.spec.js --watch --require @babel/polyfill --require @babel/register"
   },
   "dependencies": {
+    "d3": "^5.2.0",
     "prop-types": "^15.6.1",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
