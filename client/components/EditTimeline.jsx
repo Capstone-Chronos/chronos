@@ -2,12 +2,16 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Sidebar, Segment, Button, Menu, Image, Icon, Header } from 'semantic-ui-react'
 import PropTypes from 'prop-types';
+<<<<<<< HEAD
 import PieChart from './PieChart'
 import d3, { select } from 'd3';
 
+=======
+import Timeline from './Timeline';
+>>>>>>> master
 
 class EditTimeline extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       visible: false
@@ -29,11 +33,10 @@ class EditTimeline extends Component {
     // .attr('fill', 'red');
     return (
       <div style={toolsStyle}>
-        <Button onClick={this.toggleVisibility} style={buttonStyle}>Show Tools</Button>
         <Sidebar.Pushable as={Segment}>
-          <Sidebar as={Menu} animation='uncover' width='thin' visible={visible} icon='labeled' vertical inverted>
-          <div className="graph-attribute-set">{children}</div>
-          {/* Placeholder Icons are below */}
+          <Sidebar as={Menu} width='thin' visible icon='labeled' vertical inverted>
+            <div className="graph-attribute-set">{children}</div>
+            {/* Placeholder Icons are below */}
             <Menu.Item name='home'>
               <Icon name='home' />
               Add Event
@@ -49,17 +52,20 @@ class EditTimeline extends Component {
           </Sidebar>
           <Sidebar.Pusher>
             <Segment basic>
-            {/* Insert the actual timeline component here */}
-              <div>
+              <Timeline />
+                <div>
                 <Button secondary style={publishStyle}>Publish</Button>
+<<<<<<< HEAD
                 <div id="d3Component">
                   <PieChart />
                 </div>
+=======
+>>>>>>> master
               </div>
             </Segment>
           </Sidebar.Pusher>
         </Sidebar.Pushable>
-      </div>
+      </div >
     )
   }
 }
@@ -70,10 +76,6 @@ const toolsStyle = {
   marginTop: 50
 }
 
-const imageStyle = {
-  width: window.innerWidth,
-  height: window.innerHeight,
-}
 
 const buttonStyle = {
   zIndex: 2
