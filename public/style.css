@@ -67,3 +67,18 @@ header:hover, header.active {
   width: 20px;
   height: 20px;
 }
+
+.chartContainer {
+  display: flex;
+  margin: 3em;
+  justify-content: center
+}
+
+#barchart {
+  position: absolute;
+  margin: 5em;
+}
+
+.updateForm {
+  margin: 5em;
+}
