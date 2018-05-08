@@ -2,7 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Sidebar, Segment, Button, Menu, Image, Icon, Header } from 'semantic-ui-react'
 import PropTypes from 'prop-types';
+<<<<<<< HEAD
+import PieChart from './PieChart'
+import d3, { select } from 'd3';
+
+=======
 import Timeline from './Timeline';
+>>>>>>> master
 
 class EditTimeline extends Component {
   constructor(props) {
@@ -18,6 +24,13 @@ class EditTimeline extends Component {
   render() {
     const { visible } = this.state
     const { children, content } = this.props
+    var node = document.createElement('div')
+    let d3 = d3
+    // let circle = canvas.append("circle")
+    // .attr("cx", 250)
+    // .attr('cy', 250)
+    // .attr('r', 50)
+    // .attr('fill', 'red');
     return (
       <div style={toolsStyle}>
         <Sidebar.Pushable as={Segment}>
@@ -42,6 +55,12 @@ class EditTimeline extends Component {
               <Timeline />
                 <div>
                 <Button secondary style={publishStyle}>Publish</Button>
+<<<<<<< HEAD
+                <div id="d3Component">
+                  <PieChart />
+                </div>
+=======
+>>>>>>> master
               </div>
             </Segment>
           </Sidebar.Pusher>
