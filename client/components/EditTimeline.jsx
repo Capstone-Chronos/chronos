@@ -1,8 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Sidebar, Segment, Button, Menu, Image, Icon, Header } from 'semantic-ui-react';
+import {
+  Sidebar,
+  Segment,
+  Button,
+  Menu,
+  Image,
+  Icon,
+  Header
+} from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import Timeline from './Timeline';
+import SankeyTimeline from './SankeyTimeline.jsx';
 
 class EditTimeline extends Component {
   constructor(props) {
@@ -13,13 +22,13 @@ class EditTimeline extends Component {
     this.toggleVisibility.bind(this);
   }
 
-  toggleVisibility = () => this.setState({ visible: !this.state.visible })
+  toggleVisibility = () => this.setState({ visible: !this.state.visible });
 
   render() {
-    const { visible } = this.state
-    const { children, content } = this.props
-    var node = document.createElement('div')
-    let d3 = d3
+    const { visible } = this.state;
+    const { children, content } = this.props;
+    var node = document.createElement('div');
+    let d3 = d3;
     // let circle = canvas.append("circle")
     // .attr("cx", 250)
     // .attr('cy', 250)
@@ -28,7 +37,14 @@ class EditTimeline extends Component {
     return (
       <div style={toolsStyle}>
         <Sidebar.Pushable as={Segment}>
-          <Sidebar as={Menu} width="thin" visible icon="labeled" vertical inverted>
+          <Sidebar
+            as={Menu}
+            width="thin"
+            visible
+            icon="labeled"
+            vertical
+            inverted
+          >
             <div className="graph-attribute-set">{children}</div>
             {/* Placeholder Icons are below */}
             <Menu.Item name="home">
@@ -48,9 +64,11 @@ class EditTimeline extends Component {
             <Segment basic>
               <Timeline />
               <div>
-                <Button secondary style={publishStyle}>Publish</Button>
+                <Button secondary style={publishStyle}>
+                  Publish
+                </Button>
                 <div id="d3Component">
-                  <PieChart />
+                  <SankeyTimeline />
                 </div>
               </div>
             </Segment>
@@ -66,7 +84,6 @@ export default EditTimeline;
 const toolsStyle = {
   marginTop: 50
 };
-
 
 const buttonStyle = {
   zIndex: 2

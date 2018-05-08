@@ -10,27 +10,27 @@ export default class Timeline extends React.Component {
     // };
   }
 
-  componentDidMount() {
-    d3.select("svg")
-      .append("g")
-      .attr('transform', )
-  }
+  // componentDidMount() {
+  //   d3.select("svg")
+  //     .append("g")
+  //     .attr('transform', )
+  // }
 
   render() {
-    return <div>
-      <svg width="90vw" height="90vh" id="timeline" style={color}>
-      <div id="axis"></div>
-        <circle
-          key={1}
-          cx="250"
-          cy="300"
-          r="50"
-          style={{ fill: 'steelblue' }}
-        />
-      </svg>
-    </div >
-
-
+    return (
+      <div>
+        <svg width="90vw" height="90vh" id="timeline" style={color}>
+          <div id="axis" />
+          <circle
+            key={1}
+            cx="250"
+            cy="300"
+            r="50"
+            style={{ fill: 'steelblue' }}
+          />
+        </svg>
+      </div>
+    );
   }
 }
 
