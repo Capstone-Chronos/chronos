@@ -24,41 +24,42 @@ export default class BarChart extends React.Component {
 
   createBarChart() {
     const node = this.node
-    const dataMax = max(this.props.data)
+    const dataMax = max(this.state.data)
     const yScale = scaleLinear()
       .domain([0, dataMax])
-      .range([0, this.props.size[1]])
+      .range([0, this.state.size[1]])
     select(node)
       .selectAll('rect')
-      .data(this.props.data)
+      .data(this.state.data)
       .enter()
       .append('rect')
 
     select(node)
       .selectAll('rect')
-      .data(this.props.data)
+      .data(this.state.data)
       .exit()
       .remove()
 
     select(node)
       .selectAll('rect')
-      .data(this.props.data)
+      .data(this.state.data)
       .style('fill', '#fe9922')
       .attr('x', (d, i) => i * 25)
-      .attr('y', d => this.props.size[1] - yScale(d))
+      .attr('y', d => this.state.size[1] - yScale(d))
       .attr('height', d => yScale(d))
       .attr('width', 25)
   }
 
   handleChange(evt) {
-    this.setState({ data: evt.target.value })
+    this.setState({ tempVal: evt.target.value })
     console.log(evt.target.value)
   }
 
   handleSubmit(evt) {
     evt.preventDefault();
-    this.setState({ data: this.state.data.concat([this.state.tempVal]), tempVal: "" })
+    this.setState({ data: this.state.data.concat(+this.state.tempVal), tempVal: "" })
     console.log("submitted")
+    console.log(this.state)
   }
 
   render() {
