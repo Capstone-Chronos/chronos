@@ -5,40 +5,40 @@ import { select } from 'd3-selection';
 
 export default class BarChart extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       data: this.props.data,
       size: this.props.size,
       tempVal: 0
-    }
-    this.createBarChart = this.createBarChart.bind(this)
+    };
+    this.createBarChart = this.createBarChart.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
   componentDidMount() {
-    this.createBarChart()
+    this.createBarChart();
   }
   componentDidUpdate() {
-    this.createBarChart()
+    this.createBarChart();
   }
 
   createBarChart() {
-    const node = this.node
-    const dataMax = max(this.state.data)
+    const node = this.node;
+    const dataMax = max(this.state.data);
     const yScale = scaleLinear()
       .domain([0, dataMax])
-      .range([0, this.state.size[1]])
+      .range([0, this.state.size[1]]);
     select(node)
       .selectAll('rect')
       .data(this.state.data)
       .enter()
-      .append('rect')
+      .append('rect');
 
     select(node)
       .selectAll('rect')
       .data(this.state.data)
       .exit()
-      .remove()
+      .remove();
 
     select(node)
       .selectAll('rect')
@@ -47,33 +47,42 @@ export default class BarChart extends React.Component {
       .attr('x', (d, i) => i * 25)
       .attr('y', d => this.state.size[1] - yScale(d))
       .attr('height', d => yScale(d))
-      .attr('width', 25)
+      .attr('width', 25);
   }
 
   handleChange(evt) {
-    this.setState({ tempVal: evt.target.value })
-    console.log(evt.target.value)
+    this.setState({ tempVal: evt.target.value });
+    console.log(evt.target.value);
   }
 
   handleSubmit(evt) {
     evt.preventDefault();
-    this.setState({ data: this.state.data.concat(+this.state.tempVal), tempVal: "" })
-    console.log("submitted")
-    console.log(this.state)
+    this.setState({
+      data: this.state.data.concat(+this.state.tempVal),
+      tempVal: ''
+    });
+    console.log('submitted');
+    console.log(this.state);
   }
 
   render() {
-    return <div class="chartContainer">
-      <svg id="barchart" ref={node => this.node = node}
-        width={500} height={500}>
-      </svg>
-      <div class="updateForm">
-        <form onSubmit={this.handleSubmit}>
-          <input label="data" onChange={this.handleChange}></input>
-          <button type="submit" value="Submit">Submit</button>
-        </form>
+    return (
+      <div class="chartContainer">
+        <svg
+          id="barchart"
+          ref={node => (this.node = node)}
+          width={500}
+          height={500}
+        />
+        <div class="updateForm">
+          <form onSubmit={this.handleSubmit}>
+            <input label="data" onChange={this.handleChange} />
+            <button type="submit" value="Submit">
+              Submit
+            </button>
+          </form>
+        </div>
       </div>
-    </div>
+    );
   }
 }
-

@@ -2,14 +2,24 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Route, Switch, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { Navbar, Footer, Main, AllTimelines, EditTimeline, SignUp, Login, BarChart } from '../components';
+import {
+  Navbar,
+  Footer,
+  Main,
+  AllTimelines,
+  EditTimeline,
+  SignUp,
+  Login,
+  BarChart
+} from '../components';
+import ChartContainer from '../components/ChartContainer';
 
 /**
  * COMPONENT
  */
 class Routes extends Component {
   componentDidMount() {
-    console.log('Routes mounted!')
+    console.log('Routes mounted!');
   }
 
   render() {
@@ -18,10 +28,15 @@ class Routes extends Component {
         <Switch>
           <Route exact path="/" component={Main} />
           <Route exact path="/timelines" component={AllTimelines} />
-          <Route exact path="/create" component={EditTimeline} />
+          {/* <Route exact path="/create" component={EditTimeline} /> */}
           <Route exact path="/signup" component={SignUp} />
           <Route exact path="/login" component={Login} />
-          <Route exact path="/barchart" render={() => <BarChart data={[5,10,1,3]} size={[500,500]}/>} />
+          <Route
+            exact
+            path="/barchart"
+            render={() => <BarChart data={[5, 10, 1, 3]} size={[500, 500]} />}
+          />
+          <Route path="/edit" component={ChartContainer} />
         </Switch>
       </div>
     );
@@ -32,13 +47,11 @@ class Routes extends Component {
  * CONTAINER
  */
 const mapState = state => {
-  return {
-  };
+  return {};
 };
 
 const mapDispatch = dispatch => {
-  return {
-  };
+  return {};
 };
 
 export default withRouter(connect(mapState, mapDispatch)(Routes));
