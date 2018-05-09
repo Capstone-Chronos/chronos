@@ -51,7 +51,7 @@ export default class extends React.Component {
         return <option value={node.node} key={i}>{node.name}</option>
       });
 
-    targetNodes.unshift(<option value={NaN} key='000'>{'Select Target'}</option>);
+    targetNodes.unshift(<option value={NaN.toString()} key='000'>{'Select Target'}</option>);
 
     return (    
       <div className="input-group">
