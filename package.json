@@ -16,10 +16,6 @@
     "re-base": "^3.2.2",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
-<<<<<<< HEAD
-    "react-faux-dom": "^4.1.0",
-=======
->>>>>>> master
     "react-modal": "^3.4.4",
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.2.2",
