@@ -53,85 +53,87 @@ export default class Sankey extends React.Component {
       .links(graph.links)
       .layout(32);
 
-    // // ========================================================================
-    // // Initialize and append the svg canvas to faux-DOM
-    // // ========================================================================
-    // var svgNode = ReactFauxDOM.createElement('div');
+    // ========================================================================
+    // Initialize and append the svg canvas to faux-DOM
+    // ========================================================================
+    var svgNode = ReactFauxDOM.createElement('div');
 
-    // var svg = d3.select(svgNode).append("svg")
-    //   .attr("width", width + margin.left + margin.right)
-    //   .attr("height", height + margin.top + margin.bottom)
-    //   .append("g")
-    //   .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    var svg = d3.select(svgNode).append("svg")
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
+      .append("g")
+      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    // // ========================================================================
-    // // Add links
-    // // ========================================================================
-    // var link = svg.append("g").selectAll(".link")
-    //   .data(graph.links)
-    //   .enter().append("path")
-    //   .attr("class", "link")
-    //   .on('click', this.props.openModal) // register eventListener
-    //   .attr("d", path)
-    //   .style("stroke-width", (d) => Math.max(1, d.dy))
+    // ========================================================================
+    // Add links
+    // ========================================================================
+    var link = svg.append("g").selectAll(".link")
+      .data(graph.links)
+      .enter().append("path")
+      .attr("class", "link")
+      .on('click', this.props.openModal) // register eventListener
+      .attr("d", path)
+      .style("stroke-width", (d) => Math.max(1, d.dy))
 
-    // // add link titles
-    // link.append("title")
-    //   .text((d) => d.source.name + " → " + d.target.name + "\n Weight: " + format(d.value));
+    // add link titles
+    link.append("title")
+      .text((d) => d.source.name + " → " + d.target.name + "\n Weight: " + format(d.value));
 
-    // // ========================================================================
-    // // Add nodes
-    // // ========================================================================
-    // var node = svg.append("g").selectAll(".node")
-    //   .data(graph.nodes)
-    //   .enter().append("g")
-    //   .attr("class", "node")
-    //   .on('click', this.props.openModal) // register eventListener
-    //   .attr("transform", (d) => "translate(" + d.x + "," + d.y + ")")
+    // ========================================================================
+    // Add nodes
+    // ========================================================================
+    var node = svg.append("g").selectAll(".node")
+      .data(graph.nodes)
+      .enter().append("g")
+      .attr("class", "node")
+      .on('click', this.props.openModal) // register eventListener
+      .attr("transform", (d) => "translate(" + d.x + "," + d.y + ")")
 
-    // // add nodes rect
-    // node.append("rect")
-    //   .attr("height", (d) => d.dy)
-    //   .attr("width", sankey.nodeWidth())
-    //   .append("title")
-    //   .text((d) => d.name + "\n" + format(d.value));
+    // add nodes rect
+    node.append("rect")
+      .attr("height", (d) => d.dy)
+      .attr("width", sankey.nodeWidth())
+      .append("title")
+      .text((d) => d.name + "\n" + format(d.value));
 
-    // // add nodes text
-    // node.append("text")
-    //   .attr("x", -6)
-    //   .attr("y", (d) => d.dy / 2)
-    //   .attr("dy", ".35em")
-    //   .attr("text-anchor", "end")
-    //   .text((d) => d.name)
-    //   .filter((d) => d.x < width / 2)
-    //   .attr("x", 6 + sankey.nodeWidth())
-    //   .attr("text-anchor", "start");
+    // add nodes text
+    node.append("text")
+      .attr("x", -6)
+      .attr("y", (d) => d.dy / 2)
+      .attr("dy", ".35em")
+      .attr("text-anchor", "end")
+      .text((d) => d.name)
+      .filter((d) => d.x < width / 2)
+      .attr("x", 6 + sankey.nodeWidth())
+      .attr("text-anchor", "start");
+
+      return svgNode.toReact();
 
     // Above D3 manipaluation equal to following jsx if didn't rely on faux-dom 
     // ------------------------------------------------------------------------
-    var links = graph.links.map((link, i) => {
-      return (
-        <g>
-          <path key={i} className="link" onClick={() => { this.props.openModal(link) }} d={path(link)} style={{ strokeWidth: Math.max(1, link.dy) }}>
-            <title>{link.source.name + " → " + link.target.name + "\n Weight: " + format(link.value)}</title>
-          </path>
-        </g>
-      );
-    });
+    // var links = graph.links.map((link, i) => {
+    //   return (
+    //     <g>
+    //       <path key={i} className="link" onClick={() => { this.props.openModal(link) }} d={path(link)} style={{ strokeWidth: Math.max(1, link.dy) }}>
+    //         <title>{link.source.name + " → " + link.target.name + "\n Weight: " + format(link.value)}</title>
+    //       </path>
+    //     </g>
+    //   );
+    // });
 
-    var nodes = graph.nodes.map((node, i) => {
-      return (
-        <g key={i} className="node" onClick={() => { this.props.openModal(node) }} transform={"translate(" + node.x + "," + node.y + ")"}>
-          <rect height={node.dy} width={sankey.nodeWidth()}>
-            <title>{node.name + "\n" + format(node.value)}</title>
-          </rect>
-          {(node.x >= width / 2) ?
-            <text x={-6} y={node.dy / 2} dy={".35em"} textAnchor={"end"} >{node.name}</text> :
-            <text x={6 + sankey.nodeWidth()} y={node.dy / 2} dy={".35em"} textAnchor={"start"} >{node.name}</text>
-          }
-        </g>
-      );
-    });
+    // var nodes = graph.nodes.map((node, i) => {
+    //   return (
+    //     <g key={i} className="node" onClick={() => { this.props.openModal(node) }} transform={"translate(" + node.x + "," + node.y + ")"}>
+    //       <rect height={node.dy} width={sankey.nodeWidth()}>
+    //         <title>{node.name + "\n" + format(node.value)}</title>
+    //       </rect>
+    //       {(node.x >= width / 2) ?
+    //         <text x={-6} y={node.dy / 2} dy={".35em"} textAnchor={"end"} >{node.name}</text> :
+    //         <text x={6 + sankey.nodeWidth()} y={node.dy / 2} dy={".35em"} textAnchor={"start"} >{node.name}</text>
+    //       }
+    //     </g>
+    //   );
+    // });
 
     // ========================================================================
     // Render the faux-DOM to React elements
@@ -140,15 +142,15 @@ export default class Sankey extends React.Component {
 
     // JSX rendering return if didn't rely on faux-dom
     // ------------------------------------------------------------------------
-    return (
-      <div className="chartContainer">
-        <svg width={width + margin.left + margin.right} height={height + margin.top + margin.bottom}>
-          <g transform={"translate(" + margin.left + "," + margin.top + ")"}>
-            {links}
-            {nodes}
-          </g>
-        </svg>
-      </div>
-    );
+    // return (
+    //   <div className="chartContainer">
+    //     <svg width={width + margin.left + margin.right} height={height + margin.top + margin.bottom}>
+    //       <g transform={"translate(" + margin.left + "," + margin.top + ")"}>
+    //         {links}
+    //         {nodes}
+    //       </g>
+    //     </svg>
+    //   </div>
+    // );
   }
 }
