@@ -23,5 +23,6 @@ yarn-error.log*
 secrets.js
 firebase-debug.log
 v8-compile-cache-0
-functions/node_modules
 bundle.js
+bundle.js.map
+functions/node_modules
