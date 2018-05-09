@@ -37,7 +37,7 @@ export default class Carousel extends React.Component {
                         className={(this.state.index % 2 === 1) ? "carousel-image" : "carousel-image hidden"}
                         src="http://www.railbaltica.org/wp-content/uploads/2017/04/Rail-Baltica-Project-Timeline.png" />
                     <Image
-                        className={(this.state.index % 2 === 0) ? "carousel-image" : "carousel-image hidden"} 
+                        className={(this.state.index % 2 === 0) ? "carousel-image" : "carousel-image hidden"}
                         src="https://c1.staticflickr.com/8/7447/27544789976_d9ef43a082_b.jpg" />
                 </section>
             </Container>

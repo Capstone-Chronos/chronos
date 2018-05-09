@@ -10,7 +10,7 @@ import firebase from 'firebase';
 //   messagingSenderId: process.env.REACT_APP_FIREBASE_SENDER_ID
 // };
 
-var config = {
+const config = {
   apiKey: "AIzaSyC9SQR3zvO9dMq4tMHAW1GtGnDOGPdTyqU",
   authDomain: "chronos-d08ff.firebaseapp.com",
   databaseURL: "https://chronos-d08ff.firebaseio.com",
@@ -23,4 +23,4 @@ const app = firebase.initializeApp(config);
 const base = Rebase.createClass(app.database());
 const googleProvider = new firebase.auth.GoogleAuthProvider();
 
-export { app, base, googleProvider }
+export { app, base, googleProvider };

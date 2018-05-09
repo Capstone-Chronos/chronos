@@ -10,11 +10,11 @@ export default class Timeline extends React.Component {
     // };
   }
 
-  componentDidMount() {
-    d3.select("svg")
-      .append("g")
-      .attr('transform', )
-  }
+  // componentDidMount() {
+  //   d3.select("svg")
+  //     .append("g")
+  //     .attr('transform', )
+  // }
 
   render() {
     return <div>
