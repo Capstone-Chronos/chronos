@@ -82,3 +82,18 @@ header:hover, header.active {
 .updateForm {
   margin: 5em;
 }
+
+nav a {
+  display: inline-block;
+  margin: 1em;
+}
+
+.footer {
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: black;
+  color: white;
+  text-align: center;
+  height: 4vh;
+}
