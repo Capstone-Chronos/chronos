@@ -28,7 +28,7 @@ export default class Carousel extends React.Component {
                 <section id="carousel">
                     <div id="carousel-text">
                         <h1>Chronos</h1>
-                        <Button color="blue" size="huge">
+                        <Button as={Link} to="/timelines" color="blue" size="huge">
                             Get Started
                         <Icon name='right arrow' />
                         </Button>
