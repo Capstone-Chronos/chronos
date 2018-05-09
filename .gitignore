@@ -23,7 +23,12 @@ yarn-error.log*
 secrets.js
 firebase-debug.log
 v8-compile-cache-0
+<<<<<<< HEAD
 
 functions/node_modules
 bundle.js
 bundle.js.map
+=======
+functions/node_modules
+bundle.js
+>>>>>>> 611331d73017c338a87e305d0205b3b69393365a
