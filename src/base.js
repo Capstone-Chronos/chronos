@@ -10,17 +10,17 @@ import firebase from 'firebase';
 //   messagingSenderId: process.env.REACT_APP_FIREBASE_SENDER_ID
 // };
 
-var config = {
-  apiKey: "AIzaSyC9SQR3zvO9dMq4tMHAW1GtGnDOGPdTyqU",
-  authDomain: "chronos-d08ff.firebaseapp.com",
-  databaseURL: "https://chronos-d08ff.firebaseio.com",
-  projectId: "chronos-d08ff",
-  storageBucket: "chronos-d08ff.appspot.com",
-  messagingSenderId: "915480064490"
+const config = {
+  apiKey: "AIzaSyBW45JVvGf0txm7mes9t2GqF3ntt6iG5m8",
+  authDomain: "test-47560.firebaseapp.com",
+  databaseURL: "https://test-47560.firebaseio.com",
+  projectId: "test-47560",
+  storageBucket: "",
+  messagingSenderId: "999323760524"
 };
 
 const app = firebase.initializeApp(config);
 const base = Rebase.createClass(app.database());
 const googleProvider = new firebase.auth.GoogleAuthProvider();
 
-export { app, base, googleProvider }
+export { app, base, googleProvider };
