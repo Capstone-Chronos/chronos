@@ -7,18 +7,18 @@ import { Card } from 'semantic-ui-react';
 
 // import { fetchTimelines } from '../store';
 
-const timelines = [{id: 1, name: 'timeline 1'}, {id: 2, name: 'timeline 2'}, {id: 3, name: 'timeline 3'}];
+const timelines = [{ id: 1, name: 'Bar Chart', url: '/' }, { id: 2, name: 'timeline 2' }, { id: 3, name: 'timeline 3' }];
 
 export default class AllTimelines extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
-      timelines: [{id: 1, name: 'timeline 1'}, {id: 2, name: 'timeline 2'}, {id: 3, name: 'timeline 3'}]
+      timelines: [{ id: 1, name: 'Bar Chart', url: "/barchart" }, { id: 1, name: 'Pie Chart', url: '/piechart' }, { id: 3, name: 'timeline 3' }]
     };
   }
 
   componentDidMount() {
-    this.props.fetchAllTimelines();
+    // this.props.fetchAllTimelines();
   }
 
   render() {
@@ -28,11 +28,12 @@ export default class AllTimelines extends React.Component {
         <h2>Select a Timeline to View</h2>
         <Card.Group>
           {timelines.map(timeline => (
-            <SingleSelection
-              key={timeline.id}
-              name={timeline.name}
-              url={`/timelines/${timeline.id}`}
-            />
+            <Link to={'/barchart'}>
+              <SingleSelection
+                key={timeline.id}
+                name={timeline.name}
+              />
+            </Link>
           ))}
         </Card.Group>
       </div>
