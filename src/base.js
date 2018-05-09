@@ -11,12 +11,12 @@ import firebase from 'firebase';
 // };
 
 const config = {
-  apiKey: "AIzaSyBW45JVvGf0txm7mes9t2GqF3ntt6iG5m8",
-  authDomain: "test-47560.firebaseapp.com",
-  databaseURL: "https://test-47560.firebaseio.com",
-  projectId: "test-47560",
-  storageBucket: "",
-  messagingSenderId: "999323760524"
+  apiKey: "AIzaSyC9SQR3zvO9dMq4tMHAW1GtGnDOGPdTyqU",
+  authDomain: "chronos-d08ff.firebaseapp.com",
+  databaseURL: "https://chronos-d08ff.firebaseio.com",
+  projectId: "chronos-d08ff",
+  storageBucket: "chronos-d08ff.appspot.com",
+  messagingSenderId: "915480064490"
 };
 
 const app = firebase.initializeApp(config);
