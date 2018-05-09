@@ -3,7 +3,7 @@ import { scaleOrdinal } from 'd3-scale';
 import { max } from 'd3-array';
 import { select } from 'd3-selection';
 // import { format } from 'd3-format';
-import { sankey } from 'd3-sankey';
+// import { sankey } from 'd3-sankey';
 import * as d3 from 'd3';
 
 const csvData = {
@@ -387,9 +387,9 @@ class SankeyTimeline extends React.Component {
 
     // Set the sankey diagram properties
     var sankey = this.createD3Sankey()
-      // .nodeWidth(36)
-      // .nodePadding(40)
-      // .size([width, height]);
+      .nodeWidth(36)
+      .nodePadding(40)
+      .size([width, height]);
 
     var path = d3.sankey.link();
 
