@@ -2,20 +2,19 @@ import React from 'react';
 import { scaleLinear } from 'd3-scale';
 import { max } from 'd3-array';
 import { select } from 'd3-selection';
+import store, { loadDefaultData } from '../store/index';
+import { connect } from 'react-redux';
+import { GROUPED_BAR_CHART } from '@blueprintjs/icons/lib/esm/generated/iconNames';
 
-export default class BarChart extends React.Component {
+class BarChart extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      data: this.props.data,
-      size: this.props.size,
-      tempVal: 0
-    };
     this.createBarChart = this.createBarChart.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
   componentDidMount() {
+    store.dispatch(loadDefaultData());
     this.createBarChart();
   }
   componentDidUpdate() {
@@ -23,29 +22,31 @@ export default class BarChart extends React.Component {
   }
 
   createBarChart() {
+    const { data, size } = this.props;
     const node = this.node;
-    const dataMax = max(this.state.data);
+    console.log(this.props);
+    const dataMax = max(data ? data : [0]);
     const yScale = scaleLinear()
       .domain([0, dataMax])
-      .range([0, this.state.size[1]]);
+      .range([0, size[1]]);
     select(node)
       .selectAll('rect')
-      .data(this.state.data)
+      .data(data)
       .enter()
       .append('rect');
 
     select(node)
       .selectAll('rect')
-      .data(this.state.data)
+      .data(data)
       .exit()
       .remove();
 
     select(node)
       .selectAll('rect')
-      .data(this.state.data)
+      .data(data)
       .style('fill', '#fe9922')
       .attr('x', (d, i) => i * 25)
-      .attr('y', d => this.state.size[1] - yScale(d))
+      .attr('y', d => size[1] - yScale(d))
       .attr('height', d => yScale(d))
       .attr('width', 25);
   }
@@ -67,14 +68,14 @@ export default class BarChart extends React.Component {
 
   render() {
     return (
-      <div class="chartContainer">
+      <div className="chartContainer">
         <svg
           id="barchart"
           ref={node => (this.node = node)}
           width={500}
           height={500}
         />
-        <div class="updateForm">
+        <div className="updateForm">
           <form onSubmit={this.handleSubmit}>
             <input label="data" onChange={this.handleChange} />
             <button type="submit" value="Submit">
@@ -86,3 +87,11 @@ export default class BarChart extends React.Component {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  data: state.BarChart.data
+});
+
+const mapDispatchToProps = dispatch => ({});
+
+export default connect(mapStateToProps, mapDispatchToProps)(BarChart);

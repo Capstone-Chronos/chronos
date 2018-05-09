@@ -13,7 +13,7 @@ class BarChartCanvas extends React.Component {
   }
 
   render() {
-    return <BarChart data={[5, 10, 1, 3]} size={[500, 500]} />;
+    return <BarChart size={[500, 500]} />;
   }
 }
 
