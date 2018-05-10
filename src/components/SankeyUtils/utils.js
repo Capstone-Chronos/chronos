@@ -32,7 +32,7 @@ function loadData(path) {
     .get(path)
     .end((err, res) => {
       if (err) { console.log(err); }
-
+      console.log(res.body)
       var links = res.body.links;
       var nodes = res.body.nodes.map((node, i) => {
         if (!node.node) { node.node = i; }
