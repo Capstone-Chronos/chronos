@@ -17,7 +17,9 @@ const App = () => {
       <div className="site-content">
         <Routes />
       </div>
-      <div>{/* <Footer /> */}</div>
+      <div>
+        <Footer />
+      </div>
     </div>
   );
 };

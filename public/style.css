@@ -45,24 +45,6 @@ nav {
   height: 3vh;
 }
 
-header {
-  display: flex;
-  position: fixed;
-  margin: 0 4em;
-  padding: 10px;
-  width: calc(100vw - 8em);
-  color: #fff;
-  background-color: rgba(37, 37, 37, 0.8);
-  border-radius: 0 0 1em 1em;
-  z-index: 2;
-  transform: translateY(-40px);
-  transition: transform 0.5s;
-}
-
-header:hover, header.active {
-  transform: translateY(0);
-}
-
 .logo {
   width: 20px;
   height: 20px;
@@ -71,7 +53,7 @@ header:hover, header.active {
 .chartContainer {
   display: flex;
   margin: 3em;
-  justify-content: center
+  justify-content: center;
 }
 
 #barchart {
@@ -86,6 +68,33 @@ header:hover, header.active {
 nav a {
   display: inline-block;
   margin: 1em;
+}
+
+.tools {
+  display: flex;
+  flex-direction: column;
+  margin: 3em;
+}
+
+.btn file {
+  position: relative;
+  overflow: hidden;
+  margin-right: 10px;
+}
+
+.btn primary {
+  background-color: #5badf0;
+  border-color: #4CA1E7;
+}
+
+.btn primary:hover {
+  background-color: #2389DC;
+  border-color: #2389DC;
+}
+
+select.btn {
+  -webkit-appearance: none;
+  max-width: 115px;
 }
 
 .footer {
@@ -162,17 +171,12 @@ body {
   transition: all 150ms ease-in;
 }
 
-.container {
-  max-width: 720px;
-  margin-top: 35px;
-}
-
 .header h3 {
   margin-top: 8px;
 }
 
 select.btn {
-  -webkit-appearance: none;
+  -webkit-appearance: default-button;
   max-width: 115px;
 }
 
@@ -204,6 +208,7 @@ select.btn {
 }
 
 .btn-primary {
+  -webkit-appearance: button;
   background-color: #5badf0;
   border-color: #4CA1E7;
 }
@@ -243,4 +248,19 @@ a:hover {
   padding-bottom: 10px;
   border-radius: 5px;
   color: #666;
+}
+
+.single-card {
+  margin: 3em;
+}
+
+.grid-list{
+  justify-content: space-evenly;
+  display: flex;
+  flex-direction: row;
+}
+
+.title {
+  display: flex;
+  justify-content: center;
 }
