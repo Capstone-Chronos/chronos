@@ -210,8 +210,8 @@ class SankeyWrapper extends React.Component {
 
 const mapStateToProps = (storeState) => {
   return {
-    nodes: storeState.SankeyChart.nodes,
-    links: storeState.SankeyChart.links
+    nodes: storeState.sankeyChart.nodes,
+    links: storeState.sankeyChart.links
   }
 }
 
