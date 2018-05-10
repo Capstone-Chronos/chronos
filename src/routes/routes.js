@@ -1,14 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withRouter, Route, Switch, Redirect } from 'react-router-dom';
-import PropTypes from 'prop-types';
+import { withRouter, Route, Switch } from 'react-router-dom';
 import ChartContainer from '../components/ChartContainer';
 import {
-  Navbar,
-  Footer,
   Main,
   AllTimelines,
-  EditTimeline,
   SignUp,
   Login,
   BarChart,

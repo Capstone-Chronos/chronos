@@ -14,7 +14,7 @@ export const loadDefaultData = () => ({
   type: LOAD_DEFAULT_DATA,
   data: defaultData
 });
-const addDataPoint = point => {
+export const addDataPoint = point => {
   return {
     type: ADD_DATA_POINT,
     point
