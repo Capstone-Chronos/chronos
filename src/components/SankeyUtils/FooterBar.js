@@ -4,7 +4,7 @@ import { ExportJSON, ImportJSON } from './utils';
 export default class extends React.Component {
   render() {
     return (
-      <div>
+      <div className="tools-footer">
         <div>
           <div>
           </div>
