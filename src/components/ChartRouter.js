@@ -17,13 +17,7 @@ export default class ChartRouter extends React.Component {
   render() {
     return (
       <Switch>
-        <Route
-          exact
-          path="/edit/barchart"
-          render={() => (
-            <ChartContainer chart={BarChartCanvas} tools={BarChartTools} />
-          )}
-        />
+        <Route exact path="/edit/barchart" render={() => <ChartContainer />} />
       </Switch>
     );
   }

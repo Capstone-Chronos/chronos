@@ -9,7 +9,6 @@ import Toolbar from './Toolbar';
 class ChartContainer extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
   }
 
   componentDidMount() {}
@@ -24,10 +23,14 @@ class ChartContainer extends React.Component {
       }
     ];
     return (
-      <div>
-        <BarChartCanvas />
-        {/* <BarChartTools /> */}
-        <Toolbar tools={tools} />
+      <div className="chartContainer">
+        <div>
+          <BarChartCanvas />
+        </div>
+        <div>
+          <BarChartTools />
+        </div>
+        {/* <Toolbar tools={tools} /> */}
       </div>
     );
   }

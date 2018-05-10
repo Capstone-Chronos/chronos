@@ -10,8 +10,6 @@ class BarChart extends React.Component {
   constructor(props) {
     super(props);
     this.createBarChart = this.createBarChart.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
   componentDidMount() {
     store.dispatch(loadDefaultData());
@@ -24,7 +22,6 @@ class BarChart extends React.Component {
   createBarChart() {
     const { data, size } = this.props;
     const node = this.node;
-    console.log(this.props);
     const dataMax = max(data ? data : [0]);
     const yScale = scaleLinear()
       .domain([0, dataMax])
@@ -56,16 +53,6 @@ class BarChart extends React.Component {
     console.log(evt.target.value);
   }
 
-  handleSubmit(evt) {
-    evt.preventDefault();
-    this.setState({
-      data: this.state.data.concat(+this.state.tempVal),
-      tempVal: ''
-    });
-    console.log('submitted');
-    console.log(this.state);
-  }
-
   render() {
     return (
       <div className="chartContainer">
@@ -75,14 +62,6 @@ class BarChart extends React.Component {
           width={500}
           height={500}
         />
-        <div className="updateForm">
-          <form onSubmit={this.handleSubmit}>
-            <input label="data" onChange={this.handleChange} />
-            <button type="submit" value="Submit">
-              Submit
-            </button>
-          </form>
-        </div>
       </div>
     );
   }
