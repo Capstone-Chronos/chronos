@@ -16,12 +16,12 @@ export default class Sankey extends React.Component {
   }
 
 
-  //   componentWillReceiveProps(nextProps) {
-  //     this.setState({
-  //       nodes: nextProps.nodes,
-  //       links: nextProps.links
-  //     });
-  //   }
+    componentWillReceiveProps(nextProps) {
+      this.setState({
+        nodes: nextProps.nodes,
+        links: nextProps.links
+      });
+    }
 
   render() {
     // ========================================================================

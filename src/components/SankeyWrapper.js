@@ -4,6 +4,9 @@ import SankeyTools from './SankeyTools';
 import Modal from 'react-modal';
 import addNode from './SankeyUtils/AddNode';
 import addLink from './SankeyUtils/AddLink';
+import FooterBar from './SankeyUtils/FooterBar';
+import { ExportJSON, ImportJSON, loadData, readFile } from './SankeyUtils/utils';
+
 
 
 let testData = {
@@ -133,6 +136,12 @@ export default class SankeyWrapper extends React.Component {
       links: testData.links,
       modalIsOpen: false
     };
+
+    this.loadData = loadData.bind(this);
+    this.readFile = readFile.bind(this);
+
+    this.emptyDiagram = this.emptyDiagram.bind(this);
+
     this.addNode = this.addNode.bind(this);
     this.updateNode = this.updateNode.bind(this);
     this.addLink = this.addLink.bind(this);
@@ -161,6 +170,10 @@ export default class SankeyWrapper extends React.Component {
     nodes[idx].name = name;
 
     this.setState({ nodes });
+  }
+
+  emptyDiagram(){
+    this.loadData('./SankeyUtils/emptyData.json');
   }
 
 
@@ -235,8 +248,7 @@ export default class SankeyWrapper extends React.Component {
     }
   }
 
-  
-  
+
   render() {
     if (this.state.modalContent === 'link') {
       var modalValue = this.state.modalContentLinkValue;
@@ -245,7 +257,7 @@ export default class SankeyWrapper extends React.Component {
       var modalValue = this.state.modalContentNodeName;
       var header = 'Update Node Name';
     }
-    
+
     var modalStyle = {
       content: {
         top: '275px',
@@ -263,6 +275,12 @@ export default class SankeyWrapper extends React.Component {
     return (<div>
       <SankeyTools nodes={this.state.nodes} links={this.state.links} addNode={this.addNode} addLink={this.addLink} openModal={this.openModal} />
       <Sankey nodes={this.state.nodes} links={this.state.links} openModal={this.openModal} />
+      <FooterBar
+        nodes={this.state.nodes}
+        links={this.state.links}
+        readFile={this.readFile}
+        emptyDiagram={this.emptyDiagram}
+      />
       <Modal
         closeTimeoutMS={150}
         isOpen={this.state.modalIsOpen}
@@ -285,7 +303,7 @@ export default class SankeyWrapper extends React.Component {
           </div>
         </div>
       </Modal>
-    </div>
+  </div>
     );
   }
 }
