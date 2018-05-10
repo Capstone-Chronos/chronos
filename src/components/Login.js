@@ -1,10 +1,11 @@
-import React, {Component} from 'react';
-import {Redirect} from 'react-router-dom';
-import {Toaster, Intent} from '@blueprintjs/core';
-import {app, googleProvider} from '../base';
-import {Form, Button} from 'semantic-ui-react';
-import {connect} from 'react-redux';
-import store, {setUser} from '../store/index';
+import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
+import { Position, Toaster, Intent } from '@blueprintjs/core';
+import { app, googleProvider } from '../base';
+import { Form, Button } from 'semantic-ui-react';
+import { connect } from 'react-redux';
+import store, { setUser } from '../store/index';
+import ErrorMessage from './ErrorMessage';
 
 const loginStyles = {
   width: '90%',
@@ -12,7 +13,7 @@ const loginStyles = {
   margin: '20px auto',
   border: '1px solid #ddd',
   borderRadius: '5px',
-  padding: '10px',
+  padding: '10px'
 };
 
 class Login extends Component {
@@ -22,6 +23,7 @@ class Login extends Component {
     this.authWithEmailPassword = this.authWithEmailPassword.bind(this);
     this.state = {
       redirect: false,
+      errorMessage: ''
     };
   }
 
@@ -33,11 +35,11 @@ class Login extends Component {
         if (error) {
           this.toaster.show({
             intent: Intent.DANGER,
-            message: 'Unable to sign in with Google',
+            message: 'Unable to sign in with Google'
           });
         } else {
           this.props.setCurrentUser(user);
-          this.setState({redirect: true});
+          this.setState({ redirect: true });
         }
       });
   }
@@ -48,45 +50,64 @@ class Login extends Component {
     const email = this.emailInput.value;
     const password = this.passwordInput.value;
 
-    app
-      .auth()
-      .fetchSignInMethodsForEmail(email)
-      .then(providers => {
-        console.log(providers);
-        if (providers.length === 0) {
-          // create user
-          console.log('No user!')
-          throw Error('User not found');
-          //return app.auth().createUserWithEmailAndPassword(email, password)
-        } else if (providers.indexOf('password') === -1) {
-          // they used google
-          this.loginForm.reset();
-          this.toaster.show({
-            intent: Intent.WARNING,
-            message: 'Incorrect email or password.',
-          });
-        } else {
-          // sign user in
-          return app.auth().signInWithEmailAndPassword(email, password);
-        }
-      })
-      .then(user => user.providerData[0])
-      .then(user => {
-        if (user && user.email) {
-          this.loginForm.reset();
-          store.dispatch(setUser(user.uid));
-          this.setState({redirect: true});
-        }
-      })
-      .catch(error => {
-        console.log(this.toaster);
-        this.toaster.show({intent: Intent.DANGER, message: error.message});
-      });
+    return (
+      app
+        .auth()
+        .signInWithEmailAndPassword(email, password)
+        //.then(user => user.providerData[0])
+        .then(user => {
+          //console.log(user);
+          if (user && user.email) {
+            this.loginForm.reset();
+            store.dispatch(setUser(user.uid));
+            this.setState({ redirect: true });
+          }
+        })
+        .catch(error => {
+          console.log(error);
+          this.setState({ errorMessage: error.message });
+        })
+    );
+    // app
+    //   .auth()
+    //   .fetchSignInMethodsForEmail(email)
+    //   .then(providers => {
+    //     console.log(providers);
+    //     if (providers.length === 0) {
+    //       // create user
+    //       console.log('No user!');
+    //       this.loginForm.reset();
+    //       throw Error('User not found');
+    //       //return app.auth().createUserWithEmailAndPassword(email, password)
+    //     } else if (providers.indexOf('password') === -1) {
+    //       // they used google
+    //       this.loginForm.reset();
+    //       throw Error('Incorrect Password');
+    //     } else {
+    //       // sign user in
+    //       return app.auth().signInWithEmailAndPassword(email, password);
+    //     }
+    //   })
+    //   .then(user => user.providerData[0])
+    //   .then(user => {
+    //     if (user && user.email) {
+    //       this.loginForm.reset();
+    //       store.dispatch(setUser(user.uid));
+    //       this.setState({ redirect: true });
+    //     }
+    //   })
+    //   .catch(error => {
+    //     console.log(error);
+    //     this.toaster.show({
+    //       intent: Intent.WARNING,
+    //       message: 'Incorrect email or password.'
+    //     });
+    //   });
   }
 
   render() {
-    const {from} = this.props.location.state || {
-      from: {pathname: '/timelines'},
+    const { from } = this.props.location.state || {
+      from: { pathname: '/timelines' }
     };
 
     if (this.state.redirect === true) {
@@ -94,16 +115,12 @@ class Login extends Component {
     }
 
     return (
-      <div>
-        <Toaster
-          ref={element => {
-            this.toaster = element;
-          }}
-        />
+      <div id="loginContainer">
         <button
           onClick={() => {
             this.authWithGoogle();
-          }}>
+          }}
+        >
           Log In with Google
         </button>
         <hr />
@@ -113,7 +130,8 @@ class Login extends Component {
           }}
           ref={form => {
             this.loginForm = form;
-          }}>
+          }}
+        >
           <label>
             Email
             <input
@@ -138,13 +156,16 @@ class Login extends Component {
           </label>
           <input type="submit" value="Log In" />
         </form>
+        {this.state.errorMessage && (
+          <ErrorMessage message={this.state.errorMessage} />
+        )}
       </div>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  user: state.user,
+  user: state.user
 });
 
 export default connect(mapStateToProps)(Login);
