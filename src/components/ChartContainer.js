@@ -1,7 +1,7 @@
 import React from 'react';
 import BarChart from './BarChart';
 import BarChartTools from './BarChartTools';
-import Toolbar from './Toolbar';
+// import Toolbar from './Toolbar';
 
 class ChartContainer extends React.Component {
   constructor(props) {
