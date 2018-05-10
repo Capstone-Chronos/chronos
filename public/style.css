@@ -264,3 +264,9 @@ a:hover {
   display: flex;
   justify-content: center;
 }
+
+.tools-footer {
+  margin: 3em;
+  display: flex;
+  flex-direction: row;
+}
