@@ -20,7 +20,8 @@ class BarChart extends React.Component {
   }
 
   createBarChart() {
-    const { data, size } = this.props;
+    const { data } = this.props;
+    let size = [window.innerWidth * 0.7, window.innerHeight / 2];
     const node = this.node;
     const dataMax = max(data ? data : [0]);
     const yScale = scaleLinear()
@@ -48,19 +49,15 @@ class BarChart extends React.Component {
       .attr('width', 25);
   }
 
-  handleChange(evt) {
-    this.setState({ tempVal: evt.target.value });
-    console.log(evt.target.value);
-  }
-
   render() {
     return (
       <div className="chartContainer">
         <svg
           id="barchart"
           ref={node => (this.node = node)}
-          width={500}
-          height={500}
+          width={window.innerHeight / 2}
+          height={window.innerWidth * 0.7}
+          style={{ marginTop: 20, marginLeft: 20 }}
         />
       </div>
     );
