@@ -21,8 +21,9 @@ class SankeyTools extends Component {
 
     return (
       <div className="tools">
-          <AddLink addLink={this.props.addLink} links={this.props.links} nodes={this.props.nodes}/>
-          <AddNode addNode={this.props.addNode} links={this.props.links} nodes={this.props.nodes}/>
+        <AddLink addLink={this.props.addLink} links={this.props.links} nodes={this.props.nodes} />
+        <AddNode addNode={this.props.addNode} links={this.props.links} nodes={this.props.nodes} />
+        <Button onClick={this.props.handleSubmit} >Save Changes</Button>
       </div>
     );
   }
