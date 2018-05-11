@@ -1,9 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, Dropdown, Segment } from 'semantic-ui-react';
-// import { logout } from '../store';
+import store, { logOutThunk } from '../store';
+import { connect } from 'react-redux';
 
-export const Navbar = ({ handleClick, isLoggedIn, user }) => {
+const Navbar = ({ handleClick, isLoggedIn, user, logout }) => {
   const admin = user && user.admin;
   return (
     <div>
@@ -24,7 +25,7 @@ export const Navbar = ({ handleClick, isLoggedIn, user }) => {
                     <Dropdown.Item>Edit My Account</Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>
-                <Menu.Item name="Logout" />
+                <Menu.Item type="click" name="Logout" onClick={logout} />
               </Menu.Menu>
             </Menu>
           </div>
@@ -43,3 +44,14 @@ export const Navbar = ({ handleClick, isLoggedIn, user }) => {
     </div>
   );
 };
+
+const mapStateToProps = state => ({
+  isLoggedIn: state.user.isLoggedIn,
+  user: state.user.email
+});
+
+const mapDispatchToProps = dispatch => ({
+  logout: () => logOutThunk()
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Navbar);
