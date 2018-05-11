@@ -1,20 +1,9 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import { Position, Toaster, Intent } from '@blueprintjs/core';
 import { app, googleProvider } from '../base';
-import { Form, Button } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import store, { setUser } from '../store/index';
 import ErrorMessage from './ErrorMessage';
-
-const loginStyles = {
-  width: '90%',
-  maxWidth: '315px',
-  margin: '20px auto',
-  border: '1px solid #ddd',
-  borderRadius: '5px',
-  padding: '10px'
-};
 
 class Login extends Component {
   constructor(props) {
@@ -84,6 +73,7 @@ class Login extends Component {
     return (
       <div id="loginContainer">
         <button
+          id="customBtn"
           onClick={() => {
             this.authWithGoogle();
           }}
@@ -99,29 +89,33 @@ class Login extends Component {
             this.loginForm = form;
           }}
         >
-          <label>
-            Email
-            <input
-              name="email"
-              type="email"
-              ref={input => {
-                this.emailInput = input;
-              }}
-              placeholder="Email"
-            />
-          </label>
-          <label>
-            Password
-            <input
-              name="password"
-              type="password"
-              ref={input => {
-                this.passwordInput = input;
-              }}
-              placeholder="Password"
-            />
-          </label>
-          <input type="submit" value="Log In" />
+          <div>
+            <label>
+              <input
+                className="login-input"
+                name="email"
+                type="email"
+                ref={input => {
+                  this.emailInput = input;
+                }}
+                placeholder="Email"
+              />
+            </label>
+          </div>
+          <div>
+            <label>
+              <input
+                className="login-input"
+                name="password"
+                type="password"
+                ref={input => {
+                  this.passwordInput = input;
+                }}
+                placeholder="Password"
+              />
+            </label>
+          </div>
+          <input type="submit" value="Log In" className="login-button" />
         </form>
         {this.state.errorMessage && (
           <ErrorMessage message={this.state.errorMessage} />

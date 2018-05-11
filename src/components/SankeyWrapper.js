@@ -2,16 +2,9 @@ import React from 'react';
 import Sankey from './Sankey';
 import SankeyTools from './SankeyTools';
 import Modal from 'react-modal';
-import addNode from './SankeyUtils/AddNode';
-import addLink from './SankeyUtils/AddLink';
 import FooterBar from './SankeyUtils/FooterBar';
 import { connect } from 'react-redux';
-import {
-  ExportJSON,
-  ImportJSON,
-  loadData,
-  readFile
-} from './SankeyUtils/utils';
+import { loadData, readFile } from './SankeyUtils/utils';
 import { loadDefaultData, clearData, saveChart } from '../store/sankeyChart';
 
 class SankeyWrapper extends React.Component {
@@ -105,7 +98,7 @@ class SankeyWrapper extends React.Component {
       var modalContentNodeId = e.node;
       var modalContentNodeName = e.name;
     } else if (e.value !== undefined) {
-      var modalContent = 'link';
+      // var modalContent = 'link';
       var modalContentLinkValue = e.value;
       var modalContentLinkSource = e.source.node;
       var modalContentLinkTarget = e.target.node;
@@ -156,8 +149,8 @@ class SankeyWrapper extends React.Component {
       var modalValue = this.state.modalContentLinkValue;
       var header = 'Update Link Weight';
     } else if (this.state.modalContent === 'node') {
-      var modalValue = this.state.modalContentNodeName;
-      var header = 'Update Node Name';
+      // var modalValue = this.state.modalContentNodeName;
+      // var header = 'Update Node Name';
     }
 
     var modalStyle = {
