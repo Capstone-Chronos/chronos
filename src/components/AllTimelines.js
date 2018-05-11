@@ -1,37 +1,35 @@
 import React from 'react';
 import SingleSelection from './SingleSelection';
-// import { Card } from 'semantic-ui-react';
-// import { fetchTimelines } from '../store';
 
-const timelines = [
+const charts = [
   { id: 1, name: 'Bar Chart', url: '/' },
-  { id: 2, name: 'timeline 2' },
-  { id: 3, name: 'timeline 3' }
+  { id: 2, name: 'chart 2' },
+  { id: 3, name: 'chart 3' }
 ];
 
-export default class AllTimelines extends React.Component {
+export default class Allcharts extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      timelines: [
-        { id: 1, name: 'Bar Chart', route: 'barchart' },
-        { id: 1, name: 'Pie Chart', route: 'piechart' },
-        { id: 3, name: 'Sankey Diagram', route: 'sankey' }
+      charts: [
+        { id: 1, name: 'Bar Chart', route: '/edit/barchart' },
+        { id: 1, name: 'Pie Chart', route: '/piechart' },
+        { id: 3, name: 'Sankey Diagram', route: '/sankey' }
       ]
     };
   }
 
   render() {
-    let timelines = this.state.timelines;
+    let charts = this.state.charts;
     return (
       <div>
-        <h2 className="title">Select a Timeline to View</h2>
+        <h2 className="title">Select a chart to View</h2>
         <div className="grid-list">
-          {timelines.map(timeline => (
+          {charts.map(chart => (
             <SingleSelection
-              key={timeline.id}
-              name={timeline.name}
-              url={timeline.route}
+              key={chart.id}
+              name={chart.name}
+              url={chart.route}
             />
           ))}
         </div>

@@ -20,7 +20,7 @@ class BarChart extends React.Component {
   }
 
   createBarChart() {
-    const { data } = this.props;
+    let data = [2, 8, 6, 10, 4]
     let size = [window.innerWidth * 0.7, window.innerHeight / 2];
     const node = this.node;
     const dataMax = max(data ? data : [0]);
