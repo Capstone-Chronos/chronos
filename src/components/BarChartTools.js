@@ -11,9 +11,7 @@ class BarChartTools extends React.Component {
     this.updateLocalNodeVal = this.updateLocalNodeVal.bind(this);
   }
 
-  componentDidMount() {
-    // this.props.fetchAllTimelines();
-  }
+  componentDidMount() {}
 
   // Add Data Point functions
 
