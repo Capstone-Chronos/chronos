@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, Dropdown, Segment } from 'semantic-ui-react';
-import store, { logOut } from '../store';
+import store, { logOutThunk } from '../store';
 import { connect } from 'react-redux';
 
 const Navbar = ({ handleClick, isLoggedIn, user, logout }) => {
@@ -51,7 +51,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  logout: () => store.dispatch(logOut())
+  logout: () => logOutThunk()
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Navbar);
