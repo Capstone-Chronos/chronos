@@ -84,12 +84,12 @@ nav a {
 
 .btn primary {
   background-color: #5badf0;
-  border-color: #4CA1E7;
+  border-color: #4ca1e7;
 }
 
 .btn primary:hover {
-  background-color: #2389DC;
-  border-color: #2389DC;
+  background-color: #2389dc;
+  border-color: #2389dc;
 }
 
 select.btn {
@@ -104,7 +104,7 @@ select.btn {
   background-color: black;
   color: white;
   text-align: center;
-  height: 4vh;
+  /* height: 4vh; */
 }
 
 body {
@@ -117,7 +117,7 @@ body {
 }
 
 .node {
-  fill-opacity: .7;
+  fill-opacity: 0.7;
 }
 
 .node:hover {
@@ -128,17 +128,17 @@ body {
 .node text {
   fill: #888888;
   stroke: none;
-  font-size: .8em;
+  font-size: 0.8em;
 }
 
 .link {
   stroke: #cccccc;
-  stroke-opacity: .4;
+  stroke-opacity: 0.4;
   fill: none;
 }
 
 .link:hover {
-  stroke-opacity: .6;
+  stroke-opacity: 0.6;
   cursor: pointer;
 }
 
@@ -180,18 +180,18 @@ select.btn {
   max-width: 115px;
 }
 
-.col-xs-4, .col-xs-8 {
+.col-xs-4,
+.col-xs-8 {
   z-index: 0;
 }
 
 .btn-file {
-    position: relative;
-    overflow: hidden;
-    margin-right: 10px;
-
+  position: relative;
+  overflow: hidden;
+  margin-right: 10px;
 }
 
-.btn-file input[type=file] {
+.btn-file input[type='file'] {
   position: absolute;
   top: 0;
   right: 0;
@@ -210,19 +210,19 @@ select.btn {
 .btn-primary {
   -webkit-appearance: button;
   background-color: #5badf0;
-  border-color: #4CA1E7;
+  border-color: #4ca1e7;
 }
 
 .btn-primary:hover {
-  background-color: #2389DC;
-  border-color: #2389DC;
+  background-color: #2389dc;
+  border-color: #2389dc;
 }
 a {
-    color: #5badf0;
+  color: #5badf0;
 }
 
 a:hover {
-  color: #4CA1E7;
+  color: #4ca1e7;
 }
 
 .clearFix {
@@ -251,13 +251,22 @@ a:hover {
 }
 
 .single-card {
-  margin: 3em;
+  margin: auto;
 }
 
-.grid-list{
-  justify-content: space-evenly;
+.ui.card:first-child {
+  margin-top: auto;
+}
+
+.grid-list {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: flex-start;
+  background-color: rgba(169, 169, 169, 0.7);
+  margin: 20px;
+  border-radius: 5px;
 }
 
 .title {

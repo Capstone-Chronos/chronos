@@ -4,7 +4,7 @@ import { withRouter, Route, Switch } from 'react-router-dom';
 import ChartContainer from '../components/ChartContainer';
 import {
   Main,
-  AllTimelines,
+  AllTimelines2,
   SignUp,
   Login,
   BarChart,
@@ -24,7 +24,7 @@ class Routes extends Component {
       <div>
         <Switch>
           <Route exact path="/" component={Main} />
-          <Route exact path="/timelines" component={AllTimelines} />
+          <Route exact path="/timelines" component={AllTimelines2} />
           {/* <Route exact path="/create" component={EditTimeline} /> */}
           <Route exact path="/signup" component={SignUp} />
           <Route exact path="/login" component={Login} />
