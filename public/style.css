@@ -250,10 +250,6 @@ a:hover {
   color: #666;
 }
 
-.single-card {
-  margin: auto;
-}
-
 .ui.card:first-child {
   margin-top: auto;
 }
