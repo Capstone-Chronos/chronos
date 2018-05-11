@@ -1,14 +1,12 @@
 import React from 'react';
+import { Switch, Route } from 'react-router-dom';
 
-const Toolbar = props => {
-  let { tools } = props;
-  console.log;
-  let key = 1;
-  return tools.map(tool => (
-    <button key={key++} onClick={tool.clickHandler}>
-      {tool.name}
-    </button>
-  ));
-};
+import BarChartTools from './BarChartTools';
+
+const Toolbar = () => (
+  <Switch>
+    <Route path="/edit/barchart" component={BarChartTools} />
+  </Switch>
+)
 
 export default Toolbar;
