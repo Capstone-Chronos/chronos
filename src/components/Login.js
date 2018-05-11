@@ -1,20 +1,9 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import { Position, Toaster, Intent } from '@blueprintjs/core';
 import { app, googleProvider } from '../base';
-import { Form, Button } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import store, { setUser } from '../store/index';
 import ErrorMessage from './ErrorMessage';
-
-const loginStyles = {
-  width: '90%',
-  maxWidth: '315px',
-  margin: '20px auto',
-  border: '1px solid #ddd',
-  borderRadius: '5px',
-  padding: '10px'
-};
 
 class Login extends Component {
   constructor(props) {
@@ -33,14 +22,16 @@ class Login extends Component {
       .signInWithPopup(googleProvider)
       .then((user, error) => {
         if (error) {
-          this.toaster.show({
-            intent: Intent.DANGER,
-            message: 'Unable to sign in with Google'
-          });
+          throw Error('Unable to sign in with Google');
         } else {
-          this.props.setCurrentUser(user);
+          this.loginForm.reset();
+          store.dispatch(setUser(user.uid));
           this.setState({ redirect: true });
         }
+      })
+      .catch(error => {
+        console.log(error);
+        this.setState({ errorMessage: error.message });
       });
   }
 
@@ -68,41 +59,6 @@ class Login extends Component {
           this.setState({ errorMessage: error.message });
         })
     );
-    // app
-    //   .auth()
-    //   .fetchSignInMethodsForEmail(email)
-    //   .then(providers => {
-    //     console.log(providers);
-    //     if (providers.length === 0) {
-    //       // create user
-    //       console.log('No user!');
-    //       this.loginForm.reset();
-    //       throw Error('User not found');
-    //       //return app.auth().createUserWithEmailAndPassword(email, password)
-    //     } else if (providers.indexOf('password') === -1) {
-    //       // they used google
-    //       this.loginForm.reset();
-    //       throw Error('Incorrect Password');
-    //     } else {
-    //       // sign user in
-    //       return app.auth().signInWithEmailAndPassword(email, password);
-    //     }
-    //   })
-    //   .then(user => user.providerData[0])
-    //   .then(user => {
-    //     if (user && user.email) {
-    //       this.loginForm.reset();
-    //       store.dispatch(setUser(user.uid));
-    //       this.setState({ redirect: true });
-    //     }
-    //   })
-    //   .catch(error => {
-    //     console.log(error);
-    //     this.toaster.show({
-    //       intent: Intent.WARNING,
-    //       message: 'Incorrect email or password.'
-    //     });
-    //   });
   }
 
   render() {
@@ -117,6 +73,7 @@ class Login extends Component {
     return (
       <div id="loginContainer">
         <button
+          id="customBtn"
           onClick={() => {
             this.authWithGoogle();
           }}
@@ -132,29 +89,33 @@ class Login extends Component {
             this.loginForm = form;
           }}
         >
-          <label>
-            Email
-            <input
-              name="email"
-              type="email"
-              ref={input => {
-                this.emailInput = input;
-              }}
-              placeholder="Email"
-            />
-          </label>
-          <label>
-            Password
-            <input
-              name="password"
-              type="password"
-              ref={input => {
-                this.passwordInput = input;
-              }}
-              placeholder="Password"
-            />
-          </label>
-          <input type="submit" value="Log In" />
+          <div>
+            <label>
+              <input
+                className="login-input"
+                name="email"
+                type="email"
+                ref={input => {
+                  this.emailInput = input;
+                }}
+                placeholder="Email"
+              />
+            </label>
+          </div>
+          <div>
+            <label>
+              <input
+                className="login-input"
+                name="password"
+                type="password"
+                ref={input => {
+                  this.passwordInput = input;
+                }}
+                placeholder="Password"
+              />
+            </label>
+          </div>
+          <input type="submit" value="Log In" className="login-button" />
         </form>
         {this.state.errorMessage && (
           <ErrorMessage message={this.state.errorMessage} />
