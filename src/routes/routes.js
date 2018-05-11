@@ -25,7 +25,6 @@ class Routes extends Component {
         <Switch>
           <Route exact path="/" component={Main} />
           <Route exact path="/timelines" component={AllTimelines} />
-          {/* <Route exact path="/create" component={EditTimeline} /> */}
           <Route exact path="/signup" component={SignUp} />
           <Route exact path="/login" component={Login} />
           <Route path="/edit" component={Editor} />
@@ -57,6 +56,3 @@ export default withRouter(connect(mapState, mapDispatch)(Routes));
 /**
  * PROP TYPES
  */
-// Routes.propTypes = {
-//   loadInitialData: PropTypes.func.isRequired,
-// };

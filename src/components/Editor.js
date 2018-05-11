@@ -1,7 +1,4 @@
 import React from 'react';
-import BarChart from './BarChart';
-import BarChartTools from './BarChartTools';
-// import Toolbar from './Toolbar';
 import { Table } from 'semantic-ui-react';
 import Canvas from './Canvas';
 import Toolbar from './Toolbar';

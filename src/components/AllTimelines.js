@@ -21,10 +21,6 @@ export default class AllTimelines extends React.Component {
     };
   }
 
-  componentDidMount() {
-    // this.props.fetchAllTimelines();
-  }
-
   render() {
     let timelines = this.state.timelines;
     return (
@@ -43,22 +39,3 @@ export default class AllTimelines extends React.Component {
     );
   }
 }
-
-/**
- * CONTAINER
- */
-// const mapState = state => {
-//   return {
-//     timelines: state.timelines
-//   };
-// };
-
-// const mapDispatch = function(dispatch) {
-//   return {
-//     fetchAllTimelines: function() {
-//       return dispatch(fetchTimelines());
-//     }
-//   };
-// };
-
-// export default connect(mapState, mapDispatch)(AllTimelines);
