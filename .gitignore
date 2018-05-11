@@ -26,3 +26,4 @@ v8-compile-cache-0
 bundle.js
 bundle.js.map
 functions/node_modules
+*.swp

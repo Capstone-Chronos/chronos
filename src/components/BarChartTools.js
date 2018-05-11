@@ -39,7 +39,7 @@ class BarChartTools extends React.Component {
               Submit
             </button>
           </form>
-        </div>;
+        </div>
       </div>
     );
   }
