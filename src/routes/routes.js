@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Route, Switch, Redirect } from 'react-router-dom';
-import Editor from '../components/Editor';
+import EditorRouter from '../components/EditorRouter';
 import {
   Main,
   AllTimelines,
@@ -26,7 +26,7 @@ class Routes extends Component {
           <Route exact path="/timelines" component={AllTimelines} />
           <Route exact path="/signup" component={SignUp} />
           <Route exact path="/login" component={Login} />
-          <Route path="/edit" component={Editor} />
+          <Route path="/edit" component={EditorRouter} />
           <Route exact path="/sankey" component={SankeyWrapper} />
           <Redirect to="/" />
         </Switch>
