@@ -5,8 +5,13 @@ import Modal from 'react-modal';
 import addNode from './SankeyUtils/AddNode';
 import addLink from './SankeyUtils/AddLink';
 import FooterBar from './SankeyUtils/FooterBar';
-import { connect } from "react-redux";
-import { ExportJSON, ImportJSON, loadData, readFile } from './SankeyUtils/utils';
+import { connect } from 'react-redux';
+import {
+  ExportJSON,
+  ImportJSON,
+  loadData,
+  readFile
+} from './SankeyUtils/utils';
 import { loadDefaultData, clearData, saveChart } from '../store/sankeyChart';
 
 class SankeyWrapper extends React.Component {
@@ -33,16 +38,14 @@ class SankeyWrapper extends React.Component {
     this.handleInputChange = this.handleInputChange.bind(this);
   }
 
-  componentDidMount() {
-
-  }
+  componentDidMount() {}
 
   handleSubmit() {
     let updateData = {
       nodes: this.state.nodes || this.props.nodes,
       links: this.state.links || this.props.links
-    }
-    console.log(updateData)
+    };
+    console.log(updateData);
     this.props.saveChanges(updateData);
   }
 
@@ -70,10 +73,13 @@ class SankeyWrapper extends React.Component {
     this.props.clearChart();
   }
 
-
   addLink(source, target, value) {
-    if (this.props.nodes.length > 1 && !isNaN(value) && !isNaN(source) && !isNaN(target)) {
-
+    if (
+      this.props.nodes.length > 1 &&
+      !isNaN(value) &&
+      !isNaN(source) &&
+      !isNaN(target)
+    ) {
       var links = this.props.links;
       var idx = links.length;
 
@@ -82,9 +88,8 @@ class SankeyWrapper extends React.Component {
     }
   }
 
-
   updateLink(source, target, value) {
-    var links = this.props.links.map((link) => {
+    var links = this.props.links.map(link => {
       if (link.source === source && link.target === target) {
         link.value = value;
       }
@@ -93,7 +98,6 @@ class SankeyWrapper extends React.Component {
 
     this.setState({ links });
   }
-
 
   openModal(e) {
     if (e.node !== undefined) {
@@ -118,21 +122,25 @@ class SankeyWrapper extends React.Component {
     });
   }
 
-
   closeModal() {
     this.setState({ modalIsOpen: false });
   }
 
-
   closeAndSaveModal() {
     if (this.state.modalContent === 'link') {
-      this.updateLink(this.state.modalContentLinkSource, this.state.modalContentLinkTarget, this.state.modalContentLinkValue);
+      this.updateLink(
+        this.state.modalContentLinkSource,
+        this.state.modalContentLinkTarget,
+        this.state.modalContentLinkValue
+      );
     } else if (this.state.modalContent === 'node') {
-      this.updateNode(this.state.modalContentNodeName, this.state.modalContentNodeId);
+      this.updateNode(
+        this.state.modalContentNodeName,
+        this.state.modalContentNodeId
+      );
     }
     this.setState({ modalIsOpen: false });
   }
-
 
   handleInputChange(key) {
     if (this.state.modalContent === 'link') {
@@ -142,9 +150,8 @@ class SankeyWrapper extends React.Component {
     }
   }
 
-
   render() {
-    console.log("Props", this.props)
+    console.log('Props', this.props);
     if (this.state.modalContent === 'link') {
       var modalValue = this.state.modalContentLinkValue;
       var header = 'Update Link Weight';
@@ -160,7 +167,7 @@ class SankeyWrapper extends React.Component {
         right: 'auto',
         bottom: 'auto',
         border: '0px solid #333',
-        width: '300px',
+        width: '300px'
       },
       overlay: {
         backgroundColor: 'rgba(0, 0, 0 , 0.35)'
@@ -170,8 +177,19 @@ class SankeyWrapper extends React.Component {
     return (
       <div>
         <div className="chartContainer">
-          <SankeyTools nodes={this.props.nodes} links={this.props.links} addNode={this.addNode} addLink={this.addLink} openModal={this.openModal} handleSubmit={this.handleSubmit}/>
-          <Sankey nodes={this.props.nodes} links={this.props.links} openModal={this.openModal} />
+          <SankeyTools
+            nodes={this.props.nodes}
+            links={this.props.links}
+            addNode={this.addNode}
+            addLink={this.addLink}
+            openModal={this.openModal}
+            handleSubmit={this.handleSubmit}
+          />
+          <Sankey
+            nodes={this.props.nodes}
+            links={this.props.links}
+            openModal={this.openModal}
+          />
         </div>
         <div>
           <FooterBar
@@ -184,7 +202,8 @@ class SankeyWrapper extends React.Component {
             closeTimeoutMS={150}
             isOpen={this.state.modalIsOpen}
             onRequestClose={this.handleModalCloseRequest}
-            style={modalStyle}>
+            style={modalStyle}
+          >
             <button className="close" onClick={this.closeModal}>
               <span aria-hidden="true">&times;</span>
             </button>
@@ -198,24 +217,29 @@ class SankeyWrapper extends React.Component {
             <hr />
             <div className="row">
               <div className="col-xs-12">
-                <button className="btn btn-primary btn-block" onClick={this.closeAndSaveModal}>Apply Changes</button>
+                <button
+                  className="btn btn-primary btn-block"
+                  onClick={this.closeAndSaveModal}
+                >
+                  Apply Changes
+                </button>
               </div>
             </div>
           </Modal>
-        </div >
+        </div>
       </div>
     );
   }
 }
 
-const mapStateToProps = (storeState) => {
+const mapStateToProps = storeState => {
   return {
-    nodes: storeState.SankeyChart.nodes,
-    links: storeState.SankeyChart.links
-  }
-}
+    nodes: storeState.sankeyChart.nodes,
+    links: storeState.sankeyChart.links
+  };
+};
 
-const mapDispatchToProps = function (dispatch) {
+const mapDispatchToProps = function(dispatch) {
   return {
     fetchDefaultData: () => {
       const action = loadDefaultData();
@@ -225,12 +249,11 @@ const mapDispatchToProps = function (dispatch) {
       const action = clearData();
       dispatch(action);
     },
-    saveChanges: (stateObj) => {
+    saveChanges: stateObj => {
       const action = saveChart(stateObj);
       dispatch(action);
     }
-  }
-}
+  };
+};
 
-
-export default connect(mapStateToProps, mapDispatchToProps)(SankeyWrapper)
+export default connect(mapStateToProps, mapDispatchToProps)(SankeyWrapper);
