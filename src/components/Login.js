@@ -33,14 +33,16 @@ class Login extends Component {
       .signInWithPopup(googleProvider)
       .then((user, error) => {
         if (error) {
-          this.toaster.show({
-            intent: Intent.DANGER,
-            message: 'Unable to sign in with Google'
-          });
+          throw Error('Unable to sign in with Google');
         } else {
-          this.props.setCurrentUser(user);
+          this.loginForm.reset();
+          store.dispatch(setUser(user.uid));
           this.setState({ redirect: true });
         }
+      })
+      .catch(error => {
+        console.log(error);
+        this.setState({ errorMessage: error.message });
       });
   }
 
@@ -68,41 +70,6 @@ class Login extends Component {
           this.setState({ errorMessage: error.message });
         })
     );
-    // app
-    //   .auth()
-    //   .fetchSignInMethodsForEmail(email)
-    //   .then(providers => {
-    //     console.log(providers);
-    //     if (providers.length === 0) {
-    //       // create user
-    //       console.log('No user!');
-    //       this.loginForm.reset();
-    //       throw Error('User not found');
-    //       //return app.auth().createUserWithEmailAndPassword(email, password)
-    //     } else if (providers.indexOf('password') === -1) {
-    //       // they used google
-    //       this.loginForm.reset();
-    //       throw Error('Incorrect Password');
-    //     } else {
-    //       // sign user in
-    //       return app.auth().signInWithEmailAndPassword(email, password);
-    //     }
-    //   })
-    //   .then(user => user.providerData[0])
-    //   .then(user => {
-    //     if (user && user.email) {
-    //       this.loginForm.reset();
-    //       store.dispatch(setUser(user.uid));
-    //       this.setState({ redirect: true });
-    //     }
-    //   })
-    //   .catch(error => {
-    //     console.log(error);
-    //     this.toaster.show({
-    //       intent: Intent.WARNING,
-    //       message: 'Incorrect email or password.'
-    //     });
-    //   });
   }
 
   render() {
