@@ -37,7 +37,7 @@ export default class AllTimelines extends React.Component {
               <SingleSelection
                 key={timeline.id}
                 name={timeline.name}
-                url={timeline.route}
+                url={'/edit/' + timeline.route}
               />
             ))}
           </div>

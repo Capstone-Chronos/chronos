@@ -1,5 +1,6 @@
 import React from 'react';
 import store, { addDataPoint } from '../store';
+import { Button } from 'semantic-ui-react';
 
 class BarChartTools extends React.Component {
   constructor(props) {
@@ -27,6 +28,11 @@ class BarChartTools extends React.Component {
     this.setState({ addNodeVal: evt.target.value });
   }
 
+  handleSave() {
+    // Send data to Firebase
+    // Update Saved state
+  }
+
   render() {
     return (
       <div>
@@ -38,6 +44,7 @@ class BarChartTools extends React.Component {
             </button>
           </form>
         </div>
+        <Button onClick={this.props.handleSubmit}>Save Changes</Button>
       </div>
     );
   }
