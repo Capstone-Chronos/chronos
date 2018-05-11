@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withRouter, Route, Switch } from 'react-router-dom';
-import Editor from '../components/Editor';
+import { withRouter, Route, Switch, Redirect } from 'react-router-dom';
+import EditorRouter from '../components/EditorRouter';
 import {
   Main,
   AllTimelines,
   SignUp,
   Login,
-  BarChart,
   SankeyWrapper
 } from '../components';
 
@@ -25,16 +24,11 @@ class Routes extends Component {
         <Switch>
           <Route exact path="/" component={Main} />
           <Route exact path="/timelines" component={AllTimelines} />
-          {/* <Route exact path="/create" component={EditTimeline} /> */}
           <Route exact path="/signup" component={SignUp} />
           <Route exact path="/login" component={Login} />
-          <Route path="/edit" component={Editor} />
+          <Route path="/edit" component={EditorRouter} />
           <Route exact path="/sankey" component={SankeyWrapper} />
-          <Route
-            exact
-            path="/barchart"
-            render={() => <BarChart data={[5, 10, 1, 3]} size={[500, 500]} />}
-          />
+          <Redirect to="/" />
         </Switch>
       </div>
     );
@@ -57,6 +51,3 @@ export default withRouter(connect(mapState, mapDispatch)(Routes));
 /**
  * PROP TYPES
  */
-// Routes.propTypes = {
-//   loadInitialData: PropTypes.func.isRequired,
-// };

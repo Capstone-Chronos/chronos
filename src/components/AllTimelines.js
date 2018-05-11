@@ -1,7 +1,5 @@
 import React from 'react';
 import SingleSelection from './SingleSelection';
-// import { Card } from 'semantic-ui-react';
-// import { fetchTimelines } from '../store';
 
 const timelines = [
   { id: 1, name: 'Bar Chart', route: 'edit/barchart' },
@@ -9,7 +7,7 @@ const timelines = [
   { id: 3, name: 'Sankey Diagram', route: 'sankey' }
 ];
 
-export default class AllTimelines extends React.Component {
+export default class Allcharts extends React.Component {
   constructor(props) {
     super(props);
     this.state = {

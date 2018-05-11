@@ -2,7 +2,7 @@ import React from 'react';
 import { scaleLinear } from 'd3-scale';
 import { max } from 'd3-array';
 import { select } from 'd3-selection';
-import store, { loadDefaultData } from '../store/index';
+import store, { loadDefaultData } from '../../store';
 import { connect } from 'react-redux';
 import { GROUPED_BAR_CHART } from '@blueprintjs/icons/lib/esm/generated/iconNames';
 
@@ -20,7 +20,7 @@ class BarChart extends React.Component {
   }
 
   createBarChart() {
-    let data = [2, 8, 6, 10, 4]
+    const { data } = this.props;
     let size = [window.innerWidth * 0.7, window.innerHeight / 2];
     const node = this.node;
     const dataMax = max(data ? data : [0]);
