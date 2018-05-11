@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom';
 import { Position, Toaster, Intent } from '@blueprintjs/core';
 import { app, googleProvider } from '../base';
 import { connect } from 'react-redux';
-import store, { setUser } from '../store/index';
+import store, { setUser, signUpUser } from '../store/index';
 import ErrorMessage from './ErrorMessage';
 
 export default class SignUp extends Component {
@@ -56,7 +56,7 @@ export default class SignUp extends Component {
       })
       .then(user => user.providerData[0])
       .then(user => {
-        store.dispatch(setUser(user.uid));
+        store.dispatch(signUpUser(user.uid));
         this.setState({ redirect: true });
       })
       .catch(error => {

@@ -22,11 +22,15 @@ const config = {
 const app = firebase.initializeApp(config);
 // const base = Rebase.createClass(app.database());
 
+
+//REFS
 const databaseRef = firebase.database().ref();
+const userRef = databaseRef.child('users')
+const chartsRef = databaseRef.child('charts')
 
 const googleProvider = new firebase.auth.GoogleAuthProvider();
 
 const sankeyRef = databaseRef.child('sankey');
 
 
-export { app, sankeyRef, googleProvider };
+export { app, sankeyRef, googleProvider, userRef, chartsRef };
