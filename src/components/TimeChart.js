@@ -1,27 +1,23 @@
 import React from 'react';
 import ReactFauxDOM from 'react-faux-dom';
 import * as d3 from 'd3';
-import sankey from 'd3-plugins-sankey';
 import _ from 'lodash';
 
 export default class Sankey extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
       nodes: this.props.nodes,
       links: this.props.links,
-      width: this.props.width,
-      height: this.props.height
+      width: 1000,
+      height: 800
     };
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState({
-      nodes: nextProps.nodes,
-      links: nextProps.links,
-      width: nextProps.width,
-      height: nextProps.height
+      // nodes: nextProps.nodes,
+      // links: nextProps.links
     });
   }
 
@@ -130,6 +126,5 @@ export default class Sankey extends React.Component {
       .attr('text-anchor', 'start');
 
     return svgNode.toReact();
-
   }
 }

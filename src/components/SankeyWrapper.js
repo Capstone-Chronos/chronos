@@ -11,7 +11,7 @@ class SankeyWrapper extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      modalIsOpen: false
+      modalIsOpen: false,
     };
 
     this.loadData = loadData.bind(this);
@@ -29,16 +29,33 @@ class SankeyWrapper extends React.Component {
     this.closeModal = this.closeModal.bind(this);
     this.closeAndSaveModal = this.closeAndSaveModal.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.changeHeight = this.changeHeight.bind(this);
+    this.changeWidth = this.changeWidth.bind(this)
   }
 
-  componentDidMount() {}
+  componentWillMount() {
+    this.setState({
+      height: this.props.height,
+      width: this.props.width
+    })
+  }
 
   handleSubmit() {
     let updateData = {
       nodes: this.state.nodes || this.props.nodes,
-      links: this.state.links || this.props.links
+      links: this.state.links || this.props.links,
+      width: this.state.width || this.props.width,
+      height: this.state.height || this.props.height
     };
     this.props.saveChanges(updateData);
+  }
+
+  changeHeight(newHeight) {
+    this.setState({height: newHeight})
+  }
+
+  changeWidth(newWidth) {
+    this.setState({width: newWidth})
   }
 
   addNode(name) {
@@ -142,6 +159,7 @@ class SankeyWrapper extends React.Component {
   }
 
   render() {
+    console.log("SankeyWrapper Props", this.props)
     if (this.state.modalContent === 'link') {
       var modalValue = this.state.modalContentLinkValue;
       var header = 'Update Link Weight';
@@ -174,11 +192,17 @@ class SankeyWrapper extends React.Component {
             addLink={this.addLink}
             openModal={this.openModal}
             handleSubmit={this.handleSubmit}
+            changeHeight={this.changeHeight}
+            changeWidth={this.changeWidth}
+            currentHeight={this.state.height}
+            currentWidth={this.state.width}
           />
           <Sankey
             nodes={this.props.nodes}
             links={this.props.links}
             openModal={this.openModal}
+            height={this.state.height}
+            width={this.state.width}
           />
         </div>
         <div>
@@ -225,7 +249,9 @@ class SankeyWrapper extends React.Component {
 const mapStateToProps = storeState => {
   return {
     nodes: storeState.sankeyChart.nodes,
-    links: storeState.sankeyChart.links
+    links: storeState.sankeyChart.links,
+    height: storeState.sankeyChart.height,
+    width: storeState.sankeyChart.width
   };
 };
 
