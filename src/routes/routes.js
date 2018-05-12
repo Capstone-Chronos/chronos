@@ -10,6 +10,7 @@ import {
   Login,
   SankeyWrapper
 } from '../components';
+import PresentationView from '../components/PresentationView';
 
 /**
  * COMPONENT
@@ -29,6 +30,7 @@ class Routes extends Component {
           <Route exact path="/login" component={Login} />
           <Route path="/edit" component={EditorRouter} />
           <Route exact path="/sankey" component={SankeyWrapper} />
+          <Route path="/show/:id" component={PresentationView} />
           <Redirect to="/" />
         </Switch>
       </div>

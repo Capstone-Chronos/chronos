@@ -25,6 +25,11 @@ export default class Allcharts extends React.Component {
 
   render() {
     let { templates, userProjects, allCharts } = this.state;
+    const chart = {
+      id: 123,
+      title: 'MySankey',
+      url: '/1/sanket'
+    };
     return (
       <div className="chart-group-containter">
         <div>
@@ -60,7 +65,7 @@ export default class Allcharts extends React.Component {
               <SingleSelection
                 key={timeline.id}
                 name={timeline.name}
-                url={timeline.route}
+                url={`/show/${timeline.id}`}
               />
             ))}
           </div>
