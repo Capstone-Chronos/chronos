@@ -24,7 +24,7 @@ export const signUpUser = user => async dispatch => {
   let newUserkey = newUser.key;
   const info = {
     email: user.email,
-    charts: [12312312],
+    charts: [],
     id: user.uid
   };
   newUser.set(info, () => {

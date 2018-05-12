@@ -1,4 +1,4 @@
-import { userRef } from '../base';
+import { userRef, chartsRef } from '../base';
 import firebase from 'firebase';
 
 
@@ -58,11 +58,22 @@ export const clearData = () => ({
 
 export const saveChart = (data) => async dispatch => {
   let uid = firebase.auth().currentUser.uid;
+  let chartIdKey = userRef.child(uid).child('charts').push().key
+  // let chartIdKey = newChartId.key
+  const chartInfo = {
+    chartType: 'Sankey',
+    isPublished: false,
+    chartIdKey,
+    data,
+    uid
+  }
+  console.log('chartInfo', chartInfo)
   // console.log('nnnnnn', userRef.ref(uid).child('charts'))
   // console.log('aaaaaaa', userRef.child(uid).child('charts').value)
   // userRef.child(userId).child('charts').value.push(data)
   // userRef.child(uid).child('charts').push().on('child_added', snapshot => snapshot.val());
-  userRef.child(uid).child('charts').push().set(data);
+  userRef.child(uid).child('charts').push().set(chartIdKey);
+  chartsRef.push().set(chartInfo)
   dispatch({
     type: UPDATE_DATA,
     data
