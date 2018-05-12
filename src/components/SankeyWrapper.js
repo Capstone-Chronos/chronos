@@ -6,12 +6,13 @@ import FooterBar from './SankeyUtils/FooterBar';
 import { connect } from 'react-redux';
 import { loadData, readFile } from './SankeyUtils/utils';
 import { loadDefaultData, clearData, saveChart } from '../store/sankeyChart';
+import ColorPicker from './ColorPicker';
 
 class SankeyWrapper extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      modalIsOpen: false
+      modalIsOpen: false,
     };
 
     this.loadData = loadData.bind(this);
@@ -29,16 +30,34 @@ class SankeyWrapper extends React.Component {
     this.closeModal = this.closeModal.bind(this);
     this.closeAndSaveModal = this.closeAndSaveModal.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.changeHeight = this.changeHeight.bind(this);
+    this.changeWidth = this.changeWidth.bind(this)
+    this.handleColorChange = this.handleColorChange.bind(this);
   }
 
-  componentDidMount() {}
+  componentWillMount() {
+    this.setState({
+      height: this.props.height,
+      width: this.props.width
+    })
+  }
 
   handleSubmit() {
     let updateData = {
       nodes: this.state.nodes || this.props.nodes,
-      links: this.state.links || this.props.links
+      links: this.state.links || this.props.links,
+      width: this.state.width || this.props.width,
+      height: this.state.height || this.props.height
     };
     this.props.saveChanges(updateData);
+  }
+
+  changeHeight(newHeight) {
+    this.setState({ height: newHeight })
+  }
+
+  changeWidth(newWidth) {
+    this.setState({ width: newWidth })
   }
 
   addNode(name) {
@@ -53,10 +72,10 @@ class SankeyWrapper extends React.Component {
     this.setState({ nodes });
   }
 
-  updateNode(name, idx) {
+  updateNode(name, idx, color) {
     var nodes = this.props.nodes;
     nodes[idx].name = name;
-
+    nodes[idx].color = color;
     this.setState({ nodes });
   }
 
@@ -64,7 +83,7 @@ class SankeyWrapper extends React.Component {
     this.props.clearChart();
   }
 
-  addLink(source, target, value) {
+  addLink(source, target, value, color) {
     if (
       this.props.nodes.length > 1 &&
       !isNaN(value) &&
@@ -74,15 +93,16 @@ class SankeyWrapper extends React.Component {
       var links = this.props.links;
       var idx = links.length;
 
-      links[idx] = { source, target, value };
+      links[idx] = { source, target, value, color };
       this.setState({ links });
     }
   }
 
-  updateLink(source, target, value) {
+  updateLink(source, target, value, color) {
     var links = this.props.links.map(link => {
       if (link.source === source && link.target === target) {
         link.value = value;
+        link.color = color;
       }
       return link;
     });
@@ -95,11 +115,13 @@ class SankeyWrapper extends React.Component {
       var modalContent = 'node';
       var modalContentNodeId = e.node;
       var modalContentNodeName = e.name;
+      var modalContentNodeColor = e.color;
     } else if (e.value !== undefined) {
       var modalContent = 'link';
       var modalContentLinkValue = e.value;
       var modalContentLinkSource = e.source.node;
       var modalContentLinkTarget = e.target.node;
+      var modalContentLinkColor = e.target.color;
     }
 
     this.setState({
@@ -107,9 +129,11 @@ class SankeyWrapper extends React.Component {
       modalContent,
       modalContentNodeId,
       modalContentNodeName,
+      modalContentNodeColor,
       modalContentLinkValue,
       modalContentLinkSource,
-      modalContentLinkTarget
+      modalContentLinkTarget,
+      modalContentLinkColor
     });
   }
 
@@ -122,15 +146,25 @@ class SankeyWrapper extends React.Component {
       this.updateLink(
         this.state.modalContentLinkSource,
         this.state.modalContentLinkTarget,
-        this.state.modalContentLinkValue
+        this.state.modalContentLinkValue,
+        this.state.modalContentLinkColor
       );
     } else if (this.state.modalContent === 'node') {
       this.updateNode(
         this.state.modalContentNodeName,
-        this.state.modalContentNodeId
+        this.state.modalContentNodeId,
+        this.state.modalContentNodeColor
       );
     }
     this.setState({ modalIsOpen: false });
+  }
+
+  handleColorChange(color) {
+    if (this.state.modalContent === 'link') {
+      this.setState({ modalContentLinkColor: color });
+    } else if (this.state.modalContent === 'node') {
+      this.setState({ modalContentNodeColor: color });
+    }
   }
 
   handleInputChange(key) {
@@ -145,9 +179,11 @@ class SankeyWrapper extends React.Component {
     if (this.state.modalContent === 'link') {
       var modalValue = this.state.modalContentLinkValue;
       var header = 'Update Link Weight';
+      var color = 'Change Link Color'
     } else if (this.state.modalContent === 'node') {
       var modalValue = this.state.modalContentNodeName;
       var header = 'Update Node Name';
+      var color = 'Change Node Color';
     }
 
     var modalStyle = {
@@ -174,11 +210,17 @@ class SankeyWrapper extends React.Component {
             addLink={this.addLink}
             openModal={this.openModal}
             handleSubmit={this.handleSubmit}
+            changeHeight={this.changeHeight}
+            changeWidth={this.changeWidth}
+            currentHeight={this.state.height}
+            currentWidth={this.state.width}
           />
           <Sankey
             nodes={this.props.nodes}
             links={this.props.links}
             openModal={this.openModal}
+            height={this.state.height}
+            width={this.state.width}
           />
         </div>
         <div>
@@ -205,6 +247,10 @@ class SankeyWrapper extends React.Component {
               onChange={this.handleInputChange}
             />
             <hr />
+            <div style={{ marginTop: '2em', marginBottom: '2em' }}>
+              <h4>{color}</h4>
+              <ColorPicker handleColorChange={this.handleColorChange}/>
+            </div>
             <div className="row">
               <div className="col-xs-12">
                 <button
@@ -225,11 +271,13 @@ class SankeyWrapper extends React.Component {
 const mapStateToProps = storeState => {
   return {
     nodes: storeState.sankeyChart.nodes,
-    links: storeState.sankeyChart.links
+    links: storeState.sankeyChart.links,
+    height: storeState.sankeyChart.height,
+    width: storeState.sankeyChart.width
   };
 };
 
-const mapDispatchToProps = function(dispatch) {
+const mapDispatchToProps = function (dispatch) {
   return {
     fetchDefaultData: () => {
       const action = loadDefaultData();
