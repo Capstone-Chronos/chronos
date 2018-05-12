@@ -108,7 +108,6 @@ body {
 }
 
 .node rect {
-  fill: #888888;
   shape-rendering: crispEdges;
 }
 
@@ -128,7 +127,6 @@ body {
 }
 
 .link {
-  stroke: #cccccc;
   stroke-opacity: 0.4;
   fill: none;
 }
@@ -332,6 +330,7 @@ span.ggl-icon {
   width: 42px;
   height: 42px;
 }
+
 span.buttonText {
   display: inline-block;
   vertical-align: middle;
@@ -349,6 +348,13 @@ span.buttonText {
   justify-content: space-around;
   align-items: center;
   background-color: rgba(169, 169, 169, 0.7);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  margin: 1em;
+  align-items: center;
 }
 
 .svg-container {
