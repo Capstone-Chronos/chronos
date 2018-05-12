@@ -311,19 +311,12 @@ a:hover {
   margin: 4px;
 }
 
-#customBtn {
-  display: inline-block;
-  background: white;
+#google-login {
   color: #444;
-  width: 190px;
-  border-radius: 5px;
-  border: thin solid #888;
-  box-shadow: 1px 1px 1px grey;
   white-space: nowrap;
+  margin-top: 14px;
 }
-#customBtn:hover {
-  cursor: pointer;
-}
+
 span.label {
   font-family: serif;
   font-weight: normal;
@@ -353,4 +346,10 @@ span.buttonText {
   justify-content: space-around;
   align-items: center;
   background-color: rgba(169, 169, 169, 0.7);
+}
+
+#login-box {
+  display: flex;
+  margin: 10%;
+  align-self: stretch;
 }

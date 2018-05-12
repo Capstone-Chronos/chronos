@@ -8,12 +8,12 @@ import ErrorMessage from './ErrorMessage';
 class Login extends Component {
   constructor(props) {
     super(props);
-    this.authWithGoogle = this.authWithGoogle.bind(this);
-    this.authWithEmailPassword = this.authWithEmailPassword.bind(this);
     this.state = {
       redirect: false,
       errorMessage: ''
     };
+    this.authWithGoogle = this.authWithGoogle.bind(this);
+    this.authWithEmailPassword = this.authWithEmailPassword.bind(this);
   }
 
   authWithGoogle() {
@@ -37,9 +37,9 @@ class Login extends Component {
 
   authWithEmailPassword(event) {
     event.preventDefault();
-
-    const email = this.emailInput.value;
-    const password = this.passwordInput.value;
+    console.log(event.target);
+    const email = event.target.emailInput.value;
+    const password = event.target.passwordInput.value;
 
     return (
       app
@@ -71,55 +71,77 @@ class Login extends Component {
     }
 
     return (
-      <div id="loginContainer">
-        <button
-          id="customBtn"
-          onClick={() => {
-            this.authWithGoogle();
-          }}
-        >
-          Log In with Google
-        </button>
-        <hr />
-        <form
-          onSubmit={event => {
-            this.authWithEmailPassword(event);
-          }}
-          ref={form => {
-            this.loginForm = form;
-          }}
-        >
-          <div>
-            <label>
-              <input
-                className="login-input"
-                name="email"
-                type="email"
-                ref={input => {
-                  this.emailInput = input;
-                }}
-                placeholder="Email"
-              />
-            </label>
+      <div
+        className="ui container middle aligned center aligned grid"
+        id="login-box"
+      >
+        <div className="ui middle aligned center aligned grid">
+          <div className="column">
+            <h2 className="ui teal image header">
+              <img src="assets/images/logo.png" className="image" />
+              <div className="content">Log-in to your account</div>
+            </h2>
+            <form
+              className="ui large form"
+              onSubmit={event => {
+                this.authWithEmailPassword(event);
+              }}
+              ref={form => {
+                this.loginForm = form;
+              }}
+            >
+              <div className="ui stacked segment">
+                <div className="field">
+                  <div className="ui left icon input">
+                    <i className="user icon" />
+                    <input
+                      type="text"
+                      name="emailInput"
+                      placeholder="E-mail address"
+                      autoComplete="off"
+                    />
+                  </div>
+                </div>
+                <div className="field">
+                  <div className="ui left icon input">
+                    <i className="lock icon" />
+                    <input
+                      type="password"
+                      name="passwordInput"
+                      placeholder="Password"
+                      autoComplete="off"
+                    />
+                  </div>
+                </div>
+                <button
+                  type="submit"
+                  className="ui fluid large teal submit button"
+                >
+                  Login
+                </button>
+                <div
+                  className="ui fluid large submit button"
+                  id="google-login"
+                  onClick={() => {
+                    this.authWithGoogle();
+                  }}
+                >
+                  Log In with Google
+                </div>
+              </div>
+
+              <div className="ui error message" />
+            </form>
+            <div className="ui message">
+              New to us? <a href="/signup">Sign Up</a>
+            </div>
+            <div>
+              {this.state.errorMessage && (
+                <ErrorMessage message={this.state.errorMessage} />
+              )}
+            </div>
           </div>
-          <div>
-            <label>
-              <input
-                className="login-input"
-                name="password"
-                type="password"
-                ref={input => {
-                  this.passwordInput = input;
-                }}
-                placeholder="Password"
-              />
-            </label>
-          </div>
-          <input type="submit" value="Log In" className="login-button" />
-        </form>
-        {this.state.errorMessage && (
-          <ErrorMessage message={this.state.errorMessage} />
-        )}
+        </div>
       </div>
     );
   }
