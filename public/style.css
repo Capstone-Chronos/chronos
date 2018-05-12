@@ -54,11 +54,7 @@ nav {
   display: flex;
   margin: 3em;
   justify-content: center;
-}
-
-#barchart {
-  position: absolute;
-  margin: 5em;
+  align-items: center;
 }
 
 .updateForm {
@@ -355,18 +351,27 @@ span.buttonText {
   background-color: rgba(169, 169, 169, 0.7);
 }
 
-div.presentation-container {
+.svg-container {
+  display: inline-block;
+  position: relative;
+  /* width: 100%;
+  padding-bottom: 100%; */
+  vertical-align: top;
+  overflow: hidden;
+}
+
+.svg-content {
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border: #252525;
+  border-width: 1px;
+}
+
+.svg-centered {
   display: flex;
-  height: 100%;
-  width: 90vw;
-}
-
-#presentation-chart {
-  background-color: black;
-  flex-grow: 2;
-}
-
-#presentation-sidebar {
-  background-color: lightgrey;
-  flex-grow: 1;
+  padding: 40px;
+  justify-content: center;
+  align-items: center;
 }

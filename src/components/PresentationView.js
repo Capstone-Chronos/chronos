@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { PublishButton } from './index';
+import { PublishButton, SankeyWrapper, BarChart } from './index';
+import { Grid, Column } from 'semantic-ui-react';
 
 class PresentationView extends React.Component {
   constructor(props) {
@@ -13,22 +14,21 @@ class PresentationView extends React.Component {
   }
   render() {
     return (
-      <div className="presentation-container ui container">
-        <div id="presentation-chart">
-          <p>TESTSETSETESTESTETSTESTSTESTSETESTETS</p>
-        </div>
-        <div id="presentation-sidebar">PLACEHOLDER</div>
-        {/*
-        <button class="ui labeled icon button">
-          <i class="pause icon" />
-          Previous
-        </button>
-        <button class="ui right labeled icon button">
-          <i class="right arrow icon" />
-          Next
-        </button>
-        <i class="compress icon" /> */}
-      </div>
+      <Grid divided>
+        <Grid.Column width={11}>
+          <BarChart />
+        </Grid.Column>
+        <Grid.Column width={5}>
+          <button class="ui labeled icon button">
+            <i class="pause icon" />
+            Previous
+          </button>
+          <button class="ui right labeled icon button">
+            <i class="right arrow icon" />
+            Next
+          </button>
+        </Grid.Column>
+      </Grid>
     );
   }
 }
