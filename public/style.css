@@ -354,3 +354,10 @@ span.buttonText {
   align-items: center;
   background-color: rgba(169, 169, 169, 0.7);
 }
+
+.form {
+  display: flex;
+  flex-direction: column;
+  margin: 1em;
+  align-items: center;
+}

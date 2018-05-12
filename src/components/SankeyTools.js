@@ -44,15 +44,17 @@ class SankeyTools extends Component {
           links={this.props.links}
           nodes={this.props.nodes}
         />
-        <Button onClick={this.props.handleSubmit}>Save Changes</Button>
-        <div>
+        <div className="form">
           <form onSubmit={this.submitHeightWidth}>
             <label>Width</label>
             <input onChange={this.handleChange} name="width" defaultValue={this.props.width}></input>
+            <br></br>
             <label>Height</label>
             <input onChange={this.handleChange} name="height" defaultValue={this.props.height}></input>
+            <br></br>
             <Button onClick={this.submitHeightWidth}>Update chart size</Button>
           </form>
+          <Button circular size="small" onClick={this.props.handleSubmit}>Save Changes</Button>
         </div>
       </div>
     );
