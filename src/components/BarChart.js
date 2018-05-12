@@ -49,7 +49,6 @@ class BarChart extends React.Component {
   }
 
   render() {
-    console.log('barChart');
     return (
       <div className="chartContainer">
         <svg

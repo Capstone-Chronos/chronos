@@ -354,3 +354,19 @@ span.buttonText {
   align-items: center;
   background-color: rgba(169, 169, 169, 0.7);
 }
+
+div.presentation-container {
+  display: flex;
+  height: 100%;
+  width: 90vw;
+}
+
+#presentation-chart {
+  background-color: black;
+  flex-grow: 2;
+}
+
+#presentation-sidebar {
+  background-color: lightgrey;
+  flex-grow: 1;
+}

@@ -13,7 +13,6 @@ class PublishButton extends React.Component {
   }
 
   publishChart() {
-    console.log('oublish Chart');
     if (!this.props.title) {
       this.setState({
         isActive: true,
@@ -62,5 +61,5 @@ function mapStateToProps(state) {
     isLoggedIn: state.user.isLoggedIn
   };
 }
-console.log(mapStateToProps);
+
 export default connect(mapStateToProps)(PublishButton);
