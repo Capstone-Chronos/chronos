@@ -4,6 +4,7 @@ import * as d3 from 'd3';
 import sankey from 'd3-plugins-sankey';
 import _ from 'lodash';
 
+
 export default class Sankey extends React.Component {
   constructor(props) {
     super(props);
@@ -114,6 +115,7 @@ export default class Sankey extends React.Component {
       .append('rect')
       .attr('height', d => d.dy)
       .attr('width', sankey.nodeWidth())
+      .attr({fill: d => d.color || d3.rgb("#888888")})
       .append('title')
       .text(d => d.name + '\n' + format(d.value));
 

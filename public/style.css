@@ -112,7 +112,6 @@ body {
 }
 
 .node rect {
-  fill: #888888;
   shape-rendering: crispEdges;
 }
 
@@ -336,6 +335,7 @@ span.ggl-icon {
   width: 42px;
   height: 42px;
 }
+
 span.buttonText {
   display: inline-block;
   vertical-align: middle;
