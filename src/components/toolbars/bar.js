@@ -2,6 +2,7 @@ import React from 'react';
 import store, { addDataPoint } from '../../store';
 import { Button } from 'semantic-ui-react';
 import { BarChartJSONUtil } from '../BarChartUtils/BarChartJSONUtil';
+import { PublishButton } from '../index';
 
 class BarChartTools extends React.Component {
   constructor(props) {
@@ -39,6 +40,7 @@ class BarChartTools extends React.Component {
       <div className="bar-toolbar">
         <BarChartJSONUtil />
         <Button onClick={this.props.handleSubmit}>SAVE</Button>
+        <PublishButton />
         <div className="updateForm">
           <form onSubmit={this.addDataPoint}>
             <input label="data" onChange={this.updateLocalNodeVal} />

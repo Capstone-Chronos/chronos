@@ -8,3 +8,4 @@ export { default as Login } from './Login';
 export { default as SignUp } from './SignUp';
 export { default as BarChart } from './BarChart';
 export { default as SankeyWrapper } from './SankeyWrapper';
+export { default as PublishButton } from './PublishButton';
