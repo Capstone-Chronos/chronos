@@ -58,6 +58,7 @@ class Login extends Component {
         .then(user => {
           //console.log(user);
           if (user && user.email) {
+            console.log(user)
             this.loginForm.reset();
             store.dispatch(setUser(user.uid));
             this.setState({ redirect: true });

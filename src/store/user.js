@@ -14,19 +14,21 @@ const logOut = () => ({ type: LOG_OUT });
 
 const initialState = {
   email: '',
-  isLoggedIn: false
+  isLoggedIn: false,
+  id: ''
 };
 
-export const signUpUser = email => async dispatch => {
+export const signUpUser = user => async dispatch => {
+  console.log(user);
+  let newUser = userRef.child(user.uid);
+  let newUserkey = newUser.key;
   const info = {
-    email: email,
-    charts: [12312312]
-  }
-  userRef.push().set(info, snapshot => {
-    dispatch({
-      type: SIGNUP_USER,
-      email: info.email
-    });
+    email: user.email,
+    charts: [12312312],
+    id: user.uid
+  };
+  newUser.set(info, () => {
+    dispatch({ type: SIGNUP_USER, info });
   });
 };
 
@@ -59,7 +61,7 @@ export default function(user = initialState, action) {
   case LOG_OUT:
     return initialState;
   case SIGNUP_USER:
-    return { user: action.user, isLoggedIn: true };
+    return { user: action.user, isLoggedIn: true, id: action.id };
   default:
     return user;
   }

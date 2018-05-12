@@ -4,6 +4,7 @@ import SankeyTools from './SankeyTools';
 import Modal from 'react-modal';
 import addNode from './SankeyUtils/AddNode';
 import addLink from './SankeyUtils/AddLink';
+import firebase from 'firebase'
 import FooterBar from './SankeyUtils/FooterBar';
 import { connect } from "react-redux";
 import { ExportJSON, ImportJSON, loadData, readFile } from './SankeyUtils/utils';
@@ -40,9 +41,10 @@ class SankeyWrapper extends React.Component {
   handleSubmit() {
     let updateData = {
       nodes: this.state.nodes || this.props.nodes,
-      links: this.state.links || this.props.links
+      links: this.state.links || this.props.links,
+      userId: this.props.userId
     }
-    console.log(updateData)
+    console.log(updateData, 'ooooo')
     this.props.saveChanges(updateData);
   }
 
@@ -202,17 +204,21 @@ class SankeyWrapper extends React.Component {
               </div>
             </div>
           </Modal>
-        </div >
+        </div>
       </div>
     );
   }
 }
 
+const userId = firebase.auth().currentUser
+
 const mapStateToProps = (storeState) => {
+  console.log(userId, storeState.user, 'e')
   return {
     nodes: storeState.sankeyChart.nodes,
-    links: storeState.sankeyChart.links
-  }
+    links: storeState.sankeyChart.links,
+    userId: storeState.user.user
+  };
 }
 
 const mapDispatchToProps = function (dispatch) {

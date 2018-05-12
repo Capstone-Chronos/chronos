@@ -57,25 +57,16 @@ export const clearData = () => ({
 // };
 
 export const saveChart = (data) => async dispatch => {
-  let userId = firebase.auth().currentUser.uid;
-  console.log('data', data)
-  console.log('uidkey', userId.key)
-  console.log('key', userRef.child(userId).key)
-  console.log(userRef.child('userId').child('charts'))
-  console.log('userRef', userRef);
-  userRef.child(userId).child('charts').set(data)
-  // return userId.child('charts')
-  //   .then(currentUser => currentUser.chart.push(data))
-  //   .then(resdata => dispatch({
-  //     type: UPDATE_DATA,
-  //     data: resdata
-  //   }));
-  // userRef.child(userId).set(data, snapshot => {
-  //   dispatch({
-  //     type: UPDATE_DATA,
-  //     data: data
-  //   });
-  // });
+  let uid = firebase.auth().currentUser.uid;
+  // console.log('nnnnnn', userRef.ref(uid).child('charts'))
+  // console.log('aaaaaaa', userRef.child(uid).child('charts').value)
+  // userRef.child(userId).child('charts').value.push(data)
+  // userRef.child(uid).child('charts').push().on('child_added', snapshot => snapshot.val());
+  userRef.child(uid).child('charts').push().set(data);
+  dispatch({
+    type: UPDATE_DATA,
+    data
+  });
 };
 
 // export const saveChart = (data) => async dispatch => {

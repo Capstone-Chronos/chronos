@@ -54,9 +54,8 @@ export default class SignUp extends Component {
           throw Error('Email already exists');
         }
       })
-      .then(user => user.providerData[0])
       .then(user => {
-        store.dispatch(signUpUser(user.uid));
+        store.dispatch(signUpUser(user));
         this.setState({ redirect: true });
       })
       .catch(error => {
