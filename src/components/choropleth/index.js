@@ -1,8 +1,7 @@
 import React from 'react';
 import { select } from 'd3-selection';
-import { geoPath } from 'd3';
-import topojson from 'topojson';
-import us from './us-states';
+import { geoPath, json as readJSON } from 'd3';
+import { mesh, feature } from 'topojson';
 
 export default class Choropleth extends React.Component {
   constructor(props) {
@@ -19,25 +18,29 @@ export default class Choropleth extends React.Component {
   }
 
   createChoropleth() {
-    const node = this.node;
-    const states = us.objects.states;
-    const geoData = topojson.feature(us, states).features;
-    const path = geoPath();
-    const lines = path(topojson.mesh(us, states, (a, b) => (a !== b)));
+    readJSON('https://d3js.org/us-10m.v1.json', (err, us) => {
+      if (err) throw err;
 
-    select(node)
-      .append('g')
-      .attr('class', 'states')
-      .selectAll('path')
-      .data(geoData)
-      .enter()
-      .append('path')
-      .attr('d', path);
+      const node = this.node;
+      const states = us.objects.states;
+      const geoData = feature(us, states).features;
+      const path = geoPath();
+      const lines = path(mesh(us, states, (a, b) => (a !== b)));
 
-    select(node)
-      .append('path')
-      .attr('class', 'state-borders')
-      .attr('p', lines);
+      select(node)
+        .append('g')
+        .attr('class', 'states')
+        .selectAll('path')
+        .data(geoData)
+        .enter()
+        .append('path')
+        .attr('d', path);
+
+      select(node)
+        .append('path')
+        .attr('class', 'state-borders')
+        .attr('p', lines);
+    });
   }
 
   render() {

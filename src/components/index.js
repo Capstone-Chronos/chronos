@@ -10,3 +10,4 @@ export { default as BarChart } from './BarChart';
 export { default as SankeyWrapper } from './SankeyWrapper';
 export { default as PublishButton } from './PublishButton';
 export { default as SankeyChart } from './Sankey';
+export { default as Choropleth } from './choropleth';
