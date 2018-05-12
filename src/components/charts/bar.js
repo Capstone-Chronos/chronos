@@ -4,7 +4,7 @@ import { max } from 'd3-array';
 import { select } from 'd3-selection';
 import store, { loadDefaultData } from '../../store';
 import { connect } from 'react-redux';
-import { GROUPED_BAR_CHART } from '@blueprintjs/icons/lib/esm/generated/iconNames';
+// import { GROUPED_BAR_CHART } from '@blueprintjs/icons/lib/esm/generated/iconNames';
 
 class BarChart extends React.Component {
   constructor(props) {

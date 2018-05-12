@@ -347,11 +347,10 @@ span.buttonText {
   font-family: 'Roboto', sans-serif;
 }
 
-.login_G {
-  cursor: pointer;
-  margin-left: 35px;
-  float: left;
-  height: 72px;
-  width: 72px;
-  background: url(images/register-google-sprite.png) 0 0;
+.bar-json-util {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  background-color: rgba(169, 169, 169, 0.7);
 }
