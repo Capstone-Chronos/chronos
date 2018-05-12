@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Route, Switch } from 'react-router-dom';
-import Editor from '../components/Editor';
+import Editor from '../components/Editor2';
 import {
   Main,
   AllTimelines,

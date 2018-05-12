@@ -7,6 +7,6 @@ const Toolbar = () => (
   <Switch>
     <Route path="/edit/barchart" component={BarChartTools} />
   </Switch>
-)
+);
 
 export default Toolbar;

@@ -4,7 +4,7 @@ import { max } from 'd3-array';
 import { select } from 'd3-selection';
 import store, { loadDefaultData } from '../store/index';
 import { connect } from 'react-redux';
-import { GROUPED_BAR_CHART } from '@blueprintjs/icons/lib/esm/generated/iconNames';
+// import { GROUPED_BAR_CHART } from '@blueprintjs/icons/lib/esm/generated/iconNames';
 
 class BarChart extends React.Component {
   constructor(props) {
@@ -50,6 +50,7 @@ class BarChart extends React.Component {
   }
 
   render() {
+    console.log('barChart');
     return (
       <div className="chartContainer">
         <svg
@@ -65,7 +66,7 @@ class BarChart extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  data: state.BarChart.data
+  data: state.barChart.data
 });
 
 const mapDispatchToProps = dispatch => ({});

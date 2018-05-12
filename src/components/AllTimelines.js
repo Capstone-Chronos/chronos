@@ -27,7 +27,6 @@ export default class AllTimelines extends React.Component {
 
   render() {
     let { templates, userProjects, allCharts } = this.state;
-    console.log('here');
     return (
       <div className="chart-group-containter">
         <div>
@@ -37,7 +36,7 @@ export default class AllTimelines extends React.Component {
               <SingleSelection
                 key={timeline.id}
                 name={timeline.name}
-                url={'/edit/' + timeline.route}
+                url={timeline.route}
               />
             ))}
           </div>
