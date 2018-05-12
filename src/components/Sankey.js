@@ -83,7 +83,7 @@ export default class Sankey extends React.Component {
       .attr('class', 'link')
       .on('click', this.props.openModal) // register eventListener
       .attr('d', path)
-      .style('stroke-width', d => Math.max(1, d.dy));
+      .style({ 'stroke-width': d => Math.max(1, d.dy), stroke: d => d.color || '#cccccc' });
 
     // add link titles
     link
@@ -115,7 +115,7 @@ export default class Sankey extends React.Component {
       .append('rect')
       .attr('height', d => d.dy)
       .attr('width', sankey.nodeWidth())
-      .attr({fill: d => d.color || d3.rgb("#888888")})
+      .attr({ fill: d => d.color || d3.rgb("#888888") })
       .append('title')
       .text(d => d.name + '\n' + format(d.value));
 

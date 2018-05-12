@@ -7,10 +7,12 @@ export default class ColorPicker extends React.Component {
     this.state = {
       background: '#fff',
     }
+    this.handleChangeComplete = this.handleChangeComplete.bind(this);
   }
 
   handleChangeComplete = (color) => {
-    this.props.handleColorChange(color.hex)
+    this.setState({background: color.hex});
+    this.props.handleColorChange(color.hex);
   };
 
   render() {

@@ -102,6 +102,7 @@ class SankeyWrapper extends React.Component {
     var links = this.props.links.map(link => {
       if (link.source === source && link.target === target) {
         link.value = value;
+        link.color = color;
       }
       return link;
     });
