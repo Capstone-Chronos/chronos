@@ -4,10 +4,9 @@ import * as d3 from 'd3';
 import sankey from 'd3-plugins-sankey';
 import _ from 'lodash';
 
-
 export default class Sankey extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
       nodes: this.props.nodes,
@@ -15,13 +14,12 @@ export default class Sankey extends React.Component {
     };
   }
 
-
-    componentWillReceiveProps(nextProps) {
-      this.setState({
-        nodes: nextProps.nodes,
-        links: nextProps.links
-      });
-    }
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      nodes: nextProps.nodes,
+      links: nextProps.links
+    });
+  }
 
   render() {
     // ========================================================================
@@ -31,13 +29,14 @@ export default class Sankey extends React.Component {
     var width = 1000 - margin.left - margin.right;
     var height = 800 - margin.top - margin.bottom;
 
-    var format = (d) => formatNumber(d);
-    var formatNumber = d3.format(",.0f"); // zero decimal places
+    var format = d => formatNumber(d);
+    var formatNumber = d3.format(',.0f'); // zero decimal places
 
     // // ========================================================================
     // // Set the sankey diagram properties
     // // ========================================================================
-    var sankey = d3.sankey()
+    var sankey = d3
+      .sankey()
       .size([width, height])
       .nodeWidth(15)
       .nodePadding(10);
@@ -49,7 +48,8 @@ export default class Sankey extends React.Component {
       links: _.cloneDeep(this.state.links)
     };
 
-    sankey.nodes(graph.nodes)
+    sankey
+      .nodes(graph.nodes)
       .links(graph.links)
       .layout(32);
 
@@ -58,58 +58,76 @@ export default class Sankey extends React.Component {
     // ========================================================================
     var svgNode = ReactFauxDOM.createElement('div');
 
-    var svg = d3.select(svgNode).append("svg")
-      .attr("width", width + margin.left + margin.right)
-      .attr("height", height + margin.top + margin.bottom)
-      .append("g")
-      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    var svg = d3
+      .select(svgNode)
+      .append('svg')
+      .attr('width', width + margin.left + margin.right)
+      .attr('height', height + margin.top + margin.bottom)
+      .append('g')
+      .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
     // ========================================================================
     // Add links
     // ========================================================================
-    var link = svg.append("g").selectAll(".link")
+    var link = svg
+      .append('g')
+      .selectAll('.link')
       .data(graph.links)
-      .enter().append("path")
-      .attr("class", "link")
+      .enter()
+      .append('path')
+      .attr('class', 'link')
       .on('click', this.props.openModal) // register eventListener
-      .attr("d", path)
-      .style("stroke-width", (d) => Math.max(1, d.dy))
+      .attr('d', path)
+      .style('stroke-width', d => Math.max(1, d.dy));
 
     // add link titles
-    link.append("title")
-      .text((d) => d.source.name + " → " + d.target.name + "\n Weight: " + format(d.value));
+    link
+      .append('title')
+      .text(
+        d =>
+          d.source.name +
+          ' → ' +
+          d.target.name +
+          '\n Weight: ' +
+          format(d.value)
+      );
 
     // ========================================================================
     // Add nodes
     // ========================================================================
-    var node = svg.append("g").selectAll(".node")
+    var node = svg
+      .append('g')
+      .selectAll('.node')
       .data(graph.nodes)
-      .enter().append("g")
-      .attr("class", "node")
+      .enter()
+      .append('g')
+      .attr('class', 'node')
       .on('click', this.props.openModal) // register eventListener
-      .attr("transform", (d) => "translate(" + d.x + "," + d.y + ")")
+      .attr('transform', d => 'translate(' + d.x + ',' + d.y + ')');
 
     // add nodes rect
-    node.append("rect")
-      .attr("height", (d) => d.dy)
-      .attr("width", sankey.nodeWidth())
-      .append("title")
-      .text((d) => d.name + "\n" + format(d.value));
+    node
+      .append('rect')
+      .attr('height', d => d.dy)
+      .attr('width', sankey.nodeWidth())
+      .append('title')
+      .text(d => d.name + '\n' + format(d.value));
 
     // add nodes text
-    node.append("text")
-      .attr("x", -6)
-      .attr("y", (d) => d.dy / 2)
-      .attr("dy", ".35em")
-      .attr("text-anchor", "end")
-      .text((d) => d.name)
-      .filter((d) => d.x < width / 2)
-      .attr("x", 6 + sankey.nodeWidth())
-      .attr("text-anchor", "start");
+    node
+      .append('text')
+      .attr('x', -6)
+      .attr('y', d => d.dy / 2)
+      .attr('dy', '.35em')
+      .attr('text-anchor', 'end')
+      .text(d => d.name)
+      .filter(d => d.x < width / 2)
+      .attr('x', 6 + sankey.nodeWidth())
+      .attr('text-anchor', 'start');
 
-      return svgNode.toReact();
+    return svgNode.toReact();
 
-    // Above D3 manipaluation equal to following jsx if didn't rely on faux-dom 
+    // Above D3 manipaluation equal to following jsx if didn't rely on faux-dom
     // ------------------------------------------------------------------------
     // var links = graph.links.map((link, i) => {
     //   return (

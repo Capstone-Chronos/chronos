@@ -25,7 +25,6 @@ export default class Allcharts extends React.Component {
 
   render() {
     let { templates, userProjects, allCharts } = this.state;
-    console.log('here');
     return (
       <div className="chart-group-containter">
         <div>

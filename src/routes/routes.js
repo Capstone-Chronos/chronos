@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Route, Switch, Redirect } from 'react-router-dom';
 import EditorRouter from '../components/EditorRouter';
+import Editor from '../components/Editor2';
 import {
   Main,
   AllTimelines,
