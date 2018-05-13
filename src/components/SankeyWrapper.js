@@ -2,6 +2,9 @@ import React from 'react';
 import Sankey from './Sankey';
 import SankeyTools from './SankeyTools';
 import Modal from 'react-modal';
+import addNode from './SankeyUtils/AddNode';
+import addLink from './SankeyUtils/AddLink';
+import firebase from 'firebase';
 import FooterBar from './SankeyUtils/FooterBar';
 import { connect } from 'react-redux';
 import { loadData, readFile } from './SankeyUtils/utils';
@@ -31,7 +34,7 @@ class SankeyWrapper extends React.Component {
     this.closeAndSaveModal = this.closeAndSaveModal.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.changeHeight = this.changeHeight.bind(this);
-    this.changeWidth = this.changeWidth.bind(this)
+    this.changeWidth = this.changeWidth.bind(this);
     this.handleColorChange = this.handleColorChange.bind(this);
   }
 
@@ -39,13 +42,14 @@ class SankeyWrapper extends React.Component {
     this.setState({
       height: this.props.height,
       width: this.props.width
-    })
+    });
   }
 
   handleSubmit() {
     let updateData = {
       nodes: this.state.nodes || this.props.nodes,
       links: this.state.links || this.props.links,
+      userId: this.props.userId,
       width: this.state.width || this.props.width,
       height: this.state.height || this.props.height
     };
@@ -53,11 +57,11 @@ class SankeyWrapper extends React.Component {
   }
 
   changeHeight(newHeight) {
-    this.setState({ height: newHeight })
+    this.setState({ height: newHeight });
   }
 
   changeWidth(newWidth) {
-    this.setState({ width: newWidth })
+    this.setState({ width: newWidth });
   }
 
   addNode(name) {
@@ -179,7 +183,7 @@ class SankeyWrapper extends React.Component {
     if (this.state.modalContent === 'link') {
       var modalValue = this.state.modalContentLinkValue;
       var header = 'Update Link Weight';
-      var color = 'Change Link Color'
+      var color = 'Change Link Color';
     } else if (this.state.modalContent === 'node') {
       var modalValue = this.state.modalContentNodeName;
       var header = 'Update Node Name';
@@ -203,7 +207,7 @@ class SankeyWrapper extends React.Component {
     return (
       <div>
         <div className="chartContainer">
-          <div className="tools" style={{ width: "15vw" }}>
+          <div className="tools" style={{ width: '15vw' }}>
             <SankeyTools
               nodes={this.props.nodes}
               links={this.props.links}
@@ -223,7 +227,7 @@ class SankeyWrapper extends React.Component {
               emptyDiagram={this.emptyDiagram}
             />
           </div>
-          <div style={{width: "80vw"}}>
+          <div style={{width: '80vw'}}>
             <Sankey
               nodes={this.props.nodes}
               links={this.props.links}
@@ -231,71 +235,74 @@ class SankeyWrapper extends React.Component {
               height={this.state.height}
               width={this.state.width}
             />
+          </div>
+        </div>
+        <div>
+          <Modal
+            closeTimeoutMS={150}
+            isOpen={this.state.modalIsOpen}
+            onRequestClose={this.handleModalCloseRequest}
+            style={modalStyle}
+          >
+            <button className="close" onClick={this.closeModal}>
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h4>{header}</h4>
+            <hr />
+            <input
+              className="form-control"
+              defaultValue={modalValue}
+              onChange={this.handleInputChange}
+            />
+            <hr />
+            <div style={{ marginTop: '2em', marginBottom: '2em' }}>
+              <h4>{color}</h4>
+              <ColorPicker handleColorChange={this.handleColorChange} />
             </div>
-            </div>
-            <div>
-              <Modal
-                closeTimeoutMS={150}
-                isOpen={this.state.modalIsOpen}
-                onRequestClose={this.handleModalCloseRequest}
-                style={modalStyle}
-              >
-                <button className="close" onClick={this.closeModal}>
-                  <span aria-hidden="true">&times;</span>
-                </button>
-                <h4>{header}</h4>
-                <hr />
-                <input
-                  className="form-control"
-                  defaultValue={modalValue}
-                  onChange={this.handleInputChange}
-                />
-                <hr />
-                <div style={{ marginTop: '2em', marginBottom: '2em' }}>
-                  <h4>{color}</h4>
-                  <ColorPicker handleColorChange={this.handleColorChange} />
-                </div>
-                <div className="row">
-                  <div className="col-xs-12">
-                    <button
-                      className="btn btn-primary btn-block"
-                      onClick={this.closeAndSaveModal}
-                    >
+            <div className="row">
+              <div className="col-xs-12">
+                <button
+                  className="btn btn-primary btn-block"
+                  onClick={this.closeAndSaveModal}
+                >
                       Apply Changes
                 </button>
-                  </div>
-                </div>
-              </Modal>
+              </div>
             </div>
-          </div>
-          );
-        }
-      }
-      
+          </Modal>
+        </div>
+      </div>
+    );
+  }
+}
+
+const userId = firebase.auth().currentUser;
+
 const mapStateToProps = storeState => {
   return {
-            nodes: storeState.sankeyChart.nodes,
-          links: storeState.sankeyChart.links,
-          height: storeState.sankeyChart.height,
-          width: storeState.sankeyChart.width
-        };
-      };
-      
+    nodes: storeState.sankeyChart.nodes,
+    links: storeState.sankeyChart.links,
+    height: storeState.sankeyChart.height,
+    width: storeState.sankeyChart.width,
+    userId: storeState.user.user
+  };
+};
+
 const mapDispatchToProps = function (dispatch) {
   return {
-            fetchDefaultData: () => {
+    fetchDefaultData: () => {
       const action = loadDefaultData();
-          dispatch(action);
-        },
+      dispatch(action);
+    },
     clearChart: () => {
       const action = clearData();
-          dispatch(action);
-        },
+      dispatch(action);
+    },
     saveChanges: stateObj => {
       const action = saveChart(stateObj);
-          dispatch(action);
-        }
-      };
-    };
-    
-    export default connect(mapStateToProps, mapDispatchToProps)(SankeyWrapper);
+      dispatch(action);
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SankeyWrapper);
