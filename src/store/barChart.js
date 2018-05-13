@@ -36,7 +36,6 @@ const saveBarChart = success => {
   type: SAVE_BAR_CHART, success;
 };
 
-// const changeTempVal = tempVal => ({ type: CHANGE_TEMP_VAL, tempVal });
 // THUNKS
 
 export const saveBarChartThunk = data => {

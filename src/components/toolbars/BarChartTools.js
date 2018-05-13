@@ -32,7 +32,7 @@ class BarChartTools extends React.Component {
 
   handleSave() {
     const { chartId, data } = this.props;
-    this.props.save(chartId, data);
+    this.props.save(data);
   }
 
   render() {
@@ -61,7 +61,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  save: (chartId, data) => dispatch(saveBarChartThunk(chartId, data))
+  save: data => dispatch(saveBarChartThunk(data))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(BarChartTools);

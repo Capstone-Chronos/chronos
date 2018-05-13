@@ -17,5 +17,5 @@ export async function postBarChartToDatabase(data) {
   let updates = {};
   updates[`/users/${uid}/charts/${newChartKey}`] = newChartKey;
   updates[`charts/${newChartKey}`] = chartInfo;
-  await databaseRef.update(updates).catch(err => console.error(err));
+  return await databaseRef.update(updates).catch(err => console.error(err));
 }
