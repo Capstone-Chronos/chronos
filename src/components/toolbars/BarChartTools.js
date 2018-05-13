@@ -1,7 +1,7 @@
 import React from 'react';
 import store, { addDataPoint } from '../../store';
 import { Button } from 'semantic-ui-react';
-import { BarChartJSONUtil } from '../BarChartUtils/BarChartJSONUtil';
+import { BarChartJSONUtil } from './BarChartUtils/BarChartJSONUtil';
 import { PublishButton } from '../index';
 
 class BarChartTools extends React.Component {
@@ -13,8 +13,6 @@ class BarChartTools extends React.Component {
     this.addDataPoint = this.addDataPoint.bind(this);
     this.updateLocalNodeVal = this.updateLocalNodeVal.bind(this);
   }
-
-  componentDidMount() {}
 
   // Add Data Point functions
 

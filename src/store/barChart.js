@@ -1,11 +1,11 @@
 const initialState = {
   data: [],
   size: 0,
-  tempVal: 0
+  tempVal: 0,
+  barSpacing: 5
 };
 
 const LOAD_DEFAULT_DATA = 'LOAD_DEFAULT_DATA';
-const CHANGE_TEMP_VAL = 'CHANGE_TEMP_VAL';
 const ADD_DATA_POINT = 'ADD_DATA_POINT';
 const SET_BAR_DATA = 'SET_BAR_DATA';
 

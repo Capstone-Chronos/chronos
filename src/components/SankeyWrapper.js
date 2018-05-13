@@ -1,21 +1,18 @@
 import React from 'react';
-import Sankey from './Sankey';
-import SankeyTools from './SankeyTools';
+import { Sankey, SankeyTools, FooterBar, ColorPicker } from '../components';
 import Modal from 'react-modal';
-import addNode from './SankeyUtils/AddNode';
-import addLink from './SankeyUtils/AddLink';
+import addNode from './toolbars/SankeyUtils/AddNode';
+import addLink from './toolbars/SankeyUtils/AddLink';
 import firebase from 'firebase';
-import FooterBar from './SankeyUtils/FooterBar';
 import { connect } from 'react-redux';
-import { loadData, readFile } from './SankeyUtils/utils';
+import { loadData, readFile } from './toolbars/SankeyUtils/utils';
 import { loadDefaultData, clearData, saveChart } from '../store/sankeyChart';
-import ColorPicker from './ColorPicker';
 
 class SankeyWrapper extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      modalIsOpen: false,
+      modalIsOpen: false
     };
 
     this.loadData = loadData.bind(this);
@@ -227,7 +224,7 @@ class SankeyWrapper extends React.Component {
               emptyDiagram={this.emptyDiagram}
             />
           </div>
-          <div style={{width: '80vw'}}>
+          <div style={{ width: '80vw' }}>
             <Sankey
               nodes={this.props.nodes}
               links={this.props.links}
@@ -265,7 +262,7 @@ class SankeyWrapper extends React.Component {
                   className="btn btn-primary btn-block"
                   onClick={this.closeAndSaveModal}
                 >
-                      Apply Changes
+                  Apply Changes
                 </button>
               </div>
             </div>
@@ -288,7 +285,7 @@ const mapStateToProps = storeState => {
   };
 };
 
-const mapDispatchToProps = function (dispatch) {
+const mapDispatchToProps = function(dispatch) {
   return {
     fetchDefaultData: () => {
       const action = loadDefaultData();

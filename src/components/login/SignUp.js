@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Form, Button } from 'semantic-ui-react';
-import { app } from '../base';
-import store, { setUser, signUpUser } from '../store/index';
+import { app } from '../../base';
+import store, { setUser, signUpUser } from '../../store';
 import ErrorMessage from './ErrorMessage';
 
 export default class SignUp extends Component {
