@@ -1,6 +1,9 @@
 import React from 'react';
 import { Sankey, SankeyTools, FooterBar, ColorPicker } from '../components';
 import Modal from 'react-modal';
+import addNode from './toolbars/SankeyUtils/AddNode';
+import addLink from './toolbars/SankeyUtils/AddLink';
+import firebase from 'firebase';
 import { connect } from 'react-redux';
 import { loadData, readFile } from './toolbars/SankeyUtils/utils';
 import { loadDefaultData, clearData, saveChart } from '../store/sankeyChart';
@@ -43,6 +46,7 @@ class SankeyWrapper extends React.Component {
     let updateData = {
       nodes: this.state.nodes || this.props.nodes,
       links: this.state.links || this.props.links,
+      userId: this.props.userId,
       width: this.state.width || this.props.width,
       height: this.state.height || this.props.height
     };
@@ -200,33 +204,37 @@ class SankeyWrapper extends React.Component {
     return (
       <div>
         <div className="chartContainer">
-          <SankeyTools
-            nodes={this.props.nodes}
-            links={this.props.links}
-            addNode={this.addNode}
-            addLink={this.addLink}
-            openModal={this.openModal}
-            handleSubmit={this.handleSubmit}
-            changeHeight={this.changeHeight}
-            changeWidth={this.changeWidth}
-            currentHeight={this.state.height}
-            currentWidth={this.state.width}
-          />
-          <Sankey
-            nodes={this.props.nodes}
-            links={this.props.links}
-            openModal={this.openModal}
-            height={this.state.height}
-            width={this.state.width}
-          />
+          <div className="tools" style={{ width: '15vw' }}>
+            <SankeyTools
+              nodes={this.props.nodes}
+              links={this.props.links}
+              addNode={this.addNode}
+              addLink={this.addLink}
+              openModal={this.openModal}
+              handleSubmit={this.handleSubmit}
+              changeHeight={this.changeHeight}
+              changeWidth={this.changeWidth}
+              currentHeight={this.state.height}
+              currentWidth={this.state.width}
+            />
+            <FooterBar
+              nodes={this.props.nodes}
+              links={this.props.links}
+              readFile={this.readFile}
+              emptyDiagram={this.emptyDiagram}
+            />
+          </div>
+          <div style={{ width: '80vw' }}>
+            <Sankey
+              nodes={this.props.nodes}
+              links={this.props.links}
+              openModal={this.openModal}
+              height={this.state.height}
+              width={this.state.width}
+            />
+          </div>
         </div>
         <div>
-          <FooterBar
-            nodes={this.props.nodes}
-            links={this.props.links}
-            readFile={this.readFile}
-            emptyDiagram={this.emptyDiagram}
-          />
           <Modal
             closeTimeoutMS={150}
             isOpen={this.state.modalIsOpen}
@@ -265,12 +273,15 @@ class SankeyWrapper extends React.Component {
   }
 }
 
+const userId = firebase.auth().currentUser;
+
 const mapStateToProps = storeState => {
   return {
     nodes: storeState.sankeyChart.nodes,
     links: storeState.sankeyChart.links,
     height: storeState.sankeyChart.height,
-    width: storeState.sankeyChart.width
+    width: storeState.sankeyChart.width,
+    userId: storeState.user.user
   };
 };
 

@@ -1,0 +1,14 @@
+{
+    "nodes": [
+    {"node":1,"name":"AA"},
+    {"node":2,"name":"BB"},
+    {"node":3,"name":"XX"},
+    {"node":4,"name":"YY"}
+    ],
+    "links": [
+    {"target":3,"source":1,"value":300},
+    {"target":4,"source":2,"value":0},
+    {"target":3,"source":2,"value":0},
+    {"target":4,"source":2,"value":200}
+    ]
+}

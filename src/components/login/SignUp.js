@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Form, Button } from 'semantic-ui-react';
 import { app } from '../../base';
-import store, { setUser } from '../../store';
+import store, { setUser, signUpUser } from '../../store';
 import ErrorMessage from './ErrorMessage';
 
 export default class SignUp extends Component {
@@ -34,9 +34,8 @@ export default class SignUp extends Component {
           throw Error('Email already exists');
         }
       })
-      .then(user => user.providerData[0])
       .then(user => {
-        store.dispatch(setUser(user.uid));
+        store.dispatch(signUpUser(user));
         this.setState({ redirect: true });
       })
       .catch(error => {
