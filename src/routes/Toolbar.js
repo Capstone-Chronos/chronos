@@ -1,7 +1,7 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-
-import { BarChartTools, SankeyTools } from '../components';
+import { SankeyTools } from '../components';
+import { BarChartTools } from '../components/toolbars';
 
 const Toolbar = () => (
   <Switch>
