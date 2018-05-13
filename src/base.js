@@ -1,4 +1,4 @@
-import Rebase from 're-base';
+// import Rebase from 're-base';
 import firebase from 'firebase';
 
 // const config = {
@@ -20,7 +20,15 @@ const config = {
 };
 
 const app = firebase.initializeApp(config);
-const base = Rebase.createClass(app.database());
+// const base = Rebase.createClass(app.database());
+
+
+//REFS
+const databaseRef = firebase.database().ref();
+const userRef = databaseRef.child('users')
+const chartsRef = databaseRef.child('charts')
+
 const googleProvider = new firebase.auth.GoogleAuthProvider();
 
-export { app, base, googleProvider };
+
+export { app, googleProvider, userRef, chartsRef };

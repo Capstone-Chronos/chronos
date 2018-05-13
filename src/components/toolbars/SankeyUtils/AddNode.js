@@ -1,17 +1,15 @@
 import React from 'react';
 
-
 export default class extends React.Component {
   constructor() {
-    super()
-    
+    super();
+
     this.state = {
-      name: '' 
+      name: ''
     };
 
-    this.handleChange = this.handleChange.bind(this);  
+    this.handleChange = this.handleChange.bind(this);
   }
-  
 
   componentWillReceiveProps(nextProps) {
     this.setState({
@@ -19,15 +17,13 @@ export default class extends React.Component {
     });
   }
 
-
   handleChange(key) {
-    return (e) => {
+    return e => {
       var state = {};
       state[key] = e.target.value;
       this.setState(state);
     };
   }
-
 
   render() {
     var defaultValue = this.state.name;
@@ -37,11 +33,13 @@ export default class extends React.Component {
         <input
           className="form-control"
           value={defaultValue}
-          onChange={this.handleChange('name')} 
+          onChange={this.handleChange('name')}
         />
         <span className="input-group-btn">
-          <button className="btn btn-primary"
-            onClick={this.props.addNode.bind(null, this.state.name)}>
+          <button
+            className="btn btn-primary"
+            onClick={this.props.addNode.bind(null, this.state.name)}
+          >
             Add Node
           </button>
         </span>
