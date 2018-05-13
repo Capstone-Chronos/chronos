@@ -1,5 +1,5 @@
 import React from 'react';
-import SingleSelection from './SingleSelection';
+import { SingleSelection } from '../../components';
 
 const timelines = [
   { id: 1, name: 'Bar Chart', route: 'edit/barchart' },

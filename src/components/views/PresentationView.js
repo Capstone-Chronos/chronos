@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { PublishButton, SankeyWrapper, BarChart } from './index';
+import { PublishButton, SankeyWrapper, BarChart } from '../../components';
 import { Grid, Column } from 'semantic-ui-react';
 
 class PresentationView extends React.Component {

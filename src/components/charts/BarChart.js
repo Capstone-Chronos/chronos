@@ -2,7 +2,7 @@ import React from 'react';
 import { scaleLinear } from 'd3-scale';
 import { max } from 'd3-array';
 import { select } from 'd3-selection';
-import store, { loadDefaultData } from '../store/index';
+import store, { loadDefaultData } from '../../store';
 import { connect } from 'react-redux';
 import ReactFauxDOM from 'react-faux-dom';
 import d3 from 'd3';

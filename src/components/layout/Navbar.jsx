@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, Dropdown, Segment } from 'semantic-ui-react';
-import store, { logOutThunk } from '../store';
+import store, { logOutThunk } from '../../store';
 import { connect } from 'react-redux';
 
 const Navbar = ({ handleClick, isLoggedIn, user, logout }) => {

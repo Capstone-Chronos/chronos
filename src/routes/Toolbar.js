@@ -1,11 +1,11 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
-import { BarTools } from './toolbars';
+import { BarChartTools } from '../components';
 
 const Toolbar = () => (
   <Switch>
-    <Route path="/edit/barchart" component={BarTools} />
+    <Route path="/edit/barchart" component={BarChartTools} />
   </Switch>
 );
 

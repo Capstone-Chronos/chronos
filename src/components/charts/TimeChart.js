@@ -3,7 +3,7 @@ import ReactFauxDOM from 'react-faux-dom';
 import * as d3 from 'd3';
 import _ from 'lodash';
 
-export default class Sankey extends React.Component {
+export default class TimeChart extends React.Component {
   constructor(props) {
     super(props);
     this.state = {

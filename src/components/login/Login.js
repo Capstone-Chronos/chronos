@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import { app, googleProvider } from '../base';
+import { app, googleProvider } from '../../base';
 import { connect } from 'react-redux';
-import store, { setUser } from '../store/index';
+import store, { setUser } from '../../store';
 import ErrorMessage from './ErrorMessage';
 
 class Login extends Component {

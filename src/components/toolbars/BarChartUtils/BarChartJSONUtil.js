@@ -1,6 +1,6 @@
 import React from 'react';
 import request from 'superagent';
-import store, { setBarData } from '../../store';
+import store, { setBarData } from '../../../store';
 import { connect } from 'react-redux';
 import { Button } from 'semantic-ui-react';
 

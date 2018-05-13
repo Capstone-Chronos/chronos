@@ -1,7 +1,7 @@
 import React from 'react';
 import { Table } from 'semantic-ui-react';
-import Canvas from './Canvas';
-import Toolbar from './Toolbar';
+import { Canvas } from '../../components';
+import { Toolbar } from '../../components';
 
 const Editor = () => (
   <Table className="editor">
