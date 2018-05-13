@@ -9,7 +9,6 @@ export async function postBarChartToDatabase(data) {
     data,
     uid
   };
-
   const newChartKey = await userRef
     .child(uid)
     .child('charts')
