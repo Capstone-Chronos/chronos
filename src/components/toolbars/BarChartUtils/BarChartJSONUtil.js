@@ -8,7 +8,7 @@ export default class BarChartJSONUtil extends React.Component {
   render() {
     return (
       <div className="bar-json-util">
-        <Button onClick={this.props.emptyDiagram}>RESET CHART </Button>
+        <Button onClick={store.dispatch(setBarData([]))}>RESET CHART </Button>
         <BarExportJSONContainer />
         <BarImportJSON />
       </div>
@@ -39,10 +39,10 @@ const BarExportJSONContainer = connect(mapStateToProps)(BarExportJSON);
 class BarImportJSON extends React.Component {
   constructor(props) {
     super(props);
-    this.readFile = this.readFile.bind(this);
     this.state = {
       filepath: ''
     };
+    this.readFile = this.readFile.bind(this);
   }
 
   readFile(e) {
@@ -66,8 +66,18 @@ class BarImportJSON extends React.Component {
   render() {
     return (
       <div>
-        <Button> Import JSON </Button>
-        <input type="file" onChange={this.readFile} />
+        <div>
+          <label for="file" class="ui icon button" onChange={this.readFile}>
+            <i class="file icon" />
+            Import JSON
+          </label>
+          <input
+            type="file"
+            id="file"
+            style={{ display: 'none' }}
+            onChange={this.readFile}
+          />
+        </div>
       </div>
     );
   }
