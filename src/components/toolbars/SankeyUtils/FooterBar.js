@@ -16,7 +16,7 @@ export default class extends React.Component {
               links={this.props.links}
             />
             <hr />
-            <ImportJSON readFile={this.props.readFile}/>
+            <ImportJSON readFile={this.props.readFile} />
             <div></div>
           </div>
         </div>
