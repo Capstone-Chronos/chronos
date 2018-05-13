@@ -222,10 +222,10 @@ class SankeyWrapper extends React.Component {
               links={this.props.links}
               readFile={this.readFile}
               emptyDiagram={this.emptyDiagram}
-              updateData={this.props.uploadData}
             />
           </div>
           <div style={{ width: '80vw' }}>
+            <h2>{this.props.title || "New Sankey Diagram"}</h2>
             <Sankey
               nodes={this.props.nodes}
               links={this.props.links}
@@ -286,7 +286,7 @@ const mapStateToProps = storeState => {
   };
 };
 
-const mapDispatchToProps = function(dispatch) {
+const mapDispatchToProps = function (dispatch) {
   return {
     fetchDefaultData: () => {
       const action = loadDefaultData();
