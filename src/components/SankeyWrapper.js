@@ -6,7 +6,7 @@ import addLink from './toolbars/SankeyUtils/AddLink';
 import firebase from 'firebase';
 import { connect } from 'react-redux';
 import { loadData, readFile } from './toolbars/SankeyUtils/utils';
-import { loadDefaultData, clearData, saveChart } from '../store/sankeyChart';
+import { loadDefaultData, clearData, saveChart, importData } from '../store/sankeyChart';
 
 class SankeyWrapper extends React.Component {
   constructor(props) {
@@ -222,6 +222,7 @@ class SankeyWrapper extends React.Component {
               links={this.props.links}
               readFile={this.readFile}
               emptyDiagram={this.emptyDiagram}
+              updateData={this.props.uploadData}
             />
           </div>
           <div style={{ width: '80vw' }}>
@@ -297,6 +298,10 @@ const mapDispatchToProps = function(dispatch) {
     },
     saveChanges: stateObj => {
       const action = saveChart(stateObj);
+      dispatch(action);
+    },
+    uploadData: data => {
+      const action = importData(data);
       dispatch(action);
     }
   };

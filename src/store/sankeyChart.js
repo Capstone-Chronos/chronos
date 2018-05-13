@@ -36,6 +36,11 @@ export const loadDefaultData = () => ({
   data: defaultData
 });
 
+export const importData = (data) => ({
+  type: UPDATE_DATA,
+  data: data
+})
+
 export const clearData = () => ({
   type: UPDATE_DATA,
   data: empty

@@ -63,7 +63,7 @@ export default class TimeChart extends React.Component {
       .data(myData)
       .enter()
       .append('circle')
-      .attr('transform', 'translate(0,' + (height / 2) + ')')
+      .attr('transform', 'translate(0,' + (-20) + ')')
       .attr('r', 5)
       .attr('cy', 8)
       .attr('cx', function (d) {
@@ -77,7 +77,7 @@ export default class TimeChart extends React.Component {
       .data(myData)
       .enter()
       .append('text')
-      .attr('transform', 'translate(0,' + (height / 2) + ')')
+      .attr('transform', 'translate(0,' +(-20) + ')')
       .attr('x', function (d) {
         return timeScale(d);
       })
