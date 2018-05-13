@@ -203,95 +203,99 @@ class SankeyWrapper extends React.Component {
     return (
       <div>
         <div className="chartContainer">
-          <SankeyTools
-            nodes={this.props.nodes}
-            links={this.props.links}
-            addNode={this.addNode}
-            addLink={this.addLink}
-            openModal={this.openModal}
-            handleSubmit={this.handleSubmit}
-            changeHeight={this.changeHeight}
-            changeWidth={this.changeWidth}
-            currentHeight={this.state.height}
-            currentWidth={this.state.width}
-          />
-          <Sankey
-            nodes={this.props.nodes}
-            links={this.props.links}
-            openModal={this.openModal}
-            height={this.state.height}
-            width={this.state.width}
-          />
-        </div>
-        <div>
-          <FooterBar
-            nodes={this.props.nodes}
-            links={this.props.links}
-            readFile={this.readFile}
-            emptyDiagram={this.emptyDiagram}
-          />
-          <Modal
-            closeTimeoutMS={150}
-            isOpen={this.state.modalIsOpen}
-            onRequestClose={this.handleModalCloseRequest}
-            style={modalStyle}
-          >
-            <button className="close" onClick={this.closeModal}>
-              <span aria-hidden="true">&times;</span>
-            </button>
-            <h4>{header}</h4>
-            <hr />
-            <input
-              className="form-control"
-              defaultValue={modalValue}
-              onChange={this.handleInputChange}
+          <div className="tools" style={{ width: "15vw" }}>
+            <SankeyTools
+              nodes={this.props.nodes}
+              links={this.props.links}
+              addNode={this.addNode}
+              addLink={this.addLink}
+              openModal={this.openModal}
+              handleSubmit={this.handleSubmit}
+              changeHeight={this.changeHeight}
+              changeWidth={this.changeWidth}
+              currentHeight={this.state.height}
+              currentWidth={this.state.width}
             />
-            <hr />
-            <div style={{ marginTop: '2em', marginBottom: '2em' }}>
-              <h4>{color}</h4>
-              <ColorPicker handleColorChange={this.handleColorChange}/>
+            <FooterBar
+              nodes={this.props.nodes}
+              links={this.props.links}
+              readFile={this.readFile}
+              emptyDiagram={this.emptyDiagram}
+            />
+          </div>
+          <div style={{width: "80vw"}}>
+            <Sankey
+              nodes={this.props.nodes}
+              links={this.props.links}
+              openModal={this.openModal}
+              height={this.state.height}
+              width={this.state.width}
+            />
             </div>
-            <div className="row">
-              <div className="col-xs-12">
-                <button
-                  className="btn btn-primary btn-block"
-                  onClick={this.closeAndSaveModal}
-                >
-                  Apply Changes
+            </div>
+            <div>
+              <Modal
+                closeTimeoutMS={150}
+                isOpen={this.state.modalIsOpen}
+                onRequestClose={this.handleModalCloseRequest}
+                style={modalStyle}
+              >
+                <button className="close" onClick={this.closeModal}>
+                  <span aria-hidden="true">&times;</span>
                 </button>
-              </div>
+                <h4>{header}</h4>
+                <hr />
+                <input
+                  className="form-control"
+                  defaultValue={modalValue}
+                  onChange={this.handleInputChange}
+                />
+                <hr />
+                <div style={{ marginTop: '2em', marginBottom: '2em' }}>
+                  <h4>{color}</h4>
+                  <ColorPicker handleColorChange={this.handleColorChange} />
+                </div>
+                <div className="row">
+                  <div className="col-xs-12">
+                    <button
+                      className="btn btn-primary btn-block"
+                      onClick={this.closeAndSaveModal}
+                    >
+                      Apply Changes
+                </button>
+                  </div>
+                </div>
+              </Modal>
             </div>
-          </Modal>
-        </div>
-      </div>
-    );
-  }
-}
-
+          </div>
+          );
+        }
+      }
+      
 const mapStateToProps = storeState => {
   return {
-    nodes: storeState.sankeyChart.nodes,
-    links: storeState.sankeyChart.links,
-    height: storeState.sankeyChart.height,
-    width: storeState.sankeyChart.width
-  };
-};
-
+            nodes: storeState.sankeyChart.nodes,
+          links: storeState.sankeyChart.links,
+          height: storeState.sankeyChart.height,
+          width: storeState.sankeyChart.width
+        };
+      };
+      
 const mapDispatchToProps = function (dispatch) {
   return {
-    fetchDefaultData: () => {
+            fetchDefaultData: () => {
       const action = loadDefaultData();
-      dispatch(action);
-    },
+          dispatch(action);
+        },
     clearChart: () => {
       const action = clearData();
-      dispatch(action);
-    },
+          dispatch(action);
+        },
     saveChanges: stateObj => {
       const action = saveChart(stateObj);
-      dispatch(action);
-    }
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(SankeyWrapper);
+          dispatch(action);
+        }
+      };
+    };
+    
+    export default connect(mapStateToProps, mapDispatchToProps)(SankeyWrapper);
