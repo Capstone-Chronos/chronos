@@ -266,7 +266,7 @@ class SankeyWrapper extends React.Component {
                   onClick={this.closeAndSaveModal}
                 >
                       Apply Changes
-                    </button>
+                </button>
               </div>
             </div>
           </Modal>

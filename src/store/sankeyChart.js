@@ -66,7 +66,7 @@ export const saveChart = (data) => async dispatch => {
     data,
     uid
   }
-  console.log('chartInfo', chartInfo, chartsRef.children)
+  console.log('chartInfo', chartInfo)
   // console.log('nnnnnn', userRef.ref(uid).child('charts'))
   // console.log('aaaaaaa', userRef.child(uid).child('charts').value)
   // userRef.child(userId).child('charts').value.push(data)
