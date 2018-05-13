@@ -8,7 +8,9 @@ export default class BarChartJSONUtil extends React.Component {
   render() {
     return (
       <div className="bar-json-util">
-        <Button onClick={store.dispatch(setBarData([]))}>RESET CHART </Button>
+        <Button onClick={() => store.dispatch(setBarData([]))}>
+          RESET CHART{' '}
+        </Button>
         <BarExportJSONContainer />
         <BarImportJSON />
       </div>
@@ -67,8 +69,8 @@ class BarImportJSON extends React.Component {
     return (
       <div>
         <div>
-          <label for="file" class="ui icon button" onChange={this.readFile}>
-            <i class="file icon" />
+          <label for="file" className="ui icon button" onChange={this.readFile}>
+            <i className="file icon" />
             Import JSON
           </label>
           <input

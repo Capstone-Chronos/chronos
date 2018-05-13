@@ -31,12 +31,13 @@ class BarChart extends React.Component {
     const { x, y, width, height, preserveAspectRatio } = this.state;
     const padding = 30;
     const node = this.node;
-    const dataMax = data ? max(data) : 100;
+    const dataMax = data ? Math.max(...data) : 100;
+    const barPadding = this.props.barSpacing;
 
     // Create Scales
     const yScale = scaleLinear()
       .domain([0, dataMax])
-      .range([padding, height - padding]);
+      .range([0, height - padding * 4]);
 
     // ========================================================================
     // Initialize and append the svg canvas to faux-DOM
@@ -68,10 +69,10 @@ class BarChart extends React.Component {
       )
       .attr('y', d => {
         console.log(d);
-        return padding + height - yScale(d);
-      })
-      .attr('height', d => yScale(d) - padding * 3)
-      .attr('width', (width - padding * 4) / data.length);
+        return height - padding * 2 - yScale(d);
+      }) // Padding plus
+      .attr('height', d => yScale(d))
+      .attr('width', (width - padding * 4) / data.length - barPadding);
 
     // Add border
     svg
@@ -99,7 +100,8 @@ class BarChart extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  data: state.barChart.data
+  data: state.barChart.data,
+  barSpacing: state.barChart.barSpacing
 });
 
 const mapDispatchToProps = dispatch => ({});

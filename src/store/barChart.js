@@ -1,7 +1,8 @@
 const initialState = {
   data: [],
   size: 0,
-  tempVal: 0
+  tempVal: 0,
+  barSpacing: 5
 };
 
 const LOAD_DEFAULT_DATA = 'LOAD_DEFAULT_DATA';
