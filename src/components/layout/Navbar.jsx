@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, Dropdown, Segment } from 'semantic-ui-react';
-import store, { logOutThunk } from '../../store';
+import { logOutThunk } from '../../store';
 import { connect } from 'react-redux';
 
 const Navbar = ({ handleClick, isLoggedIn, user, logout }) => {
@@ -14,7 +14,7 @@ const Navbar = ({ handleClick, isLoggedIn, user, logout }) => {
             {/* The navbar will show these links after you log in */}
             <Menu inverted>
               <Menu.Item as={Link} to="/" name="Home" />
-              <Menu.Item as={Link} to="/timelines" name="Timelines" />
+              <Menu.Item as={Link} to="/charts" name="Charts" />
               {admin ? (
                 <Menu.Item as={Link} to="/admin-dash" name="Admin" />
               ) : null}
@@ -33,7 +33,7 @@ const Navbar = ({ handleClick, isLoggedIn, user, logout }) => {
           <Menu inverted>
             {/* The navbar will show these links before you log in */}
             <Menu.Item as={Link} to="/" name="Home" />
-            <Menu.Item as={Link} to="/timelines" name="Timelines" />
+            <Menu.Item as={Link} to="/charts" name="Charts" />
             <Menu.Menu position="right">
               <Menu.Item as={Link} to="/login" name="Login" />
               <Menu.Item as={Link} to="signup" name="Signup" />

@@ -1,5 +1,5 @@
 import React from 'react';
-import request from 'superagent';
+// import request from 'superagent';
 import store, { setBarData } from '../../../store';
 import { connect } from 'react-redux';
 import { Button } from 'semantic-ui-react';
@@ -73,21 +73,21 @@ class BarImportJSON extends React.Component {
   }
 }
 
-function loadData(path) {
-  request.get(path).end((err, res) => {
-    if (err) {
-      console.log(err);
-    }
+// function loadData(path) {
+//   request.get(path).end((err, res) => {
+//     if (err) {
+//       console.log(err);
+//     }
 
-    var nodes = res.body.data.map((node, i) => {
-      if (!node.node) {
-        node.node = i;
-      }
-      return node;
-    });
+//     var nodes = res.body.data.map((node, i) => {
+//       if (!node.node) {
+//         node.node = i;
+//       }
+//       return node;
+//     });
 
-    store.dipatch(setBarData({ nodes }));
-  });
-}
+//     store.dipatch(setBarData({ nodes }));
+//   });
+// }
 
 export { BarChartJSONUtil };

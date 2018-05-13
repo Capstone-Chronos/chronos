@@ -14,14 +14,13 @@ export { default as Login } from './login/Login';
 export { default as SignUp } from './login/SignUp';
 
 // View Components
-export { default as AllTimelines } from './views/AllTimelines';
+export { default as AllProjects } from './views/AllProjects';
 export { default as Editor } from './views/Editor';
 export { default as Main } from './views/Main.jsx';
 export { default as PresentationView } from './views/PresentationView';
 
 // Routing Components
 export { default as Canvas } from '../routes/Canvas';
-export { default as EditorRouter } from '../routes/EditorRouter';
 export { default as Toolbar } from '../routes/Toolbar';
 
 // Combination Components

@@ -2,9 +2,9 @@ import React from 'react';
 import { SingleSelection } from '../../components';
 
 const timelines = [
-  { id: 1, name: 'Bar Chart', route: 'edit/barchart' },
-  { id: 2, name: 'Pie Chart', route: 'piechart' },
-  { id: 3, name: 'Sankey Diagram', route: 'sankey' }
+  { id: 1, name: 'Bar Chart', type: 'barchart' },
+  { id: 2, name: 'Pie Chart', type: 'piechart' },
+  { id: 3, name: 'Sankey Diagram', type: 'sankey' }
 ];
 
 export default class Allcharts extends React.Component {
@@ -18,7 +18,7 @@ export default class Allcharts extends React.Component {
   }
 
   componentDidMount() {
-    // this.props.fetchAllTimelines();
+    // this.props.fetchAllProjects();
     // this.props.fetchTemplates();
     // this.props.fetchUserProjects();
   }
@@ -39,7 +39,8 @@ export default class Allcharts extends React.Component {
               <SingleSelection
                 key={timeline.id}
                 name={timeline.name}
-                url={timeline.route}
+                type={timeline.type}
+                url={`/edit/${timeline.type}`}
               />
             ))}
           </div>
@@ -53,7 +54,8 @@ export default class Allcharts extends React.Component {
                 <SingleSelection
                   key={timeline.id}
                   name={timeline.name}
-                  url={timeline.route}
+                  type={timeline.type}
+                  url={`/view/${timeline.type}/${timeline.name}`}
                 />
               ))}
           </div>
@@ -65,7 +67,8 @@ export default class Allcharts extends React.Component {
               <SingleSelection
                 key={timeline.id}
                 name={timeline.name}
-                url={`/show/${timeline.id}`}
+                type={timeline.type}
+                url={`/show/${timeline.type}/${timeline.id}`}
               />
             ))}
           </div>
