@@ -1,4 +1,4 @@
-import { userRef, chartsRef, app } from '../base';
+import { postBarChartToDatabase } from '../database/barChart';
 
 const initialState = {
   data: [],
@@ -39,28 +39,11 @@ const saveBarChart = success => {
 // const changeTempVal = tempVal => ({ type: CHANGE_TEMP_VAL, tempVal });
 // THUNKS
 
-export const saveBarChartThunk = (chartId, data) => {
-  return async dispatch => {
-    try {
-      const uid = await app.auth().currentUser.uid;
-      if (!chartId) {
-        chartId = await userRef(`${uid}/charts`).push().key;
-      }
-      const chartInfo = {
-        chartType: 'Bar',
-        isPublished: false,
-        chartIdKey: chartId,
-        data,
-        uid
-      };
-      await userRef
-        .child(uid)
-        .child('charts')
-        .child(chartId);
-      await chartsRef.child(chartId).set(chartInfo);
-    } catch (err) {
-      throw err;
-    }
+export const saveBarChartThunk = data => {
+  return dispatch => {
+    postBarChartToDatabase(data)
+      .then(res => console.log(res))
+      .catch(err => console.error(err));
   };
 };
 
