@@ -5,17 +5,20 @@ import _ from 'lodash';
 import { scaleTime } from 'd3-scale';
 import { axisBottom } from 'd3-axis';
 
+var myData = { dates: [{ date: new Date(2016, 0, 1) }, { date: new Date(2016, 3, 1) }, { date: new Date(2016, 6, 1) }, { date: new Date(2017, 0, 1) }] }
+
 export default class TimeChart extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      nodes: this.props.nodes,
-      links: this.props.links,
       width: 1400,
       height: 800
     };
   }
 
+  componentWillMount() {
+    this.setState({ dates: myData.dates })
+  }
 
 
   componentWillReceiveProps(nextProps) {
@@ -52,45 +55,44 @@ export default class TimeChart extends React.Component {
       .range([0, 700]);
 
     var xAxis = d3.svg.axis()
-      .scale(timeScale)
-
-    var myData = [new Date(2016, 0, 1), new Date(2016, 3, 1), new Date(2016, 6, 1), new Date(2017, 0, 1)];
+      .scale(timeScale);
 
     // Attach event markers to DOM
     svg
       .append('g')
       .selectAll('circle')
-      .data(myData)
+      .data(this.state.dates)
       .enter()
       .append('circle')
       .attr('transform', 'translate(0,' + (-20) + ')')
       .attr('r', 5)
       .attr('cy', 8)
       .attr('cx', function (d) {
-        return timeScale(d);
+        return timeScale(d.date);
       });
 
     //Attach labels to event markers
     svg
       .append('g')
       .selectAll('text')
-      .data(myData)
+      .data(this.state.dates)
       .enter()
       .append('text')
-      .attr('transform', 'translate(0,' +(-20) + ')')
+      .attr('transform', 'translate(0,' + (-20) + ')')
       .attr('x', function (d) {
-        return timeScale(d);
+        return timeScale(d.date);
       })
       .text(function (d) {
-        return d.toDateString();
+        return d.date.toDateString();
       });
 
     //Create xAxis by passing in timeScale and attach to DOM
     svg
       .attr('class', 'axis')
       .attr('transform', 'translate(0,' + (height / 2) + ')')
+      .attr('width', width + margin.left + margin.right)
       .append('g')
-      .call(xAxis)
+      .call(xAxis);
 
     return svgNode.toReact();
   }
