@@ -1,64 +1,76 @@
 import React from 'react';
 import SingleSelection from './SingleSelection';
-// import { Card } from 'semantic-ui-react';
-// import { fetchTimelines } from '../store';
 
 const timelines = [
-  { id: 1, name: 'Bar Chart', url: '/' },
-  { id: 2, name: 'timeline 2' },
-  { id: 3, name: 'timeline 3' }
+  { id: 1, name: 'Bar Chart', route: 'edit/barchart' },
+  { id: 2, name: 'Pie Chart', route: 'piechart' },
+  { id: 3, name: 'Sankey Diagram', route: 'sankey' }
 ];
 
-export default class AllTimelines extends React.Component {
+export default class Allcharts extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      timelines: [
-        { id: 1, name: 'Bar Chart', route: 'barchart' },
-        { id: 1, name: 'Pie Chart', route: 'piechart' },
-        { id: 3, name: 'Sankey Diagram', route: 'sankey' }
-      ]
+      templates: timelines,
+      userProjects: timelines,
+      allCharts: timelines
     };
   }
 
   componentDidMount() {
     // this.props.fetchAllTimelines();
+    // this.props.fetchTemplates();
+    // this.props.fetchUserProjects();
   }
 
   render() {
-    let timelines = this.state.timelines;
+    let { templates, userProjects, allCharts } = this.state;
+    const chart = {
+      id: 123,
+      title: 'MySankey',
+      url: '/1/sanket'
+    };
     return (
-      <div>
-        <h2 className="title">Select a Timeline to View</h2>
-        <div className="grid-list">
-          {timelines.map(timeline => (
-            <SingleSelection
-              key={timeline.id}
-              name={timeline.name}
-              url={timeline.route}
-            />
-          ))}
+      <div className="chart-group-containter">
+        <div>
+          <h2 className="title">Create Project from Template</h2>
+          <div className="grid-list">
+            {templates.map(timeline => (
+              <SingleSelection
+                key={timeline.id}
+                name={timeline.name}
+                url={timeline.route}
+              />
+            ))}
+          </div>
+        </div>
+        <div>
+          <h2 className="title">My Saved Projects</h2>
+          <div className="grid-list">
+            {userProjects
+              .reverse()
+              .map(timeline => (
+                <SingleSelection
+                  key={timeline.id}
+                  name={timeline.name}
+                  url={timeline.route}
+                />
+              ))}
+          </div>
+        </div>
+        <div>
+          <h2 className="title">Published Charts</h2>
+          <div className="grid-list">
+            {allCharts.map(timeline => (
+              <SingleSelection
+                key={timeline.id}
+                name={timeline.name}
+                url={`/show/${timeline.id}`}
+              />
+            ))}
+          </div>
         </div>
       </div>
     );
   }
 }
-
-/**
- * CONTAINER
- */
-// const mapState = state => {
-//   return {
-//     timelines: state.timelines
-//   };
-// };
-
-// const mapDispatch = function(dispatch) {
-//   return {
-//     fetchAllTimelines: function() {
-//       return dispatch(fetchTimelines());
-//     }
-//   };
-// };
-
-// export default connect(mapState, mapDispatch)(AllTimelines);

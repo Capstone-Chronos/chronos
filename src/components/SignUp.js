@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import { Form, Button } from 'semantic-ui-react';
-import { Redirect } from 'react-router-dom';
-import { Position, Toaster, Intent } from '@blueprintjs/core';
-import { app, googleProvider } from '../base';
-import { connect } from 'react-redux';
+import { app } from '../base';
 import store, { setUser, signUpUser } from '../store/index';
 import ErrorMessage from './ErrorMessage';
 
@@ -15,23 +12,6 @@ export default class SignUp extends Component {
       errorMessage: ''
     };
     this.signUp = this.signUp.bind(this);
-  }
-
-  authWithGoogle() {
-    app
-      .auth()
-      .signInWithPopup(googleProvider)
-      .then((user, error) => {
-        if (error) {
-          this.toaster.show({
-            intent: Intent.DANGER,
-            message: 'Unable to sign in with Google'
-          });
-        } else {
-          this.props.setCurrentUser(user);
-          this.setState({ redirect: true });
-        }
-      });
   }
 
   signUp(event) {

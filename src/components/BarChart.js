@@ -4,11 +4,19 @@ import { max } from 'd3-array';
 import { select } from 'd3-selection';
 import store, { loadDefaultData } from '../store/index';
 import { connect } from 'react-redux';
-import { GROUPED_BAR_CHART } from '@blueprintjs/icons/lib/esm/generated/iconNames';
+import ReactFauxDOM from 'react-faux-dom';
+import d3 from 'd3';
 
 class BarChart extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      x: 0,
+      y: 0,
+      width: window.innerWidth * 0.7,
+      height: window.innerHeight * 0.7,
+      preserveAspectRatio: 'none' //preserve Aspect ratio
+    };
     this.createBarChart = this.createBarChart.bind(this);
   }
   componentDidMount() {
@@ -21,51 +29,83 @@ class BarChart extends React.Component {
 
   createBarChart() {
     const { data } = this.props;
-    let size = [window.innerWidth * 0.7, window.innerHeight / 2];
+    const { x, y, width, height, preserveAspectRatio } = this.state;
+    const padding = 30;
     const node = this.node;
     const dataMax = max(data ? data : [0]);
+
+    // Create Scales
     const yScale = scaleLinear()
       .domain([0, dataMax])
-      .range([0, size[1]]);
-    select(node)
-      .selectAll('rect')
-      .data(data)
-      .enter()
-      .append('rect');
+      .range([padding, height - padding]);
 
-    select(node)
-      .selectAll('rect')
-      .data(data)
-      .exit()
-      .remove();
+    // ========================================================================
+    // Initialize and append the svg canvas to faux-DOM
+    // ========================================================================
+    const svgNode = ReactFauxDOM.createElement('div');
 
-    select(node)
-      .selectAll('rect')
+    const svg = d3
+      .select(svgNode)
+      .append('svg')
+      .attr('className', 'svg-content')
+      .attr('viewBox', `${x} ${y} ${width} ${height}`)
+      .attr('preserveAspectRatio', preserveAspectRatio);
+
+    // Add Bars
+    const bars = svg
+      .append('g')
+      .selectAll('.bar')
       .data(data)
+      .enter();
+
+    bars
+      .append('rect')
       .style('fill', '#fe9922')
-      .attr('x', (d, i) => i * 25)
-      .attr('y', d => size[1] - yScale(d))
-      .attr('height', d => yScale(d))
-      .attr('width', 25);
+      .style('stroke', '#252525')
+      .attr('className', 'node')
+      .attr(
+        'x',
+        (d, i) => padding * 2 + i * (width - padding * 4) / data.length
+      )
+      .attr('y', d => padding + height - yScale(d))
+      .attr('height', d => yScale(d) - padding * 3)
+      .attr('width', (width - padding * 4) / data.length);
+
+    // Add border
+    svg
+      .append('rect')
+      .attr('x', padding)
+      .attr('y', padding)
+      .attr('height', height - padding * 2)
+      .attr('width', width - padding * 2)
+      .style('stroke', 'lightgrey')
+      .style('fill', 'none')
+      .style('stroke-width', 4);
+
+    return svgNode.toReact();
   }
 
   render() {
+    // return this.createBarChart();
+    const { x, y, width, height, preserveAspectRatio } = this.state;
     return (
-      <div className="chartContainer">
-        <svg
-          id="barchart"
-          ref={node => (this.node = node)}
-          width={window.innerHeight / 2}
-          height={window.innerWidth * 0.7}
-          style={{ marginTop: 20, marginLeft: 20 }}
-        />
+      <div className="svg-container">
+        <div className="svg-centered">
+          {this.createBarChart()}
+          {/* <svg
+            className="svg-content"
+            ref={node => (this.node = node)}
+            viewBox={`${x} ${y} ${width} ${height}`}
+            preserveAspectRatio={preserveAspectRatio}
+          /> */}
+        </div>
       </div>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  data: state.BarChart.data
+  data: state.barChart.data
 });
 
 const mapDispatchToProps = dispatch => ({});

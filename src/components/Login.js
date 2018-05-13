@@ -1,30 +1,19 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import { Position, Toaster, Intent } from '@blueprintjs/core';
 import { app, googleProvider } from '../base';
-import { Form, Button } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import store, { setUser } from '../store/index';
 import ErrorMessage from './ErrorMessage';
 
-const loginStyles = {
-  width: '90%',
-  maxWidth: '315px',
-  margin: '20px auto',
-  border: '1px solid #ddd',
-  borderRadius: '5px',
-  padding: '10px'
-};
-
 class Login extends Component {
   constructor(props) {
     super(props);
-    this.authWithGoogle = this.authWithGoogle.bind(this);
-    this.authWithEmailPassword = this.authWithEmailPassword.bind(this);
     this.state = {
       redirect: false,
       errorMessage: ''
     };
+    this.authWithGoogle = this.authWithGoogle.bind(this);
+    this.authWithEmailPassword = this.authWithEmailPassword.bind(this);
   }
 
   authWithGoogle() {
@@ -33,22 +22,24 @@ class Login extends Component {
       .signInWithPopup(googleProvider)
       .then((user, error) => {
         if (error) {
-          this.toaster.show({
-            intent: Intent.DANGER,
-            message: 'Unable to sign in with Google'
-          });
+          throw Error('Unable to sign in with Google');
         } else {
-          this.props.setCurrentUser(user);
+          this.loginForm.reset();
+          store.dispatch(setUser(user.uid));
           this.setState({ redirect: true });
         }
+      })
+      .catch(error => {
+        console.log(error);
+        this.setState({ errorMessage: error.message });
       });
   }
 
   authWithEmailPassword(event) {
     event.preventDefault();
-
-    const email = this.emailInput.value;
-    const password = this.passwordInput.value;
+    console.log(event.target);
+    const email = event.target.emailInput.value;
+    const password = event.target.passwordInput.value;
 
     return (
       app
@@ -69,41 +60,6 @@ class Login extends Component {
           this.setState({ errorMessage: error.message });
         })
     );
-    // app
-    //   .auth()
-    //   .fetchSignInMethodsForEmail(email)
-    //   .then(providers => {
-    //     console.log(providers);
-    //     if (providers.length === 0) {
-    //       // create user
-    //       console.log('No user!');
-    //       this.loginForm.reset();
-    //       throw Error('User not found');
-    //       //return app.auth().createUserWithEmailAndPassword(email, password)
-    //     } else if (providers.indexOf('password') === -1) {
-    //       // they used google
-    //       this.loginForm.reset();
-    //       throw Error('Incorrect Password');
-    //     } else {
-    //       // sign user in
-    //       return app.auth().signInWithEmailAndPassword(email, password);
-    //     }
-    //   })
-    //   .then(user => user.providerData[0])
-    //   .then(user => {
-    //     if (user && user.email) {
-    //       this.loginForm.reset();
-    //       store.dispatch(setUser(user.uid));
-    //       this.setState({ redirect: true });
-    //     }
-    //   })
-    //   .catch(error => {
-    //     console.log(error);
-    //     this.toaster.show({
-    //       intent: Intent.WARNING,
-    //       message: 'Incorrect email or password.'
-    //     });
-    //   });
   }
 
   render() {
@@ -116,50 +72,77 @@ class Login extends Component {
     }
 
     return (
-      <div id="loginContainer">
-        <button
-          onClick={() => {
-            this.authWithGoogle();
-          }}
-        >
-          Log In with Google
-        </button>
-        <hr />
-        <form
-          onSubmit={event => {
-            this.authWithEmailPassword(event);
-          }}
-          ref={form => {
-            this.loginForm = form;
-          }}
-        >
-          <label>
-            Email
-            <input
-              name="email"
-              type="email"
-              ref={input => {
-                this.emailInput = input;
+      <div
+        className="ui container middle aligned center aligned grid"
+        id="login-box"
+      >
+        <div className="ui middle aligned center aligned grid">
+          <div className="column">
+            <h2 className="ui teal image header">
+              <img src="assets/images/logo.png" className="image" />
+              <div className="content">Log-in to your account</div>
+            </h2>
+            <form
+              className="ui large form"
+              onSubmit={event => {
+                this.authWithEmailPassword(event);
               }}
-              placeholder="Email"
-            />
-          </label>
-          <label>
-            Password
-            <input
-              name="password"
-              type="password"
-              ref={input => {
-                this.passwordInput = input;
+              ref={form => {
+                this.loginForm = form;
               }}
-              placeholder="Password"
-            />
-          </label>
-          <input type="submit" value="Log In" />
-        </form>
-        {this.state.errorMessage && (
-          <ErrorMessage message={this.state.errorMessage} />
-        )}
+            >
+              <div className="ui stacked segment">
+                <div className="field">
+                  <div className="ui left icon input">
+                    <i className="user icon" />
+                    <input
+                      type="text"
+                      name="emailInput"
+                      placeholder="E-mail address"
+                      autoComplete="off"
+                    />
+                  </div>
+                </div>
+                <div className="field">
+                  <div className="ui left icon input">
+                    <i className="lock icon" />
+                    <input
+                      type="password"
+                      name="passwordInput"
+                      placeholder="Password"
+                      autoComplete="off"
+                    />
+                  </div>
+                </div>
+                <button
+                  type="submit"
+                  className="ui fluid large teal submit button"
+                >
+                  Login
+                </button>
+                <div
+                  className="ui fluid large submit button"
+                  id="google-login"
+                  onClick={() => {
+                    this.authWithGoogle();
+                  }}
+                >
+                  Log In with Google
+                </div>
+              </div>
+
+              <div className="ui error message" />
+            </form>
+            <div className="ui message">
+              New to us? <a href="/signup">Sign Up</a>
+            </div>
+            <div>
+              {this.state.errorMessage && (
+                <ErrorMessage message={this.state.errorMessage} />
+              )}
+            </div>
+          </div>
+        </div>
       </div>
     );
   }

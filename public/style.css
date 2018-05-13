@@ -52,13 +52,8 @@ nav {
 
 .chartContainer {
   display: flex;
-  margin: 3em;
-  justify-content: center;
-}
-
-#barchart {
-  position: absolute;
-  margin: 5em;
+  margin: 2em;
+  align-items: center;
 }
 
 .updateForm {
@@ -84,12 +79,12 @@ nav a {
 
 .btn primary {
   background-color: #5badf0;
-  border-color: #4CA1E7;
+  border-color: #4ca1e7;
 }
 
 .btn primary:hover {
-  background-color: #2389DC;
-  border-color: #2389DC;
+  background-color: #2389dc;
+  border-color: #2389dc;
 }
 
 select.btn {
@@ -104,7 +99,7 @@ select.btn {
   background-color: black;
   color: white;
   text-align: center;
-  height: 4vh;
+  /* height: 4vh; */
 }
 
 body {
@@ -112,12 +107,11 @@ body {
 }
 
 .node rect {
-  fill: #888888;
   shape-rendering: crispEdges;
 }
 
 .node {
-  fill-opacity: .7;
+  fill-opacity: 0.7;
 }
 
 .node:hover {
@@ -128,17 +122,16 @@ body {
 .node text {
   fill: #888888;
   stroke: none;
-  font-size: .8em;
+  font-size: 0.8em;
 }
 
 .link {
-  stroke: #cccccc;
-  stroke-opacity: .4;
+  stroke-opacity: 0.4;
   fill: none;
 }
 
 .link:hover {
-  stroke-opacity: .6;
+  stroke-opacity: 0.6;
   cursor: pointer;
 }
 
@@ -180,18 +173,18 @@ select.btn {
   max-width: 115px;
 }
 
-.col-xs-4, .col-xs-8 {
+.col-xs-4,
+.col-xs-8 {
   z-index: 0;
 }
 
 .btn-file {
-    position: relative;
-    overflow: hidden;
-    margin-right: 10px;
-
+  position: relative;
+  overflow: hidden;
+  margin-right: 10px;
 }
 
-.btn-file input[type=file] {
+.btn-file input[type='file'] {
   position: absolute;
   top: 0;
   right: 0;
@@ -210,19 +203,19 @@ select.btn {
 .btn-primary {
   -webkit-appearance: button;
   background-color: #5badf0;
-  border-color: #4CA1E7;
+  border-color: #4ca1e7;
 }
 
 .btn-primary:hover {
-  background-color: #2389DC;
-  border-color: #2389DC;
+  background-color: #2389dc;
+  border-color: #2389dc;
 }
 a {
-    color: #5badf0;
+  color: #5badf0;
 }
 
 a:hover {
-  color: #4CA1E7;
+  color: #4ca1e7;
 }
 
 .clearFix {
@@ -250,14 +243,19 @@ a:hover {
   color: #666;
 }
 
-.single-card {
-  margin: 3em;
+.ui.card:first-child {
+  margin-top: auto;
 }
 
-.grid-list{
-  justify-content: space-evenly;
+.grid-list {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: flex-start;
+  background-color: rgba(169, 169, 169, 0.7);
+  margin: 20px;
+  border-radius: 5px;
 }
 
 .title {
@@ -269,4 +267,115 @@ a:hover {
   margin: 3em;
   display: flex;
   flex-direction: row;
+}
+
+#loginContainer {
+  background-color: #fff;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  color: rgba(0, 0, 0, 0.87);
+  direction: ltr;
+  font: 16px Roboto, arial, sans-serif;
+  margin: 0 auto;
+  margin-top: 20px;
+  max-width: 360px;
+  overflow: hidden;
+  position: relative;
+  text-align: left;
+  width: 100%;
+}
+
+.login-button {
+  display: inline-block;
+  height: 36px;
+  margin: 8px;
+  min-width: 88px;
+}
+
+.login-input {
+  border-radius: 10; /** iOS puts rounded corners on text inputs. */
+  color: rgba(0, 0, 0, 0.87);
+  direction: ltr;
+  font-size: 16px;
+  width: 90%;
+  height: 36px;
+  border-color: rgba(0, 0, 0, 0.12);
+  margin: 4px;
+}
+
+#google-login {
+  color: #444;
+  white-space: nowrap;
+  margin-top: 14px;
+}
+
+span.label {
+  font-family: serif;
+  font-weight: normal;
+}
+span.ggl-icon {
+  background: url('/identity/sign-in/g-normal.png') transparent 5px 50%
+    no-repeat;
+  display: inline-block;
+  vertical-align: middle;
+  width: 42px;
+  height: 42px;
+}
+
+span.buttonText {
+  display: inline-block;
+  vertical-align: middle;
+  padding-left: 42px;
+  padding-right: 42px;
+  font-size: 14px;
+  font-weight: bold;
+  /* Use the Roboto font that is loaded in the <head> */
+  font-family: 'Roboto', sans-serif;
+}
+
+.bar-json-util {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  background-color: rgba(169, 169, 169, 0.7);
+}
+
+#login-box {
+  display: flex;
+  margin: 10%;
+  align-self: stretch;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  margin: 1em;
+  align-items: center;
+}
+
+.svg-container {
+  display: inline-block;
+  position: relative;
+  /* width: 100%;
+  padding-bottom: 100%; */
+  vertical-align: top;
+  overflow: hidden;
+}
+
+.svg-content {
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border: #252525;
+  border-width: 1px;
+}
+
+.svg-centered {
+  display: flex;
+  padding: 40px;
+  justify-content: center;
+  align-items: center;
 }

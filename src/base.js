@@ -30,7 +30,5 @@ const chartsRef = databaseRef.child('charts')
 
 const googleProvider = new firebase.auth.GoogleAuthProvider();
 
-const sankeyRef = databaseRef.child('sankey');
 
-
-export { app, sankeyRef, googleProvider, userRef, chartsRef };
+export { app, googleProvider, userRef, chartsRef };
