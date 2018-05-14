@@ -6,33 +6,14 @@ import _ from 'lodash';
 
 
 export default class Sankey extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      nodes: this.props.nodes,
-      links: this.props.links,
-      width: this.props.width,
-      height: this.props.height
-    };
-  }
-
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      nodes: nextProps.nodes,
-      links: nextProps.links,
-      width: nextProps.width,
-      height: nextProps.height
-    });
-  }
 
   render() {
     // ========================================================================
     // Set units, margin, sizes
     // ========================================================================
     var margin = { top: 10, right: 0, bottom: 10, left: 0 };
-    var width = this.state.width - margin.left - margin.right;
-    var height = this.state.height - margin.top - margin.bottom;
+    var width = this.props.width - margin.left - margin.right;
+    var height = this.props.height - margin.top - margin.bottom;
 
     var format = d => formatNumber(d);
     var formatNumber = d3.format(',.0f'); // zero decimal places
@@ -49,8 +30,8 @@ export default class Sankey extends React.Component {
     var path = sankey.link();
 
     var graph = {
-      nodes: _.cloneDeep(this.state.nodes),
-      links: _.cloneDeep(this.state.links)
+      nodes: _.cloneDeep(this.props.data.nodes),
+      links: _.cloneDeep(this.props.data.links)
     };
 
     sankey

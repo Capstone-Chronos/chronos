@@ -35,13 +35,11 @@ class SankeyTools extends Component {
       <div className="tools">
         <AddLink
           addLink={this.props.addLink}
-          links={this.props.links}
-          nodes={this.props.nodes}
+          data={this.props.data}
         />
         <AddNode
           addNode={this.props.addNode}
-          links={this.props.links}
-          nodes={this.props.nodes}
+          data={this.props.data}
         />
         <div className="form">
           <form onSubmit={this.submitHeightWidth}>
@@ -61,6 +59,9 @@ class SankeyTools extends Component {
             <br />
             <Button onClick={this.submitHeightWidth}>Update chart size</Button>
           </form>
+          <Button circular size="small" onClick={this.props.deleteChart}>
+          Delete Chart
+          </Button>
           <Button circular size="small" onClick={this.props.handleUpdate}>
             Update Chart
           </Button>

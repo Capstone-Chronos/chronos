@@ -18,25 +18,39 @@ import {
 class Routes extends Component {
   componentDidMount() {
     console.log('Routes mounted!');
+    console.log(this.props.isLoggedIn);
   }
 
   render() {
+    const { isLoggedIn } = this.props;
+
     return (
       <div>
         <Switch>
-          <Route exact path="/" component={Main} />
-          <Route exact path="/charts" component={AllProjects} />
-          <Route exact path="/projects" component={AllProjects} />
-          <Route exact path="/signup" component={SignUp} />
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/edit/sankey/:id" component={SankeyWrapper} />
-          <Route exact path="/edit/sankey" component={SankeyWrapper} />
-          <Route exact path="/edit/timechart" component={TimeChartWrapper} />
-          <Route path="/edit" component={Editor} />
-          <Route path="/show" component={PresentationView} />
-          <Route path="/view" component={PresentationView} />
-          <Route path="/sankey" component={SankeyWrapper} />
-          <Redirect to="/" />
+
+          {isLoggedIn && (
+            <Switch>
+              <Route exact path="/" component={Main} />
+              <Route exact path="/charts" component={AllProjects} />
+              <Route exact path="/projects" component={AllProjects} />
+              <Route exact path="/edit/sankey/:id" component={SankeyWrapper} />
+              <Route exact path="/edit/sankey" component={SankeyWrapper} />
+              <Route exact path="/edit/timechart" component={TimeChartWrapper} />
+              <Route path="/edit" component={Editor} />
+              <Route path="/show" component={PresentationView} />
+              <Route path="/view" component={PresentationView} />
+              <Route path="/sankey" component={SankeyWrapper} />
+            </Switch>
+          )}
+          {!isLoggedIn && (
+            <Switch>
+              <Route exact path="/" component={Main} />
+              <Route exact path="/login" component={Login} />
+              <Route exact path="/signup" component={SignUp} />
+            </Switch>
+          )}
+          <Redirect to="/" component={Main}/>
+
         </Switch>
       </div>
     );
@@ -47,7 +61,11 @@ class Routes extends Component {
  * CONTAINER
  */
 const mapState = state => {
-  return {};
+  console.log(state);
+  return {
+    isLoggedIn: !!state.user.isLoggedIn,
+    user: state.user.user
+  };
 };
 
 const mapDispatch = dispatch => {
