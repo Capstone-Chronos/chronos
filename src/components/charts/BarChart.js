@@ -68,7 +68,6 @@ class BarChart extends React.Component {
         (d, i) => padding * 2 + i * (width - padding * 4) / data.length
       )
       .attr('y', d => {
-        console.log(d);
         return height - padding * 2 - yScale(d);
       }) // Padding plus
       .attr('height', d => yScale(d))

@@ -8,7 +8,8 @@ import {
   Login,
   PresentationView,
   Editor,
-  SankeyWrapper
+  SankeyWrapper,
+  TimeChartWrapper
 } from '../components';
 
 /**
@@ -30,6 +31,7 @@ class Routes extends Component {
           <Route exact path="/login" component={Login} />
           <Route exact path="/edit/sankey/:id" component={SankeyWrapper} />
           <Route exact path="/edit/sankey" component={SankeyWrapper} />
+          <Route exact path="/edit/timechart" component={TimeChartWrapper} />
           <Route path="/edit" component={Editor} />
           <Route path="/show" component={PresentationView} />
           <Route path="/view" component={PresentationView} />

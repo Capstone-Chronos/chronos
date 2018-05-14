@@ -1,8 +1,9 @@
 import React from 'react';
-import store, { addDataPoint } from '../../store';
+import store, { addDataPoint, saveBarChartThunk } from '../../store';
 import { Button } from 'semantic-ui-react';
 import { BarChartJSONUtil } from './BarChartUtils/BarChartJSONUtil';
 import { PublishButton } from '../index';
+import { connect } from 'react-redux';
 
 class BarChartTools extends React.Component {
   constructor(props) {
@@ -12,6 +13,7 @@ class BarChartTools extends React.Component {
     };
     this.addDataPoint = this.addDataPoint.bind(this);
     this.updateLocalNodeVal = this.updateLocalNodeVal.bind(this);
+    this.handleSave = this.handleSave.bind(this);
   }
 
   // Add Data Point functions
@@ -29,15 +31,15 @@ class BarChartTools extends React.Component {
   }
 
   handleSave() {
-    // Send data to Firebase
-    // Update Saved state
+    const { chartId, data } = this.props;
+    this.props.save(data);
   }
 
   render() {
     return (
       <div className="bar-toolbar">
         <BarChartJSONUtil />
-        <Button onClick={this.props.handleSubmit}>SAVE</Button>
+        <Button onClick={this.handleSave}>SAVE</Button>
         <PublishButton />
         <div className="updateForm">
           <form onSubmit={this.addDataPoint}>
@@ -52,4 +54,14 @@ class BarChartTools extends React.Component {
   }
 }
 
-export default BarChartTools;
+const mapStateToProps = state => ({
+  isSaved: state.barChart.isSaved,
+  data: state.barChart.data,
+  chartId: state.barChart.chartId
+});
+
+const mapDispatchToProps = dispatch => ({
+  save: data => dispatch(saveBarChartThunk(data))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(BarChartTools);

@@ -2,6 +2,8 @@ import React from 'react';
 import ReactFauxDOM from 'react-faux-dom';
 import * as d3 from 'd3';
 import _ from 'lodash';
+import { scaleTime } from 'd3-scale';
+import { axisBottom } from 'd3-axis';
 
 export default class TimeChart extends React.Component {
   constructor(props) {
@@ -9,10 +11,12 @@ export default class TimeChart extends React.Component {
     this.state = {
       nodes: this.props.nodes,
       links: this.props.links,
-      width: 1000,
+      width: 1400,
       height: 800
     };
   }
+
+
 
   componentWillReceiveProps(nextProps) {
     this.setState({
@@ -32,30 +36,7 @@ export default class TimeChart extends React.Component {
     var format = d => formatNumber(d);
     var formatNumber = d3.format(',.0f'); // zero decimal places
 
-    // // ========================================================================
-    // // Set the sankey diagram properties
-    // // ========================================================================
-    var sankey = d3
-      .sankey()
-      .size([width, height])
-      .nodeWidth(15)
-      .nodePadding(10);
 
-    var path = sankey.link();
-
-    var graph = {
-      nodes: _.cloneDeep(this.state.nodes),
-      links: _.cloneDeep(this.state.links)
-    };
-
-    sankey
-      .nodes(graph.nodes)
-      .links(graph.links)
-      .layout(32);
-
-    // ========================================================================
-    // Initialize and append the svg canvas to faux-DOM
-    // ========================================================================
     var svgNode = ReactFauxDOM.createElement('div');
 
     var svg = d3
@@ -66,64 +47,50 @@ export default class TimeChart extends React.Component {
       .append('g')
       .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
-    // ========================================================================
-    // Add links
-    // ========================================================================
-    var link = svg
+    var timeScale = scaleTime()
+      .domain([new Date(2016, 0, 1), new Date(2017, 0, 1)])
+      .range([0, 700]);
+
+    var xAxis = d3.svg.axis()
+      .scale(timeScale)
+
+    var myData = [new Date(2016, 0, 1), new Date(2016, 3, 1), new Date(2016, 6, 1), new Date(2017, 0, 1)];
+
+    // Attach event markers to DOM
+    svg
       .append('g')
-      .selectAll('.link')
-      .data(graph.links)
+      .selectAll('circle')
+      .data(myData)
       .enter()
-      .append('path')
-      .attr('class', 'link')
-      .on('click', this.props.openModal) // register eventListener
-      .attr('d', path)
-      .style('stroke-width', d => Math.max(1, d.dy));
+      .append('circle')
+      .attr('transform', 'translate(0,' + (-20) + ')')
+      .attr('r', 5)
+      .attr('cy', 8)
+      .attr('cx', function (d) {
+        return timeScale(d);
+      });
 
-    // add link titles
-    link
-      .append('title')
-      .text(
-        d =>
-          d.source.name +
-          ' → ' +
-          d.target.name +
-          '\n Weight: ' +
-          format(d.value)
-      );
-
-    // ========================================================================
-    // Add nodes
-    // ========================================================================
-    var node = svg
+    //Attach labels to event markers
+    svg
       .append('g')
-      .selectAll('.node')
-      .data(graph.nodes)
+      .selectAll('text')
+      .data(myData)
       .enter()
-      .append('g')
-      .attr('class', 'node')
-      .on('click', this.props.openModal) // register eventListener
-      .attr('transform', d => 'translate(' + d.x + ',' + d.y + ')');
-
-    // add nodes rect
-    node
-      .append('rect')
-      .attr('height', d => d.dy)
-      .attr('width', sankey.nodeWidth())
-      .append('title')
-      .text(d => d.name + '\n' + format(d.value));
-
-    // add nodes text
-    node
       .append('text')
-      .attr('x', -6)
-      .attr('y', d => d.dy / 2)
-      .attr('dy', '.35em')
-      .attr('text-anchor', 'end')
-      .text(d => d.name)
-      .filter(d => d.x < width / 2)
-      .attr('x', 6 + sankey.nodeWidth())
-      .attr('text-anchor', 'start');
+      .attr('transform', 'translate(0,' +(-20) + ')')
+      .attr('x', function (d) {
+        return timeScale(d);
+      })
+      .text(function (d) {
+        return d.toDateString();
+      });
+
+    //Create xAxis by passing in timeScale and attach to DOM
+    svg
+      .attr('class', 'axis')
+      .attr('transform', 'translate(0,' + (height / 2) + ')')
+      .append('g')
+      .call(xAxis)
 
     return svgNode.toReact();
   }
