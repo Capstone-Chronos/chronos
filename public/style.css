@@ -380,3 +380,12 @@ span.buttonText {
   justify-content: center;
   align-items: center;
 }
+
+.time-event {
+  opacity: .5;
+  cursor: pointer;
+}
+
+.time-event:hover {
+  opacity: 1;
+}

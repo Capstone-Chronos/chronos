@@ -5,19 +5,20 @@ import _ from 'lodash';
 import { scaleTime } from 'd3-scale';
 import { axisBottom } from 'd3-axis';
 
-var myData = { dates: [{ date: new Date(2016, 0, 1) }, { date: new Date(2016, 3, 1) }, { date: new Date(2016, 6, 1) }, { date: new Date(2017, 0, 1) }] }
+var myData = { radius: 10, dates: [{ name: 'New Years 2016', date: new Date(2016, 0, 1) }, { name: 'My birthday', date: new Date(2016, 3, 1) }, { name: 'First Day of Summer', date: new Date(2016, 6, 21) }, { name: 'New Years 2016', date: new Date(2017, 0, 1) }] }
 
 export default class TimeChart extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       width: 1400,
-      height: 800
+      height: 800,
+      radius: 5
     };
   }
 
   componentWillMount() {
-    this.setState({ dates: myData.dates })
+    this.setState({ dates: myData.dates, radius: myData.radius })
   }
 
 
@@ -52,7 +53,7 @@ export default class TimeChart extends React.Component {
 
     var timeScale = scaleTime()
       .domain([new Date(2016, 0, 1), new Date(2017, 0, 1)])
-      .range([0, 700]);
+      .range([20, width - 20]);
 
     var xAxis = d3.svg.axis()
       .scale(timeScale);
@@ -64,8 +65,10 @@ export default class TimeChart extends React.Component {
       .data(this.state.dates)
       .enter()
       .append('circle')
+      .on('click', this.props.handleClick)
       .attr('transform', 'translate(0,' + (-20) + ')')
-      .attr('r', 5)
+      .attr('class', 'time-event')
+      .attr('r', this.state.radius)
       .attr('cy', 8)
       .attr('cx', function (d) {
         return timeScale(d.date);
@@ -75,6 +78,21 @@ export default class TimeChart extends React.Component {
     svg
       .append('g')
       .selectAll('text')
+      .data(this.state.dates)
+      .enter()
+      .append('text')
+      .attr('transform', 'translate(0,' + (-20) + ')')
+      .attr('x', function (d) {
+        return timeScale(d.date);
+      })
+      .text(function (d) {
+        return d.date.toDateString();
+      });
+
+    // Create content boxes for each event -- will toggle on click if in presentation mode (otherwise modal will open to edit content as in sankey)
+    svg
+      .append('g')
+      .selectAll('rect')
       .data(this.state.dates)
       .enter()
       .append('text')
