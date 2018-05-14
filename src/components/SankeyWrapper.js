@@ -7,8 +7,14 @@ import addLink from './toolbars/SankeyUtils/AddLink';
 import firebase from 'firebase';
 import { connect } from 'react-redux';
 import { loadData, readFile } from './toolbars/SankeyUtils/utils';
-import { loadDefaultData, clearData, importData, updateSankeyChartThunk, saveSankeyChartThunk } from '../store/sankeyChart';
-import { deleteChart } from '../database/sankeyChart'
+import {
+  loadDefaultData,
+  clearData,
+  importData,
+  updateSankeyChartThunk,
+  saveSankeyChartThunk
+} from '../store/sankeyChart';
+import { deleteChart } from '../database/sankeyChart';
 class SankeyWrapper extends React.Component {
   constructor(props) {
     super(props);
@@ -19,7 +25,7 @@ class SankeyWrapper extends React.Component {
     this.loadData = loadData.bind(this);
     this.readFile = readFile.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleUpdate = this.handleUpdate.bind(this)
+    this.handleUpdate = this.handleUpdate.bind(this);
     this.deleteChart = this.deleteChart.bind(this);
 
     this.emptyDiagram = this.emptyDiagram.bind(this);
@@ -55,7 +61,7 @@ class SankeyWrapper extends React.Component {
     };
     this.props.saveChanges(this.props.data, 'mytitle');
   }
-  
+
   handleUpdate() {
     // let updateData = {
     //   // title: this.state.title  || this.props.title,
@@ -67,10 +73,10 @@ class SankeyWrapper extends React.Component {
     let { data, chartId } = this.props;
     this.props.updateChart(data, chartId);
   }
-  
+
   deleteChart() {
-    console.log(this.props.match.params.id)
-    this.props.deleteChart(this.props.match.params.id)
+    console.log(this.props.match.params.id);
+    this.props.deleteChart(this.props.match.params.id);
     history.push('/');
   }
 
@@ -198,7 +204,7 @@ class SankeyWrapper extends React.Component {
   }
 
   render() {
-    console.log(this.props, 'llll')
+    console.log(this.props, 'llll');
     if (this.state.modalContent === 'link') {
       var modalValue = this.state.modalContentLinkValue;
       var header = 'Update Link Weight';
@@ -247,7 +253,7 @@ class SankeyWrapper extends React.Component {
             />
           </div>
           <div style={{ width: '80vw' }}>
-            <h2>{this.props.title || "New Sankey Diagram"}</h2>
+            <h2>{this.props.title || 'New Sankey Diagram'}</h2>
             <Sankey
               data={this.props.data}
               openModal={this.openModal}
@@ -298,17 +304,18 @@ class SankeyWrapper extends React.Component {
 const userId = firebase.auth().currentUser;
 
 const mapStateToProps = storeState => {
-  console.log(storeState)
+  console.log(storeState);
   return {
     data: storeState.sankeyChart.data,
     height: storeState.sankeyChart.height,
     width: storeState.sankeyChart.width,
     userId: storeState.user.user,
-    chartId: storeState.sankeyChart.chartId
+    chartId: storeState.sankeyChart.chartId,
+    title: 'Fake Title'
   };
 };
 
-const mapDispatchToProps = function (dispatch) {
+const mapDispatchToProps = function(dispatch) {
   return {
     fetchDefaultData: () => {
       const action = loadDefaultData();
@@ -319,21 +326,21 @@ const mapDispatchToProps = function (dispatch) {
       dispatch(action);
     },
     saveChanges: (data, title) => {
-      console.log('TTTTTTTT')
+      console.log('TTTTTTTT');
       const action = saveSankeyChartThunk(data, title);
       dispatch(action);
     },
     uploadData: data => {
       const action = importData(data);
       dispatch(action);
-    }, 
-    deleteChart: (id) => {
-      const action = deleteChart(id)
-      dispatch(action)
+    },
+    deleteChart: id => {
+      const action = deleteChart(id);
+      dispatch(action);
     },
     updateChart: (data, chartId) => {
-      const action = updateSankeyChartThunk(data, chartId)
-      dispatch(action)
+      const action = updateSankeyChartThunk(data, chartId);
+      dispatch(action);
     }
   };
 };
