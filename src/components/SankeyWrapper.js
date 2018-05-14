@@ -6,7 +6,7 @@ import addLink from './toolbars/SankeyUtils/AddLink';
 import firebase from 'firebase';
 import { connect } from 'react-redux';
 import { loadData, readFile } from './toolbars/SankeyUtils/utils';
-import { loadDefaultData, clearData, saveChart, importData } from '../store/sankeyChart';
+import { loadDefaultData, clearData, saveChart, updateChart, importData } from '../store/sankeyChart';
 
 class SankeyWrapper extends React.Component {
   constructor(props) {
@@ -18,6 +18,7 @@ class SankeyWrapper extends React.Component {
     this.loadData = loadData.bind(this);
     this.readFile = readFile.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleUpdate = this.handleUpdate.bind(this)
 
     this.emptyDiagram = this.emptyDiagram.bind(this);
 
@@ -44,6 +45,7 @@ class SankeyWrapper extends React.Component {
 
   handleSubmit() {
     let updateData = {
+      // name: this.state.title  || this.props.title,
       nodes: this.state.nodes || this.props.nodes,
       links: this.state.links || this.props.links,
       userId: this.props.userId,
@@ -51,6 +53,18 @@ class SankeyWrapper extends React.Component {
       height: this.state.height || this.props.height
     };
     this.props.saveChanges(updateData);
+  }
+
+  handleUpdate() {
+    let updateData = {
+      // name: this.state.title  || this.props.title,
+      nodes: this.state.nodes || this.props.nodes,
+      links: this.state.links || this.props.links,
+      userId: this.props.userId,
+      width: this.state.width || this.props.width,
+      height: this.state.height || this.props.height
+    };
+    this.props.updateChanges(updateData);
   }
 
   changeHeight(newHeight) {
@@ -212,6 +226,7 @@ class SankeyWrapper extends React.Component {
               addLink={this.addLink}
               openModal={this.openModal}
               handleSubmit={this.handleSubmit}
+              handleUpdate={this.handleUpdate}
               changeHeight={this.changeHeight}
               changeWidth={this.changeWidth}
               currentHeight={this.state.height}
