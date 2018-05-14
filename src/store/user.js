@@ -49,7 +49,7 @@ export const logOutThunk = () => {
     .signOut()
     .then(() => {
       store.dispatch(logOut());
-      return history.push('/timelines');
+      return history.push('/');
     })
     .catch(() => console.log('failed to logout'));
 };
