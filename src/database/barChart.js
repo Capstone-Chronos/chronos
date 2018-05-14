@@ -35,7 +35,7 @@ export async function putBarChart(data, chartId) {
       data
     };
     let updates = {};
-    updates[`/charts/${chartId}`] = data;
+    updates[`/charts/${chartId}/data`] = data;
     await databaseRef.update(updates);
   } catch (err) {
     throw Error(err);

@@ -38,36 +38,28 @@ class Login extends Component {
         }
       })
       .catch(error => {
-        console.log(error);
         this.setState({ errorMessage: error.message });
       });
   }
 
   authWithEmailPassword(event) {
     event.preventDefault();
-    console.log(event.target);
     const email = event.target.emailInput.value;
     const password = event.target.passwordInput.value;
 
-    return (
-      app
-        .auth()
-        .signInWithEmailAndPassword(email, password)
-        //.then(user => user.providerData[0])
-        .then(user => {
-          //console.log(user);
-          if (user && user.email) {
-            console.log(user);
-            this.loginForm.reset();
-            store.dispatch(setUser(user.uid));
-            this.setState({ redirect: true });
-          }
-        })
-        .catch(error => {
-          console.log(error);
-          this.setState({ errorMessage: error.message });
-        })
-    );
+    return app
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then(user => {
+        if (user && user.email) {
+          this.loginForm.reset();
+          store.dispatch(setUser(user.uid));
+          this.setState({ redirect: true });
+        }
+      })
+      .catch(error => {
+        this.setState({ errorMessage: error.message });
+      });
   }
 
   render() {

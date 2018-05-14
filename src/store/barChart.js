@@ -15,6 +15,7 @@ const ADD_DATA_POINT = 'ADD_DATA_POINT';
 const SET_BAR_DATA = 'SET_BAR_DATA';
 const SAVE_BAR_CHART = 'SAVE_BAR_CHART';
 const SET_CHART_ID = 'SET_CHART_ID';
+const SET_BAR_TITLE = 'SET_BAR_TITLE';
 
 const defaultData = [3, 7, 5, 10];
 
@@ -37,6 +38,9 @@ const saveBarChart = () => {
 const setChartId = chartId => {
   return { type: SET_CHART_ID, chartId };
 };
+const setBarTitle = title => {
+  return { type: SET_BAR_TITLE, title };
+};
 
 // THUNKS
 
@@ -45,6 +49,7 @@ export const saveBarChartThunk = (data, title) => {
     postBarChartToDatabase(data, title)
       .then(chartId => {
         dispatch(saveBarChart());
+        dispatch(setBarTitle(title));
         dispatch(setChartId(chartId));
         history.push(`/edit/barchart/${chartId}/${title}`);
       })
@@ -78,6 +83,8 @@ export default function reducer(state = initialState, action) {
       return { ...state, isSaved: true };
     case SET_CHART_ID:
       return { ...state, chartId: action.chartId };
+    case SET_BAR_TITLE:
+      return { ...state, title: action.title };
     default:
       return state;
   }

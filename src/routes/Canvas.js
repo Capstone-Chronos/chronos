@@ -4,6 +4,7 @@ import { BarChart, SankeyWrapper, PieChart } from '../components';
 
 const Canvas = () => (
   <Switch>
+    <Route path="/:type/barchart" component={BarChart} />
     <Route exact path="/:type/barchart/:id" component={BarChart} />
     <Route exact path="/:type/barchart" component={BarChart} />
 

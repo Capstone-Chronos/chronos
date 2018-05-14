@@ -26,7 +26,6 @@ export default class SignUp extends Component {
       .auth()
       .fetchSignInMethodsForEmail(email)
       .then(providers => {
-        console.log(providers);
         if (providers.length === 0) {
           // create user
           return app.auth().createUserWithEmailAndPassword(email, password);

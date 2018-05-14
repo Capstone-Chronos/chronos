@@ -26,8 +26,6 @@ class BarChartTools extends React.Component {
   addDataPoint(evt) {
     evt.preventDefault();
     store.dispatch(addDataPoint(this.state.addNodeVal));
-    console.log('submitted');
-    console.log(this.state);
   }
 
   updateLocalNodeVal(evt) {
@@ -36,13 +34,12 @@ class BarChartTools extends React.Component {
   }
 
   handleSave() {
-    let { chartId, data, title } = this.props;
+    let { data, title } = this.props;
     if (!title) title = 'TITLE_PLACEHOLDER';
-    this.props.save(data, chartId, title);
+    this.props.save(data, title);
   }
 
   handleUpdate() {
-    console.log('updateBar');
     const { data, chartId } = this.props;
     this.props.update(data, chartId);
   }
