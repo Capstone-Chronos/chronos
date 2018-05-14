@@ -1,13 +1,14 @@
 import React from 'react';
 import { Sankey, SankeyTools, FooterBar, ColorPicker } from '../components';
+import history from '../routes/history';
 import Modal from 'react-modal';
 import addNode from './toolbars/SankeyUtils/AddNode';
 import addLink from './toolbars/SankeyUtils/AddLink';
 import firebase from 'firebase';
 import { connect } from 'react-redux';
 import { loadData, readFile } from './toolbars/SankeyUtils/utils';
-import { loadDefaultData, clearData, saveChart, updateChart, importData } from '../store/sankeyChart';
-
+import { loadDefaultData, clearData, importData, updateSankeyChartThunk, saveSankeyChartThunk } from '../store/sankeyChart';
+import { deleteChart } from '../database/sankeyChart'
 class SankeyWrapper extends React.Component {
   constructor(props) {
     super(props);
@@ -19,6 +20,7 @@ class SankeyWrapper extends React.Component {
     this.readFile = readFile.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleUpdate = this.handleUpdate.bind(this)
+    this.deleteChart = this.deleteChart.bind(this);
 
     this.emptyDiagram = this.emptyDiagram.bind(this);
 
@@ -44,27 +46,32 @@ class SankeyWrapper extends React.Component {
   }
 
   handleSubmit() {
-    let updateData = {
+    let savedData = {
       // name: this.state.title  || this.props.title,
-      nodes: this.state.nodes || this.props.nodes,
-      links: this.state.links || this.props.links,
+      data: this.state.data || this.props.data,
       userId: this.props.userId,
       width: this.state.width || this.props.width,
       height: this.state.height || this.props.height
     };
-    this.props.saveChanges(updateData);
+    this.props.saveChanges(this.props.data, 'mytitle');
   }
-
+  
   handleUpdate() {
-    let updateData = {
-      // name: this.state.title  || this.props.title,
-      nodes: this.state.nodes || this.props.nodes,
-      links: this.state.links || this.props.links,
-      userId: this.props.userId,
-      width: this.state.width || this.props.width,
-      height: this.state.height || this.props.height
-    };
-    this.props.updateChanges(updateData);
+    // let updateData = {
+    //   // title: this.state.title  || this.props.title,
+    //   data: this.state.data || this.props.data,
+    //   userId: this.props.userId,
+    //   width: this.state.width || this.props.width,
+    //   height: this.state.height || this.props.height
+    // };
+    let { data, chartId } = this.props;
+    this.props.updateChart(data, chartId);
+  }
+  
+  deleteChart() {
+    console.log(this.props.match.params.id)
+    this.props.deleteChart(this.props.match.params.id)
+    history.push('/');
   }
 
   changeHeight(newHeight) {
@@ -76,7 +83,7 @@ class SankeyWrapper extends React.Component {
   }
 
   addNode(name) {
-    var nodes = this.props.nodes;
+    var nodes = this.props.data.nodes;
     var idx = nodes.length;
     name = name || 'Node' + idx;
     nodes[idx] = {
@@ -88,7 +95,7 @@ class SankeyWrapper extends React.Component {
   }
 
   updateNode(name, idx, color) {
-    var nodes = this.props.nodes;
+    var nodes = this.props.data.nodes;
     nodes[idx].name = name;
     nodes[idx].color = color;
     this.setState({ nodes });
@@ -100,12 +107,12 @@ class SankeyWrapper extends React.Component {
 
   addLink(source, target, value, color) {
     if (
-      this.props.nodes.length > 1 &&
+      this.props.data.nodes.length > 1 &&
       !isNaN(value) &&
       !isNaN(source) &&
       !isNaN(target)
     ) {
-      var links = this.props.links;
+      var links = this.props.data.links;
       var idx = links.length;
 
       links[idx] = { source, target, value, color };
@@ -114,7 +121,7 @@ class SankeyWrapper extends React.Component {
   }
 
   updateLink(source, target, value, color) {
-    var links = this.props.links.map(link => {
+    var links = this.props.data.links.map(link => {
       if (link.source === source && link.target === target) {
         link.value = value;
         link.color = color;
@@ -191,6 +198,7 @@ class SankeyWrapper extends React.Component {
   }
 
   render() {
+    console.log(this.props, 'llll')
     if (this.state.modalContent === 'link') {
       var modalValue = this.state.modalContentLinkValue;
       var header = 'Update Link Weight';
@@ -220,8 +228,7 @@ class SankeyWrapper extends React.Component {
         <div className="chartContainer">
           <div className="tools" style={{ width: '15vw' }}>
             <SankeyTools
-              nodes={this.props.nodes}
-              links={this.props.links}
+              data={this.props.data}
               addNode={this.addNode}
               addLink={this.addLink}
               openModal={this.openModal}
@@ -231,10 +238,10 @@ class SankeyWrapper extends React.Component {
               changeWidth={this.changeWidth}
               currentHeight={this.state.height}
               currentWidth={this.state.width}
+              deleteChart={this.deleteChart}
             />
             <FooterBar
-              nodes={this.props.nodes}
-              links={this.props.links}
+              data={this.props.data}
               readFile={this.readFile}
               emptyDiagram={this.emptyDiagram}
             />
@@ -242,8 +249,7 @@ class SankeyWrapper extends React.Component {
           <div style={{ width: '80vw' }}>
             <h2>{this.props.title || "New Sankey Diagram"}</h2>
             <Sankey
-              nodes={this.props.nodes}
-              links={this.props.links}
+              data={this.props.data}
               openModal={this.openModal}
               height={this.state.height}
               width={this.state.width}
@@ -292,12 +298,13 @@ class SankeyWrapper extends React.Component {
 const userId = firebase.auth().currentUser;
 
 const mapStateToProps = storeState => {
+  console.log(storeState)
   return {
-    nodes: storeState.sankeyChart.nodes,
-    links: storeState.sankeyChart.links,
+    data: storeState.sankeyChart.data,
     height: storeState.sankeyChart.height,
     width: storeState.sankeyChart.width,
-    userId: storeState.user.user
+    userId: storeState.user.user,
+    chartId: storeState.sankeyChart.chartId
   };
 };
 
@@ -311,13 +318,22 @@ const mapDispatchToProps = function (dispatch) {
       const action = clearData();
       dispatch(action);
     },
-    saveChanges: stateObj => {
-      const action = saveChart(stateObj);
+    saveChanges: (data, title) => {
+      console.log('TTTTTTTT')
+      const action = saveSankeyChartThunk(data, title);
       dispatch(action);
     },
     uploadData: data => {
       const action = importData(data);
       dispatch(action);
+    }, 
+    deleteChart: (id) => {
+      const action = deleteChart(id)
+      dispatch(action)
+    },
+    updateChart: (data, chartId) => {
+      const action = updateSankeyChartThunk(data, chartId)
+      dispatch(action)
     }
   };
 };
