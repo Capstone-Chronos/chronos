@@ -15,6 +15,10 @@ export default class TimeChartWrapper extends React.Component {
     }
     this.toggleEditor = this.toggleEditor.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.openModal = this.openModal.bind(this);
+    this.closeModal = this.closeModal.bind(this);
+    this.closeAndSaveModal = this.closeAndSaveModal.bind(this);
+
   }
 
   //Function to open info pane in presentation mode or editing modal in editor mode
@@ -75,15 +79,9 @@ export default class TimeChartWrapper extends React.Component {
 
 
   render() {
-    if (this.state.modalContent === 'link') {
-      var modalValue = this.state.modalContentLinkValue;
-      var header = 'Update Link Weight';
-      var color = 'Change Link Color';
-    } else if (this.state.modalContent === 'node') {
-      var modalValue = this.state.modalContentNodeName;
-      var header = 'Update Node Name';
-      var color = 'Change Node Color';
-    }
+    var modalValue = this.state.modalContentEventName;
+    var header = 'Update Event';
+    var color = 'Change Event Color';
 
     var modalStyle = {
       content: {
@@ -110,7 +108,10 @@ export default class TimeChartWrapper extends React.Component {
             </Grid.Column>
             <Grid.Column width="13">
               <div style={{ margin: '4em' }}>
-                <TimeChart handleClick={this.handleClick} data={testData} />
+                <TimeChart
+                  handleClick={this.handleClick}
+                  data={testData}
+                  openModal={this.openModal} />
                 <Modal
                   closeTimeoutMS={150}
                   isOpen={this.state.modalIsOpen}
@@ -123,26 +124,45 @@ export default class TimeChartWrapper extends React.Component {
                   </button>
                   <h4>{header}</h4>
                   <hr />
-                  <input
-                    className="form-control"
-                    defaultValue={modalValue}
-                    onChange={this.handleInputChange}
-                  />
-                  <hr />
-                  <div style={{ marginTop: '2em', marginBottom: '2em' }}>
-                    <h4>{color}</h4>
-                    <ColorPicker handleColorChange={this.handleColorChange} />
-                  </div>
-                  <div className="row">
-                    <div className="col-xs-12">
-                      <button
-                        className="btn btn-primary btn-block"
-                        onClick={this.closeAndSaveModal}
-                      >
-                        Apply Changes
-                </button>
+                  {!this.state.editorMode ?
+                    <div>
+                      <iframe
+                        width="250"
+                        height="200"
+                        src="https://www.youtube.com/embed/I47Y6VHc3Ms"
+                        frameborder="0"
+                        allow="autoplay; encrypted-media"
+                        allowfullscreen>
+                      </iframe>
                     </div>
-                  </div>
+                    :
+                    <div>
+                      <input
+                        className='form-control'
+                        onChange={this.handleInputChange}
+                      />
+                      <input
+                        className="form-control"
+                        defaultValue={modalValue}
+                        onChange={this.handleInputChange}
+                      />
+                      <hr />
+                      <div style={{ marginTop: '2em', marginBottom: '2em' }}>
+                        <h4>{color}</h4>
+                        <ColorPicker handleColorChange={this.handleColorChange} />
+                      </div>
+                      <div className="row">
+                        <div className="col-xs-12">
+                          <button
+                            className="btn btn-primary btn-block"
+                            onClick={this.closeAndSaveModal}
+                          >
+                            Apply Changes
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  }
                 </Modal>
               </div>
             </Grid.Column>

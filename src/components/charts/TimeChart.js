@@ -18,7 +18,6 @@ export default class TimeChart extends React.Component {
 
   componentWillMount() {
     this.setState({ dates: this.props.data.dates, radius: this.props.data.radius })
-    console.log(this.props)
   }
 
 
@@ -66,8 +65,8 @@ export default class TimeChart extends React.Component {
       .data(this.state.dates)
       .enter()
       .append('circle')
-      .on('click')
-      .attr('transform', 'translate(0,' + (-20) + ')')
+      .on('click', this.props.openModal)
+      .attr('transform', 'translate(0,' + (-40) + ')')
       .attr('class', 'time-event')
       .attr('r', this.state.radius)
       .attr('cy', 8)
@@ -82,7 +81,7 @@ export default class TimeChart extends React.Component {
       .data(this.state.dates)
       .enter()
       .append('text')
-      .attr('transform', 'translate(0,' + (-20) + ')')
+      .attr('transform', 'translate(0,' + (-40) + ')')
       .attr('x', function (d) {
         return timeScale(d.date);
       })
