@@ -20,51 +20,51 @@ class Login extends Component {
     app
       .auth()
       .signInWithPopup(googleProvider)
+      .then(userObj => userObj.user)
+      .then(userObj => {
+        const { email, uid } = userObj;
+        return {
+          email,
+          uid
+        };
+      })
       .then((user, error) => {
         if (error) {
           throw Error('Unable to sign in with Google');
         } else {
           this.loginForm.reset();
-          store.dispatch(setUser(user.uid));
+          store.dispatch(setUser(user.email, user.uid));
           this.setState({ redirect: true });
         }
       })
       .catch(error => {
-        console.log(error);
         this.setState({ errorMessage: error.message });
       });
   }
 
   authWithEmailPassword(event) {
     event.preventDefault();
-    console.log(event.target);
     const email = event.target.emailInput.value;
     const password = event.target.passwordInput.value;
 
-    return (
-      app
-        .auth()
-        .signInWithEmailAndPassword(email, password)
-        //.then(user => user.providerData[0])
-        .then(user => {
-          //console.log(user);
-          if (user && user.email) {
-            console.log(user)
-            this.loginForm.reset();
-            store.dispatch(setUser(user.uid));
-            this.setState({ redirect: true });
-          }
-        })
-        .catch(error => {
-          console.log(error);
-          this.setState({ errorMessage: error.message });
-        })
-    );
+    return app
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then(user => {
+        if (user && user.email) {
+          this.loginForm.reset();
+          store.dispatch(setUser(user.uid));
+          this.setState({ redirect: true });
+        }
+      })
+      .catch(error => {
+        this.setState({ errorMessage: error.message });
+      });
   }
 
   render() {
     const { from } = this.props.location.state || {
-      from: { pathname: '/timelines' }
+      from: { pathname: '/charts' }
     };
 
     if (this.state.redirect === true) {

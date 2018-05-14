@@ -1,5 +1,9 @@
 import React from 'react';
-import store, { addDataPoint, saveBarChartThunk } from '../../store';
+import store, {
+  addDataPoint,
+  saveBarChartThunk,
+  updateBarChartThunk
+} from '../../store';
 import { Button } from 'semantic-ui-react';
 import { BarChartJSONUtil } from './BarChartUtils/BarChartJSONUtil';
 import { PublishButton } from '../index';
@@ -14,6 +18,7 @@ class BarChartTools extends React.Component {
     this.addDataPoint = this.addDataPoint.bind(this);
     this.updateLocalNodeVal = this.updateLocalNodeVal.bind(this);
     this.handleSave = this.handleSave.bind(this);
+    this.handleUpdate = this.handleUpdate.bind(this);
   }
 
   // Add Data Point functions
@@ -21,8 +26,6 @@ class BarChartTools extends React.Component {
   addDataPoint(evt) {
     evt.preventDefault();
     store.dispatch(addDataPoint(this.state.addNodeVal));
-    console.log('submitted');
-    console.log(this.state);
   }
 
   updateLocalNodeVal(evt) {
@@ -31,15 +34,27 @@ class BarChartTools extends React.Component {
   }
 
   handleSave() {
-    const { chartId, data } = this.props;
-    this.props.save(data);
+    let { data, title } = this.props;
+    if (!title) title = 'TITLE_PLACEHOLDER';
+    this.props.save(data, title);
+  }
+
+  handleUpdate() {
+    const { data, chartId } = this.props;
+    this.props.update(data, chartId);
   }
 
   render() {
+    const { isSaved, chartId } = this.props;
     return (
       <div className="bar-toolbar">
         <BarChartJSONUtil />
-        <Button onClick={this.handleSave}>SAVE</Button>
+        <Button
+          onClick={chartId ? this.handleUpdate : this.handleSave}
+          className={`${isSaved && 'disabled'}`}
+        >
+          {isSaved ? 'SAVED' : 'SAVE'}
+        </Button>
         <PublishButton />
         <div className="updateForm">
           <form onSubmit={this.addDataPoint}>
@@ -57,11 +72,13 @@ class BarChartTools extends React.Component {
 const mapStateToProps = state => ({
   isSaved: state.barChart.isSaved,
   data: state.barChart.data,
-  chartId: state.barChart.chartId
+  chartId: state.barChart.chartId,
+  title: state.barChart.title
 });
 
 const mapDispatchToProps = dispatch => ({
-  save: data => dispatch(saveBarChartThunk(data))
+  save: (data, title) => dispatch(saveBarChartThunk(data, title)),
+  update: (data, chartId) => dispatch(updateBarChartThunk(data, chartId))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(BarChartTools);

@@ -1,16 +1,22 @@
 import React from 'react';
 import { SingleSelection } from '../../components';
 import firebase from 'firebase';
+import { app } from '../../base';
 import { connect } from 'react-redux';
-import store, { loadDefaultData, clearData, saveChart, updateChart, getUserCharts, getPublishedCharts } from '../../store';
-
+import store, {
+  loadDefaultData,
+  clearData,
+  saveChart,
+  updateChart,
+  getUserCharts,
+  getPublishedCharts
+} from '../../store';
 
 const timelines = [
   { id: 1, name: 'Bar Chart', type: 'barchart' },
   { id: 2, name: 'Pie Chart', type: 'piechart' },
   { id: 3, name: 'Sankey Diagram', type: 'sankey' }
 ];
-
 
 export class AllProjects extends React.Component {
   constructor(props) {
@@ -29,9 +35,9 @@ export class AllProjects extends React.Component {
     // this.props.fetchTemplates();
     // this.props.fetchUserProjects();
     // getUserCharts()
-    this.props.getUserCharts()
-    this.props.getPublishedCharts()
-    console.log('hhhhh', this.props)
+    this.props.getUserCharts();
+    this.props.getPublishedCharts();
+    console.log('hhhhh', this.props);
     // store.dispatch(getUserCharts());
     // getPublishedCharts()
     // store.dispatch(getPublishedCharts());
@@ -45,7 +51,7 @@ export class AllProjects extends React.Component {
     //   url: '/1/sanket'
     // };
     // const uid = firebase.auth().currentUser.uid;
-    
+
     console.log('this.props', this.props);
     return (
       <div className="chart-group-containter">
@@ -65,6 +71,20 @@ export class AllProjects extends React.Component {
         <div>
           <h2 className="title">My Saved Projects</h2>
           <div className="grid-list">
+<<<<<<< HEAD
+            {!this.props.userCharts
+              ? 'You currently have no saved charts'
+              : this.props.userCharts
+                  .filter(chart => chart.uid === this.props.userId)
+                  .map(chart => (
+                    <SingleSelection
+                      key={chart.chartIdKey}
+                      name={chart.name}
+                      type={chart.chartType}
+                      url={`/view/${chart.type}/${chart.chartIdKey}`}
+                    />
+                  ))}
+=======
 
             {!this.props.userCharts ?
               ('You currently have no saved charts')
@@ -77,11 +97,26 @@ export class AllProjects extends React.Component {
                     url={`/view/${chart.chartType}/${chart.chartIdKey}`}
                   />
                 )))}
+>>>>>>> master
           </div>
         </div>
         <div>
           <h2 className="title">Published Charts</h2>
           <div className="grid-list">
+<<<<<<< HEAD
+            {!this.props.publishedCharts
+              ? 'There are currently no published charts'
+              : this.props.publishedCharts
+                  .filter(chart => chart.isPublished === true)
+                  .map(chart => (
+                    <SingleSelection
+                      key={chart.name}
+                      name={chart.name}
+                      type={chart.type}
+                      url={`/show/${chart.type}/${chart.id}`}
+                    />
+                  ))}
+=======
             {!this.props.publishedCharts ?
               ('There are currently no published charts')
               : (this.props.publishedCharts.filter(chart => chart.isPublished === true).map(chart => (
@@ -92,6 +127,7 @@ export class AllProjects extends React.Component {
                   url={`/show/${chart.type}/${chart.id}`}
                 />
               )))}
+>>>>>>> master
           </div>
         </div>
       </div>
@@ -99,9 +135,8 @@ export class AllProjects extends React.Component {
   }
 }
 
-
 const mapStateToProps = storeState => {
-  console.log(storeState, 'kkkkk')
+  console.log(storeState, 'kkkkk');
   return {
     userId: storeState.user.user,
     userCharts: storeState.allCharts.userCharts,
@@ -125,6 +160,3 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AllProjects);
-
-
-
