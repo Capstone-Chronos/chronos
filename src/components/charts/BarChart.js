@@ -1,8 +1,7 @@
 import React from 'react';
 import { scaleLinear } from 'd3-scale';
 import { max } from 'd3-array';
-import { select } from 'd3-selection';
-import store, { loadDefaultData } from '../store/index';
+import store, { loadDefaultData } from '../../store';
 import { connect } from 'react-redux';
 import ReactFauxDOM from 'react-faux-dom';
 import d3 from 'd3';
@@ -32,12 +31,13 @@ class BarChart extends React.Component {
     const { x, y, width, height, preserveAspectRatio } = this.state;
     const padding = 30;
     const node = this.node;
-    const dataMax = max(data ? data : [0]);
+    const dataMax = data ? Math.max(...data) : 100;
+    const barPadding = this.props.barSpacing;
 
     // Create Scales
     const yScale = scaleLinear()
       .domain([0, dataMax])
-      .range([padding, height - padding]);
+      .range([0, height - padding * 4]);
 
     // ========================================================================
     // Initialize and append the svg canvas to faux-DOM
@@ -67,9 +67,11 @@ class BarChart extends React.Component {
         'x',
         (d, i) => padding * 2 + i * (width - padding * 4) / data.length
       )
-      .attr('y', d => padding + height - yScale(d))
-      .attr('height', d => yScale(d) - padding * 3)
-      .attr('width', (width - padding * 4) / data.length);
+      .attr('y', d => {
+        return height - padding * 2 - yScale(d);
+      }) // Padding plus
+      .attr('height', d => yScale(d))
+      .attr('width', (width - padding * 4) / data.length - barPadding);
 
     // Add border
     svg
@@ -90,22 +92,15 @@ class BarChart extends React.Component {
     const { x, y, width, height, preserveAspectRatio } = this.state;
     return (
       <div className="svg-container">
-        <div className="svg-centered">
-          {this.createBarChart()}
-          {/* <svg
-            className="svg-content"
-            ref={node => (this.node = node)}
-            viewBox={`${x} ${y} ${width} ${height}`}
-            preserveAspectRatio={preserveAspectRatio}
-          /> */}
-        </div>
+        <div className="svg-centered">{this.createBarChart()}</div>
       </div>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  data: state.barChart.data
+  data: state.barChart.data,
+  barSpacing: state.barChart.barSpacing
 });
 
 const mapDispatchToProps = dispatch => ({});

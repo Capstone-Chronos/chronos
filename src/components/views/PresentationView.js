@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { PublishButton, SankeyWrapper, BarChart } from './index';
-import { Grid, Column } from 'semantic-ui-react';
+import { Grid } from 'semantic-ui-react';
+import { Canvas } from '../../components';
 
 class PresentationView extends React.Component {
   constructor(props) {
@@ -16,15 +16,15 @@ class PresentationView extends React.Component {
     return (
       <Grid divided>
         <Grid.Column width={11}>
-          <BarChart />
+          <Canvas />
         </Grid.Column>
         <Grid.Column width={5}>
-          <button class="ui labeled icon button">
-            <i class="pause icon" />
+          <button className="ui labeled icon button">
+            <i className="pause icon" />
             Previous
           </button>
-          <button class="ui right labeled icon button">
-            <i class="right arrow icon" />
+          <button className="ui right labeled icon button">
+            <i className="right arrow icon" />
             Next
           </button>
         </Grid.Column>

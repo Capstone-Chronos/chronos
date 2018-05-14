@@ -52,8 +52,7 @@ nav {
 
 .chartContainer {
   display: flex;
-  margin: 3em;
-  justify-content: center;
+  margin: 2em;
   align-items: center;
 }
 

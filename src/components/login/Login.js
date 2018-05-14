@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import { app, googleProvider } from '../base';
+import { app, googleProvider } from '../../base';
 import { connect } from 'react-redux';
-import store, { setUser } from '../store/index';
+import store, { setUser } from '../../store';
 import ErrorMessage from './ErrorMessage';
 
 class Login extends Component {
@@ -49,6 +49,7 @@ class Login extends Component {
         .then(user => {
           //console.log(user);
           if (user && user.email) {
+            console.log(user)
             this.loginForm.reset();
             store.dispatch(setUser(user.uid));
             this.setState({ redirect: true });
@@ -78,7 +79,7 @@ class Login extends Component {
         <div className="ui middle aligned center aligned grid">
           <div className="column">
             <h2 className="ui teal image header">
-              <img src="assets/images/logo.png" className="image" />
+              <img src="assets/images/logo.png" className="image" alt="" />
               <div className="content">Log-in to your account</div>
             </h2>
             <form

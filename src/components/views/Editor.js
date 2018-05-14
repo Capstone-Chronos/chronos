@@ -1,6 +1,7 @@
 import React from 'react';
-import Canvas from './Canvas';
-import Toolbar from './Toolbar';
+import { Table } from 'semantic-ui-react';
+import { Canvas } from '../../components';
+import { Toolbar } from '../../components';
 
 const Editor = () => (
   <div className="ui container">

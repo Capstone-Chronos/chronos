@@ -1,23 +1,24 @@
 import React from 'react';
-import Sankey from './Sankey';
-import SankeyTools from './SankeyTools';
+import { Sankey, SankeyTools, FooterBar, ColorPicker } from '../components';
 import Modal from 'react-modal';
-import FooterBar from './SankeyUtils/FooterBar';
+import addNode from './toolbars/SankeyUtils/AddNode';
+import addLink from './toolbars/SankeyUtils/AddLink';
+import firebase from 'firebase';
 import { connect } from 'react-redux';
-import { loadData, readFile } from './SankeyUtils/utils';
-import { loadDefaultData, clearData, saveChart } from '../store/sankeyChart';
-import ColorPicker from './ColorPicker';
+import { loadData, readFile } from './toolbars/SankeyUtils/utils';
+import { loadDefaultData, clearData, saveChart, updateChart, importData } from '../store/sankeyChart';
 
 class SankeyWrapper extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      modalIsOpen: false,
+      modalIsOpen: false
     };
 
     this.loadData = loadData.bind(this);
     this.readFile = readFile.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleUpdate = this.handleUpdate.bind(this)
 
     this.emptyDiagram = this.emptyDiagram.bind(this);
 
@@ -31,7 +32,7 @@ class SankeyWrapper extends React.Component {
     this.closeAndSaveModal = this.closeAndSaveModal.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.changeHeight = this.changeHeight.bind(this);
-    this.changeWidth = this.changeWidth.bind(this)
+    this.changeWidth = this.changeWidth.bind(this);
     this.handleColorChange = this.handleColorChange.bind(this);
   }
 
@@ -39,25 +40,39 @@ class SankeyWrapper extends React.Component {
     this.setState({
       height: this.props.height,
       width: this.props.width
-    })
+    });
   }
 
   handleSubmit() {
     let updateData = {
+      // name: this.state.title  || this.props.title,
       nodes: this.state.nodes || this.props.nodes,
       links: this.state.links || this.props.links,
+      userId: this.props.userId,
       width: this.state.width || this.props.width,
       height: this.state.height || this.props.height
     };
     this.props.saveChanges(updateData);
   }
 
+  handleUpdate() {
+    let updateData = {
+      // name: this.state.title  || this.props.title,
+      nodes: this.state.nodes || this.props.nodes,
+      links: this.state.links || this.props.links,
+      userId: this.props.userId,
+      width: this.state.width || this.props.width,
+      height: this.state.height || this.props.height
+    };
+    this.props.updateChanges(updateData);
+  }
+
   changeHeight(newHeight) {
-    this.setState({ height: newHeight })
+    this.setState({ height: newHeight });
   }
 
   changeWidth(newWidth) {
-    this.setState({ width: newWidth })
+    this.setState({ width: newWidth });
   }
 
   addNode(name) {
@@ -179,7 +194,7 @@ class SankeyWrapper extends React.Component {
     if (this.state.modalContent === 'link') {
       var modalValue = this.state.modalContentLinkValue;
       var header = 'Update Link Weight';
-      var color = 'Change Link Color'
+      var color = 'Change Link Color';
     } else if (this.state.modalContent === 'node') {
       var modalValue = this.state.modalContentNodeName;
       var header = 'Update Node Name';
@@ -203,33 +218,39 @@ class SankeyWrapper extends React.Component {
     return (
       <div>
         <div className="chartContainer">
-          <SankeyTools
-            nodes={this.props.nodes}
-            links={this.props.links}
-            addNode={this.addNode}
-            addLink={this.addLink}
-            openModal={this.openModal}
-            handleSubmit={this.handleSubmit}
-            changeHeight={this.changeHeight}
-            changeWidth={this.changeWidth}
-            currentHeight={this.state.height}
-            currentWidth={this.state.width}
-          />
-          <Sankey
-            nodes={this.props.nodes}
-            links={this.props.links}
-            openModal={this.openModal}
-            height={this.state.height}
-            width={this.state.width}
-          />
+          <div className="tools" style={{ width: '15vw' }}>
+            <SankeyTools
+              nodes={this.props.nodes}
+              links={this.props.links}
+              addNode={this.addNode}
+              addLink={this.addLink}
+              openModal={this.openModal}
+              handleSubmit={this.handleSubmit}
+              handleUpdate={this.handleUpdate}
+              changeHeight={this.changeHeight}
+              changeWidth={this.changeWidth}
+              currentHeight={this.state.height}
+              currentWidth={this.state.width}
+            />
+            <FooterBar
+              nodes={this.props.nodes}
+              links={this.props.links}
+              readFile={this.readFile}
+              emptyDiagram={this.emptyDiagram}
+            />
+          </div>
+          <div style={{ width: '80vw' }}>
+            <h2>{this.props.title || "New Sankey Diagram"}</h2>
+            <Sankey
+              nodes={this.props.nodes}
+              links={this.props.links}
+              openModal={this.openModal}
+              height={this.state.height}
+              width={this.state.width}
+            />
+          </div>
         </div>
         <div>
-          <FooterBar
-            nodes={this.props.nodes}
-            links={this.props.links}
-            readFile={this.readFile}
-            emptyDiagram={this.emptyDiagram}
-          />
           <Modal
             closeTimeoutMS={150}
             isOpen={this.state.modalIsOpen}
@@ -249,7 +270,7 @@ class SankeyWrapper extends React.Component {
             <hr />
             <div style={{ marginTop: '2em', marginBottom: '2em' }}>
               <h4>{color}</h4>
-              <ColorPicker handleColorChange={this.handleColorChange}/>
+              <ColorPicker handleColorChange={this.handleColorChange} />
             </div>
             <div className="row">
               <div className="col-xs-12">
@@ -268,12 +289,15 @@ class SankeyWrapper extends React.Component {
   }
 }
 
+const userId = firebase.auth().currentUser;
+
 const mapStateToProps = storeState => {
   return {
     nodes: storeState.sankeyChart.nodes,
     links: storeState.sankeyChart.links,
     height: storeState.sankeyChart.height,
-    width: storeState.sankeyChart.width
+    width: storeState.sankeyChart.width,
+    userId: storeState.user.user
   };
 };
 
@@ -289,6 +313,10 @@ const mapDispatchToProps = function (dispatch) {
     },
     saveChanges: stateObj => {
       const action = saveChart(stateObj);
+      dispatch(action);
+    },
+    uploadData: data => {
+      const action = importData(data);
       dispatch(action);
     }
   };

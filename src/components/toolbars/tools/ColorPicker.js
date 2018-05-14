@@ -3,15 +3,15 @@ import { ChromePicker } from 'react-color';
 
 export default class ColorPicker extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
-      background: '#fff',
-    }
+      background: '#fff'
+    };
     this.handleChangeComplete = this.handleChangeComplete.bind(this);
   }
 
-  handleChangeComplete = (color) => {
-    this.setState({background: color.hex});
+  handleChangeComplete = color => {
+    this.setState({ background: color.hex });
     this.props.handleColorChange(color.hex);
   };
 
@@ -24,4 +24,3 @@ export default class ColorPicker extends React.Component {
     );
   }
 }
-

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Form } from 'semantic-ui-react';
-import PropTypes from 'prop-types';
+import { Button } from 'semantic-ui-react';
 import AddLink from './SankeyUtils/AddLink';
 import AddNode from './SankeyUtils/AddNode';
 
@@ -14,21 +13,21 @@ class SankeyTools extends Component {
     };
     this.toggleVisibility = this.toggleVisibility.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    this.submitHeightWidth = this.submitHeightWidth.bind(this)
+    this.submitHeightWidth = this.submitHeightWidth.bind(this);
   }
 
   toggleVisibility = () => this.setState({ visible: !this.state.visible });
 
   handleChange(evt) {
     this.setState({ [evt.target.name]: evt.target.value });
-    console.log(this.state)
+    console.log(this.state);
   }
 
   submitHeightWidth(evt) {
     evt.preventDefault();
     this.props.changeHeight(this.state.height);
     this.props.changeWidth(this.state.width);
-    console.log(this.state)
+    console.log(this.state);
   }
 
   render() {
@@ -47,14 +46,27 @@ class SankeyTools extends Component {
         <div className="form">
           <form onSubmit={this.submitHeightWidth}>
             <label>Width</label>
-            <input onChange={this.handleChange} name="width" defaultValue={this.props.width}></input>
-            <br></br>
+            <input
+              onChange={this.handleChange}
+              name="width"
+              defaultValue={this.props.width}
+            />
+            <br />
             <label>Height</label>
-            <input onChange={this.handleChange} name="height" defaultValue={this.props.height}></input>
-            <br></br>
+            <input
+              onChange={this.handleChange}
+              name="height"
+              defaultValue={this.props.height}
+            />
+            <br />
             <Button onClick={this.submitHeightWidth}>Update chart size</Button>
           </form>
-          <Button circular size="small" onClick={this.props.handleSubmit}>Save Changes</Button>
+          <Button circular size="small" onClick={this.props.handleUpdate}>
+            Update Chart
+          </Button>
+          <Button circular size="small" onClick={this.props.handleSubmit}>
+            Save Changes as New Chart
+          </Button>
         </div>
       </div>
     );

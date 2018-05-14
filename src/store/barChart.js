@@ -1,13 +1,18 @@
+import { postBarChartToDatabase } from '../database/barChart';
+
 const initialState = {
   data: [],
   size: 0,
-  tempVal: 0
+  tempVal: 0,
+  barSpacing: 5,
+  chartId: '',
+  isSaved: ''
 };
 
 const LOAD_DEFAULT_DATA = 'LOAD_DEFAULT_DATA';
-const CHANGE_TEMP_VAL = 'CHANGE_TEMP_VAL';
 const ADD_DATA_POINT = 'ADD_DATA_POINT';
 const SET_BAR_DATA = 'SET_BAR_DATA';
+const SAVE_BAR_CHART = 'SAVE_BAR_CHART';
 
 const defaultData = [3, 7, 5, 10];
 
@@ -27,8 +32,19 @@ export const setBarData = data => {
     data
   };
 };
+const saveBarChart = success => {
+  type: SAVE_BAR_CHART, success;
+};
 
-// const changeTempVal = tempVal => ({ type: CHANGE_TEMP_VAL, tempVal });
+// THUNKS
+
+export const saveBarChartThunk = data => {
+  return dispatch => {
+    postBarChartToDatabase(data)
+      .then(res => console.log(res))
+      .catch(err => console.error(err));
+  };
+};
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
@@ -36,9 +52,15 @@ export default function reducer(state = initialState, action) {
       console.log(action.data, 'DEFAULT DATA PUT IN STORE');
       return { ...state, data: action.data };
     case ADD_DATA_POINT:
-      return { ...state, data: state.data.concat([action.point]) };
+      return {
+        ...state,
+        data: state.data.concat([action.point]),
+        isSaved: false
+      };
     case SET_BAR_DATA:
       return { ...state, data: action.data };
+    case SAVE_BAR_CHART:
+      return { ...state, isSaved: true };
     default:
       return state;
   }

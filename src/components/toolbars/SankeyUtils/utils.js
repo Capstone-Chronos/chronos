@@ -62,11 +62,11 @@ function readFile(e) {
         return node;
       });
       var links = contents.links;
-      this.setState({
+      this.props.uploadData({
         nodes: nodes,
         links: links
       });
-     
+     console.log(this)
     }.bind(this);
     r.readAsText(file);
   } 
