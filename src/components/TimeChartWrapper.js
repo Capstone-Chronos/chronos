@@ -1,7 +1,10 @@
-import { TimeChart } from '../components';
+import { TimeChart, ColorPicker } from '../components';
 import React from 'react';
 import { Button, Grid } from 'semantic-ui-react';
 import Modal from 'react-modal';
+
+var testData = { radius: 10, dates: [{ name: 'New Years 2016', date: new Date(2016, 0, 1) }, { name: 'My birthday', date: new Date(2016, 3, 1) }, { name: 'First Day of Summer', date: new Date(2016, 6, 21) }, { name: 'New Years 2016', date: new Date(2017, 0, 1) }] }
+
 
 export default class TimeChartWrapper extends React.Component {
   constructor(props) {
@@ -54,14 +57,12 @@ export default class TimeChartWrapper extends React.Component {
   }
 
   closeAndSaveModal() {
-    if (this.state.modalContent === 'link') {
-      this.updateEvent(
-        this.state.modalContentNodeName,
-        this.state.modalContentNodeId,
-        this.state.modalContentNodeColor
-      );
-      this.setState({ modalIsOpen: false });
-    }
+    // this.updateEvent(
+    //   this.state.modalContentNodeName,
+    //   this.state.modalContentNodeId,
+    //   this.state.modalContentNodeColor
+    // );
+    this.setState({ modalIsOpen: false });
   }
 
   handleColorChange(color) {
@@ -69,13 +70,35 @@ export default class TimeChartWrapper extends React.Component {
   }
 
   handleInputChange(key) {
-    if (this.state.modalContent === 'link') {
-      this.setState({ modalContentEventValue: key.target.value });
-    }
+    this.setState({ modalContentEventValue: key.target.value });
   }
 
 
   render() {
+    if (this.state.modalContent === 'link') {
+      var modalValue = this.state.modalContentLinkValue;
+      var header = 'Update Link Weight';
+      var color = 'Change Link Color';
+    } else if (this.state.modalContent === 'node') {
+      var modalValue = this.state.modalContentNodeName;
+      var header = 'Update Node Name';
+      var color = 'Change Node Color';
+    }
+
+    var modalStyle = {
+      content: {
+        top: '275px',
+        left: '37%',
+        right: 'auto',
+        bottom: 'auto',
+        border: '0px solid #333',
+        width: '300px'
+      },
+      overlay: {
+        backgroundColor: 'rgba(0, 0, 0 , 0.35)'
+      }
+    };
+
     return (
       <div className='chartContainer'>
         <Grid>
@@ -87,7 +110,7 @@ export default class TimeChartWrapper extends React.Component {
             </Grid.Column>
             <Grid.Column width="13">
               <div style={{ margin: '4em' }}>
-                <TimeChart handleClick={this.handleClick} />
+                <TimeChart handleClick={this.handleClick} data={testData} />
                 <Modal
                   closeTimeoutMS={150}
                   isOpen={this.state.modalIsOpen}

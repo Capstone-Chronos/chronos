@@ -5,27 +5,27 @@ import _ from 'lodash';
 import { scaleTime } from 'd3-scale';
 import { axisBottom } from 'd3-axis';
 
-var myData = { radius: 10, dates: [{ name: 'New Years 2016', date: new Date(2016, 0, 1) }, { name: 'My birthday', date: new Date(2016, 3, 1) }, { name: 'First Day of Summer', date: new Date(2016, 6, 21) }, { name: 'New Years 2016', date: new Date(2017, 0, 1) }] }
-
 export default class TimeChart extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       width: 1400,
       height: 800,
-      radius: 5
+      radius: 5,
+      dates: []
     };
   }
 
   componentWillMount() {
-    this.setState({ dates: myData.dates, radius: myData.radius })
+    this.setState({ dates: this.props.data.dates, radius: this.props.data.radius })
+    console.log(this.props)
   }
 
 
   componentWillReceiveProps(nextProps) {
     this.setState({
-      // nodes: nextProps.nodes,
-      // links: nextProps.links
+      dates: this.props.data.dates,
+      radius: this.props.data.radius
     });
   }
 
