@@ -27,15 +27,23 @@ class Routes extends Component {
     return (
       <div>
         <Switch>
-
           {isLoggedIn && (
             <Switch>
               <Route exact path="/" component={Main} />
               <Route exact path="/charts" component={AllProjects} />
               <Route exact path="/projects" component={AllProjects} />
               <Route exact path="/edit/sankey/:id" component={SankeyWrapper} />
+              <Route
+                exact
+                path="/edit/sankey/:id/:title"
+                component={SankeyWrapper}
+              />
               <Route exact path="/edit/sankey" component={SankeyWrapper} />
-              <Route exact path="/edit/timechart" component={TimeChartWrapper} />
+              <Route
+                exact
+                path="/edit/timechart"
+                component={TimeChartWrapper}
+              />
               <Route path="/edit" component={Editor} />
               <Route path="/show" component={PresentationView} />
               <Route path="/view" component={PresentationView} />
@@ -49,8 +57,7 @@ class Routes extends Component {
               <Route exact path="/signup" component={SignUp} />
             </Switch>
           )}
-          <Redirect to="/" component={Main}/>
-
+          <Redirect to="/" component={Main} />
         </Switch>
       </div>
     );

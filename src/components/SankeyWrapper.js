@@ -14,7 +14,8 @@ import {
   updateSankeyChartThunk,
   saveSankeyChartThunk
 } from '../store/sankeyChart';
-import { deleteChart } from '../database/sankeyChart';
+import { deleteChart, updateChart } from '../database/sankeyChart';
+
 class SankeyWrapper extends React.Component {
   constructor(props) {
     super(props);
@@ -71,7 +72,7 @@ class SankeyWrapper extends React.Component {
     //   height: this.state.height || this.props.height
     // };
     let { data, chartId } = this.props;
-    this.props.updateChart(data, chartId);
+    updateChart(data, chartId);
   }
 
   deleteChart() {
@@ -337,11 +338,10 @@ const mapDispatchToProps = function(dispatch) {
     deleteChart: id => {
       const action = deleteChart(id);
       dispatch(action);
-    },
-    updateChart: (data, chartId) => {
-      const action = updateSankeyChartThunk(data, chartId);
-      dispatch(action);
     }
+    // updateChart: (data, chartId) => {
+    //   updateChart(data, chartId);
+    // }
   };
 };
 

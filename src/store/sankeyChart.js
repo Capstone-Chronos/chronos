@@ -199,17 +199,17 @@ export const saveSankeyChartThunk = (data, title) => {
         console.log('emow');
         dispatch(setSankeyTitle(title));
         dispatch(setSankeyId(chartId));
-        history.push(`edit/sankeyChart/${chartId}/${title}`);
+        history.push(`/edit/sankey/${chartId}/${title}`);
       })
       .catch(err => console.error(err));
   };
 };
 
-export const updateSankeyChartThunk = (data, chartId) => {
-  return dispatch => {
-    dispatch(updateChart(data, chartId));
-  };
-};
+// export const updateSankeyChartThunk = (data, chartId) => {
+//   return dispatch => {
+//     dispatch(updateChart(data, chartId));
+//   };
+// };
 
 // dispatch({
 //   type: UPDATE_DATA,
