@@ -74,7 +74,7 @@ export class AllProjects extends React.Component {
                     key={chart.chartIdKey}
                     name={chart.name}
                     type={chart.chartType}
-                    url={`/view/${chart.type}/${chart.chartIdKey}`}
+                    url={`/view/${chart.chartType}/${chart.chartIdKey}`}
                   />
                 )))}
           </div>
@@ -88,7 +88,7 @@ export class AllProjects extends React.Component {
                 <SingleSelection
                   key={chart.name}
                   name={chart.name}
-                  type={chart.type}
+                  type={chart.chartType}
                   url={`/show/${chart.type}/${chart.id}`}
                 />
               )))}
