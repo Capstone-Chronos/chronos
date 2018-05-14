@@ -64,7 +64,8 @@ export default function(user = initialState, action) {
       return {
         ...user,
         isLoggedIn: true,
-        email: action.email
+        email: action.email,
+        id: action.uid
       };
     case LOG_OUT:
       return initialState;
