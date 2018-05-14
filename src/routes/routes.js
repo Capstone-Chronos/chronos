@@ -28,7 +28,7 @@ class Routes extends Component {
           <Route exact path="/timelines" component={AllTimelines} />
           <Route exact path="/signup" component={SignUp} />
           <Route exact path="/login" component={Login} />
-          <Route path="/edit" component={EditorRouter} />
+          <Route path="/edit" component={Editor} />
           <Route exact path="/sankey" component={SankeyWrapper} />
           <Route path="/show/:id" component={PresentationView} />
           <Redirect to="/" />

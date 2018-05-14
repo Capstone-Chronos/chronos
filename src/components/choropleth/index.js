@@ -1,7 +1,8 @@
 import React from 'react';
 import { select } from 'd3-selection';
-import { geoPath, json as readJSON } from 'd3';
+import {  json as readJSON } from 'd3';
 import { mesh, feature } from 'topojson';
+import { geoPath } from 'd3-geo';
 
 export default class Choropleth extends React.Component {
   constructor(props) {
@@ -51,10 +52,11 @@ export default class Choropleth extends React.Component {
         <svg
           id="choropleth"
           ref={node => { this.node = node; }}
-          width={window.innerHeight / 2}
-          height={window.innerWidth * 0.7}
+          width="960"
+          height="600"
           style={{ marginTop: 20, marginLeft: 20 }}
         />
+        <p>Dinner.</p>
       </div>
     );
   }
