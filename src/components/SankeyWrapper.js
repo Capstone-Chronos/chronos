@@ -27,7 +27,7 @@ class SankeyWrapper extends React.Component {
     this.readFile = readFile.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleUpdate = this.handleUpdate.bind(this);
-    this.deleteChart = this.deleteChart.bind(this);
+    this.delete = this.delete.bind(this);
 
     this.emptyDiagram = this.emptyDiagram.bind(this);
 
@@ -75,10 +75,11 @@ class SankeyWrapper extends React.Component {
     updateChart(data, chartId);
   }
 
-  deleteChart() {
+  delete() {
     console.log(this.props.match.params.id);
-    this.props.deleteChart(this.props.match.params.id);
-    history.push('/');
+    let chartId = this.props.match.params.id;
+    let userId = this.props.userId;
+    deleteChart(chartId, userId);
   }
 
   changeHeight(newHeight) {
@@ -245,7 +246,7 @@ class SankeyWrapper extends React.Component {
               changeWidth={this.changeWidth}
               currentHeight={this.state.height}
               currentWidth={this.state.width}
-              deleteChart={this.deleteChart}
+              deleteChart={this.delete}
             />
             <FooterBar
               data={this.props.data}
@@ -310,7 +311,7 @@ const mapStateToProps = storeState => {
     data: storeState.sankeyChart.data,
     height: storeState.sankeyChart.height,
     width: storeState.sankeyChart.width,
-    userId: storeState.user.user,
+    userId: storeState.user.id,
     chartId: storeState.sankeyChart.chartId,
     title: 'Fake Title'
   };
@@ -334,11 +335,10 @@ const mapDispatchToProps = function(dispatch) {
     uploadData: data => {
       const action = importData(data);
       dispatch(action);
-    },
-    deleteChart: id => {
-      const action = deleteChart(id);
-      dispatch(action);
     }
+    // delete: (chartId, userId) => {
+    //   deleteChart(chartId, userId);
+    // }
     // updateChart: (data, chartId) => {
     //   updateChart(data, chartId);
     // }
