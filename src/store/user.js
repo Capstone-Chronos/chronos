@@ -3,18 +3,23 @@ import store from '.';
 import history from '../routes/history';
 import { userRef } from '../base';
 
-
 const SET_USER = 'SET_USER';
 const SIGNUP_USER = 'SIGNUP_USER';
 const LOG_OUT = 'LOG_OUT';
 
-export const setUser = user => ({ type: SET_USER, user });
+export const setUser = (email, uid) => {
+  return {
+    type: SET_USER,
+    email,
+    uid
+  };
+};
 // export const signUpUser = user => ({ type: SIGNUP_USER, user })
 const logOut = () => ({ type: LOG_OUT });
 
 const initialState = {
-  email: '',
   isLoggedIn: false,
+  email: '',
   id: ''
 };
 
@@ -42,7 +47,6 @@ export const signUpUser = user => async dispatch => {
 //     })
 //   }
 
-
 export const logOutThunk = () => {
   firebase
     .auth()
@@ -56,13 +60,18 @@ export const logOutThunk = () => {
 
 export default function(user = initialState, action) {
   switch (action.type) {
-  case SET_USER:
-    return { user: action.user, isLoggedIn: true };
-  case LOG_OUT:
-    return initialState;
-  case SIGNUP_USER:
-    return { user: action.user, isLoggedIn: true, id: action.id };
-  default:
-    return user;
+    case SET_USER:
+      return {
+        ...user,
+        isLoggedIn: true,
+        email: action.email,
+        id: action.uid
+      };
+    case LOG_OUT:
+      return initialState;
+    case SIGNUP_USER:
+      return { ...user, user: action.user, isLoggedIn: true, id: action.id };
+    default:
+      return user;
   }
 }
