@@ -29,7 +29,9 @@ export default class TimeChart extends React.Component {
     });
   }
 
+
   render() {
+
     // ========================================================================
     // Set units, margin, sizes
     // ========================================================================
@@ -39,7 +41,6 @@ export default class TimeChart extends React.Component {
 
     var format = d => formatNumber(d);
     var formatNumber = d3.format(',.0f'); // zero decimal places
-
 
     var svgNode = ReactFauxDOM.createElement('div');
 
@@ -65,7 +66,7 @@ export default class TimeChart extends React.Component {
       .data(this.state.dates)
       .enter()
       .append('circle')
-      .on('click', this.props.handleClick)
+      .on('click')
       .attr('transform', 'translate(0,' + (-20) + ')')
       .attr('class', 'time-event')
       .attr('r', this.state.radius)
@@ -78,21 +79,6 @@ export default class TimeChart extends React.Component {
     svg
       .append('g')
       .selectAll('text')
-      .data(this.state.dates)
-      .enter()
-      .append('text')
-      .attr('transform', 'translate(0,' + (-20) + ')')
-      .attr('x', function (d) {
-        return timeScale(d.date);
-      })
-      .text(function (d) {
-        return d.date.toDateString();
-      });
-
-    // Create content boxes for each event -- will toggle on click if in presentation mode (otherwise modal will open to edit content as in sankey)
-    svg
-      .append('g')
-      .selectAll('rect')
       .data(this.state.dates)
       .enter()
       .append('text')

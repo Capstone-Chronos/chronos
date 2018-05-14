@@ -4,7 +4,8 @@ import { SingleSelection } from '../../components';
 const timelines = [
   { id: 1, name: 'Bar Chart', type: 'barchart' },
   { id: 2, name: 'Pie Chart', type: 'piechart' },
-  { id: 3, name: 'Sankey Diagram', type: 'sankey' }
+  { id: 3, name: 'Sankey Diagram', type: 'sankey' },
+  { id: 4, name: 'Simple Timeline', type: 'timechart' }
 ];
 
 export default class Allcharts extends React.Component {
