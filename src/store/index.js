@@ -5,10 +5,11 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import { default as barChart } from './barChart';
 import { default as user } from './user';
 import { default as sankeyChart } from './sankeyChart';
+import { default as allCharts } from './allCharts'
 
 // Import sub-reducers
 
-const reducer = combineReducers({ barChart, user, sankeyChart });
+const reducer = combineReducers({ barChart, user, sankeyChart, allCharts });
 
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({ collapsed: true }))
@@ -23,3 +24,4 @@ export default store;
 export * from './barChart';
 export * from './sankeyChart';
 export * from './user';
+export * from './allCharts'

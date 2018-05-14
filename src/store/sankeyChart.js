@@ -29,6 +29,10 @@ const initialState = defaultData;
 // Action Types
 const UPDATE_DATA = 'UPDATE_DATA';
 const IMPORT_DATA = 'IMPORT_DATA';
+const GET_ONE_CHART = 'GET_CHART';
+const GET_USER_CHARTS = 'GET_USER_CHARTS';
+const DELETE_USER_CHART = 'DELETE_USER_CHARTS';
+const GET_PUBLISHED_CHARTS = 'GET_PUBLISHED_CHARTS';
 
 //ACTION CREATORS
 export const loadDefaultData = () => ({
@@ -46,38 +50,40 @@ export const clearData = () => ({
   data: empty
 });
 
-// export const saveChart = (data) => ({
-//   type: UPDATE_DATA,
-//   data: data
-// })
-
-// export const saveChart = (data) => async dispatch => {
-//   sankeyRef.set(data, snapshot => {
-//     dispatch({
-//       type: UPDATE_DATA,
-//       data: data
-//     });
-//   });
-// };
-
-export const saveChart = (data) => async dispatch => {
+export const updateChart = (data) => async dispatch => {
   let uid = firebase.auth().currentUser.uid;
-  let chartIdKey = userRef.child(uid).child('charts').push().key
-  // let chartIdKey = newChartId.key
   const chartInfo = {
     chartType: 'Sankey',
     isPublished: false,
+    // chartName: this.props.name,
+    chartIdKey: this.props.chartIdKey,
+    data,
+    uid
+  };
+  console.log('updateChart', chartInfo);
+  chartsRef.child(this.props.chartIdKey).set(chartInfo);
+  dispatch({
+    type: UPDATE_DATA,
+    data
+  });
+};
+
+export const saveChart = (data) => async dispatch => {
+  let uid = firebase.auth().currentUser.uid;
+  let chartIdKey = userRef.child(uid).child('charts').push().key;
+  console.log('chartid key', chartIdKey)
+
+  const chartInfo = {
+    chartType: 'Sankey',
+    isPublished: false,
+    // chartName: this.props.name,
     chartIdKey,
     data,
     uid
-  }
-  console.log('chartInfo', chartInfo)
-  // console.log('nnnnnn', userRef.ref(uid).child('charts'))
-  // console.log('aaaaaaa', userRef.child(uid).child('charts').value)
-  // userRef.child(userId).child('charts').value.push(data)
-  // userRef.child(uid).child('charts').push().on('child_added', snapshot => snapshot.val());
+  };
   userRef.child(uid).child('charts').push().set(chartIdKey);
-  chartsRef.push().set(chartInfo)
+  chartsRef.push().set(chartInfo);
+
   dispatch({
     type: UPDATE_DATA,
     data

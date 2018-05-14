@@ -69,7 +69,11 @@ class BarImportJSON extends React.Component {
     return (
       <div>
         <div>
-          <label for="file" className="ui icon button" onChange={this.readFile}>
+          <label
+            htmlFor="file"
+            className="ui icon button"
+            onChange={this.readFile}
+          >
             <i className="file icon" />
             Import JSON
           </label>

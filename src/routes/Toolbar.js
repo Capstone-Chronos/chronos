@@ -7,7 +7,7 @@ const Toolbar = () => (
   <Switch>
     <Route path="/edit/barchart" component={BarChartTools} />
     <Route exact path="/edit/barchart/:id" component={BarChartTools} />
-    <Route exact path="/edit/barchart" component={BarChartTools} />
+    <Route exact path="/edit/barchart/:id/:title" component={BarChartTools} />
 
     <Route exact path="/edit/piechart/:id" component={BarChartTools} />
     <Route exact path="/edit/piechart" component={BarChartTools} />
