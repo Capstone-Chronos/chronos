@@ -9,5 +9,5 @@ export const colors = {
   strokeDisabled: 'rgb(200, 200, 200)',
 };
 
-export const mapWidth = 900;
-export const mapHeight = 500;
+export const mapWidth = 960;
+export const mapHeight = 600;

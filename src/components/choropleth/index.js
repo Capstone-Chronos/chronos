@@ -1,47 +1,23 @@
 import React from 'react';
-import { select } from 'd3-selection';
-import {  json as readJSON } from 'd3';
-import { mesh, feature } from 'topojson';
-import { geoPath } from 'd3-geo';
+import renderMap from './renderMap';
+import { mapWidth, mapHeight } from './constants';
 
 export default class Choropleth extends React.Component {
   constructor(props) {
     super(props);
-    this.createChoropleth = this.createChoropleth.bind(this);
+    this.renderMap = renderMap.bind(this);
   }
 
   componentDidMount() {
-    this.createChoropleth();
+    this.renderMap();
+    this.states = this.node.children
+    console.log('Nodes:');
+    console.log(this.states);
+
   }
 
   componentDidUpdate() {
-    this.createChoropleth();
-  }
-
-  createChoropleth() {
-    readJSON('https://d3js.org/us-10m.v1.json', (err, us) => {
-      if (err) throw err;
-
-      const node = this.node;
-      const states = us.objects.states;
-      const geoData = feature(us, states).features;
-      const path = geoPath();
-      const lines = path(mesh(us, states, (a, b) => (a !== b)));
-
-      select(node)
-        .append('g')
-        .attr('class', 'states')
-        .selectAll('path')
-        .data(geoData)
-        .enter()
-        .append('path')
-        .attr('d', path);
-
-      select(node)
-        .append('path')
-        .attr('class', 'state-borders')
-        .attr('p', lines);
-    });
+    this.renderMap();
   }
 
   render() {
@@ -52,11 +28,10 @@ export default class Choropleth extends React.Component {
         <svg
           id="choropleth"
           ref={node => { this.node = node; }}
-          width="960"
-          height="600"
+          width={mapWidth}
+          height={mapHeight}
           style={{ marginTop: 20, marginLeft: 20 }}
         />
-        <p>Dinner.</p>
       </div>
     );
   }

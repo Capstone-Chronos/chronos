@@ -379,3 +379,8 @@ span.buttonText {
   justify-content: center;
   align-items: center;
 }
+
+.states { 
+  stroke: #fff;
+  stroke-linejoin: round;
+}

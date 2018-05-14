@@ -9,7 +9,8 @@ import {
   PresentationView,
   Editor,
   SankeyWrapper,
-  TimeChartWrapper
+  TimeChartWrapper,
+  Choropleth
 } from '../components';
 
 /**
@@ -36,6 +37,7 @@ class Routes extends Component {
           <Route path="/show" component={PresentationView} />
           <Route path="/view" component={PresentationView} />
           <Route path="/sankey" component={SankeyWrapper} />
+          <Route path="/choropleth" component={Choropleth} />
           <Redirect to="/" />
         </Switch>
       </div>
