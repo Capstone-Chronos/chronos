@@ -24,5 +24,21 @@ export async function postBarChartToDatabase(data, title) {
   } catch (err) {
     throw Error(err);
   }
+  console.log(newChartKey);
   return newChartKey;
+}
+
+export async function putBarChart(data, chartId) {
+  console.log('putBarChart');
+  try {
+    const uid = await app.auth().currentUser.uid;
+    const chartInfo = {
+      data
+    };
+    let updates = {};
+    updates[`/charts/${chartId}`] = data;
+    await databaseRef.update(updates);
+  } catch (err) {
+    throw Error(err);
+  }
 }

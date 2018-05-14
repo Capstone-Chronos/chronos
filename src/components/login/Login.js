@@ -20,12 +20,20 @@ class Login extends Component {
     app
       .auth()
       .signInWithPopup(googleProvider)
+      .then(userObj => userObj.user)
+      .then(userObj => {
+        const { email, uid } = userObj;
+        return {
+          email,
+          uid
+        };
+      })
       .then((user, error) => {
         if (error) {
           throw Error('Unable to sign in with Google');
         } else {
           this.loginForm.reset();
-          store.dispatch(setUser(user.uid));
+          store.dispatch(setUser(user.email, user.uid));
           this.setState({ redirect: true });
         }
       })
@@ -49,7 +57,7 @@ class Login extends Component {
         .then(user => {
           //console.log(user);
           if (user && user.email) {
-            console.log(user)
+            console.log(user);
             this.loginForm.reset();
             store.dispatch(setUser(user.uid));
             this.setState({ redirect: true });
@@ -64,7 +72,7 @@ class Login extends Component {
 
   render() {
     const { from } = this.props.location.state || {
-      from: { pathname: '/timelines' }
+      from: { pathname: '/charts' }
     };
 
     if (this.state.redirect === true) {

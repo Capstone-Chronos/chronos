@@ -4,7 +4,6 @@ import history from '../routes/history';
 const initialState = {
   data: [],
   size: 0,
-  tempVal: 0,
   barSpacing: 5,
   chartId: '',
   isSaved: '',
@@ -17,6 +16,7 @@ const SET_BAR_DATA = 'SET_BAR_DATA';
 const SAVE_BAR_CHART = 'SAVE_BAR_CHART';
 const SET_CHART_KEY = 'SET_CHART_KEY';
 const UPDATE_BAR_CHART = 'UPDATE_BAR_CHART';
+const SET_CHART_ID = 'SET_CHART_ID';
 
 const defaultData = [3, 7, 5, 10];
 
@@ -31,13 +31,13 @@ export const addDataPoint = point => {
   };
 };
 export const setBarData = data => {
-  return {
-    type: SET_BAR_DATA,
-    data
-  };
+  return { type: SET_BAR_DATA, data };
 };
-const saveBarChart = chartId => {
-  return { type: SAVE_BAR_CHART, chartId };
+const saveBarChart = () => {
+  return { type: SAVE_BAR_CHART };
+};
+const setChartId = chartId => {
+  return { type: SET_CHART_ID, chartId };
 };
 
 // THUNKS
@@ -46,7 +46,8 @@ export const saveBarChartThunk = (data, title) => {
   return dispatch => {
     postBarChartToDatabase(data, title)
       .then(chartId => {
-        dispatch(saveBarChart(chartId));
+        dispatch(saveBarChart());
+        dispatch(setChartId(chartId));
         history.push(`/edit/barchart/${chartId}/${title}`);
       })
       .catch(err => console.error(err));
@@ -57,7 +58,7 @@ export const updateBarChartThunk = (data, chartId) => {
   return dispatch => {
     putBarChart(data, chartId)
       .then(chartId => {
-        dispatch(updateBarChart(chartId));
+        dispatch(saveBarChart());
       })
       .catch(err => console.error(err));
   };
@@ -76,7 +77,9 @@ export default function reducer(state = initialState, action) {
     case SET_BAR_DATA:
       return { ...state, data: action.data };
     case SAVE_BAR_CHART:
-      return { ...state, isSaved: true, chartId: action.chartId };
+      return { ...state, isSaved: true };
+    case SET_CHART_ID:
+      return { ...state, chartId: action.chartId };
     default:
       return state;
   }

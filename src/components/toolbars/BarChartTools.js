@@ -18,6 +18,7 @@ class BarChartTools extends React.Component {
     this.addDataPoint = this.addDataPoint.bind(this);
     this.updateLocalNodeVal = this.updateLocalNodeVal.bind(this);
     this.handleSave = this.handleSave.bind(this);
+    this.handleUpdate = this.handleUpdate.bind(this);
   }
 
   // Add Data Point functions
@@ -40,18 +41,19 @@ class BarChartTools extends React.Component {
     this.props.save(data, chartId, title);
   }
 
-  update() {
-    const { chartId, data } = this.props;
-    // this.props.update(data, chartId)
+  handleUpdate() {
+    console.log('updateBar');
+    const { data, chartId } = this.props;
+    this.props.update(data, chartId);
   }
 
   render() {
-    const { isSaved } = this.props;
+    const { isSaved, chartId } = this.props;
     return (
       <div className="bar-toolbar">
         <BarChartJSONUtil />
         <Button
-          onClick={chartId ? this.update : this.handleSave}
+          onClick={chartId ? this.handleUpdate : this.handleSave}
           disabled={isSaved}
         >
           {isSaved ? 'SAVED' : 'SAVE'}
@@ -79,7 +81,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   save: (data, title) => dispatch(saveBarChartThunk(data, title)),
-  update: (data, chartId) => dispatch(updateBarChartThunk(data.chartId))
+  update: (data, chartId) => dispatch(updateBarChartThunk(data, chartId))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(BarChartTools);
