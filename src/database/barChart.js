@@ -28,6 +28,7 @@ export async function postBarChartToDatabase(data, title) {
   return newChartKey;
 }
 
+// Update existing chart
 export async function putBarChart(data, chartId) {
   console.log('putBarChart');
   try {

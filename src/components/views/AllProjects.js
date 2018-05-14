@@ -71,7 +71,6 @@ export class AllProjects extends React.Component {
         <div>
           <h2 className="title">My Saved Projects</h2>
           <div className="grid-list">
-<<<<<<< HEAD
             {!this.props.userCharts
               ? 'You currently have no saved charts'
               : this.props.userCharts
@@ -81,29 +80,14 @@ export class AllProjects extends React.Component {
                       key={chart.chartIdKey}
                       name={chart.name}
                       type={chart.chartType}
-                      url={`/view/${chart.type}/${chart.chartIdKey}`}
+                      url={`/view/${chart.chartType}/${chart.chartIdKey}`}
                     />
                   ))}
-=======
-
-            {!this.props.userCharts ?
-              ('You currently have no saved charts')
-              : (this.props.userCharts.filter(chart => chart.uid === this.props.userId)
-                .map(chart => (
-                  <SingleSelection
-                    key={chart.chartIdKey}
-                    name={chart.name}
-                    type={chart.chartType}
-                    url={`/view/${chart.chartType}/${chart.chartIdKey}`}
-                  />
-                )))}
->>>>>>> master
           </div>
         </div>
         <div>
           <h2 className="title">Published Charts</h2>
           <div className="grid-list">
-<<<<<<< HEAD
             {!this.props.publishedCharts
               ? 'There are currently no published charts'
               : this.props.publishedCharts
@@ -112,22 +96,10 @@ export class AllProjects extends React.Component {
                     <SingleSelection
                       key={chart.name}
                       name={chart.name}
-                      type={chart.type}
+                      type={chart.chartType}
                       url={`/show/${chart.type}/${chart.id}`}
                     />
                   ))}
-=======
-            {!this.props.publishedCharts ?
-              ('There are currently no published charts')
-              : (this.props.publishedCharts.filter(chart => chart.isPublished === true).map(chart => (
-                <SingleSelection
-                  key={chart.name}
-                  name={chart.name}
-                  type={chart.chartType}
-                  url={`/show/${chart.type}/${chart.id}`}
-                />
-              )))}
->>>>>>> master
           </div>
         </div>
       </div>
