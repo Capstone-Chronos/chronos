@@ -3,7 +3,7 @@ import { json as readJSON } from 'd3';
 import { mesh, feature } from 'topojson';
 import { geoPath } from 'd3-geo';
 
-export default function renderMap () {
+export default function renderMap (callModal) {
   return readJSON('https://d3js.org/us-10m.v1.json', (err, us) => {
     if (err) throw err;
 
@@ -22,7 +22,7 @@ export default function renderMap () {
       .append('path')
       .attr('d', path)
       .attr('id', data => 'state' + Number(data.id))
-      .on('click', data => console.log(data));
+      .on('click', data => callModal(data.id));
 
     select(node)
       .append('path')
