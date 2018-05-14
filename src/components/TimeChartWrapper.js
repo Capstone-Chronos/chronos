@@ -1,15 +1,16 @@
 import { TimeChart, ColorPicker } from '../components';
 import React from 'react';
-import { Button, Grid } from 'semantic-ui-react';
+import { Button, Grid, Input, TextArea } from 'semantic-ui-react';
 import Modal from 'react-modal';
 
-var testData = { radius: 10, dates: [{ name: 'New Years 2016', date: new Date(2016, 0, 1) }, { name: 'My birthday', date: new Date(2016, 3, 1) }, { name: 'First Day of Summer', date: new Date(2016, 6, 21) }, { name: 'New Years 2016', date: new Date(2017, 0, 1) }] }
+var testData = { radius: 10, dates: [{ id: 0, name: 'New Years 2016', date: new Date(2016, 0, 1) }, { id: 1, name: 'My birthday', date: new Date(2016, 3, 1) }, { id: 2, name: 'First Day of Summer', date: new Date(2016, 6, 21) }, { id: 3, name: 'New Years 2016', date: new Date(2017, 0, 1) }] }
 
 
 export default class TimeChartWrapper extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      dates: testData.dates,
       editorMode: true,
       modalIsOpen: false
     }
@@ -18,7 +19,8 @@ export default class TimeChartWrapper extends React.Component {
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.closeAndSaveModal = this.closeAndSaveModal.bind(this);
-
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.updateEvent = this.updateEvent.bind(this);
   }
 
   //Function to open info pane in presentation mode or editing modal in editor mode
@@ -28,10 +30,13 @@ export default class TimeChartWrapper extends React.Component {
     }
   }
 
-  updateEvent(name, idx, color) {
-    var dates = this.props.dates;
+  updateEvent(name, idx, color, description, imgUrl, vidUrl) {
+    var dates = this.state.dates;
     dates[idx].name = name;
     dates[idx].color = color;
+    dates[idx].description = description;
+    dates[idx].imgUrl = imgUrl;
+    dates[idx].vidUrl = vidUrl;
     this.setState({ dates });
   }
 
@@ -40,11 +45,15 @@ export default class TimeChartWrapper extends React.Component {
   }
 
   openModal(e) {
+    console.log(e)
     if (e.date !== undefined) {
       var modalContent = 'event';
-      var modalContentEventId = e.name;
+      var modalContentEventId = e.id;
       var modalContentEventName = e.name;
       var modalContentEventColor = e.color;
+      var modalContentEventDescription = e.description;
+      var modalContentEventImgUrl = e.imgUrl;
+      var modalContentEventVidUrl = e.vidUrl;
     }
 
     this.setState({
@@ -53,6 +62,9 @@ export default class TimeChartWrapper extends React.Component {
       modalContentEventId,
       modalContentEventName,
       modalContentEventColor,
+      modalContentEventDescription,
+      modalContentEventImgUrl,
+      modalContentEventVidUrl
     });
   }
 
@@ -61,11 +73,14 @@ export default class TimeChartWrapper extends React.Component {
   }
 
   closeAndSaveModal() {
-    // this.updateEvent(
-    //   this.state.modalContentNodeName,
-    //   this.state.modalContentNodeId,
-    //   this.state.modalContentNodeColor
-    // );
+    this.updateEvent(
+      this.state.modalContentEventName,
+      this.state.modalContentEventId,
+      this.state.modalContentEventColor,
+      this.state.modalContentEventDescription,
+      this.state.modalContentEventImgUrl,
+      this.state.modalContentEventVidUrl
+    );
     this.setState({ modalIsOpen: false });
   }
 
@@ -73,24 +88,33 @@ export default class TimeChartWrapper extends React.Component {
     this.setState({ modalContentEventColor: color });
   }
 
-  handleInputChange(key) {
-    this.setState({ modalContentEventValue: key.target.value });
+  handleInputChange(evt) {
+    this.setState({ [evt.target.name]: evt.target.value });
   }
 
 
   render() {
-    var modalValue = this.state.modalContentEventName;
+    var eventName = this.state.modalContentEventName;
+    var eventColor = this.state.modalContentEventColor;
+    var description = this.state.modalContentEventDescription;
+    var imgUrl = this.state.modalContentEventImgUrl;
+    var vidUrl = this.state.modalContentEventVidUrl;
     var header = 'Update Event';
     var color = 'Change Event Color';
+    if (this.state.editorMode) {
+      var modalWidth = 400;
+    } else {
+      var modalWidth = 500;
+    }
 
     var modalStyle = {
       content: {
-        top: '275px',
+        top: '200px',
         left: '37%',
         right: 'auto',
         bottom: 'auto',
         border: '0px solid #333',
-        width: '300px'
+        width: modalWidth
       },
       overlay: {
         backgroundColor: 'rgba(0, 0, 0 , 0.35)'
@@ -122,10 +146,10 @@ export default class TimeChartWrapper extends React.Component {
                   <button className="close" onClick={this.closeModal}>
                     <span aria-hidden="true">&times;</span>
                   </button>
-                  <h4>{header}</h4>
                   <hr />
                   {!this.state.editorMode ?
                     <div>
+                      <h4>{eventName}</h4>
                       <iframe
                         width="250"
                         height="200"
@@ -137,13 +161,39 @@ export default class TimeChartWrapper extends React.Component {
                     </div>
                     :
                     <div>
-                      <input
-                        className='form-control'
+                      <h4>{header}</h4>
+                      <Input
+                        label="Event Name"
+                        labelPosition="left corner"
+                        name='modalContentEventName'
+                        defaultValue={eventName}
+                        className="form-control"
+                        fluid
                         onChange={this.handleInputChange}
                       />
-                      <input
-                        className="form-control"
-                        defaultValue={modalValue}
+                      <TextArea
+                        label="Event Description"
+                        name='modalContentEventDescription'
+                        defaultValue={description}
+                        className='form-control'
+                        style={{ maxWidth: modalWidth - 50, minHeight: 50 }}
+                        fluid
+                        onInput={this.handleInputChange}
+                      />
+                      <Input
+                        label="Image URL"
+                        name='modalContentEventImgUrl'
+                        defaultValue={imgUrl}
+                        className='form-control'
+                        fluid
+                        onChange={this.handleInputChange}
+                      />
+                      <Input
+                        label="Video URL"
+                        name='modalContentEventVidUrl'
+                        defaultValue={vidUrl}
+                        className='form-control'
+                        fluid
                         onChange={this.handleInputChange}
                       />
                       <hr />
@@ -152,13 +202,12 @@ export default class TimeChartWrapper extends React.Component {
                         <ColorPicker handleColorChange={this.handleColorChange} />
                       </div>
                       <div className="row">
-                        <div className="col-xs-12">
-                          <button
-                            className="btn btn-primary btn-block"
+                        <div>
+                          <Button
                             onClick={this.closeAndSaveModal}
                           >
                             Apply Changes
-                          </button>
+                          </Button>
                         </div>
                       </div>
                     </div>
