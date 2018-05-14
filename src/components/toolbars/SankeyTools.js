@@ -61,8 +61,11 @@ class SankeyTools extends Component {
             <br />
             <Button onClick={this.submitHeightWidth}>Update chart size</Button>
           </form>
+          <Button circular size="small" onClick={this.props.handleUpdate}>
+            Update Chart
+          </Button>
           <Button circular size="small" onClick={this.props.handleSubmit}>
-            Save Changes
+            Save Changes as New Chart
           </Button>
         </div>
       </div>
