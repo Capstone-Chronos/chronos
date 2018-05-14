@@ -50,14 +50,10 @@ class Routes extends Component {
               <Route path="/sankey" component={SankeyWrapper} />
             </Switch>
           )}
-          {!isLoggedIn && (
-            <Switch>
-              <Route exact path="/" component={Main} />
-              <Route exact path="/login" component={Login} />
-              <Route exact path="/signup" component={SignUp} />
-            </Switch>
-          )}
-          <Redirect to="/" component={Main} />
+          <Route exact path="/" component={Main} />
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/signup" component={SignUp} />
+          <Redirect to="/login" component={Login} />
         </Switch>
       </div>
     );
@@ -70,8 +66,7 @@ class Routes extends Component {
 const mapState = state => {
   console.log(state);
   return {
-    isLoggedIn: !!state.user.isLoggedIn,
-    user: state.user.user
+    isLoggedIn: !!state.user.isLoggedIn
   };
 };
 
