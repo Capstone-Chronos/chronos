@@ -54,7 +54,7 @@ class BarChartTools extends React.Component {
         <BarChartJSONUtil />
         <Button
           onClick={chartId ? this.handleUpdate : this.handleSave}
-          disabled={isSaved}
+          className={`${isSaved && 'disabled'}`}
         >
           {isSaved ? 'SAVED' : 'SAVE'}
         </Button>

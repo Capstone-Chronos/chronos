@@ -1,4 +1,4 @@
-import { userRef, chartsRef, databaseRef, app } from '../base';
+import { userRef, databaseRef, app } from '../base';
 import { database } from 'firebase';
 
 export async function postBarChartToDatabase(data, title) {
@@ -31,7 +31,6 @@ export async function postBarChartToDatabase(data, title) {
 export async function putBarChart(data, chartId) {
   console.log('putBarChart');
   try {
-    const uid = await app.auth().currentUser.uid;
     const chartInfo = {
       data
     };
