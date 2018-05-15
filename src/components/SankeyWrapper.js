@@ -55,8 +55,8 @@ class SankeyWrapper extends React.Component {
 
   componentWillMount() {
     this.setState({
-      height: this.props.height,
-      width: this.props.width
+      height: this.props.height || 800,
+      width: this.props.width || 1000
     });
   }
 
@@ -258,11 +258,6 @@ class SankeyWrapper extends React.Component {
               currentWidth={this.state.width}
               deleteChart={this.delete}
             />
-            <FooterBar
-              data={this.props.data}
-              readFile={this.readFile}
-              emptyDiagram={this.emptyDiagram}
-            />
           </div>
           <div>
             <h2>{this.props.title || 'New Sankey Diagram'}</h2>
@@ -322,7 +317,7 @@ const mapStateToProps = storeState => {
     height: storeState.sankeyChart.height,
     width: storeState.sankeyChart.width,
     userId: storeState.user.id,
-    chartId: storeState.sankeyChart.chartId,
+    chartId: storeState.sankeyChart.chartIdKey,
     title: 'Fake Title'
   };
 };

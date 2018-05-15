@@ -38,7 +38,7 @@ class Routes extends Component {
                 path="/edit/sankey/:id/:title"
                 component={SankeyWrapper}
               />
-              <Route exact path="/edit/sankey" component={SankeyWrapper} />
+              <Route path="/edit/sankey" component={SankeyWrapper} />
               <Route
                 exact
                 path="/edit/timechart"
@@ -53,7 +53,7 @@ class Routes extends Component {
           <Route exact path="/" component={Main} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/signup" component={SignUp} />
-          <Redirect to="/login" component={Login} />
+          <Redirect to="/signup" component={SignUp} />
         </Switch>
       </div>
     );

@@ -92,7 +92,7 @@ export class AllProjects extends React.Component {
                           description={
                             'THIS IS a placehold description for our charts....'
                           }
-                          url={`/view/${chart.chartType}/${chart.chartIdKey}`}
+                          url={`/edit/${chart.chartType}/${chart.chartIdKey}`}
                         />
                       </div>
                     );
