@@ -2,6 +2,8 @@ import React from 'react';
 import { default as ReactModal } from 'react-modal';
 import { modalStyle } from './constants';
 
+ReactModal.setAppElement('#root');
+
 const Modal = props => (
   <ReactModal
     closeTimeoutMS={150}

@@ -1,7 +1,8 @@
 import React from 'react';
-import renderMap, { toggleColor } from './renderMap';
+import renderMap from './renderMap';
 import { mapWidth, mapHeight } from './constants';
 import { default as Modal } from './modal';
+import ColorPicker from '../toolbars/tools/ColorPicker';
 
 export default class Choropleth extends React.Component {
   constructor(props) {
@@ -10,10 +11,13 @@ export default class Choropleth extends React.Component {
 
     this.state = {
       openModal: false,
-      selectedStateId: -1
+      selectedStateId: -1,
+      stateColors: {},
+      selectedColor: ''
     };
     this.toggleModal = this.toggleModal.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.selectedColor = this.selectedColor.bind(this);
   }
 
   toggleModal(stateId) {
@@ -27,35 +31,44 @@ export default class Choropleth extends React.Component {
   }
 
   componentDidMount() {
-    this.renderMap(this.toggleModal);
+    this.renderMap(this.toggleModal, this.state.stateColors);
   }
 
   componentDidUpdate() {
-    this.renderMap(this.toggleModal);
+    this.renderMap(this.toggleModal, this.state.stateColors);
   }
 
-  handleSubmit(e) {
-    e.preventDefault();
-    toggleColor(this.state.selectedStateId, 'red');
+  selectedColor (hexcode) {
+    this.setState({selectedColor: hexcode})
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+    this.setState(prevState => {
+      let stateColors = {...prevState.stateColors};
+      stateColors[prevState.selectedStateId] = prevState.selectedColor;
+      return {stateColors, selectedColor: ''};
+    });
     this.toggleModal();
   }
 
   render() {
-    console.log('Rendering choropleth of the US states....');
-
     return (
       <div className="chartContainer">
         <svg
           id="choropleth"
           ref={node => { this.node = node; }}
+          className="svg-container"
           width={mapWidth}
           height={mapHeight}
           style={{ marginTop: 20, marginLeft: 20 }}
         />
         {this.state.openModal && (
-          <Modal wrapper={this} toggleModal={this.toggleModal}>
+          <Modal toggleModal={this.toggleModal}>
             <form onSubmit={this.handleSubmit}>
               <h4>{this.state.selectedStateId}</h4>
+              <ColorPicker handleColorChange={this.selectedColor}/>
+
               <input type="submit" value="Submit" />
             </form>
           </Modal>
