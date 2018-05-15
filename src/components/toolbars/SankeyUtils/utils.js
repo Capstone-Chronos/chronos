@@ -1,7 +1,6 @@
 import React from 'react';
 import request from 'superagent';
 
-
 class ExportJSON extends React.Component {
   render() {
     var diagramData = {};
@@ -10,7 +9,7 @@ class ExportJSON extends React.Component {
     var data = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(diagramData));
 
     return (
-      <a className="btn btn-default pull-right" href={data} download="data.json">Export JSON</a>
+      <a className="ui button tool-button" href={data} download="data.json">Export JSON</a>
     );
   }
 };
@@ -19,9 +18,10 @@ class ExportJSON extends React.Component {
 class ImportJSON extends React.Component {
   render() {
     return (
-      <span className="btn btn-default btn-file pull-right">
-        Import JSON <input type="file" onChange={this.props.readFile} />
-      </span>
+      <div className='ui labeled input'>
+        <div className="ui label label">Import JSON</div>
+        <input type="file" onChange={this.props.readFile} />
+      </div>
     );
   }
 };
@@ -39,26 +39,26 @@ function loadData(path) {
         return node
       });
 
-      this.setState({nodes, links});
+      this.setState({ nodes, links });
     });
 }
 
 
 function readFile(e) {
-  var file = e.target.files[0]; 
+  var file = e.target.files[0];
 
   if (!file) {
-    console.log("Failed to load file"); 
+    console.log("Failed to load file");
   } else if (!file.type.match('json.*')) {
     console.log(file.name + " is not a valid json file.");
   } else {
-    var r = new FileReader();    
-    r.onload = function(e) { 
+    var r = new FileReader();
+    r.onload = function (e) {
       var contents = JSON.parse(e.target.result);
-      var nodes = contents.nodes.map(function(node, i){
+      var nodes = contents.nodes.map(function (node, i) {
         if (!node.node) {
-            node.node = i;
-          }
+          node.node = i;
+        }
         return node;
       });
       var links = contents.links;
@@ -66,10 +66,10 @@ function readFile(e) {
         nodes: nodes,
         links: links
       });
-     console.log(this)
+      console.log(this)
     }.bind(this);
     r.readAsText(file);
-  } 
+  }
 }
 
 export { ExportJSON, ImportJSON, loadData, readFile }

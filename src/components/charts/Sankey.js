@@ -4,9 +4,7 @@ import * as d3 from 'd3';
 import sankey from 'd3-plugins-sankey';
 import _ from 'lodash';
 
-
 export default class Sankey extends React.Component {
-
   render() {
     // ========================================================================
     // Set units, margin, sizes
@@ -64,7 +62,10 @@ export default class Sankey extends React.Component {
       .attr('class', 'link')
       .on('click', this.props.openModal) // register eventListener
       .attr('d', path)
-      .style({ 'stroke-width': d => Math.max(1, d.dy), stroke: d => d.color || '#cccccc' });
+      .style({
+        'stroke-width': d => Math.max(1, d.dy),
+        stroke: d => d.color || '#cccccc'
+      });
 
     // add link titles
     link
@@ -96,7 +97,7 @@ export default class Sankey extends React.Component {
       .append('rect')
       .attr('height', d => d.dy)
       .attr('width', sankey.nodeWidth())
-      .attr({ fill: d => d.color || d3.rgb("#888888") })
+      .attr({ fill: d => d.color || d3.rgb('#888888') })
       .append('title')
       .text(d => d.name + '\n' + format(d.value));
 
@@ -113,6 +114,5 @@ export default class Sankey extends React.Component {
       .attr('text-anchor', 'start');
 
     return svgNode.toReact();
-
   }
 }

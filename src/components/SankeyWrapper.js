@@ -244,7 +244,7 @@ class SankeyWrapper extends React.Component {
     ) : (
       <div>
         <div className="chartContainer">
-          <div className="tools" style={{ width: '15vw' }}>
+          <div>
             <SankeyTools
               data={this.props.data}
               addNode={this.addNode}
@@ -264,7 +264,7 @@ class SankeyWrapper extends React.Component {
               emptyDiagram={this.emptyDiagram}
             />
           </div>
-          <div style={{ width: '80vw' }}>
+          <div>
             <h2>{this.props.title || 'New Sankey Diagram'}</h2>
             <Sankey
               data={this.props.data}
