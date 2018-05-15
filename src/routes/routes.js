@@ -18,7 +18,6 @@ import {
 class Routes extends Component {
   componentDidMount() {
     console.log('Routes mounted!');
-    console.log(this.props.isLoggedIn);
   }
 
   render() {
