@@ -5,8 +5,8 @@ export default class extends React.Component {
   render() {
     return (
       <div>
-        <div>
-          <button className='ui button tool-button red' onClick={this.props.emptyDiagram}>New Diagram</button>
+        <div className='tool-item'>
+          <ImportJSON readFile={this.props.readFile} />
         </div>
         <div className='tool-item'>
           <ExportJSON
@@ -15,7 +15,7 @@ export default class extends React.Component {
           />
         </div>
         <div className='tool-item'>
-          <ImportJSON readFile={this.props.readFile} />
+          <button className='ui button tool-button orange' onClick={this.props.emptyDiagram}>New Diagram</button>
         </div>
       </div>
     );

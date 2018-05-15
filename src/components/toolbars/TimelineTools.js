@@ -1,11 +1,7 @@
 import React, { Component } from 'react';
-import { Button, Input } from 'semantic-ui-react';
-import AddLink from './SankeyUtils/AddLink';
-import AddNode from './SankeyUtils/AddNode';
-import FooterBar from './SankeyUtils/FooterBar';
-import PublishButton from './tools/PublishButton'
+import { Button, Input, Checkbox } from 'semantic-ui-react';
 
-class SankeyTools extends Component {
+class TimelineTools extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -22,6 +18,7 @@ class SankeyTools extends Component {
 
   handleChange(evt) {
     this.setState({ [evt.target.name]: evt.target.value });
+    console.log(this.state);
   }
 
   submitHeightWidth(evt) {
@@ -34,18 +31,42 @@ class SankeyTools extends Component {
     return (
       <div>
         <h2>Tools</h2>
+        <label>
+          Edit 
+          </label>
+        <Checkbox onChange={this.props.toggleEditor} toggle label="Present" />
         <div className="tools">
-          <h4>New Link</h4>
+          <h4>New Event</h4>
           <hr />
           <div className='tool-item'>
-            <AddLink addLink={this.props.addLink} data={this.props.data} />
+            <Input
+              onChange={this.handleChange}
+              name="name"
+              label="Name"
+            />
           </div>
-          <h4>New Node</h4>
-          <hr />
           <div className='tool-item'>
-            <AddNode addNode={this.props.addNode} data={this.props.data} />
+            <Input
+              onChange={this.handleChange}
+              name='year'
+              label='Year'
+            />
           </div>
-          <h4>Edit Chart Dimensions</h4><hr />
+          <div className='tool-item'>
+            <Input
+              onChange={this.handleChange}
+              name='day'
+              label='Day'
+            />
+          </div>
+          <div className='tool-item'>
+            <Input
+              onChange={this.handleChange}
+              name='month'
+              label='Month'
+            />
+          </div>
+          <h4>Edit Chart Dimensions</h4>
           <div className="form">
             <form onSubmit={this.submitHeightWidth}>
               <div className="tool-item">
@@ -73,7 +94,35 @@ class SankeyTools extends Component {
                 </Button>
               </div>
             </form>
-            <h4>Save Changes</h4>
+            <h4>Edit Start and End Date</h4><hr />
+            <div className="form">
+              <form onSubmit={this.submitHeightWidth}>
+                <div className="tool-item">
+                  <Input
+                    onChange={this.handleChange}
+                    name="start"
+                    label="Start"
+                    defaultValue={this.props.width}
+                  />
+                </div>
+                <div className="tool-item">
+                  <Input
+                    onChange={this.handleChange}
+                    name="end"
+                    label="End"
+                    defaultValue={this.props.height}
+                  />
+                </div>
+                <div className="tool-item">
+                  <Button
+                    className="tool-button"
+                    onClick={this.submitHeightWidth}
+                  >
+                    Update date range
+                </Button>
+                </div>
+              </form>
+              {/* <h4>Save Changes</h4>
             <hr />
             <div className="tool-item">
               <Button className="tool-button" onClick={this.props.handleUpdate}>
@@ -84,7 +133,6 @@ class SankeyTools extends Component {
               <Button className="tool-button" onClick={this.props.handleSubmit}>
                 Save Changes as New Chart
               </Button>
-              <PublishButton title='fake title' publish={this.props.publishTheChart} chartId={this.props.chartId}/>
             </div>
             <div className="tool-item">
               <FooterBar
@@ -98,6 +146,7 @@ class SankeyTools extends Component {
               <Button className='tool-button' color='red' onClick={this.props.deleteChart}>
                 Delete Chart
               </Button>
+            </div> */}
             </div>
           </div>
         </div>
@@ -106,4 +155,4 @@ class SankeyTools extends Component {
   }
 }
 
-export default SankeyTools;
+export default TimelineTools;
