@@ -375,6 +375,7 @@ span.buttonText {
 .states { 
   stroke: #fff;
   stroke-linejoin: round;
+}
 
 .time-event {
   opacity: .5;
