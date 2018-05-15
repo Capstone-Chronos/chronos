@@ -11,7 +11,6 @@ const GET_USER_CHARTS = 'GET_USER_CHARTS';
 const DELETE_USER_CHART = 'DELETE_USER_CHARTS';
 const GET_PUBLISHED_CHARTS = 'GET_PUBLISHED_CHARTS';
 
-
 export const getUserCharts = () => async dispatch => {
   let uid = firebase.auth().currentUser.uid;
   //   userRef.child(userId.uid).child('charts').once('value', function(snapshot){
@@ -30,9 +29,8 @@ export const getUserCharts = () => async dispatch => {
   //     //   let chartData = chartsRef.child(chartKey).val();
   //     // });
   //   });
-  chartsRef.once('value', function(snapshot){
+  chartsRef.once('value', function(snapshot) {
     const foundCharts = snapshot.val();
-    console.log(Object.values(foundCharts));
     // snapshot.forEach(childSnapshot => {
     //   //   let userChartData = childSnapshot.once().child('uid').val() === uid ? childSnapshot : null;
     //   //   console.log('aaaaa', userChartData);
@@ -43,37 +41,28 @@ export const getUserCharts = () => async dispatch => {
     // });
     return dispatch({
       type: GET_USER_CHARTS,
-      userCharts: Object.values(foundCharts)
+      userCharts: foundCharts
     });
   });
-
-};
-
-
-export const getOneChart = (chartId) => async dispatch => {
-
 };
 
 export const getPublishedCharts = () => async dispatch => {
-  chartsRef.once('value', function(snapshot){
+  chartsRef.once('value', function(snapshot) {
     const foundCharts = snapshot.val();
-    console.log(Object.values(foundCharts));
     return dispatch({
       type: GET_PUBLISHED_CHARTS,
-      publishedCharts: Object.values(foundCharts)
+      publishedCharts: foundCharts
     });
   });
 };
 
-
 export default function reducer(state = initialState, action) {
   switch (action.type) {
-  case GET_USER_CHARTS:
-    return { ...state, userCharts: action.userCharts };
-  case GET_PUBLISHED_CHARTS:
-    return { ...state, publishedCharts: action.publishedCharts };
-  default:
-    return state;
+    case GET_USER_CHARTS:
+      return { ...state, userCharts: action.userCharts };
+    case GET_PUBLISHED_CHARTS:
+      return { ...state, publishedCharts: action.publishedCharts };
+    default:
+      return state;
   }
 }
-

@@ -12,10 +12,12 @@ export default class extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps, 'nextprops')
-    this.setState({
-      name: 'Node' + nextProps.data.nodes.length
-    });
+    console.log(nextProps, 'nextprops');
+    if (nextProps.data) {
+      this.setState({
+        name: 'Node' + nextProps.data.nodes.length
+      });
+    }
   }
 
   handleChange(key) {

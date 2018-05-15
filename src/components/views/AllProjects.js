@@ -11,11 +11,13 @@ import store, {
   getUserCharts,
   getPublishedCharts
 } from '../../store';
+import { fetchChartById } from '../../database/sankeyChart';
 
-const timelines = [
+const templates = [
   { id: 1, name: 'Bar Chart', type: 'barchart' },
   { id: 2, name: 'Pie Chart', type: 'piechart' },
-  { id: 3, name: 'Sankey Diagram', type: 'sankey' }
+  { id: 3, name: 'Sankey Diagram', type: 'sankey' },
+  { id: 4, name: 'Timeline', type: 'timeline' }
 ];
 
 export class AllProjects extends React.Component {
@@ -58,12 +60,15 @@ export class AllProjects extends React.Component {
         <div>
           <h2 className="title">Create Project from Template</h2>
           <div className="grid-list">
-            {timelines.map(timeline => (
+            {templates.map(template => (
               <SingleSelection
-                key={timeline.name}
-                name={timeline.name}
-                type={timeline.type}
-                url={`/edit/${timeline.type}`}
+                key={template.name}
+                name={template.name}
+                type={template.type}
+                description={
+                  'THIS IS a placehold description for our charts....'
+                }
+                url={`/edit/${template.type}`}
               />
             ))}
           </div>
@@ -73,16 +78,25 @@ export class AllProjects extends React.Component {
           <div className="grid-list">
             {!this.props.userCharts
               ? 'You currently have no saved charts'
-              : this.props.userCharts
+              : Object.values(this.props.userCharts)
                   .filter(chart => chart.uid === this.props.userId)
-                  .map(chart => (
-                    <SingleSelection
-                      key={chart.chartIdKey}
-                      name={chart.name}
-                      type={chart.chartType}
-                      url={`/view/${chart.chartType}/${chart.chartIdKey}`}
-                    />
-                  ))}
+                  .map(chart => {
+                    console.log(chart);
+                    return (
+                      <div onClick={fetchChartById(chart.chartIdKey)}>
+                        <SingleSelection
+                          key={chart.chartIdKey}
+                          id={chart.chartIdKey}
+                          name={chart.title}
+                          type={chart.chartType}
+                          description={
+                            'THIS IS a placehold description for our charts....'
+                          }
+                          url={`/view/${chart.chartType}/${chart.chartIdKey}`}
+                        />
+                      </div>
+                    );
+                  })}
           </div>
         </div>
         <div>
@@ -90,13 +104,16 @@ export class AllProjects extends React.Component {
           <div className="grid-list">
             {!this.props.publishedCharts
               ? 'There are currently no published charts'
-              : this.props.publishedCharts
+              : Object.values(this.props.publishedCharts)
                   .filter(chart => chart.isPublished === true)
                   .map(chart => (
                     <SingleSelection
-                      key={chart.name}
-                      name={chart.name}
+                      key={chart.chartIdKey}
+                      name={chart.title}
                       type={chart.chartType}
+                      description={
+                        'THIS IS a placehold description for our charts....'
+                      }
                       url={`/show/${chart.type}/${chart.id}`}
                     />
                   ))}
@@ -110,7 +127,7 @@ export class AllProjects extends React.Component {
 const mapStateToProps = storeState => {
   console.log(storeState, 'kkkkk');
   return {
-    userId: storeState.user.user,
+    userId: storeState.user.id,
     userCharts: storeState.allCharts.userCharts,
     publishedCharts: storeState.allCharts.publishedCharts
   };

@@ -162,6 +162,7 @@ const DELETE_USER_CHART = 'DELETE_USER_CHARTS';
 
 const SET_CHART_ID = 'SET_CHART_ID';
 const SET_SANKEY_TITLE = 'SET_SANKEY_TITLE';
+const SET_CHART = 'SET_CHART';
 
 //ACTION CREATORS
 export const loadDefaultData = () => ({
@@ -187,6 +188,11 @@ export const setSankeyTitle = title => ({
 export const setSankeyId = chartId => ({
   type: SET_CHART_ID,
   chartId
+});
+
+export const setChart = chart => ({
+  type: SET_CHART,
+  chart
 });
 
 //THUNKS
@@ -240,6 +246,8 @@ export default function reducer(state = initialState, action) {
       return { ...state, nodes: empty.nodes, links: empty.links };
     case SET_CHART_ID:
       return { ...state, chartId: action.chartId };
+    case SET_CHART:
+      return action.chart;
     default:
       return state;
   }

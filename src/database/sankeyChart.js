@@ -1,6 +1,7 @@
 import { userRef, chartsRef, databaseRef } from '../base';
 import firebase, { database } from 'firebase';
 import history from '../routes/history';
+import store, { setChart } from '../store';
 
 export const saveChart = async (data, title) => {
   let newChartKey;
@@ -15,7 +16,8 @@ export const saveChart = async (data, title) => {
       isPublished: false,
       title,
       data,
-      uid
+      uid,
+      chartIdKey: newChartKey
     };
     // userRef.child(uid).child('charts').push()
     //   .set(chartIdKey);
@@ -53,4 +55,17 @@ export const deleteChart = async (chartId, uid) => {
     throw Error(err);
   }
   history.push(`/charts`);
+};
+
+export const fetchChartById = chartId => async dispatch => {
+  let chart;
+  try {
+    chart = await chartsRef
+      .child(chartId)
+      .once('value')
+      .then(snapshot => snapshot.val());
+  } catch (err) {
+    throw Error(err);
+  }
+  store.dispatch(setChart(chart));
 };

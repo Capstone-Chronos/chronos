@@ -14,7 +14,11 @@ import {
   updateSankeyChartThunk,
   saveSankeyChartThunk
 } from '../store/sankeyChart';
-import { deleteChart, updateChart } from '../database/sankeyChart';
+import {
+  deleteChart,
+  updateChart,
+  fetchChartById
+} from '../database/sankeyChart';
 
 class SankeyWrapper extends React.Component {
   constructor(props) {
@@ -43,6 +47,10 @@ class SankeyWrapper extends React.Component {
     this.changeHeight = this.changeHeight.bind(this);
     this.changeWidth = this.changeWidth.bind(this);
     this.handleColorChange = this.handleColorChange.bind(this);
+  }
+
+  componentDidMount() {
+    fetchChartById(this.props.chartId);
   }
 
   componentWillMount() {
@@ -231,7 +239,9 @@ class SankeyWrapper extends React.Component {
       }
     };
 
-    return (
+    return !this.props.data ? (
+      <div />
+    ) : (
       <div>
         <div className="chartContainer">
           <div className="tools" style={{ width: '15vw' }}>
