@@ -11,7 +11,7 @@ class BarChart extends React.Component {
     super(props);
     this.state = {
       x: 0,
-      y: 0,
+      y: 5,
       width: window.innerWidth * 0.7,
       height: window.innerHeight * 0.7,
       preserveAspectRatio: 'none' //preserve Aspect ratio

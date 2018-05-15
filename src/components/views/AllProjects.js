@@ -15,7 +15,8 @@ import store, {
 const timelines = [
   { id: 1, name: 'Bar Chart', type: 'barchart' },
   { id: 2, name: 'Pie Chart', type: 'piechart' },
-  { id: 3, name: 'Sankey Diagram', type: 'sankey' }
+  { id: 3, name: 'Sankey Diagram', type: 'sankey' },
+  { id: 4, name: 'Simple Timeline', type: 'timechart' }
 ];
 
 export class AllProjects extends React.Component {
@@ -71,20 +72,6 @@ export class AllProjects extends React.Component {
         <div>
           <h2 className="title">My Saved Projects</h2>
           <div className="grid-list">
-<<<<<<< HEAD
-            {!this.props.userCharts
-              ? 'You currently have no saved charts'
-              : this.props.userCharts
-                  .filter(chart => chart.uid === this.props.userId)
-                  .map(chart => (
-                    <SingleSelection
-                      key={chart.chartIdKey}
-                      name={chart.name}
-                      type={chart.chartType}
-                      url={`/view/${chart.type}/${chart.chartIdKey}`}
-                    />
-                  ))}
-=======
 
             {!this.props.userCharts ?
               ('You currently have no saved charts')
@@ -97,26 +84,11 @@ export class AllProjects extends React.Component {
                     url={`/view/${chart.chartType}/${chart.chartIdKey}`}
                   />
                 )))}
->>>>>>> master
           </div>
         </div>
         <div>
           <h2 className="title">Published Charts</h2>
           <div className="grid-list">
-<<<<<<< HEAD
-            {!this.props.publishedCharts
-              ? 'There are currently no published charts'
-              : this.props.publishedCharts
-                  .filter(chart => chart.isPublished === true)
-                  .map(chart => (
-                    <SingleSelection
-                      key={chart.name}
-                      name={chart.name}
-                      type={chart.type}
-                      url={`/show/${chart.type}/${chart.id}`}
-                    />
-                  ))}
-=======
             {!this.props.publishedCharts ?
               ('There are currently no published charts')
               : (this.props.publishedCharts.filter(chart => chart.isPublished === true).map(chart => (
@@ -127,7 +99,6 @@ export class AllProjects extends React.Component {
                   url={`/show/${chart.type}/${chart.id}`}
                 />
               )))}
->>>>>>> master
           </div>
         </div>
       </div>
