@@ -53,7 +53,7 @@ class Routes extends Component {
           <Route exact path="/" component={Main} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/signup" component={SignUp} />
-          <Redirect to="/signup" component={SignUp} />
+          <Route to="/signup" component={SignUp} />
         </Switch>
       </div>
     );

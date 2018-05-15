@@ -17,11 +17,11 @@ import firebase from 'firebase';
 //   history.push('/charts');
 // }
 
-export async function getUserInfo() {
+export async function getUserInfo(url) {
   firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
       store.dispatch(setUser(user.email, user.uid));
-      history.push('/charts');
+      history.push(url);
     }
   });
 }
