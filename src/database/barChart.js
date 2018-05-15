@@ -24,13 +24,11 @@ export async function postBarChartToDatabase(data, title) {
   } catch (err) {
     throw Error(err);
   }
-  console.log(newChartKey);
   return newChartKey;
 }
 
 // Update existing chart
 export async function putBarChart(data, chartId) {
-  console.log('putBarChart');
   try {
     const chartInfo = {
       data

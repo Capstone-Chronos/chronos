@@ -17,10 +17,10 @@ export const saveChart = async (data, title) => {
       title,
       data,
       uid,
-      chartIdKey: newChartKey
+      chartId: newChartKey
     };
     // userRef.child(uid).child('charts').push()
-    //   .set(chartIdKey);
+    //   .set(chartId);
     // chartsRef.push().set(chartInfo);
     let updates = {};
     updates[`users/${uid}/charts/${newChartKey}`] = newChartKey;
@@ -29,15 +29,23 @@ export const saveChart = async (data, title) => {
   } catch (err) {
     throw Error(err);
   }
-  console.log('lasdfsdafasdfsadfasdf', newChartKey);
   return newChartKey;
 };
 
 export const updateChart = async (data, chartId) => {
   try {
     let updates = {};
-    console.log('');
     updates[`/charts/${chartId}/data`] = data;
+    await databaseRef.update(updates);
+  } catch (err) {
+    throw Error(err);
+  }
+};
+
+export const publishChart = async chartId => {
+  try {
+    let updates = {};
+    updates[`/charts/${chartId}/isPublished`] = true;
     await databaseRef.update(updates);
   } catch (err) {
     throw Error(err);
@@ -47,7 +55,6 @@ export const updateChart = async (data, chartId) => {
 export const deleteChart = async (chartId, uid) => {
   try {
     let toBeDeleted = {};
-    console.log('chartid', chartId);
     toBeDeleted[`/charts/${chartId}`] = null;
     toBeDeleted[`/users/${uid}/charts/${chartId}`] = null;
     databaseRef.update(toBeDeleted);

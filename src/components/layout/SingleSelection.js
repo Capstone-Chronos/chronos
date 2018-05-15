@@ -7,7 +7,6 @@ const SingleSelection = ({ id, url, name, type, description }) => (
   <Card className="single-card" as={Link} to={url}>
     <Image src="https://www.fillmurray.com/300/200" centered size="medium" />
     <Card.Content>
-      {console.log('single selection', id)}
 
       <Card.Header>{name}</Card.Header>
       <Card.Meta>Type: {type}</Card.Meta>

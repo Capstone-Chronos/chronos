@@ -16,7 +16,6 @@ class App extends React.Component {
   async componentDidMount() {
     //this.setState({ isLoggedIn: store.getState().user.isLoggedIn });
     let user = await firebase.auth().currentUser;
-    await console.log(user);
     if (!this.state.isLoggedIn) getUserInfo();
   }
 
