@@ -54,8 +54,7 @@ class SankeyTools extends Component {
               nodes={this.props.nodes}
             />
           </div>
-          <h4>Edit Chart Dimensions</h4>
-          <hr />
+          <h4>Edit Chart Dimensions</h4><hr />
           <div className="form">
             <form onSubmit={this.submitHeightWidth}>
               <div className='tool-item'>
@@ -78,12 +77,12 @@ class SankeyTools extends Component {
                 <Button className='tool-button' onClick={this.submitHeightWidth}>Update chart size</Button>
               </div>
             </form>
-            <h4>Save Changes</h4>
+            <h4>{'Save & Import/Export Data'}</h4>
             <hr />
             <div className='tool-item'>
               <Button className='tool-button' onClick={this.props.handleUpdate}>
                 Update Chart
-          </Button>
+              </Button>
             </div>
             <div className='tool-item'>
               <Button className='tool-button' onClick={this.props.handleSubmit}>

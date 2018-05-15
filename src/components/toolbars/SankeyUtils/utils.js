@@ -9,7 +9,9 @@ class ExportJSON extends React.Component {
     var data = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(diagramData));
 
     return (
-      <a className="ui button tool-button" href={data} download="data.json">Export JSON</a>
+      <div className="tool-button">
+        <a className="ui button tool-button" href={data} download="data.json">Export JSON</a>
+      </div>
     );
   }
 };
@@ -18,10 +20,11 @@ class ExportJSON extends React.Component {
 class ImportJSON extends React.Component {
   render() {
     return (
-      <div className='ui labeled input'>
-        <div className="ui label label">Import JSON</div>
+      <label class="ui icon button tool-button">
         <input type="file" onChange={this.props.readFile} />
-      </div>
+        Import JSON
+        <i className="file icon" />
+      </label>
     );
   }
 };
