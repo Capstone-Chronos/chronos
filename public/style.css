@@ -53,7 +53,7 @@ nav {
 .chartContainer {
   display: flex;
   margin: 2em;
-  align-items: center;
+  flex-direction: row;
 }
 
 .updateForm {
@@ -68,28 +68,23 @@ nav a {
 .tools {
   display: flex;
   flex-direction: column;
-  margin: 3em;
+  margin-top: 2em;
+  margin-right: 3em;
+  height: 100vh;
+  min-width: 15vw;
 }
 
-.btn file {
-  position: relative;
-  overflow: hidden;
-  margin-right: 10px;
+.tool-item {
+  display: flex;
+  justify-content: left;
+  width: '8em';
+  margin-bottom: .5em;
 }
 
-.btn primary {
-  background-color: #5badf0;
-  border-color: #4ca1e7;
-}
-
-.btn primary:hover {
-  background-color: #2389dc;
-  border-color: #2389dc;
-}
-
-select.btn {
-  -webkit-appearance: none;
-  max-width: 115px;
+.tool-button {
+  width: 20em;
+  max-width: 20em;
+  min-width: 20em;
 }
 
 .footer {
@@ -348,13 +343,6 @@ span.buttonText {
   align-self: stretch;
 }
 
-.form {
-  display: flex;
-  flex-direction: column;
-  margin: 1em;
-  align-items: center;
-}
-
 .svg-container {
   display: inline-block;
   position: relative;
@@ -383,4 +371,12 @@ span.buttonText {
 .states { 
   stroke: #fff;
   stroke-linejoin: round;
+
+.time-event {
+  opacity: .5;
+  cursor: pointer;
+}
+
+.time-event:hover {
+  opacity: 1;
 }

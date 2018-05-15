@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button, Input } from 'semantic-ui-react';
 
 export default class extends React.Component {
   constructor() {
@@ -29,19 +30,24 @@ export default class extends React.Component {
     var defaultValue = this.state.name;
 
     return (
-      <div className="input-group">
-        <input
-          className="form-control"
-          value={defaultValue}
-          onChange={this.handleChange('name')}
-        />
-        <span className="input-group-btn">
-          <button
-            className="btn btn-primary"
-            onClick={this.props.addNode.bind(null, this.state.name)}
-          >
-            Add Node
-          </button>
+      <div>
+        <div className='tool-item'>
+          <Input
+            className="form-control"
+            label="Name"
+            value={defaultValue}
+            onChange={this.handleChange('name')}
+          />
+        </div>
+        <span>
+          <div className='tool-item'>
+            <Button
+              className='tool-button primary'
+              onClick={this.props.addNode.bind(null, this.state.name)}
+            >
+              Add Node
+          </Button>
+          </div>
         </span>
       </div>
     );
