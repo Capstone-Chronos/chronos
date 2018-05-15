@@ -4,39 +4,53 @@ import * as d3 from 'd3';
 import _ from 'lodash';
 import { scaleTime } from 'd3-scale';
 import { axisBottom } from 'd3-axis';
+import { timeParse } from 'd3-time-format';
 
-export default class TimeChart extends React.Component {
+export default class Timeline extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      width: 1400,
-      height: 800,
       radius: 5,
       dates: []
     };
   }
 
   componentWillMount() {
-    this.setState({ dates: this.props.data.dates, radius: this.props.data.radius })
+    this.setState({
+      dates: this.props.data.dates,
+      radius: this.props.data.radius,
+      start: this.props.data.start,
+      end: this.props.data.end,
+      width: this.props.data.width,
+      height: this.props.data.height
+    })
   }
 
 
   componentWillReceiveProps(nextProps) {
     this.setState({
       dates: this.props.data.dates,
-      radius: this.props.data.radius
+      radius: this.props.data.radius,
+      start: this.props.data.start,
+      end: this.props.data.end,
+      width: this.props.data.width,
+      height: this.props.data.height
     });
   }
 
 
   render() {
-
+    console.log(this.props)
+    console.log("Timeline state", this.state)
     // ========================================================================
     // Set units, margin, sizes
     // ========================================================================
     var margin = { top: 10, right: 0, bottom: 10, left: 0 };
     var width = this.state.width - margin.left - margin.right;
     var height = this.state.height - margin.top - margin.bottom;
+    var format = timeParse("%Y,%m,%d")
+    var start = format(this.state.start)
+    var end = format(this.state.end)
 
     var format = d => formatNumber(d);
     var formatNumber = d3.format(',.0f'); // zero decimal places
@@ -52,7 +66,7 @@ export default class TimeChart extends React.Component {
       .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
     var timeScale = scaleTime()
-      .domain([new Date(2016, 0, 1), new Date(2017, 0, 1)])
+      .domain([start, end])
       .range([20, width - 20]);
 
     var xAxis = d3.svg.axis()
@@ -71,7 +85,8 @@ export default class TimeChart extends React.Component {
       .attr('r', this.state.radius)
       .attr('cy', 8)
       .attr('cx', function (d) {
-        return timeScale(d.date);
+        var newDate = new Date(d.date)
+        return timeScale(newDate);
       });
 
     //Attach labels to event markers
@@ -83,10 +98,11 @@ export default class TimeChart extends React.Component {
       .append('text')
       .attr('transform', 'translate(0,' + (-40) + ')')
       .attr('x', function (d) {
-        return timeScale(d.date);
+        var newDate = new Date(d.date)
+        return timeScale(newDate);
       })
       .text(function (d) {
-        return d.date.toDateString();
+        return d.name;
       });
 
     //Create xAxis by passing in timeScale and attach to DOM
@@ -96,6 +112,9 @@ export default class TimeChart extends React.Component {
       .attr('width', width + margin.left + margin.right)
       .append('g')
       .call(xAxis);
+
+    // Create lanes to show continuous events
+
 
     return svgNode.toReact();
   }

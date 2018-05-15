@@ -6,8 +6,8 @@ export default class extends React.Component {
     super();
 
     this.state = {
-      source: NaN,
-      target: NaN,
+      source: "",
+      target: "",
       weight: 'Weight'
     };
 

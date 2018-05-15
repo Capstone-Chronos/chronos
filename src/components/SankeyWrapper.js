@@ -262,8 +262,10 @@ class SankeyWrapper extends React.Component {
               handleUpdate={this.handleUpdate}
               changeHeight={this.changeHeight}
               changeWidth={this.changeWidth}
-              currentHeight={this.state.height}
-              currentWidth={this.state.width}
+              height={this.state.height}
+              width={this.state.width}
+              readFile={this.readFile}
+              emptyDiagram={this.emptyDiagram}
               deleteChart={this.delete}
               publishTheChart={this.publishTheChart}
               chartId={this.props.chartId}

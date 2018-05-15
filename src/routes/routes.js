@@ -9,7 +9,7 @@ import {
   PresentationView,
   Editor,
   SankeyWrapper,
-  TimeChartWrapper,
+  TimelineWrapper,
   Choropleth
 } from '../components';
 
@@ -41,8 +41,8 @@ class Routes extends Component {
               <Route path="/edit/sankey" component={SankeyWrapper} />
               <Route
                 exact
-                path="/edit/timechart"
-                component={TimeChartWrapper}
+                path="/edit/timeline"
+                component={TimelineWrapper}
               />
               <Route path="/edit" component={Editor} />
               <Route path="/show" component={PresentationView} />
