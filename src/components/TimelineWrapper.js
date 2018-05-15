@@ -1,19 +1,34 @@
-import { TimeChart, ColorPicker } from '../components';
+import { Timeline, ColorPicker } from '../components';
 import React from 'react';
 import { Button, Grid, Input, TextArea, Image } from 'semantic-ui-react';
 import Modal from 'react-modal';
+import TimelineTools from './toolbars/TimelineTools';
+// import firebase from 'firebase';
+// import { connect } from 'react-redux';
+// import {
+//   loadDefaultData,
+//   clearData,
+//   importData,
+//   updateSankeyChartThunk,
+//   saveSankeyChartThunk
+// } from '../store/timeLine';
+// import {
+//   deleteChart,
+//   updateChart,
+//   fetchChartById
+// } from '../database/sankeyChart';
 
-var testData = { start: '2015, 1, 1', end: '2018, 1, 1', radius: 10, dates: [{ id: 0, name: 'New Years 2016', date: '2016, 1, 1' }, { id: 1, name: 'My birthday', date: '2016, 3, 1' }, { id: 2, name: 'First Day of Summer', date: '2016, 6, 21' }, { id: 3, name: 'New Years 2016', date: '2017, 1, 1' }] }
+var testData = { height: 800, width: 1200, start: '2015, 1, 1', end: '2018, 1, 1', radius: 10, dates: [{ id: 0, name: 'New Years 2016', date: '2016, 1, 1' }, { id: 1, name: 'My birthday', date: '2016, 3, 1' }, { id: 2, name: 'First Day of Summer', date: '2016, 6, 21' }, { id: 3, name: 'New Years 2016', date: '2017, 1, 1' }] }
 
 
-export default class TimeChartWrapper extends React.Component {
+export default class TimelineWrapper extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      dates: testData.dates,
       editorMode: true,
       modalIsOpen: false
     }
+
     this.toggleEditor = this.toggleEditor.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.openModal = this.openModal.bind(this);
@@ -21,6 +36,19 @@ export default class TimeChartWrapper extends React.Component {
     this.closeAndSaveModal = this.closeAndSaveModal.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.updateEvent = this.updateEvent.bind(this);
+    this.changeHeight = this.changeHeight.bind(this);
+    this.changeWidth = this.changeWidth.bind(this);
+  }
+
+  componentWillMount() {
+    this.setState({
+      radius: testData.radius,
+      dates: testData.dates,
+      height: testData.height,
+      width: testData.width,
+      start: testData.start,
+      end: testData.end
+    })
   }
 
   //Function to open info pane in presentation mode or editing modal in editor mode
@@ -92,6 +120,13 @@ export default class TimeChartWrapper extends React.Component {
     this.setState({ [evt.target.name]: evt.target.value });
   }
 
+  changeHeight(newHeight) {
+    this.setState({ height: newHeight });
+  }
+
+  changeWidth(newWidth) {
+    this.setState({ width: newWidth });
+  }
 
   render() {
     var eventName = this.state.modalContentEventName;
@@ -126,15 +161,19 @@ export default class TimeChartWrapper extends React.Component {
         <Grid>
           <Grid.Row>
             <Grid.Column width="3">
-              <div className="tools" style={{ margin: '3em' }}>
-                <Button onClick={this.toggleEditor}>{this.state.editorMode ? 'Presentation Mode' : 'Editor Mode'}</Button>
-              </div>
+              <TimelineTools
+                changeHeight={this.changeHeight}
+                changeWidth={this.changeWidth}
+                toggleEditor={this.toggleEditor}
+                width={this.state.width}
+                height={this.state.height}
+              />
             </Grid.Column>
             <Grid.Column width="13">
               <div style={{ margin: '4em' }}>
-                <TimeChart
+                <Timeline
                   handleClick={this.handleClick}
-                  data={testData}
+                  data={this.state}
                   openModal={this.openModal} />
                 <Modal
                   closeTimeoutMS={150}
@@ -231,3 +270,39 @@ export default class TimeChartWrapper extends React.Component {
   }
 
 }
+
+// const userId = firebase.auth().currentUser;
+
+// const mapStateToProps = storeState => {
+//   console.log(storeState);
+//   return {
+//     data: storeState.sankeyChart.data,
+//     height: storeState.sankeyChart.height,
+//     width: storeState.sankeyChart.width,
+//     userId: storeState.user.id,
+//     chartId: storeState.sankeyChart.chartIdKey,
+//     title: 'Fake Title'
+//   };
+// };
+
+// const mapDispatchToProps = function (dispatch) {
+//   return {
+//     fetchDefaultData: () => {
+//       const action = loadDefaultData();
+//       dispatch(action);
+//     },
+//     clearChart: () => {
+//       const action = clearData();
+//       dispatch(action);
+//     },
+//     saveChanges: (data, title) => {
+//       console.log('TTTTTTTT');
+//       const action = saveSankeyChartThunk(data, title);
+//       dispatch(action);
+//     },
+//     uploadData: data => {
+//       const action = importData(data);
+//       dispatch(action);
+//     }
+//   }
+// }

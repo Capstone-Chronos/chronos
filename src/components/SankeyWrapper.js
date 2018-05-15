@@ -84,7 +84,6 @@ class SankeyWrapper extends React.Component {
   }
 
   delete() {
-    console.log(this.props.match.params.id);
     let chartId = this.props.match.params.id;
     let userId = this.props.userId;
     deleteChart(chartId, userId);

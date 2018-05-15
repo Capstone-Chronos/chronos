@@ -6,32 +6,42 @@ import { scaleTime } from 'd3-scale';
 import { axisBottom } from 'd3-axis';
 import { timeParse } from 'd3-time-format';
 
-export default class TimeChart extends React.Component {
+export default class Timeline extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      width: 1400,
-      height: 800,
       radius: 5,
       dates: []
     };
   }
 
   componentWillMount() {
-    this.setState({ dates: this.props.data.dates, radius: this.props.data.radius, start: this.props.data.start, end: this.props.data.end })
+    this.setState({
+      dates: this.props.data.dates,
+      radius: this.props.data.radius,
+      start: this.props.data.start,
+      end: this.props.data.end,
+      width: this.props.data.width,
+      height: this.props.data.height
+    })
   }
 
 
   componentWillReceiveProps(nextProps) {
     this.setState({
       dates: this.props.data.dates,
-      radius: this.props.data.radius
+      radius: this.props.data.radius,
+      start: this.props.data.start,
+      end: this.props.data.end,
+      width: this.props.data.width,
+      height: this.props.data.height
     });
   }
 
 
   render() {
-
+    console.log(this.props)
+    console.log("Timeline state", this.state)
     // ========================================================================
     // Set units, margin, sizes
     // ========================================================================
@@ -41,7 +51,6 @@ export default class TimeChart extends React.Component {
     var format = timeParse("%Y,%m,%d")
     var start = format(this.state.start)
     var end = format(this.state.end)
-    console.log("start", start)
 
     var format = d => formatNumber(d);
     var formatNumber = d3.format(',.0f'); // zero decimal places

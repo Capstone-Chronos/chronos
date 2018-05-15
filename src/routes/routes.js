@@ -9,7 +9,7 @@ import {
   PresentationView,
   Editor,
   SankeyWrapper,
-  TimeChartWrapper
+  TimelineWrapper
 } from '../components';
 
 /**
@@ -42,7 +42,7 @@ class Routes extends Component {
               <Route
                 exact
                 path="/edit/timeline"
-                component={TimeChartWrapper}
+                component={TimelineWrapper}
               />
               <Route path="/edit" component={Editor} />
               <Route path="/show" component={PresentationView} />
