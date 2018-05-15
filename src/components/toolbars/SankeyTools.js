@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Button, Input } from 'semantic-ui-react';
 import AddLink from './SankeyUtils/AddLink';
 import AddNode from './SankeyUtils/AddNode';
+import FooterBar from './SankeyUtils/FooterBar';
 
 class SankeyTools extends Component {
   constructor(props) {
@@ -85,6 +86,11 @@ class SankeyTools extends Component {
                 Save Changes as New Chart
           </Button>
             </div>
+            <FooterBar
+              nodes={this.props.nodes}
+              links={this.props.links}
+              readFile={this.props.readFile}
+              emptyDiagram={this.props.emptyDiagram} />
           </div>
         </div>
       </div>

@@ -85,6 +85,7 @@ export default class extends React.Component {
         </div>
         <div className='tool-item'>
           <Input
+            label="Name"
             value={this.state.weight}
             onFocus={this.clearInput}
             onBlur={this.setDefault}

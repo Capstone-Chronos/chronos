@@ -231,10 +231,6 @@ class SankeyWrapper extends React.Component {
               changeWidth={this.changeWidth}
               currentHeight={this.state.height}
               currentWidth={this.state.width}
-            />
-            <FooterBar
-              nodes={this.props.nodes}
-              links={this.props.links}
               readFile={this.readFile}
               emptyDiagram={this.emptyDiagram}
             />
