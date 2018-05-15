@@ -38,6 +38,19 @@ export default class TimelineWrapper extends React.Component {
     this.updateEvent = this.updateEvent.bind(this);
     this.changeHeight = this.changeHeight.bind(this);
     this.changeWidth = this.changeWidth.bind(this);
+    this.addEvent = this.addEvent.bind(this);
+  }
+
+  addEvent(name, year, day, month) {
+    var dates = this.state.dates;
+    var newDate = `${year}, ${day}, ${month}`;
+    var idx = dates.length;
+    name = name || 'Event' + idx;
+    dates[idx] = {
+      id: idx,
+      name,
+      date: newDate
+    }
   }
 
   componentWillMount() {
@@ -167,6 +180,7 @@ export default class TimelineWrapper extends React.Component {
                 toggleEditor={this.toggleEditor}
                 width={this.state.width}
                 height={this.state.height}
+                addEvent={this.addEvent}
               />
             </Grid.Column>
             <Grid.Column width="13">
