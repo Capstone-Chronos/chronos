@@ -11,7 +11,7 @@ export default class Choropleth extends React.Component {
 
     this.state = {
       openModal: false,
-      selectedStateId: -1,
+      selectedStateId: '',
       stateColors: {},
       selectedColor: ''
     };
@@ -21,8 +21,9 @@ export default class Choropleth extends React.Component {
   }
 
   toggleModal(stateId) {
-    let selectedStateId = Number(stateId);
-    selectedStateId = Number.isNaN(selectedStateId) ? -1 : selectedStateId;
+    let selectedStateId = stateId;
+    selectedStateId = Number.isNaN(Number(selectedStateId)) 
+      ? '' : selectedStateId;
 
     this.setState(prevState => ({
       openModal: !prevState.openModal,
@@ -53,6 +54,7 @@ export default class Choropleth extends React.Component {
   }
 
   render() {
+    console.log(this.state.stateColors)
     return (
       <div className="chartContainer">
         <svg
@@ -73,6 +75,7 @@ export default class Choropleth extends React.Component {
             </form>
           </Modal>
         )}
+        <div id="tooltip-container"></div>
       </div>
     );
   }
