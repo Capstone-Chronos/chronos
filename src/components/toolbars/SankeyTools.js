@@ -37,6 +37,7 @@ class SankeyTools extends Component {
         <h2>Tools</h2>
         <div className="tools">
           <h4>New Link</h4>
+          <hr />
           <div className='tool-item'>
             <AddLink
               addLink={this.props.addLink}
@@ -45,6 +46,7 @@ class SankeyTools extends Component {
             />
           </div>
           <h4>New Node</h4>
+          <hr />
           <div className='tool-item'>
             <AddNode
               addNode={this.props.addNode}
@@ -53,6 +55,7 @@ class SankeyTools extends Component {
             />
           </div>
           <h4>Edit Chart Dimensions</h4>
+          <hr />
           <div className="form">
             <form onSubmit={this.submitHeightWidth}>
               <div className='tool-item'>
@@ -76,6 +79,7 @@ class SankeyTools extends Component {
               </div>
             </form>
             <h4>Save Changes</h4>
+            <hr />
             <div className='tool-item'>
               <Button className='tool-button' onClick={this.props.handleUpdate}>
                 Update Chart
@@ -84,13 +88,15 @@ class SankeyTools extends Component {
             <div className='tool-item'>
               <Button className='tool-button' onClick={this.props.handleSubmit}>
                 Save Changes as New Chart
-          </Button>
+              </Button>
             </div>
-            <FooterBar
-              nodes={this.props.nodes}
-              links={this.props.links}
-              readFile={this.props.readFile}
-              emptyDiagram={this.props.emptyDiagram} />
+            <div className='tool-item'>
+              <FooterBar
+                nodes={this.props.nodes}
+                links={this.props.links}
+                readFile={this.props.readFile}
+                emptyDiagram={this.props.emptyDiagram} />
+            </div>
           </div>
         </div>
       </div>

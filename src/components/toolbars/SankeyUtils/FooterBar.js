@@ -5,14 +5,18 @@ export default class extends React.Component {
   render() {
     return (
       <div>
-        <button className='ui button tool-button' onClick={this.props.emptyDiagram}>New Diagram</button>
-        <hr />
-        <ExportJSON
-          nodes={this.props.nodes}
-          links={this.props.links}
-        />
-        <hr />
-        <ImportJSON readFile={this.props.readFile} />
+        <div>
+          <button className='ui button tool-button red' onClick={this.props.emptyDiagram}>New Diagram</button>
+        </div>
+        <div className='tool-item'>
+          <ExportJSON
+            nodes={this.props.nodes}
+            links={this.props.links}
+          />
+        </div>
+        <div className='tool-item'>
+          <ImportJSON readFile={this.props.readFile} />
+        </div>
       </div>
     );
   }

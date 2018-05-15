@@ -42,7 +42,7 @@ export default class extends React.Component {
         <span>
           <div className='tool-item'>
             <Button
-              className='tool-button'
+              className='tool-button primary'
               onClick={this.props.addNode.bind(null, this.state.name)}
             >
               Add Node

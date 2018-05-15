@@ -94,7 +94,7 @@ export default class extends React.Component {
         </div>
         <div className='tool-item'>
           <Button
-            className='tool-button'
+            className='tool-button primary'
             onClick={this.props.addLink.bind(
               null,
               parseInt(this.state.source),
