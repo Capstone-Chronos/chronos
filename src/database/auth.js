@@ -4,11 +4,11 @@ import history from '../routes/history';
 import firebase from 'firebase';
 
 
-export async function getUserInfo() {
-  firebase.auth().onAuthStateChanged(function(user) {
+export function getUserInfo(url) {
+  firebase.auth().onAuthStateChanged(async function(user) {
     if (user) {
-      store.dispatch(setUser(user.email, user.uid));
-      history.push('/charts');
+      await store.dispatch(setUser(user.email, user.uid));
+      history.push(url);
     }
   });
 }

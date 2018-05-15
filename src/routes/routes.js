@@ -18,7 +18,6 @@ import {
 class Routes extends Component {
   componentDidMount() {
     console.log('Routes mounted!');
-    console.log(this.props.isLoggedIn);
   }
 
   render() {
@@ -53,7 +52,7 @@ class Routes extends Component {
           <Route exact path="/" component={Main} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/signup" component={SignUp} />
-          <Redirect to="/signup" component={SignUp} />
+          <Route to="/signup" component={SignUp} />
         </Switch>
       </div>
     );

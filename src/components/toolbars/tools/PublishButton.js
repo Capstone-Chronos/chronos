@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from 'semantic-ui-react';
 import { connect } from 'react-redux';
-import { publishChart } from '../../../database/sankeyChart'
+import { publishChart } from '../../../database/sankeyChart';
 
 class PublishButton extends React.Component {
   constructor(props) {
@@ -20,38 +20,34 @@ class PublishButton extends React.Component {
         message: 'Published charts require a title'
       });
     } else {
-      console.log(this.props)
-      publishChart(this.props.chartId)
+      console.log(this.props);
+      publishChart(this.props.chartId);
     }
   }
 
   render() {
-    return ( 
-      this.props.chartId && (
-        <div>
-          <button className="ui button" onClick={this.publishChart}>
-            Publish
-          </button>
-          <div className={`ui page dimmer ${this.state.isActive && 'active'}`}>
-            <div className={`ui modal ${this.state.isActive && 'active'}`}>
-              <div className="content">
-                <p>{this.state.message}</p>
-              </div>
-              <div className="actions">
-                <div
-                  className="ui green ok inverted button"
-                  onClick={() =>
-                    this.setState({ isActive: false, message: '' })
-                  }
-                >
-                  <i className="checkmark icon" />
-                  OK
-                </div>
+    return !this.props.chartId ? null : (
+      <div>
+        <button className="ui button" onClick={this.publishChart}>
+          Publish
+        </button>
+        <div className={`ui page dimmer ${this.state.isActive && 'active'}`}>
+          <div className={`ui modal ${this.state.isActive && 'active'}`}>
+            <div className="content">
+              <p>{this.state.message}</p>
+            </div>
+            <div className="actions">
+              <div
+                className="ui green ok inverted button"
+                onClick={() => this.setState({ isActive: false, message: '' })}
+              >
+                <i className="checkmark icon" />
+                OK
               </div>
             </div>
           </div>
         </div>
-      )
+      </div>
     );
   }
 }
