@@ -87,6 +87,10 @@ nav a {
   min-width: 20em;
 }
 
+input[type=file] {
+  display: none;
+}
+
 .footer {
   left: 0;
   bottom: 0;

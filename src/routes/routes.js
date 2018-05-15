@@ -39,7 +39,7 @@ class Routes extends Component {
                 component={SankeyWrapper}
               />
               <Route path="/edit/sankey" component={SankeyWrapper} />
-              <Route exact path="/edit/timechart" component={TimelineWrapper} />
+              <Route exact path="/edit/timeline" component={TimelineWrapper} />
               <Route path="/edit" component={Editor} />
               <Route path="/show" component={PresentationView} />
               <Route path="/view" component={PresentationView} />
