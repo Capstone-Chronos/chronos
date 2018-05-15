@@ -26,4 +26,4 @@ export { default as Toolbar } from '../routes/Toolbar';
 // Combination Components
 export { default as SankeyWrapper } from './SankeyWrapper';
 export { default as Choropleth } from './choropleth';
-export { default as TimeChartWrapper } from './TimeChartWrapper';
+export { default as TimelineWrapper } from './TimelineWrapper';

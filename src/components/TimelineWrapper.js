@@ -1,19 +1,26 @@
-import { TimeChart, ColorPicker } from '../components';
+import { Timeline, ColorPicker } from '../components';
 import React from 'react';
 import { Button, Grid, Input, TextArea } from 'semantic-ui-react';
 import Modal from 'react-modal';
 
-var testData = { radius: 10, dates: [{ id: 0, name: 'New Years 2016', date: new Date(2016, 0, 1) }, { id: 1, name: 'My birthday', date: new Date(2016, 3, 1) }, { id: 2, name: 'First Day of Summer', date: new Date(2016, 6, 21) }, { id: 3, name: 'New Years 2016', date: new Date(2017, 0, 1) }] }
+var testData = {
+  radius: 10,
+  dates: [
+    { id: 0, name: 'New Years 2016', date: new Date(2016, 0, 1) },
+    { id: 1, name: 'My birthday', date: new Date(2016, 3, 1) },
+    { id: 2, name: 'First Day of Summer', date: new Date(2016, 6, 21) },
+    { id: 3, name: 'New Years 2016', date: new Date(2017, 0, 1) }
+  ]
+};
 
-
-export default class TimeChartWrapper extends React.Component {
+export default class TimelineWrapper extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       dates: testData.dates,
       editorMode: true,
       modalIsOpen: false
-    }
+    };
     this.toggleEditor = this.toggleEditor.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.openModal = this.openModal.bind(this);
@@ -26,7 +33,7 @@ export default class TimeChartWrapper extends React.Component {
   //Function to open info pane in presentation mode or editing modal in editor mode
   handleClick(e) {
     if (!this.state.editorMode) {
-      console.log(e)
+      console.log(e);
     }
   }
 
@@ -41,11 +48,11 @@ export default class TimeChartWrapper extends React.Component {
   }
 
   toggleEditor() {
-    this.setState({ editorMode: !this.state.editorMode })
+    this.setState({ editorMode: !this.state.editorMode });
   }
 
   openModal(e) {
-    console.log(e)
+    console.log(e);
     if (e.date !== undefined) {
       var modalContent = 'event';
       var modalContentEventId = e.id;
@@ -92,7 +99,6 @@ export default class TimeChartWrapper extends React.Component {
     this.setState({ [evt.target.name]: evt.target.value });
   }
 
-
   render() {
     var eventName = this.state.modalContentEventName;
     var eventColor = this.state.modalContentEventColor;
@@ -122,20 +128,23 @@ export default class TimeChartWrapper extends React.Component {
     };
 
     return (
-      <div className='chartContainer'>
+      <div className="chartContainer">
         <Grid>
           <Grid.Row>
             <Grid.Column width="3">
               <div className="tools" style={{ margin: '3em' }}>
-                <Button onClick={this.toggleEditor}>{this.state.editorMode ? 'Presentation Mode' : 'Editor Mode'}</Button>
+                <Button onClick={this.toggleEditor}>
+                  {this.state.editorMode ? 'Presentation Mode' : 'Editor Mode'}
+                </Button>
               </div>
             </Grid.Column>
             <Grid.Column width="13">
               <div style={{ margin: '4em' }}>
-                <TimeChart
+                <Timeline
                   handleClick={this.handleClick}
                   data={testData}
-                  openModal={this.openModal} />
+                  openModal={this.openModal}
+                />
                 <Modal
                   closeTimeoutMS={150}
                   isOpen={this.state.modalIsOpen}
@@ -146,26 +155,26 @@ export default class TimeChartWrapper extends React.Component {
                   <button className="close" onClick={this.closeModal}>
                     <span aria-hidden="true">&times;</span>
                   </button>
-                  {!this.state.editorMode ?
+                  {!this.state.editorMode ? (
                     <div>
                       <h2>{eventName}</h2>
-                    <hr />
+                      <hr />
                       <iframe
                         width="250"
                         height="200"
                         src="https://www.youtube.com/embed/I47Y6VHc3Ms"
                         frameborder="0"
                         allow="autoplay; encrypted-media"
-                        allowfullscreen>
-                      </iframe>
+                        allowfullscreen
+                      />
                     </div>
-                    :
+                  ) : (
                     <div>
                       <h4>{header}</h4>
                       <Input
                         label="Event Name"
                         labelPosition="left corner"
-                        name='modalContentEventName'
+                        name="modalContentEventName"
                         defaultValue={eventName}
                         className="form-control"
                         fluid
@@ -173,9 +182,9 @@ export default class TimeChartWrapper extends React.Component {
                       />
                       <TextArea
                         label="Event Description"
-                        name='modalContentEventDescription'
+                        name="modalContentEventDescription"
                         defaultValue={description}
-                        className='form-control'
+                        className="form-control"
                         style={{ maxWidth: modalWidth - 50, minHeight: 50 }}
                         fluid
                         value={description}
@@ -183,43 +192,42 @@ export default class TimeChartWrapper extends React.Component {
                       />
                       <Input
                         label="Image URL"
-                        name='modalContentEventImgUrl'
+                        name="modalContentEventImgUrl"
                         defaultValue={imgUrl}
-                        className='form-control'
+                        className="form-control"
                         fluid
                         onChange={this.handleInputChange}
                       />
                       <Input
                         label="Video URL"
-                        name='modalContentEventVidUrl'
+                        name="modalContentEventVidUrl"
                         defaultValue={vidUrl}
-                        className='form-control'
+                        className="form-control"
                         fluid
                         onChange={this.handleInputChange}
                       />
                       <hr />
                       <div style={{ marginTop: '2em', marginBottom: '2em' }}>
                         <h4>{color}</h4>
-                        <ColorPicker handleColorChange={this.handleColorChange} />
+                        <ColorPicker
+                          handleColorChange={this.handleColorChange}
+                        />
                       </div>
                       <div className="row">
                         <div>
-                          <Button
-                            onClick={this.closeAndSaveModal}
-                          >
+                          <Button onClick={this.closeAndSaveModal}>
                             Apply Changes
                           </Button>
                         </div>
                       </div>
                     </div>
-                  }
+                  )}
                 </Modal>
               </div>
             </Grid.Column>
           </Grid.Row>
         </Grid>
       </div>
-    )
+    );
   }
-
 }

@@ -24,7 +24,6 @@ const templates = [
 export class AllProjects extends React.Component {
   constructor(props) {
     super(props);
-
   }
 
   componentDidMount() {
@@ -32,7 +31,6 @@ export class AllProjects extends React.Component {
 
     this.props.getUserCharts();
     this.props.getPublishedCharts();
-
   }
 
   render() {
@@ -55,50 +53,50 @@ export class AllProjects extends React.Component {
         <div>
           <h2 className="title">My Saved Projects</h2>
           <div className="grid-list">
-
             {!this.props.userCharts
               ? 'You currently have no saved charts'
               : Object.values(this.props.userCharts)
-                .filter(chart => chart.uid === this.props.userId)
-                .map(chart => {
-                  return (
-                    <div onClick={fetchChartById(chart.chartId)}>
-                      <SingleSelection
-                        key={chart.chartId}
-                        id={chart.chartId}
-                        name={chart.title}
-                        type={chart.chartType}
-                        description="THIS IS a placehold description for our charts...."
-                        url={`/view/${chart.chartType}/${chart.chartId}`}
-                      />
-                    </div>
-                  );
-                })}
-
+                  .filter(chart => chart.uid === this.props.userId)
+                  .map(chart => {
+                    return (
+                      <div
+                        onClick={fetchChartById(chart.chartId)}
+                        key={chart.chartId + '1'}
+                      >
+                        <SingleSelection
+                          id={chart.chartId}
+                          name={chart.title}
+                          type={chart.chartType}
+                          description="THIS IS a placehold description for our charts...."
+                          url={`/view/${chart.chartType}/${chart.chartId}`}
+                        />
+                      </div>
+                    );
+                  })}
           </div>
         </div>
         <div>
           <h2 className="title">Published Charts</h2>
           <div className="grid-list">
-
             {!this.props.publishedCharts
               ? 'There are currently no published charts'
               : Object.values(this.props.publishedCharts)
-                .filter(chart => chart.isPublished === true)
-                .map(chart => {
-
-                  return (
-                    <div onClick={fetchChartById(chart.chartId)}>
-                      <SingleSelection
-                        key={chart.chartId}
-                        name={chart.title}
-                        type={chart.chartType}
-                        description="THIS IS a placehold description for our charts...."
-                        url={`/show/${chart.chartType}/${chart.chartId}`}
-                      />
-                    </div>
-                  );
-                })}
+                  .filter(chart => chart.isPublished === true)
+                  .map(chart => {
+                    return (
+                      <div
+                        onClick={fetchChartById(chart.chartId)}
+                        key={chart.chartId + '2'}
+                      >
+                        <SingleSelection
+                          name={chart.title}
+                          type={chart.chartType}
+                          description="THIS IS a placehold description for our charts...."
+                          url={`/show/${chart.chartType}/${chart.chartId}`}
+                        />
+                      </div>
+                    );
+                  })}
           </div>
         </div>
       </div>
@@ -124,7 +122,6 @@ const mapDispatchToProps = dispatch => {
       const action = getPublishedCharts();
       dispatch(action);
     }
-
   };
 };
 

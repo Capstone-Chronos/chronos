@@ -5,7 +5,7 @@ import _ from 'lodash';
 import { scaleTime } from 'd3-scale';
 import { axisBottom } from 'd3-axis';
 
-export default class TimeChart extends React.Component {
+export default class Timeline extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -17,20 +17,24 @@ export default class TimeChart extends React.Component {
   }
 
   componentWillMount() {
-    this.setState({ dates: this.props.data.dates, radius: this.props.data.radius })
+    if (this.props.data) {
+      this.setState({
+        dates: this.props.data.dates,
+        radius: this.props.data.radius
+      });
+    }
   }
-
 
   componentWillReceiveProps(nextProps) {
-    this.setState({
-      dates: this.props.data.dates,
-      radius: this.props.data.radius
-    });
+    if (this.props.data) {
+      this.setState({
+        dates: this.props.data.dates,
+        radius: this.props.data.radius
+      });
+    }
   }
 
-
   render() {
-
     // ========================================================================
     // Set units, margin, sizes
     // ========================================================================
@@ -55,8 +59,7 @@ export default class TimeChart extends React.Component {
       .domain([new Date(2016, 0, 1), new Date(2017, 0, 1)])
       .range([20, width - 20]);
 
-    var xAxis = d3.svg.axis()
-      .scale(timeScale);
+    var xAxis = d3.svg.axis().scale(timeScale);
 
     // Attach event markers to DOM
     svg
@@ -66,11 +69,11 @@ export default class TimeChart extends React.Component {
       .enter()
       .append('circle')
       .on('click', this.props.openModal)
-      .attr('transform', 'translate(0,' + (-40) + ')')
+      .attr('transform', 'translate(0,' + -40 + ')')
       .attr('class', 'time-event')
       .attr('r', this.state.radius)
       .attr('cy', 8)
-      .attr('cx', function (d) {
+      .attr('cx', function(d) {
         return timeScale(d.date);
       });
 
@@ -81,18 +84,18 @@ export default class TimeChart extends React.Component {
       .data(this.state.dates)
       .enter()
       .append('text')
-      .attr('transform', 'translate(0,' + (-40) + ')')
-      .attr('x', function (d) {
+      .attr('transform', 'translate(0,' + -40 + ')')
+      .attr('x', function(d) {
         return timeScale(d.date);
       })
-      .text(function (d) {
+      .text(function(d) {
         return d.date.toDateString();
       });
 
     //Create xAxis by passing in timeScale and attach to DOM
     svg
       .attr('class', 'axis')
-      .attr('transform', 'translate(0,' + (height / 2) + ')')
+      .attr('transform', 'translate(0,' + height / 2 + ')')
       .attr('width', width + margin.left + margin.right)
       .append('g')
       .call(xAxis);
