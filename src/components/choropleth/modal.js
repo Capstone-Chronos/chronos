@@ -1,9 +1,9 @@
 import React from 'react';
-import Modal from 'react-modal';
-import modalStyle from './modalStyle';
+import { default as ReactModal } from 'react-modal';
+import { modalStyle } from './constants';
 
-const CustomModal = props => (
-  <Modal
+const Modal = props => (
+  <ReactModal
     closeTimeoutMS={150}
     isOpen={true}
     style={modalStyle}
@@ -16,7 +16,7 @@ const CustomModal = props => (
       <span aria-hidden="true">&times;</span>
     </button>
     {props.children}
-  </Modal>
+  </ReactModal>
 );
 
-export default CustomModal;
+export default Modal;

@@ -1,5 +1,5 @@
 import React from 'react';
-import renderMap from './renderMap';
+import renderMap, { toggleColor } from './renderMap';
 import { mapWidth, mapHeight } from './constants';
 import { default as Modal } from './modal';
 
@@ -9,13 +9,21 @@ export default class Choropleth extends React.Component {
     this.renderMap = renderMap.bind(this);
 
     this.state = {
-      openModal: true
-    }
+      openModal: false,
+      selectedStateId: -1
+    };
     this.toggleModal = this.toggleModal.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  toggleModal(data) {
-    this.setState(prevState => ({openModal: !prevState.openModal}));
+  toggleModal(stateId) {
+    let selectedStateId = Number(stateId);
+    selectedStateId = Number.isNaN(selectedStateId) ? -1 : selectedStateId;
+
+    this.setState(prevState => ({
+      openModal: !prevState.openModal,
+      selectedStateId
+    }));
   }
 
   componentDidMount() {
@@ -24,6 +32,12 @@ export default class Choropleth extends React.Component {
 
   componentDidUpdate() {
     this.renderMap(this.toggleModal);
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+    toggleColor(this.state.selectedStateId, 'red');
+    this.toggleModal();
   }
 
   render() {
@@ -40,7 +54,10 @@ export default class Choropleth extends React.Component {
         />
         {this.state.openModal && (
           <Modal wrapper={this} toggleModal={this.toggleModal}>
-            <h4>Title</h4>
+            <form onSubmit={this.handleSubmit}>
+              <h4>{this.state.selectedStateId}</h4>
+              <input type="submit" value="Submit" />
+            </form>
           </Modal>
         )}
       </div>
