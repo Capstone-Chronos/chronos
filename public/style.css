@@ -372,6 +372,10 @@ span.buttonText {
   align-items: center;
 }
 
+.states { 
+  stroke: #fff;
+  stroke-linejoin: round;
+
 .time-event {
   opacity: .5;
   cursor: pointer;

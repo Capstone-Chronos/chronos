@@ -9,7 +9,8 @@ import {
   PresentationView,
   Editor,
   SankeyWrapper,
-  TimelineWrapper
+  TimelineWrapper,
+  Choropleth
 } from '../components';
 
 /**
@@ -18,7 +19,6 @@ import {
 class Routes extends Component {
   componentDidMount() {
     console.log('Routes mounted!');
-    console.log(this.props.isLoggedIn);
   }
 
   render() {
@@ -48,12 +48,13 @@ class Routes extends Component {
               <Route path="/show" component={PresentationView} />
               <Route path="/view" component={PresentationView} />
               <Route path="/sankey" component={SankeyWrapper} />
+              <Route path="/choropleth" component={Choropleth} />
             </Switch>
           )}
           <Route exact path="/" component={Main} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/signup" component={SignUp} />
-          <Redirect to="/signup" component={SignUp} />
+          <Route to="/signup" component={SignUp} />
         </Switch>
       </div>
     );
@@ -64,7 +65,6 @@ class Routes extends Component {
  * CONTAINER
  */
 const mapState = state => {
-  console.log(state);
   return {
     isLoggedIn: !!state.user.isLoggedIn
   };

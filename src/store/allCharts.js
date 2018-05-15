@@ -13,32 +13,9 @@ const GET_PUBLISHED_CHARTS = 'GET_PUBLISHED_CHARTS';
 
 export const getUserCharts = () => async dispatch => {
   let uid = firebase.auth().currentUser.uid;
-  //   userRef.child(userId.uid).child('charts').once('value', function(snapshot){
-  //     dispatch({
-  //       type: GET_USER_CHARTS,
-  //       userCharts: snapshot.val()
-  //     });
-  //   });
-  // .then((values => console.log(values)));
-  // .then(chartsRef.)
-  //   userRef.child(userId.uid).child('charts').once('value', function(snapshot){
-  //     // foundCharts = snapshot.val();
-  //     console.log('found', Object.values(foundUsersChartIds));
-  //     // snapshot.forEach(childSnapshot => {
-  //     //   let chartKey = childSnapshot.key;
-  //     //   let chartData = chartsRef.child(chartKey).val();
-  //     // });
-  //   });
+
   chartsRef.once('value', function(snapshot) {
     const foundCharts = snapshot.val();
-    // snapshot.forEach(childSnapshot => {
-    //   //   let userChartData = childSnapshot.once().child('uid').val() === uid ? childSnapshot : null;
-    //   //   console.log('aaaaa', userChartData);
-    // });
-    // snapshot.forEach(childSnapshot => {
-    //   console.log('fuuuu', childSnapshot.val());
-    //   Object.values(foundUsersChartIds);
-    // });
     return dispatch({
       type: GET_USER_CHARTS,
       userCharts: foundCharts

@@ -30,7 +30,8 @@
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.2.0",
     "semantic-ui-react": "^0.80.0",
-    "superagent": "^3.8.3"
+    "superagent": "^3.8.3",
+    "topojson": "^3.0.2"
   },
   "devDependencies": {
     "eslint": "^4.19.1",

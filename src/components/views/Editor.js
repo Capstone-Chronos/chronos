@@ -4,18 +4,14 @@ import { Canvas } from '../../components';
 import { Toolbar } from '../../components';
 
 const Editor = () => (
-  <Table className="editor">
-    <Table.Body>
-      <Table.Row>
-        <Toolbar />
-      </Table.Row>
-      <Table.Row>
-        <Table.Cell>
-          <Canvas />
-        </Table.Cell>
-      </Table.Row>
-    </Table.Body>
-  </Table>
+  <div className="ui container">
+    <div className="ui container">
+      <Toolbar />
+    </div>
+    <div className="ui container">
+      <Canvas />
+    </div>
+  </div>
 );
 
 export default Editor;
