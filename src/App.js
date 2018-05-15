@@ -3,6 +3,8 @@ import { Navbar, Footer } from './components';
 import Routes from './routes/routes';
 import { getUserInfo } from './database/auth';
 import store from './store';
+import firebase from 'firebase';
+import { withRouter } from 'react-router-dom';
 
 class App extends React.Component {
   constructor(props) {
@@ -12,9 +14,11 @@ class App extends React.Component {
     };
   }
 
-  componentDidMount() {
-    this.setState({ isLoggedIn: store.getState().user.isLoggedIn });
-    if (!this.state.isLoggedIn) getUserInfo();
+  async componentDidMount() {
+    let user = await firebase.auth().currentUser;
+    if (!this.state.isLoggedIn) {
+      getUserInfo(this.props.location.pathname);
+    }
   }
 
   render() {
@@ -34,4 +38,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default withRouter(App);

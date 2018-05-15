@@ -22,23 +22,39 @@ class Routes extends Component {
   }
 
   render() {
+    const { isLoggedIn } = this.props;
+
     return (
       <div>
         <Switch>
+          {isLoggedIn && (
+            <Switch>
+              <Route exact path="/" component={Main} />
+              <Route exact path="/charts" component={AllProjects} />
+              <Route exact path="/projects" component={AllProjects} />
+              <Route exact path="/edit/sankey/:id" component={SankeyWrapper} />
+              <Route
+                exact
+                path="/edit/sankey/:id/:title"
+                component={SankeyWrapper}
+              />
+              <Route path="/edit/sankey" component={SankeyWrapper} />
+              <Route
+                exact
+                path="/edit/timechart"
+                component={TimeChartWrapper}
+              />
+              <Route path="/edit" component={Editor} />
+              <Route path="/show" component={PresentationView} />
+              <Route path="/view" component={PresentationView} />
+              <Route path="/sankey" component={SankeyWrapper} />
+              <Route path="/choropleth" component={Choropleth} />
+            </Switch>
+          )}
           <Route exact path="/" component={Main} />
-          <Route exact path="/charts" component={AllProjects} />
-          <Route exact path="/projects" component={AllProjects} />
-          <Route exact path="/signup" component={SignUp} />
           <Route exact path="/login" component={Login} />
-          <Route exact path="/edit/sankey/:id" component={SankeyWrapper} />
-          <Route exact path="/edit/sankey" component={SankeyWrapper} />
-          <Route exact path="/edit/timechart" component={TimeChartWrapper} />
-          <Route path="/edit" component={Editor} />
-          <Route path="/show" component={PresentationView} />
-          <Route path="/view" component={PresentationView} />
-          <Route path="/sankey" component={SankeyWrapper} />
-          <Route path="/choropleth" component={Choropleth} />
-          <Redirect to="/" />
+          <Route exact path="/signup" component={SignUp} />
+          <Route to="/signup" component={SignUp} />
         </Switch>
       </div>
     );
@@ -49,7 +65,9 @@ class Routes extends Component {
  * CONTAINER
  */
 const mapState = state => {
-  return {};
+  return {
+    isLoggedIn: !!state.user.isLoggedIn
+  };
 };
 
 const mapDispatch = dispatch => {

@@ -3,11 +3,12 @@ import history from '../routes/history';
 
 const initialState = {
   data: [],
+  chartId: '',
+  title: '',
+  isSaved: '',
   size: 0,
   barSpacing: 5,
-  chartId: '',
-  isSaved: '',
-  title: ''
+  isPublished: false
 };
 
 const LOAD_DEFAULT_DATA = 'LOAD_DEFAULT_DATA';
@@ -23,6 +24,7 @@ export const loadDefaultData = () => ({
   type: LOAD_DEFAULT_DATA,
   data: defaultData
 });
+
 export const addDataPoint = point => {
   return {
     type: ADD_DATA_POINT,
@@ -60,7 +62,7 @@ export const saveBarChartThunk = (data, title) => {
 export const updateBarChartThunk = (data, chartId) => {
   return dispatch => {
     putBarChart(data, chartId)
-      .then(chartId => {
+      .then(() => {
         dispatch(saveBarChart());
       })
       .catch(err => console.error(err));

@@ -1,16 +1,14 @@
 import { app } from '../base';
-import store, { setUser } from '../store';
+import store, { setUser, signOut } from '../store';
+import history from '../routes/history';
+import firebase from 'firebase';
 
-export async function getUserInfo() {
-  try {
-    const user = await app.auth().currentUser;
-    let email, uid;
 
-    console.log('logging in', user);
-    if (user != null) {
-      store.dispatch(setUser(email, uid));
+export function getUserInfo(url) {
+  firebase.auth().onAuthStateChanged(async function(user) {
+    if (user) {
+      await store.dispatch(setUser(user.email, user.uid));
+      history.push(url);
     }
-  } catch (err) {
-    throw Error(err);
-  }
+  });
 }

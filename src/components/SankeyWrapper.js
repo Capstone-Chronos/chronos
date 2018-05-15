@@ -1,24 +1,43 @@
 import React from 'react';
 import { Sankey, SankeyTools, FooterBar, ColorPicker } from '../components';
+import history from '../routes/history';
 import Modal from 'react-modal';
 import addNode from './toolbars/SankeyUtils/AddNode';
 import addLink from './toolbars/SankeyUtils/AddLink';
 import firebase from 'firebase';
 import { connect } from 'react-redux';
 import { loadData, readFile } from './toolbars/SankeyUtils/utils';
-import { loadDefaultData, clearData, saveChart, updateChart, importData } from '../store/sankeyChart';
+import {
+  loadDefaultData,
+  clearData,
+  importData,
+  updateSankeyChartThunk,
+  saveSankeyChartThunk,
+  updateTitle
+} from '../store/sankeyChart';
+import {
+  deleteChart,
+  updateChart,
+  fetchChartById,
+  publishChart
+} from '../database/sankeyChart';
 
 class SankeyWrapper extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      modalIsOpen: false
+      modalIsOpen: false,
+      titleIsSet: false
+
     };
 
     this.loadData = loadData.bind(this);
     this.readFile = readFile.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleUpdate = this.handleUpdate.bind(this)
+    this.handleUpdate = this.handleUpdate.bind(this);
+    this.delete = this.delete.bind(this);
+    this.publishTheChart = this.publishTheChart.bind(this);
+    this.setTitle = this.setTitle.bind(this);
 
     this.emptyDiagram = this.emptyDiagram.bind(this);
 
@@ -36,35 +55,42 @@ class SankeyWrapper extends React.Component {
     this.handleColorChange = this.handleColorChange.bind(this);
   }
 
+  componentDidMount() {
+    fetchChartById(this.props.chartId);
+  }
+
   componentWillMount() {
     this.setState({
-      height: this.props.height,
-      width: this.props.width
+      height: this.props.height || 800,
+      width: this.props.width || 1000
     });
   }
 
   handleSubmit() {
-    let updateData = {
-      // name: this.state.title  || this.props.title,
-      nodes: this.state.nodes || this.props.nodes,
-      links: this.state.links || this.props.links,
+    let savedData = {
+      name: this.props.title,
+      data: this.state.data || this.props.data,
       userId: this.props.userId,
       width: this.state.width || this.props.width,
       height: this.state.height || this.props.height
     };
-    this.props.saveChanges(updateData);
+    this.props.saveChanges(this.props.data, this.props.title);
+  }
+
+  publishTheChart() {
+    let { chartId } = this.props;
+    publishChart(chartId);
   }
 
   handleUpdate() {
-    let updateData = {
-      // name: this.state.title  || this.props.title,
-      nodes: this.state.nodes || this.props.nodes,
-      links: this.state.links || this.props.links,
-      userId: this.props.userId,
-      width: this.state.width || this.props.width,
-      height: this.state.height || this.props.height
-    };
-    this.props.updateChanges(updateData);
+    let { data, chartId } = this.props;
+    updateChart(data, chartId);
+  }
+
+  delete() {
+    let chartId = this.props.match.params.id;
+    let userId = this.props.userId;
+    deleteChart(chartId, userId);
   }
 
   changeHeight(newHeight) {
@@ -76,7 +102,7 @@ class SankeyWrapper extends React.Component {
   }
 
   addNode(name) {
-    var nodes = this.props.nodes;
+    var nodes = this.props.data.nodes;
     var idx = nodes.length;
     name = name || 'Node' + idx;
     nodes[idx] = {
@@ -88,7 +114,7 @@ class SankeyWrapper extends React.Component {
   }
 
   updateNode(name, idx, color) {
-    var nodes = this.props.nodes;
+    var nodes = this.props.data.nodes;
     nodes[idx].name = name;
     nodes[idx].color = color;
     this.setState({ nodes });
@@ -100,12 +126,12 @@ class SankeyWrapper extends React.Component {
 
   addLink(source, target, value, color) {
     if (
-      this.props.nodes.length > 1 &&
+      this.props.data.nodes.length > 1 &&
       !isNaN(value) &&
       !isNaN(source) &&
       !isNaN(target)
     ) {
-      var links = this.props.links;
+      var links = this.props.data.links;
       var idx = links.length;
 
       links[idx] = { source, target, value, color };
@@ -114,7 +140,7 @@ class SankeyWrapper extends React.Component {
   }
 
   updateLink(source, target, value, color) {
-    var links = this.props.links.map(link => {
+    var links = this.props.data.links.map(link => {
       if (link.source === source && link.target === target) {
         link.value = value;
         link.color = color;
@@ -123,6 +149,12 @@ class SankeyWrapper extends React.Component {
     });
 
     this.setState({ links });
+  }
+
+  setTitle(evt) {
+    evt.preventDefault();
+    console.log(evt.target.title.value)
+    this.props.updateTheTitle(evt.target.title.value)
   }
 
   openModal(e) {
@@ -215,13 +247,14 @@ class SankeyWrapper extends React.Component {
       }
     };
 
-    return (
+    return !this.props.data ? (
+      <div />
+    ) : (
       <div>
         <div className="chartContainer">
           <div>
             <SankeyTools
-              nodes={this.props.nodes}
-              links={this.props.links}
+              data={this.props.data}
               addNode={this.addNode}
               addLink={this.addLink}
               openModal={this.openModal}
@@ -231,15 +264,27 @@ class SankeyWrapper extends React.Component {
               changeWidth={this.changeWidth}
               currentHeight={this.state.height}
               currentWidth={this.state.width}
-              readFile={this.readFile}
-              emptyDiagram={this.emptyDiagram}
+              deleteChart={this.delete}
+              publishTheChart={this.publishTheChart}
+              chartId={this.props.chartId}
             />
           </div>
           <div>
-            <h2>{this.props.title || "New Sankey Diagram"}</h2>
+
+            <h2>{this.props.title}</h2>
+            <form
+            onSubmit={this.setTitle}
+            >
+              <input
+                type="text"
+                name="title"
+                placeholder="Change Title Here"
+                value={this.state.title}
+              />
+              <input type="submit" value="Update Title"/>
+            </form>
             <Sankey
-              nodes={this.props.nodes}
-              links={this.props.links}
+              data={this.props.data}
               openModal={this.openModal}
               height={this.state.height}
               width={this.state.width}
@@ -289,15 +334,16 @@ const userId = firebase.auth().currentUser;
 
 const mapStateToProps = storeState => {
   return {
-    nodes: storeState.sankeyChart.nodes,
-    links: storeState.sankeyChart.links,
+    data: storeState.sankeyChart.data,
     height: storeState.sankeyChart.height,
     width: storeState.sankeyChart.width,
-    userId: storeState.user.user
+    userId: storeState.user.id,
+    chartId: storeState.sankeyChart.chartId,
+    title: storeState.sankeyChart.title
   };
 };
 
-const mapDispatchToProps = function (dispatch) {
+const mapDispatchToProps = function(dispatch) {
   return {
     fetchDefaultData: () => {
       const action = loadDefaultData();
@@ -307,14 +353,24 @@ const mapDispatchToProps = function (dispatch) {
       const action = clearData();
       dispatch(action);
     },
-    saveChanges: stateObj => {
-      const action = saveChart(stateObj);
+    saveChanges: (data, title) => {
+      const action = saveSankeyChartThunk(data, title);
       dispatch(action);
     },
     uploadData: data => {
       const action = importData(data);
       dispatch(action);
+    },
+    updateTheTitle: title => {
+      const action = updateTitle(title)
+      dispatch(action)
     }
+    // delete: (chartId, userId) => {
+    //   deleteChart(chartId, userId);
+    // }
+    // updateChart: (data, chartId) => {
+    //   updateChart(data, chartId);
+    // }
   };
 };
 
