@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, withRouter, Link } from 'react-router-dom';
 import { app, googleProvider } from '../../base';
 import { connect } from 'react-redux';
 import store, { setUser } from '../../store';
 import ErrorMessage from './ErrorMessage';
+// import history from '../../routes/history';
 
 class Login extends Component {
   constructor(props) {
@@ -28,14 +29,11 @@ class Login extends Component {
           uid
         };
       })
-      .then((user, error) => {
-        if (error) {
-          throw Error('Unable to sign in with Google');
-        } else {
-          this.loginForm.reset();
-          store.dispatch(setUser(user.email, user.uid));
-          this.setState({ redirect: true });
-        }
+      .then(user => {
+        this.loginForm.reset();
+        store.dispatch(setUser(user.email, user.uid));
+        this.props.history.push('/charts');
+        // this.setState({ redirect: true });
       })
       .catch(error => {
         this.setState({ errorMessage: error.message });
@@ -54,7 +52,7 @@ class Login extends Component {
         if (user && user.email) {
           this.loginForm.reset();
           store.dispatch(setUser(user.uid));
-          this.setState({ redirect: true });
+          this.props.history.push('/charts');
         }
       })
       .catch(error => {
@@ -63,13 +61,13 @@ class Login extends Component {
   }
 
   render() {
-    const { from } = this.props.location.state || {
-      from: { pathname: '/charts' }
-    };
+    //   const { from } = this.props.location.state || {
+    //     from: { pathname: '/charts' }
+    //   };
 
-    if (this.state.redirect === true) {
-      return <Redirect to={from} />;
-    }
+    //   if (this.state.redirect === true) {
+    //     return <Redirect to={from} />;
+    //   }
 
     return (
       <div
@@ -134,7 +132,7 @@ class Login extends Component {
               <div className="ui error message" />
             </form>
             <div className="ui message">
-              New to us? <a href="/signup">Sign Up</a>
+              New to us? <Link to="/signup">Sign Up</Link>
             </div>
             <div>
               {this.state.errorMessage && (
@@ -152,4 +150,4 @@ const mapStateToProps = state => ({
   user: state.user
 });
 
-export default connect(mapStateToProps)(Login);
+export default withRouter(connect(mapStateToProps)(Login));

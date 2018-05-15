@@ -39,25 +39,17 @@ class SankeyTools extends Component {
           <h4>New Link</h4>
           <hr />
           <div className='tool-item'>
-            <AddLink
-              addLink={this.props.addLink}
-              links={this.props.links}
-              nodes={this.props.nodes}
-            />
+            <AddLink addLink={this.props.addLink} data={this.props.data} />
           </div>
           <h4>New Node</h4>
           <hr />
           <div className='tool-item'>
-            <AddNode
-              addNode={this.props.addNode}
-              links={this.props.links}
-              nodes={this.props.nodes}
-            />
+            <AddNode addNode={this.props.addNode} data={this.props.data} />
           </div>
           <h4>Edit Chart Dimensions</h4><hr />
           <div className="form">
             <form onSubmit={this.submitHeightWidth}>
-              <div className='tool-item'>
+              <div className="tool-item">
                 <Input
                   onChange={this.handleChange}
                   name="width"
@@ -65,7 +57,7 @@ class SankeyTools extends Component {
                   defaultValue={this.props.width}
                 />
               </div>
-              <div className='tool-item'>
+              <div className="tool-item">
                 <Input
                   onChange={this.handleChange}
                   name="height"
@@ -73,28 +65,39 @@ class SankeyTools extends Component {
                   defaultValue={this.props.height}
                 />
               </div>
-              <div className='tool-item'>
-                <Button className='tool-button' onClick={this.submitHeightWidth}>Update chart size</Button>
+              <div className="tool-item">
+                <Button
+                  className="tool-button"
+                  onClick={this.submitHeightWidth}
+                >
+                  Update chart size
+                </Button>
               </div>
             </form>
-            <h4>{'Save & Import/Export Data'}</h4>
+            <h4>Save Changes</h4>
             <hr />
-            <div className='tool-item'>
-              <Button className='tool-button' onClick={this.props.handleUpdate}>
+            <div className="tool-item">
+              <Button className="tool-button" onClick={this.props.handleUpdate}>
                 Update Chart
               </Button>
             </div>
-            <div className='tool-item'>
-              <Button className='tool-button' onClick={this.props.handleSubmit}>
+            <div className="tool-item">
+              <Button className="tool-button" onClick={this.props.handleSubmit}>
                 Save Changes as New Chart
               </Button>
             </div>
-            <div className='tool-item'>
+            <div className="tool-item">
               <FooterBar
                 nodes={this.props.nodes}
                 links={this.props.links}
                 readFile={this.props.readFile}
-                emptyDiagram={this.props.emptyDiagram} />
+                emptyDiagram={this.props.emptyDiagram}
+              />
+            </div>
+            <div className="tool-item">
+              <Button className='tool-button' color='red' onClick={this.props.deleteChart}>
+                Delete Chart
+              </Button>
             </div>
           </div>
         </div>

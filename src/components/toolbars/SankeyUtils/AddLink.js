@@ -6,8 +6,8 @@ export default class extends React.Component {
     super();
 
     this.state = {
-      source: NaN,
-      target: NaN,
+      source: "",
+      target: "",
       weight: 'Weight'
     };
 
@@ -35,37 +35,40 @@ export default class extends React.Component {
   }
 
   render() {
-    var sourceNodes = this.props.nodes.map((node, i) => {
-      return (
-        <option value={node.node} key={i}>
-          {node.name}
-        </option>
-      );
-    });
-
-    sourceNodes.unshift(
-      <option value={NaN} key="000">
-        {'Select Source'}
-      </option>
-    );
-
-    var targetNodes = this.props.nodes
-      .filter((node, i) => {
-        return node.node !== this.state.source;
-      })
-      .map((node, i) => {
+    if (this.props.data){
+      let { nodes, links } = this.props.data
+      var sourceNodes = nodes.map((node, i) => {
         return (
           <option value={node.node} key={i}>
             {node.name}
           </option>
         );
       });
-
-    targetNodes.unshift(
-      <option value={NaN.toString()} key="000">
-        {'Select Target'}
-      </option>
-    );
+  
+      sourceNodes.unshift(
+        <option value={NaN} key="000">
+          {'Select Source'}
+        </option>
+      );
+  
+      var targetNodes = nodes
+        .filter((node, i) => {
+          return node.node !== this.state.source;
+        })
+        .map((node, i) => {
+          return (
+            <option value={node.node} key={i}>
+              {node.name}
+            </option>
+          );
+        });
+  
+      targetNodes.unshift(
+        <option value={NaN.toString()} key="000">
+          {'Select Target'}
+        </option>
+      );
+    }
 
     return (
       <div>

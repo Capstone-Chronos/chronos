@@ -15,7 +15,7 @@ export default class extends React.Component {
           />
         </div>
         <div className='tool-item'>
-          <button className='ui button tool-button red' onClick={this.props.emptyDiagram}>New Diagram</button>
+          <button className='ui button tool-button orange' onClick={this.props.emptyDiagram}>New Diagram</button>
         </div>
       </div>
     );

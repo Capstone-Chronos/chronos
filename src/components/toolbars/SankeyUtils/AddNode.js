@@ -13,9 +13,12 @@ export default class extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({
-      name: 'Node' + nextProps.nodes.length
-    });
+    console.log(nextProps, 'nextprops');
+    if (nextProps.data) {
+      this.setState({
+        name: 'Node' + nextProps.data.nodes.length
+      });
+    }
   }
 
   handleChange(key) {
