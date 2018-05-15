@@ -3,6 +3,7 @@ import { Button, Input } from 'semantic-ui-react';
 import AddLink from './SankeyUtils/AddLink';
 import AddNode from './SankeyUtils/AddNode';
 import FooterBar from './SankeyUtils/FooterBar';
+import PublishButton from './tools/PublishButton'
 
 class SankeyTools extends Component {
   constructor(props) {
@@ -83,6 +84,7 @@ class SankeyTools extends Component {
               <Button className="tool-button" onClick={this.props.handleSubmit}>
                 Save Changes as New Chart
               </Button>
+              <PublishButton title='fake title' publish={this.props.publishTheChart} chartId={this.props.chartId}/>
             </div>
             <div className="tool-item">
               <FooterBar

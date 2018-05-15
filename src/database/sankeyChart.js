@@ -17,10 +17,10 @@ export const saveChart = async (data, title) => {
       title,
       data,
       uid,
-      chartIdKey: newChartKey
+      chartId: newChartKey
     };
     // userRef.child(uid).child('charts').push()
-    //   .set(chartIdKey);
+    //   .set(chartId);
     // chartsRef.push().set(chartInfo);
     let updates = {};
     updates[`users/${uid}/charts/${newChartKey}`] = newChartKey;
@@ -36,8 +36,17 @@ export const saveChart = async (data, title) => {
 export const updateChart = async (data, chartId) => {
   try {
     let updates = {};
-    console.log('');
     updates[`/charts/${chartId}/data`] = data;
+    await databaseRef.update(updates);
+  } catch (err) {
+    throw Error(err);
+  }
+};
+
+export const publishChart = async chartId => {
+  try {
+    let updates = {};
+    updates[`/charts/${chartId}/isPublished`] = true;
     await databaseRef.update(updates);
   } catch (err) {
     throw Error(err);

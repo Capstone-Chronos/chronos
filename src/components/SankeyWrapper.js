@@ -17,7 +17,8 @@ import {
 import {
   deleteChart,
   updateChart,
-  fetchChartById
+  fetchChartById,
+  publishChart
 } from '../database/sankeyChart';
 
 class SankeyWrapper extends React.Component {
@@ -32,6 +33,7 @@ class SankeyWrapper extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleUpdate = this.handleUpdate.bind(this);
     this.delete = this.delete.bind(this);
+    this.publishTheChart = this.publishTheChart.bind(this);
 
     this.emptyDiagram = this.emptyDiagram.bind(this);
 
@@ -69,6 +71,11 @@ class SankeyWrapper extends React.Component {
       height: this.state.height || this.props.height
     };
     this.props.saveChanges(this.props.data, 'mytitle');
+  }
+
+  publishTheChart() {
+    let { chartId } = this.props;
+    publishChart(chartId);
   }
 
   handleUpdate() {
@@ -257,6 +264,8 @@ class SankeyWrapper extends React.Component {
               currentHeight={this.state.height}
               currentWidth={this.state.width}
               deleteChart={this.delete}
+              publishTheChart={this.publishTheChart}
+              chartId={this.props.chartId}
             />
           </div>
           <div>
@@ -317,7 +326,7 @@ const mapStateToProps = storeState => {
     height: storeState.sankeyChart.height,
     width: storeState.sankeyChart.width,
     userId: storeState.user.id,
-    chartId: storeState.sankeyChart.chartIdKey,
+    chartId: storeState.sankeyChart.chartId,
     title: 'Fake Title'
   };
 };
@@ -333,7 +342,6 @@ const mapDispatchToProps = function(dispatch) {
       dispatch(action);
     },
     saveChanges: (data, title) => {
-      console.log('TTTTTTTT');
       const action = saveSankeyChartThunk(data, title);
       dispatch(action);
     },

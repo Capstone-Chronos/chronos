@@ -17,7 +17,8 @@ const templates = [
   { id: 1, name: 'Bar Chart', type: 'barchart' },
   { id: 2, name: 'Pie Chart', type: 'piechart' },
   { id: 3, name: 'Sankey Diagram', type: 'sankey' },
-  { id: 4, name: 'Timeline', type: 'timeline' }
+  { id: 4, name: 'Timeline', type: 'timeline' },
+  { id: 5, name: 'Map', type: 'map' }
 ];
 
 export class AllProjects extends React.Component {
@@ -65,9 +66,7 @@ export class AllProjects extends React.Component {
                 key={template.name}
                 name={template.name}
                 type={template.type}
-                description={
-                  'THIS IS a placehold description for our charts....'
-                }
+                description="THIS IS a placehold description for our charts...."
                 url={`/edit/${template.type}`}
               />
             ))}
@@ -76,47 +75,50 @@ export class AllProjects extends React.Component {
         <div>
           <h2 className="title">My Saved Projects</h2>
           <div className="grid-list">
+
             {!this.props.userCharts
               ? 'You currently have no saved charts'
               : Object.values(this.props.userCharts)
-                  .filter(chart => chart.uid === this.props.userId)
-                  .map(chart => {
-                    console.log(chart);
-                    return (
-                      <div onClick={fetchChartById(chart.chartIdKey)}>
-                        <SingleSelection
-                          key={chart.chartIdKey}
-                          id={chart.chartIdKey}
-                          name={chart.title}
-                          type={chart.chartType}
-                          description={
-                            'THIS IS a placehold description for our charts....'
-                          }
-                          url={`/edit/${chart.chartType}/${chart.chartIdKey}`}
-                        />
-                      </div>
-                    );
-                  })}
+                .filter(chart => chart.uid === this.props.userId)
+                .map(chart => {
+                  return (
+                    <div onClick={fetchChartById(chart.chartId)}>
+                      <SingleSelection
+                        key={chart.chartId}
+                        id={chart.chartId}
+                        name={chart.title}
+                        type={chart.chartType}
+                        description="THIS IS a placehold description for our charts...."
+                        url={`/view/${chart.chartType}/${chart.chartId}`}
+                      />
+                    </div>
+                  );
+                })}
+
           </div>
         </div>
         <div>
           <h2 className="title">Published Charts</h2>
           <div className="grid-list">
+
             {!this.props.publishedCharts
               ? 'There are currently no published charts'
               : Object.values(this.props.publishedCharts)
-                  .filter(chart => chart.isPublished === true)
-                  .map(chart => (
-                    <SingleSelection
-                      key={chart.chartIdKey}
-                      name={chart.title}
-                      type={chart.chartType}
-                      description={
-                        'THIS IS a placehold description for our charts....'
-                      }
-                      url={`/show/${chart.type}/${chart.id}`}
-                    />
-                  ))}
+                .filter(chart => chart.isPublished === true)
+                .map(chart => {
+
+                  return (
+                    <div onClick={fetchChartById(chart.chartId)}>
+                      <SingleSelection
+                        key={chart.chartId}
+                        name={chart.title}
+                        type={chart.chartType}
+                        description="THIS IS a placehold description for our charts...."
+                        url={`/show/${chart.chartType}/${chart.chartId}`}
+                      />
+                    </div>
+                  );
+                })}
           </div>
         </div>
       </div>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button } from 'semantic-ui-react';
 import { connect } from 'react-redux';
+import { publishChart } from '../../../database/sankeyChart'
 
 class PublishButton extends React.Component {
   constructor(props) {
@@ -19,13 +20,14 @@ class PublishButton extends React.Component {
         message: 'Published charts require a title'
       });
     } else {
-      // Send Chart and user data to Firebase.
+      console.log(this.props)
+      publishChart(this.props.chartId)
     }
   }
 
   render() {
-    return (
-      this.props.isLoggedIn && (
+    return ( 
+      this.props.chartId && (
         <div>
           <button className="ui button" onClick={this.publishChart}>
             Publish

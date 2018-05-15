@@ -4,7 +4,7 @@ import history from '../routes/history';
 import { saveChart } from '../database/sankeyChart';
 
 let defaultData = {
-  chartIdKey: '',
+  chartId: '',
   title: 'Energy Use in the UK',
   width: 1000,
   height: 800,
