@@ -1,9 +1,9 @@
 import { TimeChart, ColorPicker } from '../components';
 import React from 'react';
-import { Button, Grid, Input, TextArea } from 'semantic-ui-react';
+import { Button, Grid, Input, TextArea, Image } from 'semantic-ui-react';
 import Modal from 'react-modal';
 
-var testData = { radius: 10, dates: [{ id: 0, name: 'New Years 2016', date: new Date(2016, 0, 1) }, { id: 1, name: 'My birthday', date: new Date(2016, 3, 1) }, { id: 2, name: 'First Day of Summer', date: new Date(2016, 6, 21) }, { id: 3, name: 'New Years 2016', date: new Date(2017, 0, 1) }] }
+var testData = { start: '2015, 1, 1', end: '2018, 1, 1', radius: 10, dates: [{ id: 0, name: 'New Years 2016', date: '2016, 1, 1' }, { id: 1, name: 'My birthday', date: '2016, 3, 1' }, { id: 2, name: 'First Day of Summer', date: '2016, 6, 21' }, { id: 3, name: 'New Years 2016', date: '2017, 1, 1' }] }
 
 
 export default class TimeChartWrapper extends React.Component {
@@ -149,22 +149,30 @@ export default class TimeChartWrapper extends React.Component {
                   {!this.state.editorMode ?
                     <div>
                       <h2>{eventName}</h2>
-                    <hr />
-                      <iframe
+                      <hr />
+                      {imgUrl ?
+                        <Image src={imgUrl} width="300" height="200" />
+                        :
+                        ""
+                      }
+                      <p>{description}</p>
+                      {vidUrl ? <iframe
                         width="250"
                         height="200"
-                        src="https://www.youtube.com/embed/I47Y6VHc3Ms"
+                        src={vidUrl}
                         frameborder="0"
                         allow="autoplay; encrypted-media"
                         allowfullscreen>
                       </iframe>
+                        :
+                        ""
+                      }
                     </div>
                     :
                     <div>
                       <h4>{header}</h4>
                       <Input
                         label="Event Name"
-                        labelPosition="left corner"
                         name='modalContentEventName'
                         defaultValue={eventName}
                         className="form-control"
