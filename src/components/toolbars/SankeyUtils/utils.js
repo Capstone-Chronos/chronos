@@ -66,7 +66,6 @@ function readFile(e) {
         nodes: nodes,
         links: links
       });
-      console.log(this)
     }.bind(this);
     r.readAsText(file);
   }
