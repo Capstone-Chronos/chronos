@@ -11,7 +11,6 @@ import {
   loadDefaultData,
   clearData,
   importData,
-  updateSankeyChartThunk,
   saveSankeyChartThunk,
   updateTitle
 } from '../store/sankeyChart';

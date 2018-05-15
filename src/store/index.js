@@ -24,4 +24,5 @@ export default store;
 export * from './barChart';
 export * from './sankeyChart';
 export * from './user';
-export * from './allCharts'
+export * from './allCharts';
+export * from './mapChart';
