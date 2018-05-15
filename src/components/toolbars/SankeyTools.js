@@ -22,14 +22,12 @@ class SankeyTools extends Component {
 
   handleChange(evt) {
     this.setState({ [evt.target.name]: evt.target.value });
-    console.log(this.state);
   }
 
   submitHeightWidth(evt) {
     evt.preventDefault();
     this.props.changeHeight(this.state.height);
     this.props.changeWidth(this.state.width);
-    console.log(this.state);
   }
 
   render() {

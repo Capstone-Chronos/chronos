@@ -24,38 +24,18 @@ const templates = [
 export class AllProjects extends React.Component {
   constructor(props) {
     super(props);
-    // this.state = {
-    //   templates: timelines,
-    //   userProjects: timelines,
-    //   allCharts: timelines
-    // };
+
   }
 
   componentDidMount() {
     const userId = firebase.auth().currentUser.uid;
-    console.log(userId);
-    // this.props.fetchAllProjects();
-    // this.props.fetchTemplates();
-    // this.props.fetchUserProjects();
-    // getUserCharts()
+
     this.props.getUserCharts();
     this.props.getPublishedCharts();
-    console.log('hhhhh', this.props);
-    // store.dispatch(getUserCharts());
-    // getPublishedCharts()
-    // store.dispatch(getPublishedCharts());
+
   }
 
   render() {
-    // let { templates, userProjects, allCharts } = this.state;
-    // const chart = {
-    //   id: 123,
-    //   title: 'MySankey',
-    //   url: '/1/sanket'
-    // };
-    // const uid = firebase.auth().currentUser.uid;
-
-    console.log('this.props', this.props);
     return (
       <div className="chart-group-containter">
         <div>
@@ -127,7 +107,6 @@ export class AllProjects extends React.Component {
 }
 
 const mapStateToProps = storeState => {
-  console.log(storeState, 'kkkkk');
   return {
     userId: storeState.user.id,
     userCharts: storeState.allCharts.userCharts,
@@ -145,8 +124,7 @@ const mapDispatchToProps = dispatch => {
       const action = getPublishedCharts();
       dispatch(action);
     }
-    // getUserCharts,
-    // getPublishedCharts
+
   };
 };
 

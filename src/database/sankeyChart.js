@@ -29,7 +29,6 @@ export const saveChart = async (data, title) => {
   } catch (err) {
     throw Error(err);
   }
-  console.log('lasdfsdafasdfsadfasdf', newChartKey);
   return newChartKey;
 };
 
@@ -56,7 +55,6 @@ export const publishChart = async chartId => {
 export const deleteChart = async (chartId, uid) => {
   try {
     let toBeDeleted = {};
-    console.log('chartid', chartId);
     toBeDeleted[`/charts/${chartId}`] = null;
     toBeDeleted[`/users/${uid}/charts/${chartId}`] = null;
     databaseRef.update(toBeDeleted);

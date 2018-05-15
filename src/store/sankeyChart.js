@@ -164,6 +164,7 @@ const DELETE_USER_CHART = 'DELETE_USER_CHARTS';
 const SET_CHART_ID = 'SET_CHART_ID';
 const SET_SANKEY_TITLE = 'SET_SANKEY_TITLE';
 const SET_CHART = 'SET_CHART';
+const UPDATE_TITLE = 'UPDATE_TITLE'
 
 //ACTION CREATORS
 export const loadDefaultData = () => ({
@@ -196,14 +197,18 @@ export const setChart = chart => ({
   chart
 });
 
+export const updateTitle = title => ({
+  type: UPDATE_TITLE,
+  title
+})
+
+
+
 //THUNKS
 export const saveSankeyChartThunk = (data, title) => {
-  console.log('KKKKK');
   return dispatch => {
-    console.log('QQQQQ');
     saveChart(data, title)
       .then(chartId => {
-        console.log('emow');
         dispatch(setSankeyTitle(title));
         dispatch(setSankeyId(chartId));
         history.push(`/edit/sankey/${chartId}/${title}`);
@@ -212,35 +217,14 @@ export const saveSankeyChartThunk = (data, title) => {
   };
 };
 
-// export const updateSankeyChartThunk = (data, chartId) => {
-//   return dispatch => {
-//     dispatch(updateChart(data, chartId));
-//   };
-// };
-
-// dispatch({
-//   type: UPDATE_DATA,
-//   data
-// });
-
-// export const saveChart = (data) => async dispatch => {
-//   let newChartKey = firebase.auth().currentUser.email.child('chart').key;
-//   console.log('userid', userId)
-//   userRef.set(data, snapshot => {
-//     dispatch({
-//       type: UPDATE_DATA,
-//       data: data
-//     });
-//   });
-// };
-
 // Thunk creators
 
 //Reducer
 export default function reducer(state = initialState, action) {
   switch (action.type) {
+    case UPDATE_TITLE:
+      return { ...state, title: action.title }
     case UPDATE_DATA:
-      console.log(action.data, 'DATA UPDATED');
       defaultData = action.data;
       return { ...state, nodes: action.data.nodes, links: action.data.links };
     case DELETE_USER_CHART:

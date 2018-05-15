@@ -16,7 +16,6 @@ class App extends React.Component {
 
   async componentDidMount() {
     let user = await firebase.auth().currentUser;
-    console.log('The location is', this.props.history);
     if (!this.state.isLoggedIn) {
       getUserInfo(this.props.location.pathname);
     }

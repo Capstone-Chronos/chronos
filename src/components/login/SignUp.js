@@ -16,8 +16,6 @@ export default class SignUp extends Component {
 
   signUp(event) {
     event.preventDefault();
-    console.log('Reached event');
-    console.log(this.submitForm);
 
     const email = event.target.email.value;
     const password = event.target.password.value;

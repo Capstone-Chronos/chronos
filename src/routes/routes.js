@@ -63,7 +63,6 @@ class Routes extends Component {
  * CONTAINER
  */
 const mapState = state => {
-  console.log(state);
   return {
     isLoggedIn: !!state.user.isLoggedIn
   };
