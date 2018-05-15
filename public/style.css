@@ -68,30 +68,23 @@ nav a {
 .tools {
   display: flex;
   flex-direction: column;
-  margin: 3em;
+  margin-top: 2em;
+  margin-right: 3em;
   height: 100vh;
   min-width: 15vw;
 }
 
-.btn file {
-  position: relative;
-  overflow: hidden;
-  margin-right: 10px;
+.tool-item {
+  display: flex;
+  justify-content: left;
+  width: '8em';
+  margin-bottom: 1em;
 }
 
-.btn primary {
-  background-color: #5badf0;
-  border-color: #4ca1e7;
-}
-
-.btn primary:hover {
-  background-color: #2389dc;
-  border-color: #2389dc;
-}
-
-select.btn {
-  -webkit-appearance: none;
-  max-width: 115px;
+.tool-button {
+  width: 20em;
+  max-width: 20em;
+  min-width: 20em;
 }
 
 .footer {
@@ -348,13 +341,6 @@ span.buttonText {
   display: flex;
   margin: 10%;
   align-self: stretch;
-}
-
-.form {
-  display: flex;
-  flex-direction: column;
-  margin: 1em;
-  align-items: center;
 }
 
 .svg-container {

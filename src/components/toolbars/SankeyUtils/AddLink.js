@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button, Input } from 'semantic-ui-react';
 
 export default class extends React.Component {
   constructor() {
@@ -67,34 +68,32 @@ export default class extends React.Component {
     );
 
     return (
-      <div className="input-group">
-        <div className="input-group-btn">
+      <div>
+        <div className='tool-item'>
           <select
-            className="btn btn-default"
             onChange={this.handleChange('source')}
           >
             {sourceNodes}
           </select>
-
+        </div>
+        <div className='tool-item'>
           <select
-            className="btn btn-default"
             onChange={this.handleChange('target')}
           >
             {targetNodes}
           </select>
         </div>
-
-        <input
-          className="form-control"
-          value={this.state.weight}
-          onFocus={this.clearInput}
-          onBlur={this.setDefault}
-          onChange={this.handleChange('weight')}
-        />
-
-        <div className="input-group-btn">
-          <button
-            className="btn btn-primary"
+        <div className='tool-item'>
+          <Input
+            value={this.state.weight}
+            onFocus={this.clearInput}
+            onBlur={this.setDefault}
+            onChange={this.handleChange('weight')}
+          />
+        </div>
+        <div className='tool-item'>
+          <Button
+            className='tool-button'
             onClick={this.props.addLink.bind(
               null,
               parseInt(this.state.source),
@@ -103,7 +102,7 @@ export default class extends React.Component {
             )}
           >
             Add Link
-          </button>
+          </Button>
         </div>
       </div>
     );

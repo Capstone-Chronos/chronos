@@ -146,10 +146,10 @@ export default class TimeChartWrapper extends React.Component {
                   <button className="close" onClick={this.closeModal}>
                     <span aria-hidden="true">&times;</span>
                   </button>
-                  <hr />
                   {!this.state.editorMode ?
                     <div>
-                      <h4>{eventName}</h4>
+                      <h2>{eventName}</h2>
+                    <hr />
                       <iframe
                         width="250"
                         height="200"
@@ -178,6 +178,7 @@ export default class TimeChartWrapper extends React.Component {
                         className='form-control'
                         style={{ maxWidth: modalWidth - 50, minHeight: 50 }}
                         fluid
+                        value={description}
                         onInput={this.handleInputChange}
                       />
                       <Input

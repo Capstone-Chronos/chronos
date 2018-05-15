@@ -9,7 +9,7 @@ export default class extends React.Component {
           <div>
           </div>
           <div>
-            <button onClick={this.props.emptyDiagram}>New Diagram</button>
+            <button className='ui button tool-button' onClick={this.props.emptyDiagram}>New Diagram</button>
             <hr />
             <ExportJSON 
               nodes={this.props.nodes}
