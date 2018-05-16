@@ -12,6 +12,7 @@ export default class Choropleth extends React.Component {
     this.renderMap = renderMap.bind(this);
 
     this.state = {
+      
       openModal: false,
       selectedStateId: '',
       stateColors: {},
@@ -70,7 +71,6 @@ export default class Choropleth extends React.Component {
     console.log(this.state.stateColors);
     return (
       <div>
-      
         <div>
           <MapChartTools stateColors={this.state.stateColors}/>
         </div>

@@ -32,6 +32,8 @@ class MapChartTools extends Component {
     this.setTitle = this.setTitle.bind(this);
     this.publishTheChart = this.publishTheChart.bind(this);
 
+    this.emptyDiagram = this.emptyDiagram.bind(this);
+
     this.loadData = loadData.bind(this);
     this.readFile = readFile.bind(this);
     this.delete = this.delete.bind(this);
@@ -46,6 +48,10 @@ class MapChartTools extends Component {
     evt.preventDefault();
     console.log(evt.target.title.value);
     this.props.updateTheTitle(evt.target.title.value);
+  }
+
+  emptyDiagram() {
+    this.props.clearChart();
   }
 
   publishTheChart() {
@@ -160,7 +166,7 @@ class MapChartTools extends Component {
               <FooterBar
                 data={this.props.data}
                 readFile={this.props.readFile}
-                emptyDiagram={this.props.emptyDiagram}
+                emptyDiagram={this.emptyDiagram}
               />
             </div>
             <div className="tool-item">
@@ -178,7 +184,7 @@ class MapChartTools extends Component {
 const mapStateToProps = function(state){
   console.log('i', state);
   return {
-    data: state.mapChart.data,
+    data: state.mapChart.data.json,
     stateColors: state.mapChart.data.stateColors,
     userId: state.user.id,
     chartId: state.mapChart.chartId,
@@ -219,7 +225,7 @@ const mapDispatchToProps = function(dispatch) {
     publishTheChart: chartId => {
       const action = publishChart(chartId);
       dispatch(action);
-    }
+    },
   };
 };
 
