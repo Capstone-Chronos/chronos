@@ -3,31 +3,39 @@ import React from 'react';
 import { Button, Grid, Input, TextArea, Image } from 'semantic-ui-react';
 import Modal from 'react-modal';
 import TimelineTools from './toolbars/TimelineTools';
-// import firebase from 'firebase';
-// import { connect } from 'react-redux';
-// import {
-//   loadDefaultData,
-//   clearData,
-//   importData,
-//   updateSankeyChartThunk,
-//   saveSankeyChartThunk
-// } from '../store/timeLine';
-// import {
-//   deleteChart,
-//   updateChart,
-//   fetchChartById
-// } from '../database/sankeyChart';
+import { withRouter } from 'react-router-dom';
+import firebase from 'firebase';
+import { connect } from 'react-redux';
+import {
+  loadDefaultData,
+  clearData,
+  importData,
+  updateSankeyChartThunk,
+  saveTimelineThunk
+} from '../store/timeline';
+import { updateChart, fetchChartById } from '../database/charts';
 
-var testData = { height: 800, width: 1200, start: '2015, 1, 1', end: '2018, 1, 1', radius: 10, dates: [{ id: 0, name: 'New Years 2016', date: '2016, 1, 1' }, { id: 1, name: 'My birthday', date: '2016, 3, 1' }, { id: 2, name: 'First Day of Summer', date: '2016, 6, 21' }, { id: 3, name: 'New Years 2016', date: '2017, 1, 1' }] }
+// var testData = {
+//   height: 800,
+//   width: 1200,
+//   start: '2015, 1, 1',
+//   end: '2018, 1, 1',
+//   radius: 10,
+//   dates: [
+//     { id: 0, name: 'New Years 2016', date: '2016, 1, 1' },
+//     { id: 1, name: 'My birthday', date: '2016, 3, 1' },
+//     { id: 2, name: 'First Day of Summer', date: '2016, 6, 21' },
+//     { id: 3, name: 'New Years 2016', date: '2017, 1, 1' }
+//   ]
+// };
 
-
-export default class TimelineWrapper extends React.Component {
+class TimelineWrapper extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       editorMode: true,
       modalIsOpen: false
-    }
+    };
 
     this.toggleEditor = this.toggleEditor.bind(this);
     this.handleClick = this.handleClick.bind(this);
@@ -39,6 +47,22 @@ export default class TimelineWrapper extends React.Component {
     this.changeHeight = this.changeHeight.bind(this);
     this.changeWidth = this.changeWidth.bind(this);
     this.addEvent = this.addEvent.bind(this);
+    this.handleColorChange = this.handleColorChange.bind(this);
+  }
+
+  componentWillReceiveProps() {
+    this.setState({
+      radius: this.props.data.radius,
+      dates: this.props.data.dates,
+      height: this.props.data.height,
+      width: this.props.data.width,
+      start: this.props.data.start,
+      end: this.props.data.end
+    });
+  }
+
+  componentDidMount() {
+    fetchChartById(this.props.match.params.id);
     this.updateRange = this.updateRange.bind(this);
   }
 
@@ -51,7 +75,7 @@ export default class TimelineWrapper extends React.Component {
       id: idx,
       name,
       date: newDate
-    }
+    };
     this.setState({ dates })
   }
 
@@ -69,7 +93,7 @@ export default class TimelineWrapper extends React.Component {
   //Function to open info pane in presentation mode or editing modal in editor mode
   handleClick(e) {
     if (!this.state.editorMode) {
-      console.log(e)
+      console.log(e);
     }
   }
 
@@ -81,7 +105,7 @@ export default class TimelineWrapper extends React.Component {
   }
 
   updateEvent(name, idx, color, description, imgUrl, vidUrl) {
-    var dates = this.state.dates;
+    var dates = this.props.data.dates;
     dates[idx].name = name;
     dates[idx].color = color;
     dates[idx].description = description;
@@ -91,10 +115,11 @@ export default class TimelineWrapper extends React.Component {
   }
 
   toggleEditor() {
-    this.setState({ editorMode: !this.state.editorMode })
+    this.setState({ editorMode: !this.state.editorMode });
   }
 
   openModal(e) {
+    console.log(e);
     if (e.date !== undefined) {
       var modalContent = 'event';
       var modalContentEventId = e.id;
@@ -178,7 +203,7 @@ export default class TimelineWrapper extends React.Component {
     };
 
     return (
-      <div className='chartContainer'>
+      <div className="chartContainer">
         <Grid>
           <Grid.Row>
             <Grid.Column width="3">
@@ -186,8 +211,8 @@ export default class TimelineWrapper extends React.Component {
                 changeHeight={this.changeHeight}
                 changeWidth={this.changeWidth}
                 toggleEditor={this.toggleEditor}
-                width={this.state.width}
-                height={this.state.height}
+                // width={this.state.width}
+                // height={this.state.height}
                 addEvent={this.addEvent}
                 updateRange={this.updateRange}
                 start={this.state.start}
@@ -198,8 +223,9 @@ export default class TimelineWrapper extends React.Component {
               <div style={{ margin: '4em' }}>
                 <Timeline
                   handleClick={this.handleClick}
-                  data={this.state}
-                  openModal={this.openModal} />
+                  data={this.props.data}
+                  openModal={this.openModal}
+                />
                 <Modal
                   closeTimeoutMS={150}
                   isOpen={this.state.modalIsOpen}
@@ -210,124 +236,99 @@ export default class TimelineWrapper extends React.Component {
                   <button className="close" onClick={this.closeModal}>
                     <span aria-hidden="true">&times;</span>
                   </button>
-                  {!this.state.editorMode ?
+                  {!this.state.editorMode ? (
                     <div>
                       <h2>{eventName}</h2>
                       <hr />
-                      {imgUrl ?
+                      {imgUrl ? (
                         <Image src={imgUrl} width="300" height="200" />
-                        :
-                        ""
-                      }
+                      ) : (
+                        ''
+                      )}
                       <p>{description}</p>
-                      {vidUrl ? <iframe
-                        width="250"
-                        height="200"
-                        src={vidUrl}
-                        frameborder="0"
-                        allow="autoplay; encrypted-media"
-                        allowfullscreen>
-                      </iframe>
-                        :
-                        ""
-                      }
+                      {vidUrl ? (
+                        <iframe
+                          width="250"
+                          height="200"
+                          src={vidUrl}
+                          frameborder="0"
+                          allow="autoplay; encrypted-media"
+                          allowfullscreen
+                        />
+                      ) : (
+                        ''
+                      )}
                     </div>
-                    :
+                  ) : (
                     <div>
                       <h4>{header}</h4>
                       <Input
                         label="Event Name"
-                        name='modalContentEventName'
+                        name="modalContentEventName"
                         defaultValue={eventName}
-                        className="form-control"
-                        fluid
+                        className="form-control fluid"
                         onChange={this.handleInputChange}
                       />
                       <TextArea
                         label="Event Description"
-                        name='modalContentEventDescription'
+                        name="modalContentEventDescription"
                         defaultValue={description}
-                        className='form-control'
+                        className="form-control fluid"
                         style={{ maxWidth: modalWidth - 50, minHeight: 50 }}
-                        fluid
                         value={description}
                         onInput={this.handleInputChange}
                       />
                       <Input
                         label="Image URL"
-                        name='modalContentEventImgUrl'
+                        name="modalContentEventImgUrl"
                         defaultValue={imgUrl}
-                        className='form-control'
-                        fluid
+                        className="form-control fluid"
                         onChange={this.handleInputChange}
                       />
                       <Input
                         label="Video URL"
-                        name='modalContentEventVidUrl'
+                        name="modalContentEventVidUrl"
                         defaultValue={vidUrl}
-                        className='form-control'
-                        fluid
+                        className="form-control fluid"
                         onChange={this.handleInputChange}
                       />
                       <hr />
                       <div style={{ marginTop: '2em', marginBottom: '2em' }}>
                         <h4>{color}</h4>
-                        <ColorPicker handleColorChange={this.handleColorChange} />
+                        <ColorPicker
+                          handleColorChange={this.handleColorChange}
+                        />
                       </div>
                       <div className="row">
                         <div>
-                          <Button
-                            onClick={this.closeAndSaveModal}
-                          >
+                          <Button onClick={this.closeAndSaveModal}>
                             Apply Changes
                           </Button>
                         </div>
                       </div>
                     </div>
-                  }
+                  )}
                 </Modal>
               </div>
             </Grid.Column>
           </Grid.Row>
         </Grid>
       </div>
-    )
+    );
   }
-
 }
 
-// const userId = firebase.auth().currentUser;
+const mapStateToProps = state => {
+  return {
+    data: state.timeline.data,
+    height: state.timeline.data.height,
+    width: state.timeline.data.width
+  };
+};
+const mapDispatchToProps = dispatch => {
+  return {};
+};
 
-// const mapStateToProps = storeState => {
-//   console.log(storeState);
-//   return {
-//     data: storeState.sankeyChart.data,
-//     height: storeState.sankeyChart.height,
-//     width: storeState.sankeyChart.width,
-//     userId: storeState.user.id,
-//     chartId: storeState.sankeyChart.chartIdKey,
-//     title: 'Fake Title'
-//   };
-// };
-
-// const mapDispatchToProps = function (dispatch) {
-//   return {
-//     fetchDefaultData: () => {
-//       const action = loadDefaultData();
-//       dispatch(action);
-//     },
-//     clearChart: () => {
-//       const action = clearData();
-//       dispatch(action);
-//     },
-//     saveChanges: (data, title) => {
-//       console.log('TTTTTTTT');
-//       const action = saveSankeyChartThunk(data, title);
-//       dispatch(action);
-//     },
-//     uploadData: data => {
-//       const action = importData(data);
-//       dispatch(action);
-//     }
-//   }
-// }
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(TimelineWrapper)
+);

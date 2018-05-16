@@ -32,18 +32,19 @@ class Routes extends Component {
               <Route exact path="/" component={Main} />
               <Route exact path="/charts" component={AllProjects} />
               <Route exact path="/projects" component={AllProjects} />
-              <Route exact path="/edit/sankey/:id" component={SankeyWrapper} />
               <Route
                 exact
                 path="/edit/sankey/:id/:title"
                 component={SankeyWrapper}
               />
+              <Route path="/edit/sankey/:id" component={SankeyWrapper} />
+
               <Route path="/edit/sankey" component={SankeyWrapper} />
-              <Route
-                exact
-                path="/edit/timeline"
-                component={TimelineWrapper}
-              />
+
+              <Route path="/edit/timeline" component={TimelineWrapper} />
+              <Route path="/view/timeline" component={TimelineWrapper} />
+              <Route path="/show/timeline" component={TimelineWrapper} />
+
               <Route path="/edit" component={Editor} />
               <Route path="/show" component={PresentationView} />
               <Route path="/view" component={PresentationView} />

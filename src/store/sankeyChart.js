@@ -1,11 +1,12 @@
 import { userRef, chartsRef } from '../base';
 import firebase from 'firebase';
 import history from '../routes/history';
-import { saveChart } from '../database/sankeyChart';
+import { saveChart } from '../database/charts';
 
 let defaultData = {
   chartId: '',
   title: 'Energy Use in the UK',
+  isPublished: false,
   width: 1000,
   height: 800,
   data: {
@@ -156,15 +157,15 @@ const initialState = defaultData;
 
 // Action Types
 const UPDATE_DATA = 'UPDATE_DATA';
-const IMPORT_DATA = 'IMPORT_DATA';
-const GET_ONE_CHART = 'GET_CHART';
-const GET_USER_CHARTS = 'GET_USER_CHARTS';
+// const IMPORT_DATA = 'IMPORT_DATA';
+// const GET_ONE_CHART = 'GET_CHART';
+// const GET_USER_CHARTS = 'GET_USER_CHARTS';
 const DELETE_USER_CHART = 'DELETE_USER_CHARTS';
 
 const SET_CHART_ID = 'SET_CHART_ID';
 const SET_SANKEY_TITLE = 'SET_SANKEY_TITLE';
 const SET_CHART = 'SET_CHART';
-const UPDATE_TITLE = 'UPDATE_TITLE'
+const UPDATE_TITLE = 'UPDATE_TITLE';
 
 //ACTION CREATORS
 export const loadDefaultData = () => ({
@@ -200,14 +201,12 @@ export const setChart = chart => ({
 export const updateTitle = title => ({
   type: UPDATE_TITLE,
   title
-})
-
-
+});
 
 //THUNKS
-export const saveSankeyChartThunk = (data, title) => {
+export const saveSankeyChartThunk = (data, title, chartType) => {
   return dispatch => {
-    saveChart(data, title)
+    saveChart(data, title, chartType)
       .then(chartId => {
         dispatch(setSankeyTitle(title));
         dispatch(setSankeyId(chartId));
@@ -223,7 +222,7 @@ export const saveSankeyChartThunk = (data, title) => {
 export default function reducer(state = initialState, action) {
   switch (action.type) {
     case UPDATE_TITLE:
-      return { ...state, title: action.title }
+      return { ...state, title: action.title };
     case UPDATE_DATA:
       defaultData = action.data;
       return { ...state, nodes: action.data.nodes, links: action.data.links };
