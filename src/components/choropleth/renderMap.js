@@ -3,6 +3,10 @@ import { json as readJSON } from 'd3';
 import { mesh, feature } from 'topojson';
 import { geoPath } from 'd3-geo';
 
+const hoverWizard = data => {
+  let [x, y] = [event.layerX, event.layerY];
+};
+
 export default function renderMap (toggleModal, stateColors) {
   const geoFileUrl = 'https://d3js.org/us-10m.v1.json';
 
@@ -25,14 +29,8 @@ export default function renderMap (toggleModal, stateColors) {
       .append('path')
       .attr('d', path)
       .attr('id', data => 'state' + Number(data.id))
-      .on('mousemove', function (data) {
-        let [x,y] = [event.layerX, event.layerY];
-        // This will hold a callback to render details on the
-        // selected state
-      })
-      .on('click', function (data) {
-        toggleModal(data.id);
-      })
+      .on('mousemove', data => hoverWizard(data))
+      .on('click', data => toggleModal(data.id))
       .style('fill', function (data) {
         return stateColors[data.id] || 'black';
       });

@@ -2,7 +2,7 @@ import React from 'react';
 import renderMap from './renderMap';
 import { mapWidth, mapHeight } from './constants';
 import { default as Modal } from './modal';
-import ColorPicker, { colorScale } from '../toolbars/tools/ColorPicker';
+import { ColorPicker, colorScale } from '../toolbars/tools';
 
 export default class Choropleth extends React.Component {
   constructor(props) {
@@ -40,13 +40,13 @@ export default class Choropleth extends React.Component {
   }
 
   selectedColor (hexcode) {
-    colorScale('#ff1d1d', '#570e0e');
-    colorScale('#ff1d1d', '#570e0e', 6);
     this.setState({selectedColor: hexcode});
   }
 
   handleSubmit(event) {
     event.preventDefault();
+
+    colorScale('#267a60', '#3e2291', 4);
     this.setState(prevState => {
       let stateColors = {...prevState.stateColors};
       stateColors[prevState.selectedStateId] = prevState.selectedColor;
