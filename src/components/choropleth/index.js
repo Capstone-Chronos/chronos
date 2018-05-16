@@ -1,15 +1,20 @@
 import React from 'react';
 import renderMap from './renderMap';
+import MapChartTools from '../toolbars/MapChartTools';
 import { mapWidth, mapHeight } from './constants';
 import { default as Modal } from './modal';
 import ColorPicker from '../toolbars/tools/ColorPicker';
+import { fetchMapChartById } from '../../database/mapChart'
+import {connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
-export default class Choropleth extends React.Component {
+class Choropleth extends React.Component {
   constructor(props) {
     super(props);
     this.renderMap = renderMap.bind(this);
 
     this.state = {
+      
       openModal: false,
       selectedStateId: '',
       stateColors: {},
@@ -22,7 +27,7 @@ export default class Choropleth extends React.Component {
 
   toggleModal(stateId) {
     let selectedStateId = stateId;
-    selectedStateId = Number.isNaN(Number(selectedStateId)) 
+    selectedStateId = Number.isNaN(Number(selectedStateId))
       ? '' : selectedStateId;
 
     this.setState(prevState => ({
@@ -31,8 +36,19 @@ export default class Choropleth extends React.Component {
     }));
   }
 
+  // componentWillReceiveProps() {
+  //   console.log('helloooo', this.props)
+  //   this.setState({
+  //     stateColors: this.props,
+  //     data: this.props.data
+  //   })
+  // }
+
   componentDidMount() {
+    const chartId = this.props.match.params.id;
+    fetchMapChartById(chartId) 
     this.renderMap(this.toggleModal, this.state.stateColors);
+    // this.renderMap(this.toggleModal, this.state.stateColors);
   }
 
   componentDidUpdate() {
@@ -40,7 +56,7 @@ export default class Choropleth extends React.Component {
   }
 
   selectedColor (hexcode) {
-    this.setState({selectedColor: hexcode})
+    this.setState({selectedColor: hexcode});
   }
 
   handleSubmit(event) {
@@ -54,29 +70,49 @@ export default class Choropleth extends React.Component {
   }
 
   render() {
-    console.log(this.state.stateColors)
+    console.log(this.state.stateColors);
     return (
-      <div className="chartContainer">
-        <svg
-          id="choropleth"
-          ref={node => { this.node = node; }}
-          className="svg-container"
-          width={mapWidth}
-          height={mapHeight}
-          style={{ marginTop: 20, marginLeft: 20 }}
-        />
-        {this.state.openModal && (
-          <Modal toggleModal={this.toggleModal}>
-            <form onSubmit={this.handleSubmit}>
-              <h4>{this.state.selectedStateId}</h4>
-              <ColorPicker handleColorChange={this.selectedColor}/>
+      <div>
+        <div>
+          <MapChartTools stateColors={this.state.stateColors} renderMap={this.renderMap}/>
+        </div>
+        <div className="chartContainer">
+          <svg
+            id="choropleth"
+            ref={node => { this.node = node; }}
+            className="svg-container"
+            width={mapWidth}
+            height={mapHeight}
+            style={{ marginTop: 20, marginLeft: 20 }}
+          />
+          {this.state.openModal && (
+            <Modal toggleModal={this.toggleModal}>
+              <form onSubmit={this.handleSubmit}>
+                <h4>{this.state.selectedStateId}</h4>
+                <ColorPicker handleColorChange={this.selectedColor} />
 
-              <input type="submit" value="Submit" />
-            </form>
-          </Modal>
-        )}
-        <div id="tooltip-container"></div>
+                <input type="submit" value="Submit" />
+              </form>
+            </Modal>
+          )}
+          <div id="tooltip-container" />
+        </div>
       </div>
     );
   }
 }
+
+const mapsStateToProps = state => {
+  return {
+    chartId: state.mapChart.chartId,
+    data: state.mapChart.data,
+    uid: state.user.uid,
+    title: state.mapChart.title,
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {}
+}
+
+export default withRouter(connect(mapsStateToProps, mapDispatchToProps)(Choropleth))

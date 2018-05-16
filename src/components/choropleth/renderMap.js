@@ -34,6 +34,7 @@ export default function renderMap (toggleModal, stateColors) {
         toggleModal(data.id);
       })
       .style('fill', function (data) {
+
         return stateColors[data.id] || 'black';
       });
 

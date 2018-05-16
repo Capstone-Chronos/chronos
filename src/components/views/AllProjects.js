@@ -18,7 +18,7 @@ const templates = [
   { id: 2, name: 'Pie Chart', type: 'piechart' },
   { id: 3, name: 'Sankey Diagram', type: 'sankey' },
   { id: 4, name: 'Timeline', type: 'timeline' },
-  { id: 5, name: 'Map', type: 'map' }
+  { id: 5, name: 'Choropleth', type: 'choropleth' }
 ];
 
 export class AllProjects extends React.Component {

@@ -1,17 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Route, Switch, Redirect } from 'react-router-dom';
-import {
-  Main,
-  AllProjects,
-  SignUp,
-  Login,
-  PresentationView,
-  Editor,
-  SankeyWrapper,
-  TimelineWrapper,
-  Choropleth
-} from '../components';
+import Sankey, { Main, AllProjects, SignUp, Login, PresentationView, Editor, SankeyWrapper, TimelineWrapper, Choropleth } from '../components';
 
 /**
  * COMPONENT
@@ -37,18 +27,49 @@ class Routes extends Component {
                 path="/edit/sankey/:id/:title"
                 component={SankeyWrapper}
               />
-              <Route path="/edit/sankey/:id" component={SankeyWrapper} />
-
-              <Route path="/edit/sankey" component={SankeyWrapper} />
+              <Route
+                exact
+                path="/edit/sankey" 
+                component={SankeyWrapper} />
+              <Route exact path="/edit/timeline/:id" component={SankeyWrapper} />
+              <Route
+                exact
+                path="/edit/timeline/:id/:title"
+                component={TimelineWrapper}
+              />
+              <Route
+                exact
+                path="/edit/timeline" 
+                component={TimelineWrapper} />
+              <Route exact path="/edit/choropleth/:id" component={Choropleth} />
+              <Route
+                exact
+                path="/edit/choropleth/:id/:title"
+                component={Choropleth}
+              />
+              <Route path="/edit/choropleth/:id" component={Choropleth} />
 
               <Route path="/edit/timeline" component={TimelineWrapper} />
-              <Route path="/view/timeline" component={TimelineWrapper} />
               <Route path="/show/timeline" component={TimelineWrapper} />
+              <Route path="/view/timeline" component={TimelineWrapper} />
+
+              <Route path="/edit/sankey" component={SankeyWrapper} />
+              <Route path="/show/sankey" component={SankeyWrapper} />
+              <Route path="/view/sankey" component={SankeyWrapper} />
+
+              <Route path="/edit/choropleth" component={Choropleth} />
+              <Route path="/show/choropleth" component={Choropleth} />
+              <Route path="/view/timeline" component={Choropleth} />
+              
+              <Route path="/edit" component={Editor} />
+              <Route path="/show" component={PresentationView} />
+              <Route path="/view" component={PresentationView} />
 
               <Route path="/edit" component={Editor} />
               <Route path="/show" component={PresentationView} />
               <Route path="/view" component={PresentationView} />
               <Route path="/sankey" component={SankeyWrapper} />
+              <Route path="/timeline" component={TimelineWrapper} />
               <Route path="/choropleth" component={Choropleth} />
             </Switch>
           )}
