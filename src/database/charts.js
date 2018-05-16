@@ -31,7 +31,7 @@ export const saveChart = async (data, title, chartType) => {
 };
 
 export const updateChart = async (data, chartId) => {
-  console.log('UPDATES', data, chartId);
+  if (!chartId) throw Error('Update chart received a falsy chartId');
   try {
     let updates = {};
     updates[`/charts/${chartId}/data`] = data;

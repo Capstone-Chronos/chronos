@@ -48,8 +48,8 @@ class Timeline extends React.Component {
     // Set units, margin, sizes
     // ========================================================================
     var margin = { top: 10, right: 0, bottom: 10, left: 0 };
-    var width = this.props.width - margin.left - margin.right;
-    var height = this.props.height - margin.top - margin.bottom;
+    var width = this.props.data.width - margin.left - margin.right;
+    var height = this.props.data.height - margin.top - margin.bottom;
     var format = timeParse('%Y,%m,%d');
     var start = format(this.props.data.start);
     var end = format(this.props.data.end);
@@ -153,9 +153,9 @@ class Timeline extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    data: state.timeline.data,
-    height: state.timeline.data.height,
-    width: state.timeline.data.width
+    // data: state.timeline.data,
+    // height: state.timeline.data.height,
+    // width: state.timeline.data.width
   };
 };
 const mapDispatchToProps = dispatch => {

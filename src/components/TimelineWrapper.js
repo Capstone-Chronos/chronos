@@ -50,16 +50,16 @@ class TimelineWrapper extends React.Component {
     this.handleColorChange = this.handleColorChange.bind(this);
   }
 
-  componentWillReceiveProps() {
-    this.setState({
-      radius: this.props.data.radius,
-      dates: this.props.data.dates,
-      height: this.props.data.height,
-      width: this.props.data.width,
-      start: this.props.data.start,
-      end: this.props.data.end
-    });
-  }
+  // componentWillReceiveProps() {
+  //   this.setState({
+  //     radius: this.props.data.radius,
+  //     dates: this.props.data.dates,
+  //     height: this.props.data.height,
+  //     width: this.props.data.width,
+  //     start: this.props.data.start,
+  //     end: this.props.data.end
+  //   });
+  // }
 
   componentDidMount() {
     fetchChartById(this.props.match.params.id);
@@ -67,7 +67,8 @@ class TimelineWrapper extends React.Component {
   }
 
   addEvent(name, year, day, month) {
-    var dates = this.state.dates;
+    console.log('add Event');
+    var dates = this.props.data.dates;
     var newDate = `${year}, ${day}, ${month}`;
     var idx = dates.length;
     name = name || 'Event' + idx;
@@ -76,18 +77,18 @@ class TimelineWrapper extends React.Component {
       name,
       date: newDate
     };
-    this.setState({ dates })
+    this.setState({ dates });
   }
 
   componentWillMount() {
     this.setState({
-      radius: testData.radius,
-      dates: testData.dates,
-      height: testData.height,
-      width: testData.width,
-      start: testData.start,
-      end: testData.end
-    })
+      radius: this.props.data.radius,
+      dates: this.props.data.dates,
+      height: this.props.data.height,
+      width: this.props.data.width,
+      start: this.props.data.start,
+      end: this.props.data.end
+    });
   }
 
   //Function to open info pane in presentation mode or editing modal in editor mode
@@ -101,7 +102,7 @@ class TimelineWrapper extends React.Component {
     this.setState({
       start: start,
       end: end
-    })
+    });
   }
 
   updateEvent(name, idx, color, description, imgUrl, vidUrl) {
@@ -211,19 +212,20 @@ class TimelineWrapper extends React.Component {
                 changeHeight={this.changeHeight}
                 changeWidth={this.changeWidth}
                 toggleEditor={this.toggleEditor}
-                // width={this.state.width}
-                // height={this.state.height}
+                width={this.state.width}
+                height={this.state.height}
                 addEvent={this.addEvent}
                 updateRange={this.updateRange}
                 start={this.state.start}
                 end={this.state.end}
+                data={this.state}
               />
             </Grid.Column>
             <Grid.Column width="13">
               <div style={{ margin: '4em' }}>
                 <Timeline
                   handleClick={this.handleClick}
-                  data={this.props.data}
+                  data={this.state}
                   openModal={this.openModal}
                 />
                 <Modal
