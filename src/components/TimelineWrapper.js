@@ -39,6 +39,7 @@ export default class TimelineWrapper extends React.Component {
     this.changeHeight = this.changeHeight.bind(this);
     this.changeWidth = this.changeWidth.bind(this);
     this.addEvent = this.addEvent.bind(this);
+    this.updateRange = this.updateRange.bind(this);
   }
 
   addEvent(name, year, day, month) {
@@ -51,6 +52,7 @@ export default class TimelineWrapper extends React.Component {
       name,
       date: newDate
     }
+    this.setState({ dates })
   }
 
   componentWillMount() {
@@ -71,6 +73,13 @@ export default class TimelineWrapper extends React.Component {
     }
   }
 
+  updateRange(start, end) {
+    this.setState({
+      start: start,
+      end: end
+    })
+  }
+
   updateEvent(name, idx, color, description, imgUrl, vidUrl) {
     var dates = this.state.dates;
     dates[idx].name = name;
@@ -86,7 +95,6 @@ export default class TimelineWrapper extends React.Component {
   }
 
   openModal(e) {
-    console.log(e)
     if (e.date !== undefined) {
       var modalContent = 'event';
       var modalContentEventId = e.id;
@@ -181,6 +189,9 @@ export default class TimelineWrapper extends React.Component {
                 width={this.state.width}
                 height={this.state.height}
                 addEvent={this.addEvent}
+                updateRange={this.updateRange}
+                start={this.state.start}
+                end={this.state.end}
               />
             </Grid.Column>
             <Grid.Column width="13">
