@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Card, Image } from 'semantic-ui-react';
-import { fetchChartById } from '../../database/sankeyChart';
+import { fetchChartById } from '../../database/charts';
 
 const SingleSelection = ({ id, url, name, type, description }) => (
   <Card className="single-card" as={Link} to={url}>

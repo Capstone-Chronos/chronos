@@ -20,7 +20,7 @@ import {
   updateChart,
   fetchChartById,
   publishChart
-} from '../database/sankeyChart';
+} from '../database/charts';
 
 class SankeyWrapper extends React.Component {
   constructor(props) {
@@ -28,7 +28,6 @@ class SankeyWrapper extends React.Component {
     this.state = {
       modalIsOpen: false,
       titleIsSet: false
-
     };
 
     this.loadData = loadData.bind(this);
@@ -74,7 +73,7 @@ class SankeyWrapper extends React.Component {
       width: this.state.width || this.props.width,
       height: this.state.height || this.props.height
     };
-    this.props.saveChanges(this.props.data, this.props.title);
+    this.props.saveChanges(this.props.data, this.props.title, 'Sankey');
   }
 
   publishTheChart() {
@@ -153,8 +152,8 @@ class SankeyWrapper extends React.Component {
 
   setTitle(evt) {
     evt.preventDefault();
-    console.log(evt.target.title.value)
-    this.props.updateTheTitle(evt.target.title.value)
+    console.log(evt.target.title.value);
+    this.props.updateTheTitle(evt.target.title.value);
   }
 
   openModal(e) {
@@ -272,18 +271,15 @@ class SankeyWrapper extends React.Component {
             />
           </div>
           <div>
-
             <h2>{this.props.title}</h2>
-            <form
-            onSubmit={this.setTitle}
-            >
+            <form onSubmit={this.setTitle}>
               <input
                 type="text"
                 name="title"
                 placeholder="Change Title Here"
                 value={this.state.title}
               />
-              <input type="submit" value="Update Title"/>
+              <input type="submit" value="Update Title" />
             </form>
             <Sankey
               data={this.props.data}
@@ -355,8 +351,8 @@ const mapDispatchToProps = function(dispatch) {
       const action = clearData();
       dispatch(action);
     },
-    saveChanges: (data, title) => {
-      const action = saveSankeyChartThunk(data, title);
+    saveChanges: (data, title, chartType) => {
+      const action = saveSankeyChartThunk(data, title, chartType);
       dispatch(action);
     },
     uploadData: data => {
@@ -364,15 +360,9 @@ const mapDispatchToProps = function(dispatch) {
       dispatch(action);
     },
     updateTheTitle: title => {
-      const action = updateTitle(title)
-      dispatch(action)
+      const action = updateTitle(title);
+      dispatch(action);
     }
-    // delete: (chartId, userId) => {
-    //   deleteChart(chartId, userId);
-    // }
-    // updateChart: (data, chartId) => {
-    //   updateChart(data, chartId);
-    // }
   };
 };
 

@@ -3,36 +3,33 @@ import React from 'react';
 import { Button, Grid, Input, TextArea, Image } from 'semantic-ui-react';
 import Modal from 'react-modal';
 import TimelineTools from './toolbars/TimelineTools';
-// import firebase from 'firebase';
-// import { connect } from 'react-redux';
-// import {
-//   loadDefaultData,
-//   clearData,
-//   importData,
-//   updateSankeyChartThunk,
-//   saveSankeyChartThunk
-// } from '../store/timeLine';
-// import {
-//   deleteChart,
-//   updateChart,
-//   fetchChartById
-// } from '../database/sankeyChart';
+import { withRouter } from 'react-router-dom';
+import firebase from 'firebase';
+import { connect } from 'react-redux';
+import {
+  loadDefaultData,
+  clearData,
+  importData,
+  updateSankeyChartThunk,
+  saveTimelineThunk
+} from '../store/timeline';
+import { deleteChart, updateChart, fetchChartById } from '../database/charts';
 
-var testData = {
-  height: 800,
-  width: 1200,
-  start: '2015, 1, 1',
-  end: '2018, 1, 1',
-  radius: 10,
-  dates: [
-    { id: 0, name: 'New Years 2016', date: '2016, 1, 1' },
-    { id: 1, name: 'My birthday', date: '2016, 3, 1' },
-    { id: 2, name: 'First Day of Summer', date: '2016, 6, 21' },
-    { id: 3, name: 'New Years 2016', date: '2017, 1, 1' }
-  ]
-};
+// var testData = {
+//   height: 800,
+//   width: 1200,
+//   start: '2015, 1, 1',
+//   end: '2018, 1, 1',
+//   radius: 10,
+//   dates: [
+//     { id: 0, name: 'New Years 2016', date: '2016, 1, 1' },
+//     { id: 1, name: 'My birthday', date: '2016, 3, 1' },
+//     { id: 2, name: 'First Day of Summer', date: '2016, 6, 21' },
+//     { id: 3, name: 'New Years 2016', date: '2017, 1, 1' }
+//   ]
+// };
 
-export default class TimelineWrapper extends React.Component {
+class TimelineWrapper extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -52,6 +49,21 @@ export default class TimelineWrapper extends React.Component {
     this.addEvent = this.addEvent.bind(this);
   }
 
+  componentWillReceiveProps() {
+    this.setState({
+      radius: this.props.data.radius,
+      dates: this.props.data.dates,
+      height: this.props.data.height,
+      width: this.props.data.width,
+      start: this.props.data.start,
+      end: this.props.data.end
+    });
+  }
+
+  componentDidMount() {
+    fetchChartById(this.props.match.params.id);
+  }
+
   addEvent(name, year, day, month) {
     var dates = this.state.dates;
     var newDate = `${year}, ${day}, ${month}`;
@@ -64,17 +76,6 @@ export default class TimelineWrapper extends React.Component {
     };
   }
 
-  componentWillMount() {
-    this.setState({
-      radius: testData.radius,
-      dates: testData.dates,
-      height: testData.height,
-      width: testData.width,
-      start: testData.start,
-      end: testData.end
-    });
-  }
-
   //Function to open info pane in presentation mode or editing modal in editor mode
   handleClick(e) {
     if (!this.state.editorMode) {
@@ -83,7 +84,7 @@ export default class TimelineWrapper extends React.Component {
   }
 
   updateEvent(name, idx, color, description, imgUrl, vidUrl) {
-    var dates = this.state.dates;
+    var dates = this.props.data.dates;
     dates[idx].name = name;
     dates[idx].color = color;
     dates[idx].description = description;
@@ -189,8 +190,8 @@ export default class TimelineWrapper extends React.Component {
                 changeHeight={this.changeHeight}
                 changeWidth={this.changeWidth}
                 toggleEditor={this.toggleEditor}
-                width={this.state.width}
-                height={this.state.height}
+                // width={this.state.width}
+                // height={this.state.height}
                 addEvent={this.addEvent}
               />
             </Grid.Column>
@@ -198,7 +199,7 @@ export default class TimelineWrapper extends React.Component {
               <div style={{ margin: '4em' }}>
                 <Timeline
                   handleClick={this.handleClick}
-                  data={this.state}
+                  data={this.props.data}
                   openModal={this.openModal}
                 />
                 <Modal
@@ -297,38 +298,15 @@ export default class TimelineWrapper extends React.Component {
   }
 }
 
-// const userId = firebase.auth().currentUser;
+const mapStateToProps = state => {
+  return {
+    data: state.timeline.data
+  };
+};
+const mapDispatchToProps = dispatch => {
+  return {};
+};
 
-// const mapStateToProps = storeState => {
-//   console.log(storeState);
-//   return {
-//     data: storeState.sankeyChart.data,
-//     height: storeState.sankeyChart.height,
-//     width: storeState.sankeyChart.width,
-//     userId: storeState.user.id,
-//     chartId: storeState.sankeyChart.chartIdKey,
-//     title: 'Fake Title'
-//   };
-// };
-
-// const mapDispatchToProps = function (dispatch) {
-//   return {
-//     fetchDefaultData: () => {
-//       const action = loadDefaultData();
-//       dispatch(action);
-//     },
-//     clearChart: () => {
-//       const action = clearData();
-//       dispatch(action);
-//     },
-//     saveChanges: (data, title) => {
-//       console.log('TTTTTTTT');
-//       const action = saveSankeyChartThunk(data, title);
-//       dispatch(action);
-//     },
-//     uploadData: data => {
-//       const action = importData(data);
-//       dispatch(action);
-//     }
-//   }
-// }
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(TimelineWrapper)
+);

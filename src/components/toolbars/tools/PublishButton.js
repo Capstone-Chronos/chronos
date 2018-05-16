@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from 'semantic-ui-react';
 import { connect } from 'react-redux';
-import { publishChart } from '../../../database/sankeyChart';
+import { publishChart } from '../../../database/charts';
 
 class PublishButton extends React.Component {
   constructor(props) {
@@ -54,7 +54,6 @@ class PublishButton extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    // chartId: state.selectedChart.id,
     // title: state.selectedChart.title,
     isLoggedIn: state.user.isLoggedIn
   };

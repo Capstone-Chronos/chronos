@@ -46,11 +46,11 @@ export default class Timeline extends React.Component {
     // Set units, margin, sizes
     // ========================================================================
     var margin = { top: 10, right: 0, bottom: 10, left: 0 };
-    var width = this.state.width - margin.left - margin.right;
-    var height = this.state.height - margin.top - margin.bottom;
+    var width = this.props.data.width - margin.left - margin.right;
+    var height = this.props.data.height - margin.top - margin.bottom;
     var format = timeParse('%Y,%m,%d');
-    var start = format(this.state.start);
-    var end = format(this.state.end);
+    var start = format(this.props.data.start);
+    var end = format(this.props.data.end);
 
     var format = d => formatNumber(d);
     var formatNumber = d3.format(',.0f'); // zero decimal places
@@ -75,13 +75,13 @@ export default class Timeline extends React.Component {
     svg
       .append('g')
       .selectAll('circle')
-      .data(this.state.dates)
+      .data(this.props.data.dates)
       .enter()
       .append('circle')
       .on('click', this.props.openModal)
       .attr('transform', 'translate(0,' + -40 + ')')
       .attr('class', 'time-event')
-      .attr('r', this.state.radius)
+      .attr('r', this.props.data.radius)
       .attr('cy', 8)
       .attr('cx', function(d) {
         var newDate = new Date(d.date);
@@ -92,7 +92,7 @@ export default class Timeline extends React.Component {
     svg
       .append('g')
       .selectAll('text')
-      .data(this.state.dates)
+      .data(this.props.data.dates)
       .enter()
       .append('text')
       .attr('transform', 'translate(0,' + -40 + ')')

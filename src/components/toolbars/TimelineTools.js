@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
 import { Button, Input, Checkbox } from 'semantic-ui-react';
+import { FooterBar, PublishButton } from '../../components';
+import { connect } from 'react-redux';
+import { updateChart, publishChart, deleteChart } from '../../database/charts';
+import { clearTimelineData, saveTimelineThunk } from '../../store/timeline';
 
 class TimelineTools extends Component {
   constructor(props) {
@@ -12,6 +16,9 @@ class TimelineTools extends Component {
     this.toggleVisibility = this.toggleVisibility.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.submitHeightWidth = this.submitHeightWidth.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleUpdate = this.handleUpdate.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
   }
 
   toggleVisibility = () => this.setState({ visible: !this.state.visible });
@@ -27,44 +34,43 @@ class TimelineTools extends Component {
     this.props.changeWidth(this.state.width);
   }
 
+  handleUpdate() {
+    const { data, chartId } = this.props;
+    updateChart(data, chartId);
+  }
+
+  handleSubmit() {
+    const { data, title } = this.props;
+    this.props.saveNewChart(data, title);
+  }
+
+  handleDelete() {
+    const { chartId, uid } = this.props;
+    console.log('Delete');
+    deleteChart(chartId, uid);
+  }
+
   render() {
+    const { data, title, chartId } = this.props;
     return (
       <div>
         <h2>Tools</h2>
-        <label>
-          Edit 
-          </label>
+        <label>Edit</label>
         <Checkbox onChange={this.props.toggleEditor} toggle label="Present" />
         <div className="tools">
           <h4>New Event</h4>
           <hr />
-          <div className='tool-item'>
-            <Input
-              onChange={this.handleChange}
-              name="name"
-              label="Name"
-            />
+          <div className="tool-item">
+            <Input onChange={this.handleChange} name="name" label="Name" />
           </div>
-          <div className='tool-item'>
-            <Input
-              onChange={this.handleChange}
-              name='year'
-              label='Year'
-            />
+          <div className="tool-item">
+            <Input onChange={this.handleChange} name="year" label="Year" />
           </div>
-          <div className='tool-item'>
-            <Input
-              onChange={this.handleChange}
-              name='day'
-              label='Day'
-            />
+          <div className="tool-item">
+            <Input onChange={this.handleChange} name="day" label="Day" />
           </div>
-          <div className='tool-item'>
-            <Input
-              onChange={this.handleChange}
-              name='month'
-              label='Month'
-            />
+          <div className="tool-item">
+            <Input onChange={this.handleChange} name="month" label="Month" />
           </div>
           <h4>Edit Chart Dimensions</h4>
           <div className="form">
@@ -94,7 +100,8 @@ class TimelineTools extends Component {
                 </Button>
               </div>
             </form>
-            <h4>Edit Start and End Date</h4><hr />
+            <h4>Edit Start and End Date</h4>
+            <hr />
             <div className="form">
               <form onSubmit={this.submitHeightWidth}>
                 <div className="tool-item">
@@ -119,34 +126,40 @@ class TimelineTools extends Component {
                     onClick={this.submitHeightWidth}
                   >
                     Update date range
-                </Button>
+                  </Button>
                 </div>
               </form>
-              {/* <h4>Save Changes</h4>
-            <hr />
-            <div className="tool-item">
-              <Button className="tool-button" onClick={this.props.handleUpdate}>
-                Update Chart
-              </Button>
-            </div>
-            <div className="tool-item">
-              <Button className="tool-button" onClick={this.props.handleSubmit}>
-                Save Changes as New Chart
-              </Button>
-            </div>
-            <div className="tool-item">
-              <FooterBar
-                nodes={this.props.nodes}
-                links={this.props.links}
-                readFile={this.props.readFile}
-                emptyDiagram={this.props.emptyDiagram}
-              />
-            </div>
-            <div className="tool-item">
-              <Button className='tool-button' color='red' onClick={this.props.deleteChart}>
-                Delete Chart
-              </Button>
-            </div> */}
+              <h4>Save Changes</h4>
+              <hr />
+              <div className="tool-item">
+                <Button className="tool-button" onClick={this.handleUpdate}>
+                  Update Chart
+                </Button>
+              </div>
+              <div className="tool-item">
+                <Button className="tool-button" onClick={this.handleSubmit}>
+                  Save Changes as New Chart
+                </Button>
+              </div>
+              <div className="tool-item">
+                <FooterBar
+                  data="this.props.data"
+                  readFile={this.props.readFile}
+                  emptyDiagram={this.props.emptyDiagram}
+                />
+              </div>
+              <div className="tool-item">
+                <Button
+                  className="tool-button"
+                  color="red"
+                  onClick={this.handleDelete}
+                >
+                  Delete Chart
+                </Button>
+              </div>
+              <div className="tool-item">
+                <PublishButton chartId={this.props.chartId} />
+              </div>
             </div>
           </div>
         </div>
@@ -155,4 +168,23 @@ class TimelineTools extends Component {
   }
 }
 
-export default TimelineTools;
+const mapStateToProps = state => {
+  return {
+    chartId: state.timeline.chartId,
+    data: state.timeline.data,
+    title: state.timeline.title,
+    uid: state.user.uid,
+    height: state.timeline.data.height,
+    width: state.timeline.data.width
+  };
+};
+
+const mapDispatchToProps = dispatch => ({
+  emptyDiagram: () => dispatch(clearTimelineData()),
+  saveNewChart: (data, title) => {
+    console.log('CALLING DISPATCHED FUNC');
+    dispatch(saveTimelineThunk(data, title, 'Timeline'));
+  }
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(TimelineTools);

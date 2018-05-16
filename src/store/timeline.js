@@ -1,79 +1,99 @@
-// import { userRef, chartsRef } from '../base';
-// import firebase from 'firebase';
-// import history from '../routes/history';
-// import { saveChart } from '../database/sankeyChart';
+import { userRef, chartsRef } from '../base';
+import firebase from 'firebase';
+import history from '../routes/history';
+import { saveChart } from '../database/charts';
 
-// const initialState = defaultData;
+const defaultData = {
+  chartId: '',
+  title: 'Important Events in recent history',
+  isPublished: false,
+  data: {
+    height: 800,
+    width: 1200,
+    start: '2015, 1, 1',
+    end: '2018, 1, 1',
+    radius: 10,
+    dates: [
+      { id: 0, name: 'New Years 2016', date: '2016, 1, 1' },
+      { id: 1, name: 'My birthday', date: '2016, 3, 1' },
+      { id: 2, name: 'First Day of Summer', date: '2016, 6, 21' },
+      { id: 3, name: 'New Years 2016', date: '2017, 1, 1' }
+    ]
+  }
+};
 
-// // Action Types
-// const UPDATE_DATA = 'UPDATE_DATA';
-// const IMPORT_DATA = 'IMPORT_DATA';
-// const GET_ONE_CHART = 'GET_CHART';
-// const GET_USER_CHARTS = 'GET_USER_CHARTS';
-// const DELETE_USER_CHART = 'DELETE_USER_CHARTS';
+const empty = {
+  data: {
+    height: 800,
+    width: 1000,
+    start: '2015, 1, 1',
+    end: '2018, 1, 1',
+    radius: 10,
+    dates: []
+  }
+};
 
-// const SET_CHART_ID = 'SET_CHART_ID';
-// const SET_TIMELINE_TITLE = 'SET_TIMELINE_TITLE';
-// const SET_CHART = 'SET_CHART';
+const initialState = defaultData;
 
-// //ACTION CREATORS
-// export const loadDefaultData = () => ({
-//   type: UPDATE_DATA,
-//   data: defaultData
-// });
+// Action Types
+const UPDATE_DATA = 'UPDATE_DATA';
+const DELETE_USER_CHART = 'DELETE_USER_CHARTS';
+const SET_TIMELINE_TITLE = 'SET_TIMELINE_TITLE';
+const SET_TIMELINE_ID = 'SET_CHART_ID';
 
-// export const importData = data => ({
-//   type: UPDATE_DATA,
-//   data: data
-// });
+const SET_CHART = 'SET_CHART';
 
-// export const clearData = () => ({
-//   type: UPDATE_DATA,
-//   data: empty
-// });
+//ACTION CREATORS
+export const loadDefaultData = () => ({
+  type: UPDATE_DATA,
+  data: defaultData
+});
 
-// export const setSankeyTitle = title => ({
-//   type: SET_SANKEY_TITLE,
-//   title
-// });
+export const importData = data => ({
+  type: UPDATE_DATA,
+  data
+});
 
-// export const setSankeyId = chartId => ({
-//   type: SET_CHART_ID,
-//   chartId
-// });
+export const clearTimelineData = () => ({
+  type: UPDATE_DATA,
+  data: empty
+});
 
-// export const setChart = chart => ({
-//   type: SET_CHART,
-//   chart
-// });
+export const setTimelineTitle = title => ({
+  type: SET_TIMELINE_TITLE,
+  title
+});
 
-// //THUNKS
-// export const saveTimeChartThunk = (data, title) => {
-//   return dispatch => {
-//     saveChart(data, title)
-//       .then(chartId => {
-//         dispatch(setSankeyTitle(title));
-//         dispatch(setSankeyId(chartId));
-//         history.push(`/edit/timeline/${chartId}/${title}`);
-//       })
-//       .catch(err => console.error(err));
-//   };
-// };
+export const setTimelineId = chartId => ({
+  type: SET_TIMELINE_ID,
+  chartId
+});
 
-// export const updateSankeyChartThunk = (data, chartId) => {
-//   return dispatch => {
-//     dispatch(updateChart(data, chartId));
-//   };
-// };
+export const setTimelineChart = chart => ({
+  type: SET_CHART,
+  chart
+});
 
-// dispatch({
-//   type: UPDATE_DATA,
-//   data
-// });
+//THUNKS
+export const saveTimelineThunk = (data, title, chartType) => {
+  console.log('ERERER');
+  return dispatch => {
+    console.log('OVERHERE');
+    saveChart(data, title, chartType)
+      .then(chartId => {
+        dispatch(setTimelineTitle(title));
+        dispatch(setTimelineId(chartId));
+        history.push(`/edit/timeline/${chartId}/${title}`);
+      })
+      .catch(err => console.error(err));
+  };
+};
 
-// export const saveChart = (data) => async dispatch => {
+// Thunk creators
+
+// export const saveChart = data => async dispatch => {
 //   let newChartKey = firebase.auth().currentUser.email.child('chart').key;
-//   console.log('userid', userId)
+//   console.log('userid', userId);
 //   userRef.set(data, snapshot => {
 //     dispatch({
 //       type: UPDATE_DATA,
@@ -82,22 +102,20 @@
 //   });
 // };
 
-// Thunk creators
-
 // Reducer
-// export default function reducer(state = initialState, action) {
-//   switch (action.type) {
-//     case UPDATE_DATA:
-//       console.log(action.data, 'DATA UPDATED');
-//       defaultData = action.data;
-//       return { ...state, data: action.data };
-//     case DELETE_USER_CHART:
-//       return { ...state, nodes: empty.nodes, links: empty.links };
-//     case SET_CHART_ID:
-//       return { ...state, chartId: action.chartId };
-//     case SET_CHART:
-//       return action.chart;
-//     default:
-//       return state;
-//   }
-// }
+export default function reducer(state = initialState, action) {
+  switch (action.type) {
+    case UPDATE_DATA:
+      return { ...state, data: action.data };
+    case DELETE_USER_CHART:
+      return { ...state, nodes: empty.nodes, links: empty.links };
+    case SET_TIMELINE_TITLE:
+      return { ...state, title: action.title };
+    case SET_TIMELINE_ID:
+      return { ...state, chartId: action.chartId };
+    case SET_CHART:
+      return action.chart;
+    default:
+      return state;
+  }
+}

@@ -11,7 +11,7 @@ import store, {
   getUserCharts,
   getPublishedCharts
 } from '../../store';
-import { fetchChartById } from '../../database/sankeyChart';
+import { fetchChartById } from '../../database/charts';
 
 const templates = [
   { id: 1, name: 'Bar Chart', type: 'barchart' },

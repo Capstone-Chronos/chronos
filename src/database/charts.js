@@ -3,7 +3,8 @@ import firebase, { database } from 'firebase';
 import history from '../routes/history';
 import store, { setChart } from '../store';
 
-export const saveChart = async (data, title) => {
+export const saveChart = async (data, title, chartType) => {
+  console.log(data, title, chartType);
   let newChartKey;
   try {
     let uid = firebase.auth().currentUser.uid;
@@ -12,16 +13,13 @@ export const saveChart = async (data, title) => {
       .child('charts')
       .push().key;
     const chartInfo = {
-      chartType: 'Sankey',
+      chartType,
       isPublished: false,
       title,
       data,
       uid,
       chartId: newChartKey
     };
-    // userRef.child(uid).child('charts').push()
-    //   .set(chartId);
-    // chartsRef.push().set(chartInfo);
     let updates = {};
     updates[`users/${uid}/charts/${newChartKey}`] = newChartKey;
     updates[`charts/${newChartKey}`] = chartInfo;
@@ -53,6 +51,7 @@ export const publishChart = async chartId => {
 };
 
 export const deleteChart = async (chartId, uid) => {
+  console.log('deleting');
   try {
     let toBeDeleted = {};
     toBeDeleted[`/charts/${chartId}`] = null;
