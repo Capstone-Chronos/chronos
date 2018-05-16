@@ -3,12 +3,12 @@ import { loadData, readFile } from './../toolbars/SankeyUtils/utils';
 import {
   deleteChart,
   updateChart,
-  fetchChartById,
+  fetchMapChartById,
   publishChart
 } from '../../database/mapChart';
 import {
   loadDefaultData,
-  clearData,
+  clearMapData,
   importData,
   saveMapChartThunk,
   updateTitle
@@ -17,6 +17,7 @@ import { connect } from 'react-redux';
 import { Button, Input } from 'semantic-ui-react';
 import FooterBar from './SankeyUtils/FooterBar';
 import PublishButton from './tools/PublishButton';
+import {withRouter} from 'react-router-dom';
 
 class MapChartTools extends Component {
   constructor(props) {
@@ -41,7 +42,7 @@ class MapChartTools extends Component {
     this.handleUpdate = this.handleUpdate.bind(this);
   }
   componentDidMount(){
-    fetchChartById(this.props.chartId);
+    fetchMapChartById(this.props.match.params.id);
   }
 
   setTitle(evt) {
@@ -51,7 +52,9 @@ class MapChartTools extends Component {
   }
 
   emptyDiagram() {
+    console.log('props', this.props);
     this.props.clearChart();
+    this.props.renderMap(this.toggleModal, this.props.data.stateColors);
   }
 
   publishTheChart() {
@@ -60,132 +63,132 @@ class MapChartTools extends Component {
   }
 
   delete() {
-    console.log(this.props.match.params.id);
-    let chartId = this.props.match.params.id;
+    console.log(this.props);
+    let chartId = this.props.chartId;
     let userId = this.props.userId;
     deleteChart(chartId, userId);
   }
 
-    toggleVisibility = () => this.setState({ visible: !this.state.visible });
+  toggleVisibility = () => this.setState({ visible: !this.state.visible });
 
-    handleChange(evt) {
-      this.setState({ [evt.target.name]: evt.target.value });
-    }
+  handleChange(evt) {
+    this.setState({ [evt.target.name]: evt.target.value });
+  }
 
-    handleUpdate() {
-      let { chartId } = this.props;
-      const data = {
-        json: this.props.data,
-        stateColors: this.props.stateColors
-      }
+  handleUpdate() {
+    let { chartId } = this.props;
+    const data = {
+      json: this.props.data,
+      stateColors: this.props.data.stateColors
+    };
 
-      updateChart(data, chartId);
-    }
+    updateChart(data, chartId);
+  }
 
-    handleSubmit() {
-      console.log(this.props, this.props.data);
-      let savedData = {
-        name: this.props.title,
-        data: this.state.data || this.props.data,
-        userId: this.props.userId,
-        width: this.state.width || this.props.width,
-        height: this.state.height || this.props.height
-      };
-      const data = {
-        json: this.props.data,
-        stateColors: this.props.stateColors
-      }
-      this.props.saveChanges(data, this.props.title);
-    }
+  handleSubmit() {
+    console.log(this.props, this.props.data);
+    let savedData = {
+      name: this.props.title,
+      data: this.state.data || this.props.data,
+      userId: this.props.userId,
+      width: this.state.width || this.props.width,
+      height: this.state.height || this.props.height
+    };
+    const data = {
+      json: this.props.data,
+      stateColors: this.props.data.stateColors
+    };
+    console.log(data);
+    this.props.saveChanges(data, this.props.title);
+  }
 
-    submitHeightWidth(evt) {
-      evt.preventDefault();
-      this.props.changeHeight(this.state.height);
-      this.props.changeWidth(this.state.width);
-    }
+  submitHeightWidth(evt) {
+    evt.preventDefault();
+    this.props.changeHeight(this.state.height);
+    this.props.changeWidth(this.state.width);
+  }
 
-    render() {
-      return (
+  render() {
+    return (
+      <div>
         <div>
-          <div>
-            <h2>{this.props.title}</h2>
-            <form
-              onSubmit={this.setTitle}
-            >
-              <input
-                type="text"
-                name="title"
-                placeholder="Change Title Here"
-                value={this.state.title}
+          <h2>{this.props.title}</h2>
+          <form
+            onSubmit={this.setTitle}
+          >
+            <input
+              type="text"
+              name="title"
+              placeholder="Change Title Here"
+              value={this.state.title}
+            />
+            <input type="submit" value="Update Title" />
+          </form>
+        </div>
+        <h4>Edit Chart Dimensions</h4><hr />
+        <div className="form">
+          <form onSubmit={this.submitHeightWidth}>
+            <div className="tool-item">
+              <Input
+                onChange={this.handleChange}
+                name="width"
+                label="Width"
+                defaultValue={this.props.width}
               />
-              <input type="submit" value="Update Title" />
-            </form>
-          </div>
-          <h4>Edit Chart Dimensions</h4><hr />
-          <div className="form">
-            <form onSubmit={this.submitHeightWidth}>
-              <div className="tool-item">
-                <Input
-                  onChange={this.handleChange}
-                  name="width"
-                  label="Width"
-                  defaultValue={this.props.width}
-                />
-              </div>
-              <div className="tool-item">
-                <Input
-                  onChange={this.handleChange}
-                  name="height"
-                  label="Height"
-                  defaultValue={this.props.height}
-                />
-              </div>
-              <div className="tool-item">
-                <Button
-                  className="tool-button"
-                  onClick={this.submitHeightWidth}
-                >
+            </div>
+            <div className="tool-item">
+              <Input
+                onChange={this.handleChange}
+                name="height"
+                label="Height"
+                defaultValue={this.props.height}
+              />
+            </div>
+            <div className="tool-item">
+              <Button
+                className="tool-button"
+                onClick={this.submitHeightWidth}
+              >
                     Update chart size
-                </Button>
-              </div>
-            </form>
-            <h4>Save Changes</h4>
-            <hr />
-            <div className="tool-item">
-              <Button className="tool-button" onClick={this.handleUpdate}>
+              </Button>
+            </div>
+          </form>
+          <h4>Save Changes</h4>
+          <hr />
+          <div className="tool-item">
+            <Button className="tool-button" onClick={this.handleUpdate}>
                   Update Chart
-              </Button>
-            </div>
-            <div className="tool-item">
-              <Button className="tool-button" onClick={this.handleSubmit}>
+            </Button>
+          </div>
+          <div className="tool-item">
+            <Button className="tool-button" onClick={this.handleSubmit}>
                   Save Changes as New Chart
-              </Button>
-              <PublishButton title="fake title" publish={this.props.publishTheChart} chartId={this.props.chartId} />
-            </div>
-            <div className="tool-item">
-              <FooterBar
-                data={this.props.data}
-                readFile={this.props.readFile}
-                emptyDiagram={this.emptyDiagram}
-              />
-            </div>
-            <div className="tool-item">
-              <Button className="tool-button" color="red" onClick={this.delete}>
+            </Button>
+            <PublishButton title="fake title" publish={this.props.publishTheChart} chartId={this.props.chartId} />
+          </div>
+          <div className="tool-item">
+            <FooterBar
+              data={this.props.data}
+              readFile={this.props.readFile}
+              emptyDiagram={this.emptyDiagram}
+            />
+          </div>
+          <div className="tool-item">
+            <Button className="tool-button" color="red" onClick={this.delete}>
                   Delete Chart
-              </Button>
-            </div>
+            </Button>
           </div>
         </div>
+      </div>
 
-      );
-    }
+    );
+  }
 }
 
 const mapStateToProps = function(state){
   console.log('i', state);
   return {
-    data: state.mapChart.data.json,
-    stateColors: state.mapChart.data.stateColors,
+    data: state.mapChart.data,
     userId: state.user.id,
     chartId: state.mapChart.chartId,
     title: state.mapChart.title
@@ -211,7 +214,7 @@ const mapDispatchToProps = function(dispatch) {
       dispatch(action);
     },
     clearChart: () => {
-      const action = clearData();
+      const action = clearMapData();
       dispatch(action);
     },
     updateTheTitle: title => {
@@ -229,4 +232,4 @@ const mapDispatchToProps = function(dispatch) {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(MapChartTools);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MapChartTools));

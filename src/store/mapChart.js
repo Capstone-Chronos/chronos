@@ -8,6 +8,7 @@ let defaultData = {
   title: 'Choropleth',
   data: {
     json: 'https://d3js.org/us-10m.v1.json',
+    stateColors:{},
     width: 1000,
     height: 800
   }
@@ -19,6 +20,7 @@ let empty = {
   title: 'Choropleth',
   data: {
     json: 'https://d3js.org/us-10m.v1.json',
+    stateColors: {},
     width: 1000,
     height: 800
   }
@@ -38,6 +40,7 @@ const SET_CHART_ID = 'SET_CHART_ID';
 const SET_MAP_TITLE = 'SET_MAP_TITLE';
 const SET_CHART = 'SET_CHART';
 const UPDATE_TITLE = 'UPDATE_TITLE'
+const CLEAR_DATA = 'CLEAR_DATA'
 
 //ACTION CREATORS
 export const loadDefaultData = () => ({
@@ -50,7 +53,7 @@ export const importData = data => ({
   data: data
 });
 
-export const clearData = () => ({
+export const clearMapData = () => ({
   type: UPDATE_DATA,
   data: empty
 });
@@ -65,7 +68,7 @@ export const setMapId = chartId => ({
   chartId
 });
 
-export const setChart = chart => ({
+export const setMapChart = chart => ({
   type: SET_CHART,
   chart
 });
@@ -128,13 +131,15 @@ export default function reducer(state = initialState, action) {
       defaultData = action.data;
       return { ...state, data: action.data };
     case DELETE_USER_CHART:
-      return { ...state, data: empty.data};
+      return { ...state, data: empty.data.json, stateColors: empty.data.stateColors};
     case SET_CHART_ID:
       return { ...state, chartId: action.chartId };
     case SET_CHART:
       return action.chart;
     case LOAD_DEFAULT_DATA:
       return defaultData
+    case CLEAR_DATA:
+      return { ...state, data: empty.data.json, stateColors: empty.data.stateColors};
     default:
       return state;
   }

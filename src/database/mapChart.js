@@ -1,7 +1,7 @@
 import { userRef, chartsRef, databaseRef } from '../base';
 import firebase, { database } from 'firebase';
 import history from '../routes/history';
-import store, { setChart } from '../store';
+import store, { setMapChart } from '../store';
 
 export const saveChart = async (data, title) => {
   let newChartKey;
@@ -33,6 +33,8 @@ export const saveChart = async (data, title) => {
 };
 
 export const updateChart = async (data, chartId) => {
+  if (!chartId) throw Error ('Update chart was given a falsy chartId')
+  console.log("UPDATING MAP", data, chartId)
   try {
     let updates = {};
     updates[`/charts/${chartId}/data`] = data;
@@ -64,7 +66,7 @@ export const deleteChart = async (chartId, uid) => {
   history.push(`/charts`);
 };
 
-export const fetchChartById = chartId => async dispatch => {
+export const fetchMapChartById = chartId => async dispatch => {
   console.log('fetch')
   let chart;
   try {
@@ -75,5 +77,5 @@ export const fetchChartById = chartId => async dispatch => {
   } catch (err) {
     throw Error(err);
   }
-  store.dispatch(setChart(chart));
+  store.dispatch(setMapChart(chart));
 };

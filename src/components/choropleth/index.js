@@ -4,9 +4,11 @@ import MapChartTools from '../toolbars/MapChartTools';
 import { mapWidth, mapHeight } from './constants';
 import { default as Modal } from './modal';
 import ColorPicker from '../toolbars/tools/ColorPicker';
-import { fetchChartById } from '../../database/mapChart'
+import { fetchMapChartById } from '../../database/mapChart'
+import {connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
-export default class Choropleth extends React.Component {
+class Choropleth extends React.Component {
   constructor(props) {
     super(props);
     this.renderMap = renderMap.bind(this);
@@ -44,8 +46,8 @@ export default class Choropleth extends React.Component {
 
   componentDidMount() {
     const chartId = this.props.match.params.id;
-    console.log(chartId)
-    return chartId ? fetchChartById(chartId) : this.renderMap(this.toggleModal, this.state.stateColors);
+    fetchMapChartById(chartId) 
+    this.renderMap(this.toggleModal, this.state.stateColors);
     // this.renderMap(this.toggleModal, this.state.stateColors);
   }
 
@@ -72,7 +74,7 @@ export default class Choropleth extends React.Component {
     return (
       <div>
         <div>
-          <MapChartTools stateColors={this.state.stateColors}/>
+          <MapChartTools stateColors={this.state.stateColors} renderMap={this.renderMap}/>
         </div>
         <div className="chartContainer">
           <svg
@@ -99,3 +101,18 @@ export default class Choropleth extends React.Component {
     );
   }
 }
+
+const mapsStateToProps = state => {
+  return {
+    chartId: state.mapChart.chartId,
+    data: state.mapChart.data,
+    uid: state.user.uid,
+    title: state.mapChart.title,
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {}
+}
+
+export default withRouter(connect(mapsStateToProps, mapDispatchToProps)(Choropleth))

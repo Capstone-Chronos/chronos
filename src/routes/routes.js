@@ -47,7 +47,7 @@ class Routes extends Component {
                 path="/edit/choropleth/:id/:title"
                 component={Choropleth}
               />
-              <Route path="/edit/choropleth" component={Choropleth} />
+              <Route path="/edit/choropleth/:id" component={Choropleth} />
 
               <Route path="/edit/timeline" component={TimelineWrapper} />
               <Route path="/show/timeline" component={TimelineWrapper} />
