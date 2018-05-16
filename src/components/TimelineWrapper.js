@@ -15,8 +15,6 @@ import {
   updateTimelineHeight,
   updateTimelineWidth,
   updateTimelineRange,
-  updateSankeyChartThunk,
-  saveTimelineThunk,
   updateTitle
 } from '../store/timeline';
 import { updateChart, fetchChartById } from '../database/charts';
@@ -41,11 +39,8 @@ class TimelineWrapper extends React.Component {
     this.changeWidth = this.changeWidth.bind(this);
     this.addEvent = this.addEvent.bind(this);
     this.handleColorChange = this.handleColorChange.bind(this);
-<<<<<<< HEAD
     this.emptyDiagram = this.emptyDiagram.bind(this);
-=======
     this.setTitle = this.setTitle.bind(this);
->>>>>>> master
   }
 
   // componentWillReceiveProps() {
@@ -97,7 +92,6 @@ class TimelineWrapper extends React.Component {
   }
 
   updateRange(start, end) {
-<<<<<<< HEAD
     console.log(start, end);
     start = start || this.props.data.start;
     end = end || this.props.data.end;
@@ -106,12 +100,6 @@ class TimelineWrapper extends React.Component {
     //   end: end || this.state.end
     // });
     this.props.dispatchUpdateRange(start, end);
-=======
-    this.setState({
-      start: start || this.state.start,
-      end: end || this.state.end
-    });
->>>>>>> master
   }
 
   updateEvent(name, idx, color, description, imgUrl, vidUrl, radius, height) {
@@ -121,14 +109,10 @@ class TimelineWrapper extends React.Component {
     dates[idx].description = description;
     dates[idx].imgUrl = imgUrl;
     dates[idx].vidUrl = vidUrl;
-<<<<<<< HEAD
-    this.props.dispatchUpdateEvents(dates);
-    // this.setState({ dates });
-=======
     dates[idx].radius = radius;
     dates[idx].height = height;
-    this.setState({ dates });
->>>>>>> master
+    // this.setState({ dates });
+    this.props.dispatchUpdateEvents(dates);
   }
 
   toggleEditor() {
@@ -182,7 +166,7 @@ class TimelineWrapper extends React.Component {
   }
 
   setTitle(evt) {
-    console.log(evt.target.title.value)
+    console.log(evt.target.title.value);
     evt.preventDefault();
     this.props.updateTheTitle(evt.target.title.value);
   }
@@ -261,7 +245,7 @@ class TimelineWrapper extends React.Component {
             </Grid.Column>
             <Grid.Column width="13">
               <h2>{this.props.title}</h2>
-              {this.state.editorMode ?
+              {this.state.editorMode ? (
                 <form onSubmit={this.setTitle}>
                   <input
                     type="text"
@@ -271,8 +255,9 @@ class TimelineWrapper extends React.Component {
                   />
                   <input type="submit" value="Update Title" />
                 </form>
-                :
-                ""}
+              ) : (
+                ''
+              )}
               <div style={{ margin: '4em' }}>
                 <Timeline
                   handleClick={this.handleClick}
@@ -346,45 +331,31 @@ class TimelineWrapper extends React.Component {
                         className="form-control fluid"
                         onChange={this.handleInputChange}
                       />
+                      <Input
+                        label="Event Size"
+                        name="modalContentEventRadius"
+                        defaultValue={radius}
+                        className="form-control fluid"
+                        onChange={this.handleInputChange}
+                      />
+                      <Input
+                        label="Event Height"
+                        name="modalContentEventHeight"
+                        defaultValue={height}
+                        className="form-control fluid"
+                        onChange={this.handleInputChange}
+                      />
                       <hr />
                       <div style={{ marginTop: '2em', marginBottom: '2em' }}>
                         <h4>{color}</h4>
                         <ColorPicker
                           handleColorChange={this.handleColorChange}
                         />
-<<<<<<< HEAD
                       </div>
                       <div className="row">
                         <div>
                           <Button onClick={this.closeAndSaveModal}>
                             Apply Changes
-=======
-                        <Input
-                          label="Event Size"
-                          name="modalContentEventRadius"
-                          defaultValue={radius}
-                          className="form-control fluid"
-                          onChange={this.handleInputChange}
-                        />
-                        <Input
-                          label="Event Height"
-                          name="modalContentEventHeight"
-                          defaultValue={height}
-                          className="form-control fluid"
-                          onChange={this.handleInputChange}
-                        />
-                        <hr />
-                        <div style={{ marginTop: '2em', marginBottom: '2em' }}>
-                          <h4>{color}</h4>
-                          <ColorPicker
-                            handleColorChange={this.handleColorChange}
-                          />
-                        </div>
-                        <div className="row">
-                          <div>
-                            <Button onClick={this.closeAndSaveModal}>
-                              Apply Changes
->>>>>>> master
                           </Button>
                         </div>
                       </div>
@@ -395,7 +366,7 @@ class TimelineWrapper extends React.Component {
             </Grid.Column>
           </Grid.Row>
         </Grid>
-      </div >
+      </div>
     );
   }
 }
@@ -404,21 +375,14 @@ const mapStateToProps = state => {
   return {
     chartID: state.timeline.chartId,
     data: state.timeline.data,
-<<<<<<< HEAD
     // height: state.timeline.data.height,
     // width: state.timeline.data.width,
     title: state.timeline.title,
     uid: state.user.uid
-=======
-    height: state.timeline.data.height,
-    width: state.timeline.data.width,
-    title: state.timeline.title
->>>>>>> master
   };
 };
 const mapDispatchToProps = dispatch => {
   return {
-<<<<<<< HEAD
     dispatchAddEvent: dates => {
       const action = updateEvents(dates);
       dispatch(action);
@@ -442,15 +406,12 @@ const mapDispatchToProps = dispatch => {
     dispatchUpdateRange: (start, end) => {
       const action = updateTimelineRange(start, end);
       dispatch(action);
-    }
-  };
-=======
+    },
     updateTheTitle: title => {
       const action = updateTitle(title);
       dispatch(action);
     }
-  }
->>>>>>> master
+  };
 };
 
 export default withRouter(
