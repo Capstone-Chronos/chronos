@@ -243,17 +243,15 @@ class TimelineWrapper extends React.Component {
                         label="Event Name"
                         name="modalContentEventName"
                         defaultValue={eventName}
-                        className="form-control"
-                        fluid
+                        className="form-control fluid"
                         onChange={this.handleInputChange}
                       />
                       <TextArea
                         label="Event Description"
                         name="modalContentEventDescription"
                         defaultValue={description}
-                        className="form-control"
+                        className="form-control fluid"
                         style={{ maxWidth: modalWidth - 50, minHeight: 50 }}
-                        fluid
                         value={description}
                         onInput={this.handleInputChange}
                       />
@@ -261,16 +259,14 @@ class TimelineWrapper extends React.Component {
                         label="Image URL"
                         name="modalContentEventImgUrl"
                         defaultValue={imgUrl}
-                        className="form-control"
-                        fluid
+                        className="form-control fluid"
                         onChange={this.handleInputChange}
                       />
                       <Input
                         label="Video URL"
                         name="modalContentEventVidUrl"
                         defaultValue={vidUrl}
-                        className="form-control"
-                        fluid
+                        className="form-control fluid"
                         onChange={this.handleInputChange}
                       />
                       <hr />
