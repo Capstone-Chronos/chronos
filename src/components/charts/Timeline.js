@@ -42,6 +42,7 @@ export default class Timeline extends React.Component {
   }
 
   render() {
+    if (!this.props.data) return <div />;
     // ========================================================================
     // Set units, margin, sizes
     // ========================================================================

@@ -31,6 +31,7 @@ export const saveChart = async (data, title, chartType) => {
 };
 
 export const updateChart = async (data, chartId) => {
+  console.log('UPDATES', data, chartId);
   try {
     let updates = {};
     updates[`/charts/${chartId}/data`] = data;
@@ -51,7 +52,7 @@ export const publishChart = async chartId => {
 };
 
 export const deleteChart = async (chartId, uid) => {
-  console.log('deleting');
+  console.log('deleting', chartId, uid);
   try {
     let toBeDeleted = {};
     toBeDeleted[`/charts/${chartId}`] = null;

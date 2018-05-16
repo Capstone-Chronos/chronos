@@ -88,19 +88,6 @@ export const saveTimelineThunk = (data, title, chartType) => {
   };
 };
 
-// Thunk creators
-
-// export const saveChart = data => async dispatch => {
-//   let newChartKey = firebase.auth().currentUser.email.child('chart').key;
-//   console.log('userid', userId);
-//   userRef.set(data, snapshot => {
-//     dispatch({
-//       type: UPDATE_DATA,
-//       data: data
-//     });
-//   });
-// };
-
 // Reducer
 export default function reducer(state = initialState, action) {
   switch (action.type) {

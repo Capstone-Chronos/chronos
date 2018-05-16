@@ -106,7 +106,7 @@ export class AllProjects extends React.Component {
 
 const mapStateToProps = storeState => {
   return {
-    userId: storeState.user.id,
+    userId: storeState.user.uid,
     userCharts: storeState.allCharts.userCharts,
     publishedCharts: storeState.allCharts.publishedCharts
   };

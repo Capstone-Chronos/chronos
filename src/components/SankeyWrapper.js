@@ -335,7 +335,7 @@ const mapStateToProps = storeState => {
     data: storeState.sankeyChart.data,
     height: storeState.sankeyChart.height,
     width: storeState.sankeyChart.width,
-    userId: storeState.user.id,
+    userId: storeState.user.uid,
     chartId: storeState.sankeyChart.chartId,
     title: storeState.sankeyChart.title
   };

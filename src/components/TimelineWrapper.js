@@ -13,7 +13,7 @@ import {
   updateSankeyChartThunk,
   saveTimelineThunk
 } from '../store/timeline';
-import { deleteChart, updateChart, fetchChartById } from '../database/charts';
+import { updateChart, fetchChartById } from '../database/charts';
 
 // var testData = {
 //   height: 800,
