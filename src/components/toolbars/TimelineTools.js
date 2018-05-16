@@ -158,7 +158,10 @@ class TimelineTools extends Component {
                 </Button>
               </div>
               <div className="tool-item">
-                <PublishButton chartId={this.props.chartId} />
+                <PublishButton
+                  chartId={this.props.chartId}
+                  title={this.props.title}
+                />
               </div>
             </div>
           </div>
