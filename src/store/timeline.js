@@ -76,6 +76,7 @@ const UPDATE_EVENTS = 'UPDATE_EVENTS';
 const UPDATE_HEIGHT = 'UPDATE_HEIGHT';
 const UPDATE_WIDTH = 'UPDATE_WIDTH';
 const CLEAR_DATA = 'CLEAR_DATA';
+const UPDATE_RANGE = 'UPDATE_RANGE';
 
 const UPDATE_DATA = 'UPDATE_DATA';
 const DELETE_USER_CHART = 'DELETE_USER_CHARTS';
@@ -98,6 +99,11 @@ export const updateTimelineWidth = width => ({
 });
 export const clearTimelineData = () => ({
   type: CLEAR_DATA
+});
+export const updateTimelineRange = (start, end) => ({
+  type: UPDATE_RANGE,
+  start,
+  end
 });
 
 export const loadDefaultData = () => ({
@@ -151,6 +157,11 @@ export default function reducer(state = initialState, action) {
       return { ...state, data: { ...state.data, width: action.width } };
     case CLEAR_DATA:
       return { ...state, data: { ...state.data, dates: [] } };
+    case UPDATE_RANGE:
+      return {
+        ...state,
+        data: { ...state.data, start: action.start, end: action.end }
+      };
     case UPDATE_DATA:
       return { ...state, data: action.data };
     case DELETE_USER_CHART:

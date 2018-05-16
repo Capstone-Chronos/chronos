@@ -13,7 +13,8 @@ import {
   saveTimelineThunk,
   updateEvents,
   updateTimelineHeight,
-  updateTimelineWidth
+  updateTimelineWidth,
+  updateTimelineRange
 } from '../store/timeline';
 import { updateChart, fetchChartById } from '../database/charts';
 
@@ -32,7 +33,7 @@ class TimelineWrapper extends React.Component {
     this.closeAndSaveModal = this.closeAndSaveModal.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.updateEvent = this.updateEvent.bind(this);
-    // this.updateRange = this.updateRange.bind(this);
+    this.updateRange = this.updateRange.bind(this);
     this.changeHeight = this.changeHeight.bind(this);
     this.changeWidth = this.changeWidth.bind(this);
     this.addEvent = this.addEvent.bind(this);
@@ -88,13 +89,16 @@ class TimelineWrapper extends React.Component {
     }
   }
 
-  // updateRange(start, end) {
-  //   console.log(start, end);
-  //   this.setState({
-  //     start: start || this.state.start,
-  //     end: end || this.state.end
-  //   });
-  // }
+  updateRange(start, end) {
+    console.log(start, end);
+    start = start || this.props.data.start;
+    end = end || this.props.data.end;
+    // this.setState({
+    //   start: start || this.state.start,
+    //   end: end || this.state.end
+    // });
+    this.props.dispatchUpdateRange(start, end);
+  }
 
   updateEvent(name, idx, color, description, imgUrl, vidUrl) {
     var dates = this.props.data.dates;
@@ -351,6 +355,10 @@ const mapDispatchToProps = dispatch => {
     },
     dispatchEmptyChart: () => {
       const action = clearTimelineData();
+      dispatch(action);
+    },
+    dispatchUpdateRange: (start, end) => {
+      const action = updateTimelineRange(start, end);
       dispatch(action);
     }
   };
