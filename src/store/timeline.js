@@ -40,7 +40,6 @@ const UPDATE_DATA = 'UPDATE_DATA';
 const DELETE_USER_CHART = 'DELETE_USER_CHARTS';
 const SET_TIMELINE_TITLE = 'SET_TIMELINE_TITLE';
 const SET_TIMELINE_ID = 'SET_CHART_ID';
-
 const SET_CHART = 'SET_CHART';
 
 //ACTION CREATORS
@@ -49,7 +48,7 @@ export const loadDefaultData = () => ({
   data: defaultData
 });
 
-export const importData = data => ({
+export const importDataFromFile = data => ({
   type: UPDATE_DATA,
   data
 });
