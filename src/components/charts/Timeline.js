@@ -115,37 +115,37 @@ export default class Timeline extends React.Component {
       .call(xAxis);
 
     // Create area chart overlay
-    var y = d3.scaleLinear()
-      .rangeRound([height, 0]);
+    // var y = d3.scaleLinear()
+    //   .rangeRound([height, 0]);
 
-    var area = d3.area()
-      .x(function (d) {
-        var newDate = new Date(d.date)
-        return timeScale(newDate);
-      })
-      .y1(function (d) { return y(d.close); });
+    // var area = d3.area()
+    //   .x(function (d) {
+    //     var newDate = new Date(d.date)
+    //     return timeScale(newDate);
+    //   })
+    //   .y1(function (d) { return y(d.close); });
 
-    x.domain(d3.extent(data, (function (d) {
-      var newDate = new Date(d.date)
-      return timeScale(newDate);
-    })))
-    y.domain([0, d3.max(data, function (d) { return d.close; })]);
-    area.y0(y(0));
+    // x.domain(d3.extent(data, (function (d) {
+    //   var newDate = new Date(d.date)
+    //   return timeScale(newDate);
+    // })))
+    // y.domain([0, d3.max(data, function (d) { return d.close; })]);
+    // area.y0(y(0));
 
-    svg.append("path")
-      .datum(data)
-      .attr("fill", "steelblue")
-      .attr("d", area);
+    // svg.append("path")
+    //   .datum(data)
+    //   .attr("fill", "steelblue")
+    //   .attr("d", area);
 
-    svg.append("g")
-      .call(d3.axisLeft(y))
-      .append("text")
-      .attr("fill", "#000")
-      .attr("transform", "rotate(-90)")
-      .attr("y", 6)
-      .attr("dy", "0.71em")
-      .attr("text-anchor", "end")
-      .text("Price ($)");
+    // svg.append("g")
+    //   .call(d3.axisLeft(y))
+    //   .append("text")
+    //   .attr("fill", "#000")
+    //   .attr("transform", "rotate(-90)")
+    //   .attr("y", 6)
+    //   .attr("dy", "0.71em")
+    //   .attr("text-anchor", "end")
+    //   .text("Price ($)");
 
     return svgNode.toReact();
   }
