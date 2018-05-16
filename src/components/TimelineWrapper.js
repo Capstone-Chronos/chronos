@@ -8,8 +8,8 @@ import firebase from 'firebase';
 import { connect } from 'react-redux';
 import {
   loadDefaultData,
-  clearData,
-  importData,
+  clearTimelineData,
+  importDataFromFile,
   updateSankeyChartThunk,
   saveTimelineThunk
 } from '../store/timeline';
@@ -48,18 +48,19 @@ class TimelineWrapper extends React.Component {
     this.changeWidth = this.changeWidth.bind(this);
     this.addEvent = this.addEvent.bind(this);
     this.handleColorChange = this.handleColorChange.bind(this);
+    this.emptyDiagram = this.emptyDiagram.bind(this);
   }
 
-  // componentWillReceiveProps() {
-  //   this.setState({
-  //     radius: this.props.data.radius,
-  //     dates: this.props.data.dates,
-  //     height: this.props.data.height,
-  //     width: this.props.data.width,
-  //     start: this.props.data.start,
-  //     end: this.props.data.end
-  //   });
-  // }
+  componentWillReceiveProps() {
+    this.setState({
+      radius: this.props.data.radius,
+      dates: this.props.data.dates,
+      height: this.props.data.height,
+      width: this.props.data.width,
+      start: this.props.data.start,
+      end: this.props.data.end
+    });
+  }
 
   componentDidMount() {
     fetchChartById(this.props.match.params.id);
@@ -175,6 +176,11 @@ class TimelineWrapper extends React.Component {
     this.setState({ width: newWidth });
   }
 
+  emptyDiagram() {
+    this.props.clearChart();
+    this.setState({ dates: [] });
+  }
+
   render() {
     var eventName = this.state.modalContentEventName;
     var eventColor = this.state.modalContentEventColor;
@@ -202,22 +208,23 @@ class TimelineWrapper extends React.Component {
         backgroundColor: 'rgba(0, 0, 0 , 0.35)'
       }
     };
-
+    console.log('TIMELINE WRAPPER RENDER', this.props);
     return (
       <div className="chartContainer">
         <Grid>
           <Grid.Row>
             <Grid.Column width="3">
               <TimelineTools
+                emptyDiagram={this.emptyDiagram}
                 changeHeight={this.changeHeight}
                 changeWidth={this.changeWidth}
                 toggleEditor={this.toggleEditor}
-                width={this.state.width}
-                height={this.state.height}
+                // width={this.state.width}
+                // height={this.state.height}
                 addEvent={this.addEvent}
                 updateRange={this.updateRange}
-                start={this.state.start}
-                end={this.state.end}
+                // start={this.state.start}
+                // end={this.state.end}
                 data={this.state}
               />
             </Grid.Column>
@@ -322,13 +329,21 @@ class TimelineWrapper extends React.Component {
 
 const mapStateToProps = state => {
   return {
+    chartID: state.timeline.chartId,
     data: state.timeline.data,
     height: state.timeline.data.height,
-    width: state.timeline.data.width
+    width: state.timeline.data.width,
+    title: state.timeline.title,
+    uid: state.user.uid
   };
 };
 const mapDispatchToProps = dispatch => {
-  return {};
+  return {
+    clearChart: () => {
+      const action = clearTimelineData();
+      dispatch(action);
+    }
+  };
 };
 
 export default withRouter(

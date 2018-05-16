@@ -7,7 +7,7 @@ import { axisBottom } from 'd3-axis';
 import { timeParse } from 'd3-time-format';
 import { connect } from 'react-redux';
 
-class Timeline extends React.Component {
+export default class Timeline extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -30,19 +30,20 @@ class Timeline extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.data) {
+    if (nextProps.data) {
       this.setState({
-        dates: this.props.data.dates,
-        radius: this.props.data.radius,
-        start: this.props.data.start,
-        end: this.props.data.end,
-        width: this.props.data.width,
-        height: this.props.data.height
+        dates: nextProps.data.dates,
+        radius: nextProps.data.radius,
+        start: nextProps.data.start,
+        end: nextProps.data.end,
+        width: nextProps.data.width,
+        height: nextProps.data.height
       });
     }
   }
 
   render() {
+    console.log('TIMELINE CANVAS RENDER', this.props);
     if (!this.props.data) return <div />;
     // ========================================================================
     // Set units, margin, sizes
@@ -150,16 +151,3 @@ class Timeline extends React.Component {
     return svgNode.toReact();
   }
 }
-
-const mapStateToProps = state => {
-  return {
-    // data: state.timeline.data,
-    // height: state.timeline.data.height,
-    // width: state.timeline.data.width
-  };
-};
-const mapDispatchToProps = dispatch => {
-  return {};
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Timeline);

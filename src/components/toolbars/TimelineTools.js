@@ -68,6 +68,7 @@ class TimelineTools extends Component {
   }
 
   render() {
+    console.log('TIMELINE TOOLS RENDER', this.props);
     const { data, title, chartId } = this.props;
     return (
       <div>
@@ -174,7 +175,7 @@ class TimelineTools extends Component {
               </div>
               <div className="tool-item">
                 <FooterBar
-                  data="this.props.data"
+                  data={this.props.data}
                   readFile={this.props.readFile}
                   emptyDiagram={this.props.emptyDiagram}
                 />

@@ -55,7 +55,7 @@ export const importDataFromFile = data => ({
 
 export const clearTimelineData = () => ({
   type: UPDATE_DATA,
-  data: empty
+  data: empty.data
 });
 
 export const setTimelineTitle = title => ({
