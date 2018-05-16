@@ -15,20 +15,6 @@ import {
 } from '../store/timeline';
 import { updateChart, fetchChartById } from '../database/charts';
 
-// var testData = {
-//   height: 800,
-//   width: 1200,
-//   start: '2015, 1, 1',
-//   end: '2018, 1, 1',
-//   radius: 10,
-//   dates: [
-//     { id: 0, name: 'New Years 2016', date: '2016, 1, 1' },
-//     { id: 1, name: 'My birthday', date: '2016, 3, 1' },
-//     { id: 2, name: 'First Day of Summer', date: '2016, 6, 21' },
-//     { id: 3, name: 'New Years 2016', date: '2017, 1, 1' }
-//   ]
-// };
-
 class TimelineWrapper extends React.Component {
   constructor(props) {
     super(props);
@@ -50,26 +36,14 @@ class TimelineWrapper extends React.Component {
     this.handleColorChange = this.handleColorChange.bind(this);
   }
 
-  // componentWillReceiveProps() {
-  //   this.setState({
-  //     radius: this.props.data.radius,
-  //     dates: this.props.data.dates,
-  //     height: this.props.data.height,
-  //     width: this.props.data.width,
-  //     start: this.props.data.start,
-  //     end: this.props.data.end
-  //   });
-  // }
-
   componentDidMount() {
     fetchChartById(this.props.match.params.id);
     this.updateRange = this.updateRange.bind(this);
   }
 
   addEvent(name, year, day, month) {
-    console.log('add Event');
     var dates = this.props.data.dates;
-    var newDate = `${year}, ${day}, ${month}`;
+    var newDate = `${year}, ${month}, ${day}`;
     var idx = dates.length;
     name = name || 'Event' + idx;
     dates[idx] = {
@@ -245,8 +219,8 @@ class TimelineWrapper extends React.Component {
                       {imgUrl ? (
                         <Image src={imgUrl} width="300" height="200" />
                       ) : (
-                        ''
-                      )}
+                          ''
+                        )}
                       <p>{description}</p>
                       {vidUrl ? (
                         <iframe
@@ -258,58 +232,58 @@ class TimelineWrapper extends React.Component {
                           allowfullscreen
                         />
                       ) : (
-                        ''
-                      )}
+                          ''
+                        )}
                     </div>
                   ) : (
-                    <div>
-                      <h4>{header}</h4>
-                      <Input
-                        label="Event Name"
-                        name="modalContentEventName"
-                        defaultValue={eventName}
-                        className="form-control fluid"
-                        onChange={this.handleInputChange}
-                      />
-                      <TextArea
-                        label="Event Description"
-                        name="modalContentEventDescription"
-                        defaultValue={description}
-                        className="form-control fluid"
-                        style={{ maxWidth: modalWidth - 50, minHeight: 50 }}
-                        value={description}
-                        onInput={this.handleInputChange}
-                      />
-                      <Input
-                        label="Image URL"
-                        name="modalContentEventImgUrl"
-                        defaultValue={imgUrl}
-                        className="form-control fluid"
-                        onChange={this.handleInputChange}
-                      />
-                      <Input
-                        label="Video URL"
-                        name="modalContentEventVidUrl"
-                        defaultValue={vidUrl}
-                        className="form-control fluid"
-                        onChange={this.handleInputChange}
-                      />
-                      <hr />
-                      <div style={{ marginTop: '2em', marginBottom: '2em' }}>
-                        <h4>{color}</h4>
-                        <ColorPicker
-                          handleColorChange={this.handleColorChange}
+                      <div>
+                        <h4>{header}</h4>
+                        <Input
+                          label="Event Name"
+                          name="modalContentEventName"
+                          defaultValue={eventName}
+                          className="form-control fluid"
+                          onChange={this.handleInputChange}
                         />
-                      </div>
-                      <div className="row">
-                        <div>
-                          <Button onClick={this.closeAndSaveModal}>
-                            Apply Changes
+                        <TextArea
+                          label="Event Description"
+                          name="modalContentEventDescription"
+                          defaultValue={description}
+                          className="form-control fluid"
+                          style={{ maxWidth: modalWidth - 50, minHeight: 50 }}
+                          value={description}
+                          onInput={this.handleInputChange}
+                        />
+                        <Input
+                          label="Image URL"
+                          name="modalContentEventImgUrl"
+                          defaultValue={imgUrl}
+                          className="form-control fluid"
+                          onChange={this.handleInputChange}
+                        />
+                        <Input
+                          label="Video URL"
+                          name="modalContentEventVidUrl"
+                          defaultValue={vidUrl}
+                          className="form-control fluid"
+                          onChange={this.handleInputChange}
+                        />
+                        <hr />
+                        <div style={{ marginTop: '2em', marginBottom: '2em' }}>
+                          <h4>{color}</h4>
+                          <ColorPicker
+                            handleColorChange={this.handleColorChange}
+                          />
+                        </div>
+                        <div className="row">
+                          <div>
+                            <Button onClick={this.closeAndSaveModal}>
+                              Apply Changes
                           </Button>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  )}
+                    )}
                 </Modal>
               </div>
             </Grid.Column>
