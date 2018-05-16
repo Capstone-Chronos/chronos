@@ -46,7 +46,7 @@ export default class Choropleth extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
 
-    colorScale('#267a60', '#3e2291', 4);
+    console.log(colorScale('#267a60', '#3e2291'));
     this.setState(prevState => {
       let stateColors = {...prevState.stateColors};
       stateColors[prevState.selectedStateId] = prevState.selectedColor;

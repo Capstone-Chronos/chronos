@@ -32,7 +32,7 @@ export default function renderMap (toggleModal, stateColors) {
       .on('mousemove', data => hoverWizard(data))
       .on('click', data => toggleModal(data.id))
       .style('fill', function (data) {
-        return stateColors[data.id] || 'black';
+        return stateColors[data.id] || '#939393';
       });
 
     select(node)
