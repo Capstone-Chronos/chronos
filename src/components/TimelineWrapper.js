@@ -63,6 +63,7 @@ class TimelineWrapper extends React.Component {
 
   componentDidMount() {
     fetchChartById(this.props.match.params.id);
+    this.updateRange = this.updateRange.bind(this);
   }
 
   addEvent(name, year, day, month) {
@@ -75,6 +76,18 @@ class TimelineWrapper extends React.Component {
       name,
       date: newDate
     };
+    this.setState({ dates })
+  }
+
+  componentWillMount() {
+    this.setState({
+      radius: testData.radius,
+      dates: testData.dates,
+      height: testData.height,
+      width: testData.width,
+      start: testData.start,
+      end: testData.end
+    })
   }
 
   //Function to open info pane in presentation mode or editing modal in editor mode
@@ -82,6 +95,13 @@ class TimelineWrapper extends React.Component {
     if (!this.state.editorMode) {
       console.log(e);
     }
+  }
+
+  updateRange(start, end) {
+    this.setState({
+      start: start,
+      end: end
+    })
   }
 
   updateEvent(name, idx, color, description, imgUrl, vidUrl) {
@@ -194,6 +214,9 @@ class TimelineWrapper extends React.Component {
                 // width={this.state.width}
                 // height={this.state.height}
                 addEvent={this.addEvent}
+                updateRange={this.updateRange}
+                start={this.state.start}
+                end={this.state.end}
               />
             </Grid.Column>
             <Grid.Column width="13">

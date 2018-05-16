@@ -13,19 +13,31 @@ class TimelineTools extends Component {
       height: this.props.height,
       width: this.props.width
     };
+
     this.toggleVisibility = this.toggleVisibility.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.submitHeightWidth = this.submitHeightWidth.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleUpdate = this.handleUpdate.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
+    this.submitEvent = this.submitEvent.bind(this);
+    this.submitRange = this.submitRange.bind(this);
   }
 
   toggleVisibility = () => this.setState({ visible: !this.state.visible });
 
   handleChange(evt) {
     this.setState({ [evt.target.name]: evt.target.value });
-    console.log(this.state);
+  }
+
+  submitEvent(evt) {
+    evt.preventDefault();
+    this.props.addEvent(
+      this.state.name,
+      this.state.year,
+      this.state.day,
+      this.state.month
+    );
   }
 
   submitHeightWidth(evt) {
@@ -50,6 +62,11 @@ class TimelineTools extends Component {
     deleteChart(chartId, uid);
   }
 
+  submitRange(evt) {
+    evt.preventDefault;
+    this.props.updateRange(this.state.start, this.state.end);
+  }
+
   render() {
     const { data, title, chartId } = this.props;
     return (
@@ -60,17 +77,34 @@ class TimelineTools extends Component {
         <div className="tools">
           <h4>New Event</h4>
           <hr />
-          <div className="tool-item">
-            <Input onChange={this.handleChange} name="name" label="Name" />
-          </div>
-          <div className="tool-item">
-            <Input onChange={this.handleChange} name="year" label="Year" />
-          </div>
-          <div className="tool-item">
-            <Input onChange={this.handleChange} name="day" label="Day" />
-          </div>
-          <div className="tool-item">
-            <Input onChange={this.handleChange} name="month" label="Month" />
+          <div className="form">
+            <form>
+              <div className="tool-item">
+                <Input onChange={this.handleChange} name="name" label="Name" />
+              </div>
+              <div className="tool-item">
+                <Input onChange={this.handleChange} name="year" label="Year" />
+              </div>
+              <div className="tool-item">
+                <Input onChange={this.handleChange} name="day" label="Day" />
+              </div>
+              <div className="tool-item">
+                <Input
+                  onChange={this.handleChange}
+                  name="month"
+                  label="Month"
+                />
+              </div>
+              <div className="tool-item">
+                <Button
+                  className="tool-button"
+                  name="submit"
+                  onClick={this.submitEvent}
+                >
+                  Create new event
+                </Button>
+              </div>
+            </form>
           </div>
           <h4>Edit Chart Dimensions</h4>
           <div className="form">
@@ -109,7 +143,7 @@ class TimelineTools extends Component {
                     onChange={this.handleChange}
                     name="start"
                     label="Start"
-                    defaultValue={this.props.width}
+                    defaultValue={this.props.start}
                   />
                 </div>
                 <div className="tool-item">
@@ -117,14 +151,11 @@ class TimelineTools extends Component {
                     onChange={this.handleChange}
                     name="end"
                     label="End"
-                    defaultValue={this.props.height}
+                    defaultValue={this.props.end}
                   />
                 </div>
                 <div className="tool-item">
-                  <Button
-                    className="tool-button"
-                    onClick={this.submitHeightWidth}
-                  >
+                  <Button className="tool-button" onClick={this.submitRange}>
                     Update date range
                   </Button>
                 </div>

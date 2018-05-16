@@ -106,7 +106,7 @@ class Timeline extends React.Component {
         return d.name;
       });
 
-    //Create xAxis by passing in timeScale and attach to DOM
+    // Create xAxis by passing in timeScale and attach to DOM
     svg
       .attr('class', 'axis')
       .attr('transform', 'translate(0,' + height / 2 + ')')
@@ -114,7 +114,38 @@ class Timeline extends React.Component {
       .append('g')
       .call(xAxis);
 
-    // Create lanes to show continuous events
+    // Create area chart overlay
+    // var y = d3.scaleLinear()
+    //   .rangeRound([height, 0]);
+
+    // var area = d3.area()
+    //   .x(function (d) {
+    //     var newDate = new Date(d.date)
+    //     return timeScale(newDate);
+    //   })
+    //   .y1(function (d) { return y(d.close); });
+
+    // x.domain(d3.extent(data, (function (d) {
+    //   var newDate = new Date(d.date)
+    //   return timeScale(newDate);
+    // })))
+    // y.domain([0, d3.max(data, function (d) { return d.close; })]);
+    // area.y0(y(0));
+
+    // svg.append("path")
+    //   .datum(data)
+    //   .attr("fill", "steelblue")
+    //   .attr("d", area);
+
+    // svg.append("g")
+    //   .call(d3.axisLeft(y))
+    //   .append("text")
+    //   .attr("fill", "#000")
+    //   .attr("transform", "rotate(-90)")
+    //   .attr("y", 6)
+    //   .attr("dy", "0.71em")
+    //   .attr("text-anchor", "end")
+    //   .text("Price ($)");
 
     return svgNode.toReact();
   }
