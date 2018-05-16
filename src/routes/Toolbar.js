@@ -10,8 +10,8 @@ const Toolbar = () => (
     <Route exact path="/edit/barchart/:id" component={BarChartTools} />
     <Route exact path="/edit/barchart/:id/:title" component={BarChartTools} />
 
-    <Route exact path="/edit/map/:id" component={MapChartTools} />
-    <Route exact path="/edit/map/:id/:title" component={MapChartTools} />
+    <Route exact path="/edit/choropleth/:id" component={MapChartTools} />
+    <Route exact path="/edit/choropleth/:id/:title" component={MapChartTools} />
 
     <Route exact path="/edit/piechart/:id" component={BarChartTools} />
     <Route exact path="/edit/piechart" component={BarChartTools} />

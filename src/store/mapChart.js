@@ -1,19 +1,27 @@
-import { userRef, chartsRef } from '../base';
+import { userRef, chartsRef, databaseRef } from '../base';
 import firebase from 'firebase';
 import history from '../routes/history';
-import { saveChart } from '../database/sankeyChart';
 
 let defaultData = {
   chartId: '',
-  title: 'Energy Use in the UK',
-  width: 1000,
-  height: 800,
+  chartType: 'Choropleth',
+  title: 'Choropleth',
   data: {
+    json: 'https://d3js.org/us-10m.v1.json',
+    width: 1000,
+    height: 800
   }
-};
+}
 
 let empty = {
-  
+  chartId: '',
+  chartType: 'Choropleth',
+  title: 'Choropleth',
+  data: {
+    json: 'https://d3js.org/us-10m.v1.json',
+    width: 1000,
+    height: 800
+  }
 };
 
 const initialState = defaultData;
@@ -24,6 +32,7 @@ const IMPORT_DATA = 'IMPORT_DATA';
 const GET_ONE_CHART = 'GET_CHART';
 const GET_USER_CHARTS = 'GET_USER_CHARTS';
 const DELETE_USER_CHART = 'DELETE_USER_CHARTS';
+const LOAD_DEFAULT_DATA = 'LOAD_DEFAULT_DATA';
 
 const SET_CHART_ID = 'SET_CHART_ID';
 const SET_MAP_TITLE = 'SET_MAP_TITLE';
@@ -67,6 +76,32 @@ export const updateTitle = title => ({
 })
 
 
+export const saveChart = async (data, title) => {
+  let newChartKey;
+  try {
+    let uid = firebase.auth().currentUser.uid;
+    newChartKey = await userRef
+      .child(uid)
+      .child('charts')
+      .push().key;
+    const chartInfo = {
+      chartType: 'Choropleth',
+      isPublished: false,
+      title,
+      data,
+      uid,
+      chartId: newChartKey
+    };
+    let updates = {};
+    updates[`users/${uid}/charts/${newChartKey}`] = newChartKey;
+    updates[`charts/${newChartKey}`] = chartInfo;
+    await databaseRef.update(updates);
+  } catch (err) {
+    throw Error(err);
+  }
+  return newChartKey;
+};
+
 
 //THUNKS
 export const saveMapChartThunk = (data, title) => {
@@ -75,7 +110,7 @@ export const saveMapChartThunk = (data, title) => {
       .then(chartId => {
         dispatch(setMapTitle(title));
         dispatch(setMapId(chartId));
-        history.push(`/edit/map/${chartId}/${title}`);
+        history.push(`/edit/choropleth/${chartId}/${title}`);
       })
       .catch(err => console.error(err));
   };
@@ -98,6 +133,8 @@ export default function reducer(state = initialState, action) {
       return { ...state, chartId: action.chartId };
     case SET_CHART:
       return action.chart;
+    case LOAD_DEFAULT_DATA:
+      return defaultData
     default:
       return state;
   }

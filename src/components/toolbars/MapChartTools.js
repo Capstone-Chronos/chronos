@@ -29,9 +29,35 @@ class MapChartTools extends Component {
     this.toggleVisibility = this.toggleVisibility.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.submitHeightWidth = this.submitHeightWidth.bind(this);
+    this.setTitle = this.setTitle.bind(this);
+    this.publishTheChart = this.publishTheChart.bind(this);
 
+    this.loadData = loadData.bind(this);
+    this.readFile = readFile.bind(this);
+    this.delete = this.delete.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleUpdate = this.handleUpdate.bind(this);
+  }
+  componentDidMount(){
+    fetchChartById(this.props.chartId);
+  }
+
+  setTitle(evt) {
+    evt.preventDefault();
+    console.log(evt.target.title.value);
+    this.props.updateTheTitle(evt.target.title.value);
+  }
+
+  publishTheChart() {
+    let { chartId } = this.props;
+    publishChart(chartId);
+  }
+
+  delete() {
+    console.log(this.props.match.params.id);
+    let chartId = this.props.match.params.id;
+    let userId = this.props.userId;
+    deleteChart(chartId, userId);
   }
 
     toggleVisibility = () => this.setState({ visible: !this.state.visible });
@@ -41,11 +67,17 @@ class MapChartTools extends Component {
     }
 
     handleUpdate() {
-      let { data, chartId } = this.props;
+      let { chartId } = this.props;
+      const data = {
+        json: this.props.data,
+        stateColors: this.props.stateColors
+      }
+
       updateChart(data, chartId);
     }
 
     handleSubmit() {
+      console.log(this.props, this.props.data);
       let savedData = {
         name: this.props.title,
         data: this.state.data || this.props.data,
@@ -53,7 +85,11 @@ class MapChartTools extends Component {
         width: this.state.width || this.props.width,
         height: this.state.height || this.props.height
       };
-      this.props.saveChanges(this.props.data, this.props.title);
+      const data = {
+        json: this.props.data,
+        stateColors: this.props.stateColors
+      }
+      this.props.saveChanges(data, this.props.title);
     }
 
     submitHeightWidth(evt) {
@@ -65,7 +101,20 @@ class MapChartTools extends Component {
     render() {
       return (
         <div>
-
+          <div>
+            <h2>{this.props.title}</h2>
+            <form
+              onSubmit={this.setTitle}
+            >
+              <input
+                type="text"
+                name="title"
+                placeholder="Change Title Here"
+                value={this.state.title}
+              />
+              <input type="submit" value="Update Title" />
+            </form>
+          </div>
           <h4>Edit Chart Dimensions</h4><hr />
           <div className="form">
             <form onSubmit={this.submitHeightWidth}>
@@ -97,12 +146,12 @@ class MapChartTools extends Component {
             <h4>Save Changes</h4>
             <hr />
             <div className="tool-item">
-              <Button className="tool-button" onClick={this.props.handleUpdate}>
+              <Button className="tool-button" onClick={this.handleUpdate}>
                   Update Chart
               </Button>
             </div>
             <div className="tool-item">
-              <Button className="tool-button" onClick={this.props.handleSubmit}>
+              <Button className="tool-button" onClick={this.handleSubmit}>
                   Save Changes as New Chart
               </Button>
               <PublishButton title="fake title" publish={this.props.publishTheChart} chartId={this.props.chartId} />
@@ -115,7 +164,7 @@ class MapChartTools extends Component {
               />
             </div>
             <div className="tool-item">
-              <Button className="tool-button" color="red" onClick={this.props.delete}>
+              <Button className="tool-button" color="red" onClick={this.delete}>
                   Delete Chart
               </Button>
             </div>
@@ -126,13 +175,16 @@ class MapChartTools extends Component {
     }
 }
 
-const mapStateToProps = state => ({
-  isSaved: state.mapChart.isSaved,
-  data: state.mapChart.data,
-  userId: state.user.id,
-  chartId: state.mapChart.chartId,
-  title: state.mapChart.title
-});
+const mapStateToProps = function(state){
+  console.log('i', state);
+  return {
+    data: state.mapChart.data,
+    stateColors: state.mapChart.data.stateColors,
+    userId: state.user.id,
+    chartId: state.mapChart.chartId,
+    title: state.mapChart.title
+  };
+};
 
 const mapDispatchToProps = function(dispatch) {
   return {
@@ -142,6 +194,10 @@ const mapDispatchToProps = function(dispatch) {
     },
     saveChanges: (data, title) => {
       const action = saveMapChartThunk(data, title);
+      dispatch(action);
+    },
+    loadData: data => {
+      const action = importData(data);
       dispatch(action);
     },
     delete: (chartId, userId) => {

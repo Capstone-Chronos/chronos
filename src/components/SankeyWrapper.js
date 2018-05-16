@@ -366,12 +366,6 @@ const mapDispatchToProps = function(dispatch) {
       const action = updateTitle(title)
       dispatch(action)
     }
-    // delete: (chartId, userId) => {
-    //   deleteChart(chartId, userId);
-    // }
-    // updateChart: (data, chartId) => {
-    //   updateChart(data, chartId);
-    // }
   };
 };
 

@@ -38,16 +38,32 @@ class Routes extends Component {
                 path="/edit/sankey/:id/:title"
                 component={SankeyWrapper}
               />
-              <Route path="/edit/sankey" component={SankeyWrapper} />
               <Route
                 exact
-                path="/edit/timeline"
+                path="/edit/sankey" 
+                component={SankeyWrapper} />
+              <Route exact path="/edit/timeline/:id" component={SankeyWrapper} />
+              <Route
+                exact
+                path="/edit/timeline/:id/:title"
                 component={TimelineWrapper}
               />
+              <Route
+                exact
+                path="/edit/timeline" 
+                component={TimelineWrapper} />
+              <Route exact path="/edit/choropleth/:id" component={Choropleth} />
+              <Route
+                exact
+                path="/edit/choropleth/:id/:title"
+                component={Choropleth}
+              />
+              <Route path="/edit/choropleth" component={Choropleth} />              
               <Route path="/edit" component={Editor} />
               <Route path="/show" component={PresentationView} />
               <Route path="/view" component={PresentationView} />
               <Route path="/sankey" component={SankeyWrapper} />
+              <Route path="/timeline" component={TimelineWrapper} />
               <Route path="/choropleth" component={Choropleth} />
             </Switch>
           )}

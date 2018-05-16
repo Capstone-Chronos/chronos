@@ -12,7 +12,7 @@ export const saveChart = async (data, title) => {
       .child('charts')
       .push().key;
     const chartInfo = {
-      chartType: 'Map',
+      chartType: 'Choropleth',
       isPublished: false,
       title,
       data,
@@ -65,12 +65,13 @@ export const deleteChart = async (chartId, uid) => {
 };
 
 export const fetchChartById = chartId => async dispatch => {
+  console.log('fetch')
   let chart;
   try {
     chart = await chartsRef
       .child(chartId)
       .once('value')
-      .then(snapshot => snapshot.val());
+      .then(snapshot => {console.log(snapshot.val()); snapshot.val()});
   } catch (err) {
     throw Error(err);
   }
