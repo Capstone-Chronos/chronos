@@ -210,6 +210,7 @@ class TimelineWrapper extends React.Component {
                   editorMode={this.state.editorMode}
                   onRequestClose={this.handleModalCloseRequest}
                   style={modalStyle}
+                  updateEvent={this.updateEvent}
                 >
                   <button className="close" onClick={this.closeModal}>
                     <span aria-hidden="true">&times;</span>

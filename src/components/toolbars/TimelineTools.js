@@ -48,6 +48,7 @@ class TimelineTools extends Component {
 
   handleUpdate() {
     const { data, chartId } = this.props;
+    console.log("Update data", data)
     updateChart(data, chartId);
   }
 
