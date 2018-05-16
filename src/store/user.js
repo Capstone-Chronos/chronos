@@ -20,7 +20,7 @@ const logOut = () => ({ type: LOG_OUT });
 const initialState = {
   isLoggedIn: false,
   email: '',
-  id: ''
+  uid: ''
 };
 
 export const signUpUser = user => async dispatch => {
@@ -30,7 +30,7 @@ export const signUpUser = user => async dispatch => {
   const info = {
     email: user.email,
     charts: [],
-    id: user.uid
+    uid: user.uid
   };
   newUser.set(info, () => {
     dispatch({ type: SIGNUP_USER, info });
@@ -65,12 +65,12 @@ export default function(user = initialState, action) {
         ...user,
         isLoggedIn: true,
         email: action.email,
-        id: action.uid
+        uid: action.uid
       };
     case LOG_OUT:
       return initialState;
     case SIGNUP_USER:
-      return { ...user, user: action.user, isLoggedIn: true, id: action.id };
+      return { ...user, user: action.user, isLoggedIn: true, uid: action.uid };
     default:
       return user;
   }

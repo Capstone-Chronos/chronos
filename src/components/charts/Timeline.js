@@ -5,8 +5,9 @@ import _ from 'lodash';
 import { scaleTime } from 'd3-scale';
 import { axisBottom } from 'd3-axis';
 import { timeParse } from 'd3-time-format';
+import { connect } from 'react-redux';
 
-export default class Timeline extends React.Component {
+class Timeline extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -16,41 +17,42 @@ export default class Timeline extends React.Component {
   }
 
   componentWillMount() {
-    this.setState({
-      dates: this.props.data.dates,
-      radius: this.props.data.radius,
-      start: this.props.data.start,
-      end: this.props.data.end,
-      width: this.props.data.width,
-      height: this.props.data.height
-    })
+    if (this.props.data) {
+      this.setState({
+        dates: this.props.data.dates,
+        radius: this.props.data.radius,
+        start: this.props.data.start,
+        end: this.props.data.end,
+        width: this.props.data.width,
+        height: this.props.data.height
+      });
+    }
   }
-
 
   componentWillReceiveProps(nextProps) {
-    this.setState({
-      dates: this.props.data.dates,
-      radius: this.props.data.radius,
-      start: this.props.data.start,
-      end: this.props.data.end,
-      width: this.props.data.width,
-      height: this.props.data.height
-    });
+    if (this.props.data) {
+      this.setState({
+        dates: this.props.data.dates,
+        radius: this.props.data.radius,
+        start: this.props.data.start,
+        end: this.props.data.end,
+        width: this.props.data.width,
+        height: this.props.data.height
+      });
+    }
   }
 
-
   render() {
-    console.log(this.props)
-    console.log("Timeline state", this.state)
+    if (!this.props.data) return <div />;
     // ========================================================================
     // Set units, margin, sizes
     // ========================================================================
     var margin = { top: 10, right: 0, bottom: 10, left: 0 };
-    var width = this.state.width - margin.left - margin.right;
-    var height = this.state.height - margin.top - margin.bottom;
-    var format = timeParse("%Y,%m,%d")
-    var start = format(this.state.start)
-    var end = format(this.state.end)
+    var width = this.props.data.width - margin.left - margin.right;
+    var height = this.props.data.height - margin.top - margin.bottom;
+    var format = timeParse('%Y,%m,%d');
+    var start = format(this.props.data.start);
+    var end = format(this.props.data.end);
 
     var format = d => formatNumber(d);
     var formatNumber = d3.format(',.0f'); // zero decimal places
@@ -69,23 +71,23 @@ export default class Timeline extends React.Component {
       .domain([start, end])
       .range([20, width - 20]);
 
-    var xAxis = d3.svg.axis()
-      .scale(timeScale);
+    var xAxis = d3.svg.axis().scale(timeScale);
 
     // Attach event markers to DOM
     svg
       .append('g')
       .selectAll('circle')
-      .data(this.state.dates)
+      .data(this.props.data.dates)
       .enter()
       .append('circle')
       .on('click', this.props.openModal)
-      .attr('transform', 'translate(0,' + (-40) + ')')
+      .attr('transform', 'translate(0,' + -40 + ')')
       .attr('class', 'time-event')
-      .attr('r', this.state.radius)
+      .attr('fill', d => d.color)
+      .attr('r', this.props.data.radius)
       .attr('cy', 8)
-      .attr('cx', function (d) {
-        var newDate = new Date(d.date)
+      .attr('cx', function(d) {
+        var newDate = new Date(d.date);
         return timeScale(newDate);
       });
 
@@ -93,29 +95,72 @@ export default class Timeline extends React.Component {
     svg
       .append('g')
       .selectAll('text')
-      .data(this.state.dates)
+      .data(this.props.data.dates)
       .enter()
       .append('text')
-      .attr('transform', 'translate(0,' + (-40) + ')')
-      .attr('x', function (d) {
-        var newDate = new Date(d.date)
+      .attr('transform', 'translate(0,' + -40 + ')')
+      .attr('x', function(d) {
+        var newDate = new Date(d.date);
         return timeScale(newDate);
       })
-      .text(function (d) {
+      .text(function(d) {
         return d.name;
       });
 
-    //Create xAxis by passing in timeScale and attach to DOM
+    // Create xAxis by passing in timeScale and attach to DOM
     svg
       .attr('class', 'axis')
-      .attr('transform', 'translate(0,' + (height / 2) + ')')
+      .attr('transform', 'translate(0,' + (height/5)*4 + ')')
       .attr('width', width + margin.left + margin.right)
       .append('g')
       .call(xAxis);
 
-    // Create lanes to show continuous events
+    // Create area chart overlay
+    // var y = d3.scaleLinear()
+    //   .rangeRound([height, 0]);
 
+    // var area = d3.area()
+    //   .x(function (d) {
+    //     var newDate = new Date(d.date)
+    //     return timeScale(newDate);
+    //   })
+    //   .y1(function (d) { return y(d.close); });
+
+    // x.domain(d3.extent(data, (function (d) {
+    //   var newDate = new Date(d.date)
+    //   return timeScale(newDate);
+    // })))
+    // y.domain([0, d3.max(data, function (d) { return d.close; })]);
+    // area.y0(y(0));
+
+    // svg.append("path")
+    //   .datum(data)
+    //   .attr("fill", "steelblue")
+    //   .attr("d", area);
+
+    // svg.append("g")
+    //   .call(d3.axisLeft(y))
+    //   .append("text")
+    //   .attr("fill", "#000")
+    //   .attr("transform", "rotate(-90)")
+    //   .attr("y", 6)
+    //   .attr("dy", "0.71em")
+    //   .attr("text-anchor", "end")
+    //   .text("Price ($)");
 
     return svgNode.toReact();
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    // data: state.timeline.data,
+    // height: state.timeline.data.height,
+    // width: state.timeline.data.width
+  };
+};
+const mapDispatchToProps = dispatch => {
+  return {};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Timeline);
