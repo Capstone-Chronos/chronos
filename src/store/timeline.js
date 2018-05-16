@@ -14,10 +14,46 @@ const defaultData = {
     end: '2018, 1, 1',
     radius: 10,
     dates: [
-      { id: 0, name: 'New Years 2016', date: '2016, 1, 1', color: null, radius: 5, description: "", imgUrl: "", vidUrl: "" },
-      { id: 1, name: 'My birthday', date: '2016, 3, 1', color: null, radius: 5, description: "", imgUrl: "", vidUrl: "" },
-      { id: 2, name: 'First Day of Summer', date: '2016, 6, 21', color: null, radius: 5, description: "", imgUrl: "", vidUrl: "" },
-      { id: 3, name: 'New Years 2016', date: '2017, 1, 1', color: null, radius: 5, description: "", imgUrl: "", vidUrl: "" }
+      {
+        id: 0,
+        name: 'New Years 2016',
+        date: '2016, 1, 1',
+        color: null,
+        radius: 5,
+        description: '',
+        imgUrl: '',
+        vidUrl: ''
+      },
+      {
+        id: 1,
+        name: 'My birthday',
+        date: '2016, 3, 1',
+        color: null,
+        radius: 5,
+        description: '',
+        imgUrl: '',
+        vidUrl: ''
+      },
+      {
+        id: 2,
+        name: 'First Day of Summer',
+        date: '2016, 6, 21',
+        color: null,
+        radius: 5,
+        description: '',
+        imgUrl: '',
+        vidUrl: ''
+      },
+      {
+        id: 3,
+        name: 'New Years 2016',
+        date: '2017, 1, 1',
+        color: null,
+        radius: 5,
+        description: '',
+        imgUrl: '',
+        vidUrl: ''
+      }
     ]
   }
 };
@@ -36,6 +72,11 @@ const empty = {
 const initialState = defaultData;
 
 // Action Types
+const UPDATE_EVENTS = 'UPDATE_EVENTS';
+const UPDATE_HEIGHT = 'UPDATE_HEIGHT';
+const UPDATE_WIDTH = 'UPDATE_WIDTH';
+const CLEAR_DATA = 'CLEAR_DATA';
+
 const UPDATE_DATA = 'UPDATE_DATA';
 const DELETE_USER_CHART = 'DELETE_USER_CHARTS';
 const SET_TIMELINE_TITLE = 'SET_TIMELINE_TITLE';
@@ -43,6 +84,22 @@ const SET_TIMELINE_ID = 'SET_CHART_ID';
 const SET_CHART = 'SET_CHART';
 
 //ACTION CREATORS
+export const updateEvents = dates => ({
+  type: UPDATE_EVENTS,
+  dates
+});
+export const updateTimelineHeight = height => ({
+  type: UPDATE_HEIGHT,
+  height
+});
+export const updateTimelineWidth = width => ({
+  type: UPDATE_WIDTH,
+  width
+});
+export const clearTimelineData = () => ({
+  type: CLEAR_DATA
+});
+
 export const loadDefaultData = () => ({
   type: UPDATE_DATA,
   data: defaultData
@@ -51,11 +108,6 @@ export const loadDefaultData = () => ({
 export const importDataFromFile = data => ({
   type: UPDATE_DATA,
   data
-});
-
-export const clearTimelineData = () => ({
-  type: UPDATE_DATA,
-  data: empty.data
 });
 
 export const setTimelineTitle = title => ({
@@ -91,6 +143,14 @@ export const saveTimelineThunk = (data, title, chartType) => {
 // Reducer
 export default function reducer(state = initialState, action) {
   switch (action.type) {
+    case UPDATE_EVENTS:
+      return { ...state, data: { ...state.data, dates: action.dates } };
+    case UPDATE_HEIGHT:
+      return { ...state, data: { ...state.data, height: action.height } };
+    case UPDATE_WIDTH:
+      return { ...state, data: { ...state.data, width: action.width } };
+    case CLEAR_DATA:
+      return { ...state, data: { ...state.data, dates: [] } };
     case UPDATE_DATA:
       return { ...state, data: action.data };
     case DELETE_USER_CHART:
