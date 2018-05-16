@@ -84,6 +84,7 @@ export default class Timeline extends React.Component {
       .on('click', this.props.openModal)
       .attr('transform', 'translate(0,' + -40 + ')')
       .attr('class', 'time-event')
+      .attr('fill', d => d.color)
       .attr('r', this.props.data.radius)
       .attr('cy', 8)
       .attr('cx', function(d) {
@@ -110,7 +111,7 @@ export default class Timeline extends React.Component {
     // Create xAxis by passing in timeScale and attach to DOM
     svg
       .attr('class', 'axis')
-      .attr('transform', 'translate(0,' + height / 2 + ')')
+      .attr('transform', 'translate(0,' + (height/5)*4 + ')')
       .attr('width', width + margin.left + margin.right)
       .append('g')
       .call(xAxis);

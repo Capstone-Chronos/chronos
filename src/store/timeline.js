@@ -14,10 +14,10 @@ const defaultData = {
     end: '2018, 1, 1',
     radius: 10,
     dates: [
-      { id: 0, name: 'New Years 2016', date: '2016, 1, 1' },
-      { id: 1, name: 'My birthday', date: '2016, 3, 1' },
-      { id: 2, name: 'First Day of Summer', date: '2016, 6, 21' },
-      { id: 3, name: 'New Years 2016', date: '2017, 1, 1' }
+      { id: 0, name: 'New Years 2016', date: '2016, 1, 1', color: null, radius: 5, description: "", imgUrl: "", vidUrl: "" },
+      { id: 1, name: 'My birthday', date: '2016, 3, 1', color: null, radius: 5, description: "", imgUrl: "", vidUrl: "" },
+      { id: 2, name: 'First Day of Summer', date: '2016, 6, 21', color: null, radius: 5, description: "", imgUrl: "", vidUrl: "" },
+      { id: 3, name: 'New Years 2016', date: '2017, 1, 1', color: null, radius: 5, description: "", imgUrl: "", vidUrl: "" }
     ]
   }
 };
