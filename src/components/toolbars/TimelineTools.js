@@ -11,7 +11,9 @@ class TimelineTools extends Component {
     this.state = {
       visible: true,
       height: this.props.height,
-      width: this.props.width
+      width: this.props.width,
+      start: '',
+      end: ''
     };
 
     this.toggleVisibility = this.toggleVisibility.bind(this);
@@ -48,8 +50,8 @@ class TimelineTools extends Component {
 
   handleUpdate() {
     const { data, chartId } = this.props;
-    console.log("Update data", data)
-    updateChart(data, chartId);
+    console.log('Update data', data);
+    this.props.updateChart(data, chartId);
   }
 
   handleSubmit() {
@@ -64,11 +66,12 @@ class TimelineTools extends Component {
   }
 
   submitRange(evt) {
-    evt.preventDefault;
+    evt.preventDefault();
     this.props.updateRange(this.state.start, this.state.end);
   }
 
   render() {
+    console.log('TIMELINE TOOLS RENDER', this.props);
     const { data, title, chartId } = this.props;
     return (
       <div>
@@ -90,7 +93,11 @@ class TimelineTools extends Component {
                 <Input onChange={this.handleChange} name="day" label="Day" />
               </div>
               <div className="tool-item">
-                <Input onChange={this.handleChange} name="month" label="Month" />
+                <Input
+                  onChange={this.handleChange}
+                  name="month"
+                  label="Month"
+                />
               </div>
               <div className="tool-item">
                 <Button
@@ -171,7 +178,7 @@ class TimelineTools extends Component {
               </div>
               <div className="tool-item">
                 <FooterBar
-                  data="this.props.data"
+                  data={this.props.data}
                   readFile={this.props.readFile}
                   emptyDiagram={this.props.emptyDiagram}
                 />
