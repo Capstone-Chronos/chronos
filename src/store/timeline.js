@@ -14,10 +14,10 @@ const defaultData = {
     end: '2018, 1, 1',
     radius: 10,
     dates: [
-      { id: 0, name: 'New Years 2016', date: '2016, 1, 1', color: null, radius: 5, description: "", imgUrl: "", vidUrl: "" },
-      { id: 1, name: 'My birthday', date: '2016, 3, 1', color: null, radius: 5, description: "", imgUrl: "", vidUrl: "" },
-      { id: 2, name: 'First Day of Summer', date: '2016, 6, 21', color: null, radius: 5, description: "", imgUrl: "", vidUrl: "" },
-      { id: 3, name: 'New Years 2016', date: '2017, 1, 1', color: null, radius: 5, description: "", imgUrl: "", vidUrl: "" }
+      { id: 0, name: 'New Years 2016', date: '2016, 1, 1', color: null, radius: 20, height: 40, description: "", imgUrl: "", vidUrl: "" },
+      { id: 1, name: 'My birthday', date: '2016, 3, 1', color: null, radius: 20, height: 40, description: "", imgUrl: "", vidUrl: "" },
+      { id: 2, name: 'First Day of Summer', date: '2016, 6, 21', color: null, radius: 20, height: 40, description: "", imgUrl: "", vidUrl: "" },
+      { id: 3, name: 'New Years 2016', date: '2017, 1, 1', color: null, radius: 20, height: 40, description: "", imgUrl: "", vidUrl: "" }
     ]
   }
 };
@@ -41,6 +41,7 @@ const DELETE_USER_CHART = 'DELETE_USER_CHARTS';
 const SET_TIMELINE_TITLE = 'SET_TIMELINE_TITLE';
 const SET_TIMELINE_ID = 'SET_CHART_ID';
 const SET_CHART = 'SET_CHART';
+const UPDATE_TITLE = 'UPDATE_TITLE';
 
 //ACTION CREATORS
 export const loadDefaultData = () => ({
@@ -73,6 +74,11 @@ export const setTimelineChart = chart => ({
   chart
 });
 
+export const updateTitle = title => ({
+  type: UPDATE_TITLE,
+  title
+});
+
 //THUNKS
 export const saveTimelineThunk = (data, title, chartType) => {
   console.log('ERERER');
@@ -93,6 +99,8 @@ export default function reducer(state = initialState, action) {
   switch (action.type) {
     case UPDATE_DATA:
       return { ...state, data: action.data };
+    case UPDATE_TITLE:
+      return { ...state, title: action.title };
     case DELETE_USER_CHART:
       return { ...state, nodes: empty.nodes, links: empty.links };
     case SET_TIMELINE_TITLE:

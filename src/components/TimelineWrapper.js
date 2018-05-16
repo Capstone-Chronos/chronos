@@ -11,7 +11,8 @@ import {
   clearData,
   importData,
   updateSankeyChartThunk,
-  saveTimelineThunk
+  saveTimelineThunk,
+  updateTitle
 } from '../store/timeline';
 import { updateChart, fetchChartById } from '../database/charts';
 
@@ -35,6 +36,7 @@ class TimelineWrapper extends React.Component {
     this.changeWidth = this.changeWidth.bind(this);
     this.addEvent = this.addEvent.bind(this);
     this.handleColorChange = this.handleColorChange.bind(this);
+    this.setTitle = this.setTitle.bind(this);
   }
 
   componentDidMount() {
@@ -74,20 +76,21 @@ class TimelineWrapper extends React.Component {
   }
 
   updateRange(start, end) {
-    console.log(start, end)
     this.setState({
       start: start || this.state.start,
       end: end || this.state.end
     });
   }
 
-  updateEvent(name, idx, color, description, imgUrl, vidUrl) {
+  updateEvent(name, idx, color, description, imgUrl, vidUrl, radius, height) {
     var dates = this.props.data.dates;
     dates[idx].name = name;
     dates[idx].color = color;
     dates[idx].description = description;
     dates[idx].imgUrl = imgUrl;
     dates[idx].vidUrl = vidUrl;
+    dates[idx].radius = radius;
+    dates[idx].height = height;
     this.setState({ dates });
   }
 
@@ -105,6 +108,8 @@ class TimelineWrapper extends React.Component {
       var modalContentEventDescription = e.description;
       var modalContentEventImgUrl = e.imgUrl;
       var modalContentEventVidUrl = e.vidUrl;
+      var modalContentEventRadius = e.radius;
+      var modalContentEventHeight = e.height;
     }
 
     this.setState({
@@ -115,7 +120,9 @@ class TimelineWrapper extends React.Component {
       modalContentEventColor,
       modalContentEventDescription,
       modalContentEventImgUrl,
-      modalContentEventVidUrl
+      modalContentEventVidUrl,
+      modalContentEventRadius,
+      modalContentEventHeight
     });
   }
 
@@ -130,9 +137,17 @@ class TimelineWrapper extends React.Component {
       this.state.modalContentEventColor,
       this.state.modalContentEventDescription,
       this.state.modalContentEventImgUrl,
-      this.state.modalContentEventVidUrl
+      this.state.modalContentEventVidUrl,
+      this.state.modalContentEventRadius,
+      this.state.modalContentEventHeight
     );
     this.setState({ modalIsOpen: false });
+  }
+
+  setTitle(evt) {
+    console.log(evt.target.title.value)
+    evt.preventDefault();
+    this.props.updateTheTitle(evt.target.title.value);
   }
 
   handleColorChange(color) {
@@ -157,6 +172,8 @@ class TimelineWrapper extends React.Component {
     var description = this.state.modalContentEventDescription;
     var imgUrl = this.state.modalContentEventImgUrl;
     var vidUrl = this.state.modalContentEventVidUrl;
+    var radius = this.state.modalContentEventRadius;
+    var height = this.state.modalContentEventHeight;
     var header = 'Update Event';
     var color = 'Change Event Color';
     if (this.state.editorMode) {
@@ -198,6 +215,19 @@ class TimelineWrapper extends React.Component {
               />
             </Grid.Column>
             <Grid.Column width="13">
+              <h2>{this.props.title}</h2>
+              {this.state.editorMode ?
+                <form onSubmit={this.setTitle}>
+                  <input
+                    type="text"
+                    name="title"
+                    placeholder="Change Title Here"
+                    value={this.state.title}
+                  />
+                  <input type="submit" value="Update Title" />
+                </form>
+                :
+                ""}
               <div style={{ margin: '4em' }}>
                 <Timeline
                   handleClick={this.handleClick}
@@ -271,6 +301,20 @@ class TimelineWrapper extends React.Component {
                           className="form-control fluid"
                           onChange={this.handleInputChange}
                         />
+                        <Input
+                          label="Event Size"
+                          name="modalContentEventRadius"
+                          defaultValue={radius}
+                          className="form-control fluid"
+                          onChange={this.handleInputChange}
+                        />
+                        <Input
+                          label="Event Height"
+                          name="modalContentEventHeight"
+                          defaultValue={height}
+                          className="form-control fluid"
+                          onChange={this.handleInputChange}
+                        />
                         <hr />
                         <div style={{ marginTop: '2em', marginBottom: '2em' }}>
                           <h4>{color}</h4>
@@ -292,7 +336,7 @@ class TimelineWrapper extends React.Component {
             </Grid.Column>
           </Grid.Row>
         </Grid>
-      </div>
+      </div >
     );
   }
 }
@@ -301,11 +345,17 @@ const mapStateToProps = state => {
   return {
     data: state.timeline.data,
     height: state.timeline.data.height,
-    width: state.timeline.data.width
+    width: state.timeline.data.width,
+    title: state.timeline.title
   };
 };
 const mapDispatchToProps = dispatch => {
-  return {};
+  return {
+    updateTheTitle: title => {
+      const action = updateTitle(title);
+      dispatch(action);
+    }
+  }
 };
 
 export default withRouter(
