@@ -47,6 +47,7 @@ class TimelineWrapper extends React.Component {
     this.changeHeight = this.changeHeight.bind(this);
     this.changeWidth = this.changeWidth.bind(this);
     this.addEvent = this.addEvent.bind(this);
+    this.handleColorChange = this.handleColorChange.bind(this);
   }
 
   componentWillReceiveProps() {
@@ -300,7 +301,9 @@ class TimelineWrapper extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    data: state.timeline.data
+    data: state.timeline.data,
+    height: state.timeline.data.height,
+    width: state.timeline.data.width
   };
 };
 const mapDispatchToProps = dispatch => {
