@@ -19,7 +19,8 @@ const defaultData = {
         name: 'New Years 2016',
         date: '2016, 1, 1',
         color: null,
-        radius: 5,
+        radius: 20,
+        height: 40,
         description: '',
         imgUrl: '',
         vidUrl: ''
@@ -29,7 +30,8 @@ const defaultData = {
         name: 'My birthday',
         date: '2016, 3, 1',
         color: null,
-        radius: 5,
+        radius: 20,
+        height: 40,
         description: '',
         imgUrl: '',
         vidUrl: ''
@@ -39,7 +41,8 @@ const defaultData = {
         name: 'First Day of Summer',
         date: '2016, 6, 21',
         color: null,
-        radius: 5,
+        radius: 20,
+        height: 40,
         description: '',
         imgUrl: '',
         vidUrl: ''
@@ -49,7 +52,8 @@ const defaultData = {
         name: 'New Years 2016',
         date: '2017, 1, 1',
         color: null,
-        radius: 5,
+        radius: 20,
+        height: 40,
         description: '',
         imgUrl: '',
         vidUrl: ''
@@ -83,6 +87,7 @@ const DELETE_USER_CHART = 'DELETE_USER_CHARTS';
 const SET_TIMELINE_TITLE = 'SET_TIMELINE_TITLE';
 const SET_TIMELINE_ID = 'SET_CHART_ID';
 const SET_CHART = 'SET_CHART';
+const UPDATE_TITLE = 'UPDATE_TITLE';
 
 //ACTION CREATORS
 export const updateEvents = dates => ({
@@ -131,6 +136,11 @@ export const setTimelineChart = chart => ({
   chart
 });
 
+export const updateTitle = title => ({
+  type: UPDATE_TITLE,
+  title
+});
+
 //THUNKS
 export const saveTimelineThunk = (data, title, chartType) => {
   console.log('ERERER');
@@ -164,6 +174,8 @@ export default function reducer(state = initialState, action) {
       };
     case UPDATE_DATA:
       return { ...state, data: action.data };
+    case UPDATE_TITLE:
+      return { ...state, title: action.title };
     case DELETE_USER_CHART:
       return { ...state, nodes: empty.nodes, links: empty.links };
     case SET_TIMELINE_TITLE:
