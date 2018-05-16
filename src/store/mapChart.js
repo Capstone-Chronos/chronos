@@ -8,11 +8,11 @@ let defaultData = {
   title: 'Choropleth',
   data: {
     json: 'https://d3js.org/us-10m.v1.json',
-    stateColors:{},
+    stateColors: {},
     width: 1000,
     height: 800
   }
-}
+};
 
 let empty = {
   chartId: '',
@@ -29,6 +29,8 @@ let empty = {
 const initialState = defaultData;
 
 // Action Types
+const UPDATE_COLORS = 'UPDATE_COLORS';
+
 const UPDATE_DATA = 'UPDATE_DATA';
 const IMPORT_DATA = 'IMPORT_DATA';
 const GET_ONE_CHART = 'GET_CHART';
@@ -39,10 +41,15 @@ const LOAD_DEFAULT_DATA = 'LOAD_DEFAULT_DATA';
 const SET_CHART_ID = 'SET_CHART_ID';
 const SET_MAP_TITLE = 'SET_MAP_TITLE';
 const SET_CHART = 'SET_CHART';
-const UPDATE_TITLE = 'UPDATE_TITLE'
-const CLEAR_DATA = 'CLEAR_DATA'
+const UPDATE_TITLE = 'UPDATE_TITLE';
+const CLEAR_DATA = 'CLEAR_DATA';
 
 //ACTION CREATORS
+export const updateMapColors = singleState => ({
+  type: UPDATE_COLORS,
+  singleState
+});
+
 export const loadDefaultData = () => ({
   type: UPDATE_DATA,
   data: defaultData
@@ -76,8 +83,7 @@ export const setMapChart = chart => ({
 export const updateTitle = title => ({
   type: UPDATE_TITLE,
   title
-})
-
+});
 
 export const saveChart = async (data, title) => {
   let newChartKey;
@@ -105,7 +111,6 @@ export const saveChart = async (data, title) => {
   return newChartKey;
 };
 
-
 //THUNKS
 export const saveMapChartThunk = (data, title) => {
   return dispatch => {
@@ -119,27 +124,49 @@ export const saveMapChartThunk = (data, title) => {
   };
 };
 
-
 // Thunk creators
 
 //Reducer
 export default function reducer(state = initialState, action) {
   switch (action.type) {
+    case UPDATE_COLORS:
+      if (!state.stateColors) {
+        state['stateColors'] = {};
+      }
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          stateColors: Object.assign(
+            {},
+            ...state.data.stateColors,
+            action.singleState
+          )
+        }
+      };
     case UPDATE_TITLE:
-      return { ...state, title: action.title }
+      return { ...state, title: action.title };
     case UPDATE_DATA:
       defaultData = action.data;
       return { ...state, data: action.data };
     case DELETE_USER_CHART:
-      return { ...state, data: empty.data.json, stateColors: empty.data.stateColors};
+      return {
+        ...state,
+        data: empty.data.json,
+        stateColors: empty.data.stateColors
+      };
     case SET_CHART_ID:
       return { ...state, chartId: action.chartId };
     case SET_CHART:
       return action.chart;
     case LOAD_DEFAULT_DATA:
-      return defaultData
+      return defaultData;
     case CLEAR_DATA:
-      return { ...state, data: empty.data.json, stateColors: empty.data.stateColors};
+      return {
+        ...state,
+        data: empty.data.json,
+        stateColors: empty.data.stateColors
+      };
     default:
       return state;
   }
