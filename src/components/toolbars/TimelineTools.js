@@ -205,11 +205,11 @@ class TimelineTools extends Component {
 const mapStateToProps = state => {
   return {
     chartId: state.timeline.chartId,
-    data: state.timeline.data,
+    // data: state.timeline.data,
     title: state.timeline.title,
-    uid: state.user.uid,
-    height: state.timeline.data.height,
-    width: state.timeline.data.width
+    uid: state.user.uid
+    // height: state.timeline.data.height,
+    // width: state.timeline.data.width
   };
 };
 
