@@ -30,6 +30,7 @@ class TimelineWrapper extends React.Component {
     this.closeAndSaveModal = this.closeAndSaveModal.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.updateEvent = this.updateEvent.bind(this);
+    this.updateRange = this.updateRange.bind(this);
     this.changeHeight = this.changeHeight.bind(this);
     this.changeWidth = this.changeWidth.bind(this);
     this.addEvent = this.addEvent.bind(this);
@@ -73,9 +74,10 @@ class TimelineWrapper extends React.Component {
   }
 
   updateRange(start, end) {
+    console.log(start, end)
     this.setState({
-      start: start,
-      end: end
+      start: start || this.state.start,
+      end: end || this.state.end
     });
   }
 

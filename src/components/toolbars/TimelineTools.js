@@ -89,11 +89,7 @@ class TimelineTools extends Component {
                 <Input onChange={this.handleChange} name="day" label="Day" />
               </div>
               <div className="tool-item">
-                <Input
-                  onChange={this.handleChange}
-                  name="month"
-                  label="Month"
-                />
+                <Input onChange={this.handleChange} name="month" label="Month" />
               </div>
               <div className="tool-item">
                 <Button
@@ -134,7 +130,7 @@ class TimelineTools extends Component {
                 </Button>
               </div>
             </form>
-            <h4>Edit Start and End Date</h4>
+            <h4>Edit Start and End Date (yyyy, mm, dd)</h4>
             <hr />
             <div className="form">
               <form onSubmit={this.submitHeightWidth}>
