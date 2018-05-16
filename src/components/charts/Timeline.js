@@ -81,12 +81,12 @@ class Timeline extends React.Component {
       .enter()
       .append('circle')
       .on('click', this.props.openModal)
-      .attr('transform', 'translate(0,' + -40 + ')')
+      .attr('transform', d => `translate(0, ${-d.height || 40})`)
       .attr('class', 'time-event')
       .attr('fill', d => d.color)
-      .attr('r', this.props.data.radius)
+      .attr('r', d => d.radius || 20)
       .attr('cy', 8)
-      .attr('cx', function(d) {
+      .attr('cx', function (d) {
         var newDate = new Date(d.date);
         return timeScale(newDate);
       });
@@ -98,19 +98,19 @@ class Timeline extends React.Component {
       .data(this.props.data.dates)
       .enter()
       .append('text')
-      .attr('transform', 'translate(0,' + -40 + ')')
-      .attr('x', function(d) {
+      .attr('transform', d => `translate(0, ${-d.height || 40})`)
+      .attr('x', function (d) {
         var newDate = new Date(d.date);
         return timeScale(newDate);
       })
-      .text(function(d) {
+      .text(function (d) {
         return d.name;
       });
 
     // Create xAxis by passing in timeScale and attach to DOM
     svg
       .attr('class', 'axis')
-      .attr('transform', 'translate(0,' + (height/5)*4 + ')')
+      .attr('transform', 'translate(0,' + (height / 5) * 4 + ')')
       .attr('width', width + margin.left + margin.right)
       .append('g')
       .call(xAxis);
