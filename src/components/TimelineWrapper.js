@@ -53,14 +53,15 @@ class TimelineWrapper extends React.Component {
   }
 
   addEvent(name, year, day, month) {
-    var dates = this.props.data.dates;
+    var dates = this.props.data.dates || [];
     var newDate = `${year}, ${month}, ${day}`;
     var idx = dates.length;
     name = name || 'Event' + idx;
     dates[idx] = {
       id: idx,
       name,
-      date: newDate
+      date: newDate,
+      height: 200
     };
     this.props.dispatchAddEvent(dates);
   }

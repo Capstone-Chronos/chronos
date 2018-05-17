@@ -53,7 +53,7 @@ export const publishChart = async chartId => {
 
 export const deleteChart = async (chartId, uid) => {
   console.log('deleting', chartId, uid);
-  if (!chartId || uid)
+  if (!chartId || !uid)
     throw Error('Delete chart received a falsy chartId or uid');
   try {
     let toBeDeleted = {};
