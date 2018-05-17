@@ -19,8 +19,8 @@ const defaultData = {
         name: 'New Years 2016',
         date: '2016, 1, 1',
         color: null,
-        radius: 20,
-        height: 40,
+        radius: 30,
+        height: 60,
         description: '',
         imgUrl: '',
         vidUrl: ''
@@ -30,8 +30,8 @@ const defaultData = {
         name: 'My birthday',
         date: '2016, 3, 1',
         color: null,
-        radius: 20,
-        height: 40,
+        radius: 15,
+        height: 250,
         description: '',
         imgUrl: '',
         vidUrl: ''
@@ -41,8 +41,8 @@ const defaultData = {
         name: 'First Day of Summer',
         date: '2016, 6, 21',
         color: null,
-        radius: 20,
-        height: 40,
+        radius: 60,
+        height: 400,
         description: '',
         imgUrl: '',
         vidUrl: ''
@@ -52,8 +52,8 @@ const defaultData = {
         name: 'New Years 2016',
         date: '2017, 1, 1',
         color: null,
-        radius: 20,
-        height: 40,
+        radius: 70,
+        height: 330,
         description: '',
         imgUrl: '',
         vidUrl: ''
