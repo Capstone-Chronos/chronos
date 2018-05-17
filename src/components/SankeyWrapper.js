@@ -123,7 +123,7 @@ class SankeyWrapper extends React.Component {
     this.props.clearChart();
   }
 
-  addLink(source, target, value, color) {
+  addLink(source, target, value) {
     if (
       this.props.data.nodes.length > 1 &&
       !isNaN(value) &&
@@ -133,7 +133,7 @@ class SankeyWrapper extends React.Component {
       var links = this.props.data.links;
       var idx = links.length;
 
-      links[idx] = { source, target, value, color };
+      links[idx] = { source, target, value };
       this.setState({ links });
     }
   }
