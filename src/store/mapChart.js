@@ -125,7 +125,7 @@ export const saveMapChartThunk = (data, title) => {
       .then(chartId => {
         dispatch(setMapTitle(title));
         dispatch(setMapId(chartId));
-        history.push(`/edit/choropleth/${chartId}/${title}`);
+        history.push(`/edit/map/${chartId}/${title}`);
       })
       .catch(err => console.error(err));
   };
