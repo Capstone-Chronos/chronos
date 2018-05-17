@@ -196,6 +196,7 @@ class TimelineTools extends Component {
                   data={this.props.data}
                   readFile={this.props.readFile}
                   emptyDiagram={this.props.dispatchClearChart}
+                  uploadData={this.props.uploadData}
                 />
               </div>
               <div className="tool-item">

@@ -45,8 +45,11 @@ function loadData(path) {
       }
       return node;
     });
-
-    this.setState({ nodes, links });
+    let data = {
+      nodes: nodes,
+      links: links
+    }
+    this.props.uploadData({ data });
   });
 }
 

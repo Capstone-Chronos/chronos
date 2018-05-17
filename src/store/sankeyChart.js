@@ -134,23 +134,30 @@ let defaultData = {
 };
 
 let empty = {
-  nodes: [
-    {
-      node: 0,
-      name: 'Node0'
-    },
-    {
-      node: 1,
-      name: 'Node1'
-    }
-  ],
-  links: [
-    {
-      source: 0,
-      target: 1,
-      value: 100
-    }
-  ]
+  chartId: '',
+  title: 'Energy Use in the UK',
+  isPublished: false,
+  width: 1000,
+  height: 800,
+  data: {
+    nodes: [
+      {
+        node: 0,
+        name: 'Node0'
+      },
+      {
+        node: 1,
+        name: 'Node1'
+      }
+    ],
+    links: [
+      {
+        source: 0,
+        target: 1,
+        value: 100
+      }
+    ]
+  }
 };
 
 const initialState = defaultData;
@@ -181,7 +188,7 @@ export const importData = data => ({
 
 export const clearData = () => ({
   type: UPDATE_DATA,
-  data: empty
+  data: empty.data
 });
 
 export const setSankeyTitle = title => ({
@@ -235,8 +242,7 @@ export default function reducer(state = initialState, action) {
     case UPDATE_TITLE:
       return { ...state, title: action.title };
     case UPDATE_DATA:
-      defaultData = action.data;
-      return { ...state, nodes: action.data.nodes, links: action.data.links };
+      return { ...state, data: { nodes: action.data.nodes, links: action.data.links } };
     case DELETE_USER_CHART:
       return { ...state, nodes: empty.nodes, links: empty.links };
     case SET_CHART_ID:
