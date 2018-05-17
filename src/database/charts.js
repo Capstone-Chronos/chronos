@@ -31,11 +31,13 @@ export const saveNewChart = async (data, title, chartType) => {
 };
 
 export const saveExistingChart = async (data, chartId) => {
+  console.log('CHARTID:', chartId);
   if (!chartId) throw Error('Save existing chart received a falsy chartId');
   try {
     let updates = {};
     updates[`/charts/${chartId}/data`] = data;
     await databaseRef.update(updates);
+    return 'Success';
   } catch (err) {
     throw Error(err);
   }

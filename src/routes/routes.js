@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Route, Switch, Redirect } from 'react-router-dom';
+import ChartRoutes from './ChartRoutes';
 import Sankey, {
   Main,
   AllProjects,
@@ -32,44 +33,7 @@ class Routes extends Component {
               <Route exact path="/" component={Main} />
               <Route exact path="/charts" component={AllProjects} />
               <Route exact path="/projects" component={AllProjects} />
-
-              <Route
-                exact
-                path="/edit/sankey/:id/:title"
-                component={SankeyWrapper}
-              />
-              <Route
-                exact
-                path="/edit/timeline/:id"
-                component={SankeyWrapper}
-              />
-              <Route exact path="/edit/sankey" component={SankeyWrapper} />
-
-              <Route
-                exact
-                path="/edit/timeline/:id/:title"
-                component={TimelineWrapper}
-              />
-              <Route exact path="/edit/timeline" component={TimelineWrapper} />
-              <Route exact path="/edit/choropleth/:id" component={Choropleth} />
-              <Route
-                exact
-                path="/edit/choropleth/:id/:title"
-                component={Choropleth}
-              />
-              <Route path="/edit/choropleth/:id" component={Choropleth} />
-
-              <Route path="/edit/timeline" component={TimelineWrapper} />
-              <Route path="/show/timeline" component={TimelineWrapper} />
-              <Route path="/view/timeline" component={TimelineWrapper} />
-
-              <Route path="/edit/sankey" component={SankeyWrapper} />
-              <Route path="/show/sankey" component={SankeyWrapper} />
-              <Route path="/view/sankey" component={SankeyWrapper} />
-
-              <Route path="/edit/choropleth" component={Choropleth} />
-              <Route path="/show/choropleth" component={Choropleth} />
-              <Route path="/view/timeline" component={Choropleth} />
+              <ChartRoutes />
 
               <Route path="/edit" component={Editor} />
               <Route path="/show" component={PresentationView} />
@@ -78,6 +42,7 @@ class Routes extends Component {
               <Route path="/edit" component={Editor} />
               <Route path="/show" component={PresentationView} />
               <Route path="/view" component={PresentationView} />
+
               <Route path="/sankey" component={SankeyWrapper} />
               <Route path="/timeline" component={TimelineWrapper} />
               <Route path="/choropleth" component={Choropleth} />

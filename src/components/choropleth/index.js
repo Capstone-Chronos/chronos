@@ -76,7 +76,6 @@ class Choropleth extends React.Component {
   }
 
   render() {
-    console.log('RENDER', this.props.data.stateColors);
     return (
       <div>
         <div>

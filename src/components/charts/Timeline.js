@@ -43,7 +43,6 @@ export default class Timeline extends React.Component {
   // }
 
   render() {
-    console.log('TIMELINE CANVAS RENDER', this.props);
     if (!this.props.data) return <div />;
     let timelineEvents = this.props.data.dates || [];
     // ========================================================================

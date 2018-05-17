@@ -62,7 +62,7 @@ export class AllProjects extends React.Component {
                 name={template.name}
                 type={template.type}
                 description="THIS IS a placeholder description for our charts...."
-                url={`/edit/${template.type}`}
+                url={`/edit/${template.type.toLowerCase()}`}
                 imgUrl={this.getImageUrl(template.type)}
               />
             ))}
@@ -86,7 +86,9 @@ export class AllProjects extends React.Component {
                           name={chart.title}
                           type={chart.chartType}
                           description="THIS IS a placeholder description for our charts...."
-                          url={`/view/${chart.chartType}/${chart.chartId}`}
+                          url={`/view/${chart.chartType.toLowerCase()}/${
+                            chart.chartId
+                          }`}
                           imgUrl={this.getImageUrl(chart.chartType)}
                         />
                       </div>
@@ -111,7 +113,9 @@ export class AllProjects extends React.Component {
                           name={chart.title}
                           type={chart.chartType}
                           description="THIS IS a placeholder description for our charts...."
-                          url={`/show/${chart.chartType}/${chart.chartId}`}
+                          url={`/show/${chart.chartType.toLowerCase()}/${
+                            chart.chartId
+                          }`}
                           imgUrl={this.getImageUrl(chart.chartType)}
                         />
                       </div>

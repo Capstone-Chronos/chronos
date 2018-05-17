@@ -1,7 +1,11 @@
 import { userRef, chartsRef } from '../base';
 import firebase from 'firebase';
 import history from '../routes/history';
-import { saveNewChart, fetchChartById } from '../database/charts';
+import {
+  saveNewChart,
+  fetchChartById,
+  saveExistingChart
+} from '../database/charts';
 
 const defaultData = {
   chartId: '',
@@ -150,6 +154,12 @@ export const saveTimelineThunk = (data, title, chartType) => {
         history.push(`/edit/timeline/${chartId}/${title}`);
       })
       .catch(err => console.error(err));
+  };
+};
+
+export const saveExistingTimelineThunk = (data, chartId) => {
+  return dispatch => {
+    saveExistingChart(data, chartId);
   };
 };
 

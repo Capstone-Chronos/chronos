@@ -7,7 +7,11 @@ import {
   publishChart,
   deleteChart
 } from '../../database/charts';
-import { clearTimelineData, saveTimelineThunk } from '../../store/timeline';
+import {
+  clearTimelineData,
+  saveTimelineThunk,
+  saveExistingTimelineThunk
+} from '../../store/timeline';
 
 class TimelineTools extends Component {
   constructor(props) {
@@ -63,12 +67,12 @@ class TimelineTools extends Component {
 
   handleUpdate() {
     const { data, chartId } = this.props;
-    saveExistingChart(data, chartId);
+    this.props.dispatchSaveExistingChart(data, chartId);
   }
 
   handleSubmit() {
     const { data, title } = this.props;
-    this.props.saveNewChart(data, title);
+    this.props.dispatchSaveNewChart(data, title);
   }
 
   handleDelete() {
@@ -83,7 +87,6 @@ class TimelineTools extends Component {
   }
 
   render() {
-    console.log('TIMELINE TOOLS RENDER', this.props);
     const { data, title, chartId } = this.props;
     return (
       <div>
@@ -192,7 +195,7 @@ class TimelineTools extends Component {
                 <FooterBar
                   data={this.props.data}
                   readFile={this.props.readFile}
-                  emptyDiagram={this.props.emptyDiagram}
+                  emptyDiagram={this.props.dispatchClearChart}
                 />
               </div>
               <div className="tool-item">
@@ -228,10 +231,14 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  emptyDiagram: () => dispatch(clearTimelineData()),
-  saveNewChart: (data, title) => {
+  dispatchClearChart: () => dispatch(clearTimelineData()),
+  dispatchSaveNewChart: (data, title) => {
     console.log('CALLING DISPATCHED FUNC');
     dispatch(saveTimelineThunk(data, title, 'Timeline'));
+  },
+  dispatchSaveExistingChart: (data, chartId) => {
+    const action = saveExistingTimelineThunk(data, chartId);
+    dispatch(action);
   }
 });
 

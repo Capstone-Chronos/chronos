@@ -39,7 +39,6 @@ class TimelineWrapper extends React.Component {
     this.changeWidth = this.changeWidth.bind(this);
     this.addEvent = this.addEvent.bind(this);
     this.handleColorChange = this.handleColorChange.bind(this);
-    this.emptyDiagram = this.emptyDiagram.bind(this);
     this.setTitle = this.setTitle.bind(this);
   }
 
@@ -48,6 +47,8 @@ class TimelineWrapper extends React.Component {
       'Timeline Wrapper MOUNTED with chartId:',
       this.props.match.params.id
     );
+    console.log(this.props.match);
+    console.log(this.props.match.params);
     const chartId = this.props.match.params.id;
     if (chartId) this.props.dispatchGetChartData(chartId);
   }
@@ -167,11 +168,6 @@ class TimelineWrapper extends React.Component {
     this.props.dispatchChangeWidth(newWidth);
   }
 
-  emptyDiagram() {
-    this.props.dispatchClearChart();
-    // this.setState({ dates: [] });
-  }
-
   render() {
     var eventName = this.state.modalContentEventName;
     var eventColor = this.state.modalContentEventColor;
@@ -201,23 +197,17 @@ class TimelineWrapper extends React.Component {
         backgroundColor: 'rgba(0, 0, 0 , 0.35)'
       }
     };
-    console.log('TIMELINE WRAPPER RENDER', this.props);
     return (
       <div className="chartContainer">
         <Grid>
           <Grid.Row>
             <Grid.Column width="3">
               <TimelineTools
-                emptyDiagram={this.emptyDiagram}
                 changeHeight={this.changeHeight}
                 changeWidth={this.changeWidth}
                 toggleEditor={this.toggleEditor}
-                // width={this.state.width}
-                // height={this.state.height}
                 addEvent={this.addEvent}
                 updateRange={this.updateRange}
-                // start={this.state.start}
-                // end={this.state.end}
                 data={this.props.data}
               />
             </Grid.Column>
