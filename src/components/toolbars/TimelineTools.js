@@ -2,18 +2,26 @@ import React, { Component } from 'react';
 import { Button, Input, Checkbox } from 'semantic-ui-react';
 import { FooterBar, PublishButton } from '../../components';
 import { connect } from 'react-redux';
-import { updateChart, publishChart, deleteChart } from '../../database/charts';
-import { clearTimelineData, saveTimelineThunk } from '../../store/timeline';
+import {
+  saveExistingChart,
+  publishChart,
+  deleteChart
+} from '../../database/charts';
+import {
+  clearTimelineData,
+  saveTimelineThunk,
+  saveExistingTimelineThunk
+} from '../../store/timeline';
 
 class TimelineTools extends Component {
   constructor(props) {
     super(props);
     this.state = {
       visible: true,
-      height: this.props.height,
-      width: this.props.width,
-      start: '',
-      end: ''
+      height: 800,
+      width: 800,
+      start: '2001,01,01',
+      end: '2020,01,01'
     };
 
     this.toggleVisibility = this.toggleVisibility.bind(this);
@@ -24,6 +32,15 @@ class TimelineTools extends Component {
     this.handleDelete = this.handleDelete.bind(this);
     this.submitEvent = this.submitEvent.bind(this);
     this.submitRange = this.submitRange.bind(this);
+  }
+
+  componentDidMount() {
+    this.setState({
+      height: this.props.data.height,
+      width: this.props.data.width,
+      start: this.props.data.start,
+      end: this.props.data.end
+    });
   }
 
   toggleVisibility = () => this.setState({ visible: !this.state.visible });
@@ -50,13 +67,12 @@ class TimelineTools extends Component {
 
   handleUpdate() {
     const { data, chartId } = this.props;
-    console.log('Update data', data);
-    this.props.updateChart(data, chartId);
+    this.props.dispatchSaveExistingChart(data, chartId);
   }
 
   handleSubmit() {
     const { data, title } = this.props;
-    this.props.saveNewChart(data, title);
+    this.props.dispatchSaveNewChart(data, title);
   }
 
   handleDelete() {
@@ -71,7 +87,6 @@ class TimelineTools extends Component {
   }
 
   render() {
-    console.log('TIMELINE TOOLS RENDER', this.props);
     const { data, title, chartId } = this.props;
     return (
       <div>
@@ -180,7 +195,7 @@ class TimelineTools extends Component {
                 <FooterBar
                   data={this.props.data}
                   readFile={this.props.readFile}
-                  emptyDiagram={this.props.emptyDiagram}
+                  emptyDiagram={this.props.dispatchClearChart}
                 />
               </div>
               <div className="tool-item">
@@ -209,19 +224,21 @@ class TimelineTools extends Component {
 const mapStateToProps = state => {
   return {
     chartId: state.timeline.chartId,
-    // data: state.timeline.data,
+    data: state.timeline.data,
     title: state.timeline.title,
     uid: state.user.uid
-    // height: state.timeline.data.height,
-    // width: state.timeline.data.width
   };
 };
 
 const mapDispatchToProps = dispatch => ({
-  emptyDiagram: () => dispatch(clearTimelineData()),
-  saveNewChart: (data, title) => {
+  dispatchClearChart: () => dispatch(clearTimelineData()),
+  dispatchSaveNewChart: (data, title) => {
     console.log('CALLING DISPATCHED FUNC');
     dispatch(saveTimelineThunk(data, title, 'Timeline'));
+  },
+  dispatchSaveExistingChart: (data, chartId) => {
+    const action = saveExistingTimelineThunk(data, chartId);
+    dispatch(action);
   }
 });
 

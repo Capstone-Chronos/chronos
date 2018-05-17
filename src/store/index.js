@@ -7,6 +7,8 @@ import { default as user } from './user';
 import { default as sankeyChart } from './sankeyChart';
 import { default as allCharts } from './allCharts';
 import { default as timeline } from './timeline';
+import { default as mapChart } from './mapChart';
+
 
 // Import sub-reducers
 
@@ -15,7 +17,8 @@ const reducer = combineReducers({
   user,
   sankeyChart,
   allCharts,
-  timeline
+  timeline,
+  mapChart
 });
 
 const middleware = composeWithDevTools(
@@ -32,3 +35,4 @@ export * from './barChart';
 export * from './sankeyChart';
 export * from './user';
 export * from './allCharts';
+export * from './mapChart';

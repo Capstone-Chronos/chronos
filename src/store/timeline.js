@@ -1,7 +1,11 @@
 import { userRef, chartsRef } from '../base';
 import firebase from 'firebase';
 import history from '../routes/history';
-import { saveChart } from '../database/charts';
+import {
+  saveNewChart,
+  fetchChartById,
+  saveExistingChart
+} from '../database/charts';
 
 const defaultData = {
   chartId: '',
@@ -19,8 +23,8 @@ const defaultData = {
         name: 'New Years 2016',
         date: '2016, 1, 1',
         color: null,
-        radius: 20,
-        height: 40,
+        radius: 30,
+        height: 60,
         description: '',
         imgUrl: '',
         vidUrl: ''
@@ -30,8 +34,8 @@ const defaultData = {
         name: 'My birthday',
         date: '2016, 3, 1',
         color: null,
-        radius: 20,
-        height: 40,
+        radius: 15,
+        height: 250,
         description: '',
         imgUrl: '',
         vidUrl: ''
@@ -41,8 +45,8 @@ const defaultData = {
         name: 'First Day of Summer',
         date: '2016, 6, 21',
         color: null,
-        radius: 20,
-        height: 40,
+        radius: 60,
+        height: 400,
         description: '',
         imgUrl: '',
         vidUrl: ''
@@ -52,8 +56,8 @@ const defaultData = {
         name: 'New Years 2016',
         date: '2017, 1, 1',
         color: null,
-        radius: 20,
-        height: 40,
+        radius: 70,
+        height: 330,
         description: '',
         imgUrl: '',
         vidUrl: ''
@@ -110,6 +114,10 @@ export const updateTimelineRange = (start, end) => ({
   start,
   end
 });
+export const setTimelineChart = chart => ({
+  type: SET_CHART,
+  chart
+});
 
 export const loadDefaultData = () => ({
   type: UPDATE_DATA,
@@ -131,11 +139,6 @@ export const setTimelineId = chartId => ({
   chartId
 });
 
-export const setTimelineChart = chart => ({
-  type: SET_CHART,
-  chart
-});
-
 export const updateTitle = title => ({
   type: UPDATE_TITLE,
   title
@@ -143,16 +146,30 @@ export const updateTitle = title => ({
 
 //THUNKS
 export const saveTimelineThunk = (data, title, chartType) => {
-  console.log('ERERER');
   return dispatch => {
-    console.log('OVERHERE');
-    saveChart(data, title, chartType)
+    saveNewChart(data, title, chartType)
       .then(chartId => {
-        dispatch(setTimelineTitle(title));
         dispatch(setTimelineId(chartId));
+        dispatch(setTimelineTitle(title));
         history.push(`/edit/timeline/${chartId}/${title}`);
       })
       .catch(err => console.error(err));
+  };
+};
+
+export const saveExistingTimelineThunk = (data, chartId) => {
+  return dispatch => {
+    saveExistingChart(data, chartId);
+  };
+};
+
+export const fetchTimelineByIdThunk = chartId => {
+  return dispatch => {
+    fetchChartById(chartId).then(timeline => {
+      console.log('timeline return by Fetch Thunk', timeline);
+      let action = setTimelineChart(timeline);
+      dispatch(action);
+    });
   };
 };
 

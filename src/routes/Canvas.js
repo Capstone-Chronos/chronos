@@ -14,6 +14,9 @@ const Canvas = () => (
     <Route exact path="/:type/barchart/:id" component={BarChart} />
     <Route exact path="/:type/barchart" component={BarChart} />
 
+    <Route exact path="/:type/choropleth/:id" component={Choropleth} />
+    <Route exact path="/:type/choropleth" component={Choropleth} />
+
     <Route exact path="/:type/sankey/:id" component={SankeyWrapper} />
     <Route exact path="/:type/sankey" component={SankeyWrapper} />
 

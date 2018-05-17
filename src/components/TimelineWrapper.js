@@ -15,9 +15,9 @@ import {
   updateTimelineHeight,
   updateTimelineWidth,
   updateTimelineRange,
-  updateTitle
+  updateTitle,
+  fetchTimelineByIdThunk
 } from '../store/timeline';
-import { updateChart, fetchChartById } from '../database/charts';
 
 class TimelineWrapper extends React.Component {
   constructor(props) {
@@ -39,50 +39,33 @@ class TimelineWrapper extends React.Component {
     this.changeWidth = this.changeWidth.bind(this);
     this.addEvent = this.addEvent.bind(this);
     this.handleColorChange = this.handleColorChange.bind(this);
-    this.emptyDiagram = this.emptyDiagram.bind(this);
     this.setTitle = this.setTitle.bind(this);
   }
 
-  // componentWillReceiveProps() {
-  //   this.setState({
-  //     radius: this.props.data.radius,
-  //     dates: this.props.data.dates,
-  //     height: this.props.data.height,
-  //     width: this.props.data.width,
-  //     start: this.props.data.start,
-  //     end: this.props.data.end
-  //   });
-  // }
-
-  componentDidMount() {
-    fetchChartById(this.props.match.params.id);
-    // this.updateRange = this.updateRange.bind(this);
+  async componentDidMount() {
+    console.log(
+      'Timeline Wrapper MOUNTED with chartId:',
+      this.props.match.params.id
+    );
+    console.log(this.props.match);
+    console.log(this.props.match.params);
+    const chartId = this.props.match.params.id;
+    if (chartId) this.props.dispatchGetChartData(chartId);
   }
 
   addEvent(name, year, day, month) {
-    var dates = this.props.data.dates;
+    var dates = this.props.data.dates || [];
     var newDate = `${year}, ${month}, ${day}`;
     var idx = dates.length;
     name = name || 'Event' + idx;
     dates[idx] = {
       id: idx,
       name,
-      date: newDate
+      date: newDate,
+      height: 200
     };
-    // this.setState({ dates });
     this.props.dispatchAddEvent(dates);
   }
-
-  // componentWillMount() {
-  //   this.setState({
-  //     radius: this.props.data.radius,
-  //     dates: this.props.data.dates,
-  //     height: this.props.data.height,
-  //     width: this.props.data.width,
-  //     start: this.props.data.start,
-  //     end: this.props.data.end
-  //   });
-  // }
 
   //Function to open info pane in presentation mode or editing modal in editor mode
   handleClick(e) {
@@ -95,10 +78,6 @@ class TimelineWrapper extends React.Component {
     console.log(start, end);
     start = start || this.props.data.start;
     end = end || this.props.data.end;
-    // this.setState({
-    //   start: start || this.state.start,
-    //   end: end || this.state.end
-    // });
     this.props.dispatchUpdateRange(start, end);
   }
 
@@ -189,11 +168,6 @@ class TimelineWrapper extends React.Component {
     this.props.dispatchChangeWidth(newWidth);
   }
 
-  emptyDiagram() {
-    this.props.dispatchClearChart();
-    // this.setState({ dates: [] });
-  }
-
   render() {
     var eventName = this.state.modalContentEventName;
     var eventColor = this.state.modalContentEventColor;
@@ -223,23 +197,17 @@ class TimelineWrapper extends React.Component {
         backgroundColor: 'rgba(0, 0, 0 , 0.35)'
       }
     };
-    console.log('TIMELINE WRAPPER RENDER', this.props);
     return (
       <div className="chartContainer">
         <Grid>
           <Grid.Row>
             <Grid.Column width="3">
               <TimelineTools
-                emptyDiagram={this.emptyDiagram}
                 changeHeight={this.changeHeight}
                 changeWidth={this.changeWidth}
                 toggleEditor={this.toggleEditor}
-                // width={this.state.width}
-                // height={this.state.height}
                 addEvent={this.addEvent}
                 updateRange={this.updateRange}
-                // start={this.state.start}
-                // end={this.state.end}
                 data={this.props.data}
               />
             </Grid.Column>
@@ -409,6 +377,10 @@ const mapDispatchToProps = dispatch => {
     },
     updateTheTitle: title => {
       const action = updateTitle(title);
+      dispatch(action);
+    },
+    dispatchGetChartData: chartId => {
+      const action = fetchTimelineByIdThunk(chartId);
       dispatch(action);
     }
   };

@@ -8,43 +8,43 @@ import { timeParse } from 'd3-time-format';
 import { connect } from 'react-redux';
 
 export default class Timeline extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      radius: 5,
-      dates: []
-    };
-  }
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {
+  //     radius: 5,
+  //     dates: []
+  //   };
+  // }
 
-  componentWillMount() {
-    if (this.props.data) {
-      this.setState({
-        dates: this.props.data.dates,
-        radius: this.props.data.radius,
-        start: this.props.data.start,
-        end: this.props.data.end,
-        width: this.props.data.width,
-        height: this.props.data.height
-      });
-    }
-  }
+  // componentDidMount() {
+  //   if (this.props.data) {
+  //     this.setState({
+  //       dates: this.props.data.dates,
+  //       radius: this.props.data.radius,
+  //       start: this.props.data.start,
+  //       end: this.props.data.end,
+  //       width: this.props.data.width,
+  //       height: this.props.data.height
+  //     });
+  //   }
+  // }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.data) {
-      this.setState({
-        dates: nextProps.data.dates,
-        radius: nextProps.data.radius,
-        start: nextProps.data.start,
-        end: nextProps.data.end,
-        width: nextProps.data.width,
-        height: nextProps.data.height
-      });
-    }
-  }
+  // componentWillReceiveProps(nextProps) {
+  //   if (nextProps.data) {
+  //     this.setState({
+  //       dates: nextProps.data.dates,
+  //       radius: nextProps.data.radius,
+  //       start: nextProps.data.start,
+  //       end: nextProps.data.end,
+  //       width: nextProps.data.width,
+  //       height: nextProps.data.height
+  //     });
+  //   }
+  // }
 
   render() {
-    console.log('TIMELINE CANVAS RENDER', this.props);
     if (!this.props.data) return <div />;
+    let timelineEvents = this.props.data.dates || [];
     // ========================================================================
     // Set units, margin, sizes
     // ========================================================================
@@ -78,7 +78,7 @@ export default class Timeline extends React.Component {
     svg
       .append('g')
       .selectAll('circle')
-      .data(this.props.data.dates)
+      .data(timelineEvents)
       .enter()
       .append('circle')
       .on('click', this.props.openModal)
@@ -87,7 +87,7 @@ export default class Timeline extends React.Component {
       .attr('fill', d => d.color)
       .attr('r', d => d.radius || 20)
       .attr('cy', 8)
-      .attr('cx', function (d) {
+      .attr('cx', function(d) {
         var newDate = new Date(d.date);
         return timeScale(newDate);
       });
@@ -96,22 +96,22 @@ export default class Timeline extends React.Component {
     svg
       .append('g')
       .selectAll('text')
-      .data(this.props.data.dates)
+      .data(timelineEvents)
       .enter()
       .append('text')
       .attr('transform', d => `translate(0, ${-d.height || 40})`)
-      .attr('x', function (d) {
+      .attr('x', function(d) {
         var newDate = new Date(d.date);
         return timeScale(newDate);
       })
-      .text(function (d) {
+      .text(function(d) {
         return d.name;
       });
 
     // Create xAxis by passing in timeScale and attach to DOM
     svg
       .attr('class', 'axis')
-      .attr('transform', 'translate(0,' + (height / 5) * 4 + ')')
+      .attr('transform', 'translate(0,' + height / 5 * 4 + ')')
       .attr('width', width + margin.left + margin.right)
       .append('g')
       .call(xAxis);
