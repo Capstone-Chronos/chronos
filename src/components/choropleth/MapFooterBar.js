@@ -2,6 +2,9 @@ import React from 'react';
 import { ExportJSON, ImportJSON } from '../toolbars/SankeyUtils/utils';
 
 export default class MapFooterBar extends React.Component {
+  constructor(props) {
+    super(props);
+  }
   render() {
     return (
       <div>
