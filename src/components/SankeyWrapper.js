@@ -268,6 +268,7 @@ class SankeyWrapper extends React.Component {
               deleteChart={this.delete}
               publishTheChart={this.publishTheChart}
               chartId={this.props.chartId}
+              uploadData={this.props.uploadData}
             />
           </div>
           <div>
