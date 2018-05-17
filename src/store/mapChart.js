@@ -62,7 +62,7 @@ export const loadDefaultData = () => ({
   data: defaultData
 });
 
-export const importData = data => ({
+export const importMapData = data => ({
   type: UPDATE_DATA,
   data: data
 });

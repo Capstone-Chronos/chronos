@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { loadData, readFile } from './../toolbars/SankeyUtils/utils';
+import MapFooterBar from '../choropleth/MapFooterBar';
 import {
   deleteChart,
   saveExistingChart,
@@ -11,13 +12,15 @@ import {
   clearMapData,
   importData,
   saveMapChartThunk,
-  updateTitle
+  updateTitle,
+  importMapData
 } from '../../store';
 import { connect } from 'react-redux';
 import { Button, Input } from 'semantic-ui-react';
 import FooterBar from './SankeyUtils/FooterBar';
 import PublishButton from './tools/PublishButton';
 import { withRouter } from 'react-router-dom';
+import request from 'superagent';
 
 class MapChartTools extends Component {
   constructor(props) {
@@ -32,6 +35,7 @@ class MapChartTools extends Component {
     this.submitHeightWidth = this.submitHeightWidth.bind(this);
     this.setTitle = this.setTitle.bind(this);
     this.publishTheChart = this.publishTheChart.bind(this);
+    this.importMapDataFromFile = this.importMapDataFromFile.bind(this);
 
     this.emptyDiagram = this.emptyDiagram.bind(this);
 
@@ -100,6 +104,17 @@ class MapChartTools extends Component {
     this.props.changeWidth(this.state.width);
   }
 
+  importMapDataFromFile(path) {
+    request.get(path).end((err, res) => {
+      if (err) {
+        console.log(err);
+        throw Error('Error reading file');
+      }
+      var data = res.body.data;
+      this.props.dispatchSetMapData(data);
+    });
+  }
+
   render() {
     return (
       <div>
@@ -159,9 +174,9 @@ class MapChartTools extends Component {
             />
           </div>
           <div className="tool-item">
-            <FooterBar
+            <MapFooterBar
               data={this.props.data}
-              readFile={this.props.readFile}
+              readFile={this.importMapDataFromFile}
               emptyDiagram={this.emptyDiagram}
             />
           </div>
@@ -210,12 +225,16 @@ const mapDispatchToProps = function(dispatch) {
       const action = updateTitle(title);
       dispatch(action);
     },
-    uploadData: data => {
-      const action = importData(data);
-      dispatch(action);
-    },
+    // uploadData: data => {
+    //   const action = importData(data);
+    //   dispatch(action);
+    // },
     publishTheChart: chartId => {
       const action = publishChart(chartId);
+      dispatch(action);
+    },
+    dispatchSetMapData: data => {
+      const action = importMapData(data);
       dispatch(action);
     }
   };
