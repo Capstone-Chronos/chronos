@@ -1,7 +1,7 @@
 import { userRef, chartsRef } from '../base';
 import firebase from 'firebase';
 import history from '../routes/history';
-import { saveNewChart } from '../database/charts';
+import { saveNewChart, fetchChartById } from '../database/charts';
 
 let defaultData = {
   chartId: '',
@@ -161,6 +161,7 @@ const UPDATE_DATA = 'UPDATE_DATA';
 // const GET_ONE_CHART = 'GET_CHART';
 // const GET_USER_CHARTS = 'GET_USER_CHARTS';
 const DELETE_USER_CHART = 'DELETE_USER_CHARTS';
+const SET_SANKEY_CHART = 'SET_SANKEY_CHART';
 
 const SET_CHART_ID = 'SET_CHART_ID';
 const SET_SANKEY_TITLE = 'SET_SANKEY_TITLE';
@@ -193,7 +194,7 @@ export const setSankeyId = chartId => ({
   chartId
 });
 
-export const setChart = chart => ({
+export const setSankeyChart = chart => ({
   type: SET_CHART,
   chart
 });
@@ -216,6 +217,16 @@ export const saveSankeyChartThunk = (data, title, chartType) => {
   };
 };
 
+export const fetchSankeyByIdThunk = chartId => {
+  return dispatch => {
+    fetchChartById(chartId).then(sankey => {
+      console.log('sankey return by Fetch Thunk', sankey);
+      let action = setSankeyChart(sankey);
+      dispatch(action);
+    });
+  };
+};
+
 // Thunk creators
 
 //Reducer
@@ -230,7 +241,7 @@ export default function reducer(state = initialState, action) {
       return { ...state, nodes: empty.nodes, links: empty.links };
     case SET_CHART_ID:
       return { ...state, chartId: action.chartId };
-    case SET_CHART:
+    case SET_SANKEY_CHART:
       return action.chart;
     default:
       return state;

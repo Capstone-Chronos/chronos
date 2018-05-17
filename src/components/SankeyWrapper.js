@@ -12,12 +12,12 @@ import {
   clearData,
   importData,
   saveSankeyChartThunk,
-  updateTitle
+  updateTitle,
+  fetchSankeyByIdThunk
 } from '../store/sankeyChart';
 import {
   deleteChart,
   saveExistingChart,
-  fetchChartById,
   publishChart
 } from '../database/charts';
 
@@ -54,7 +54,8 @@ class SankeyWrapper extends React.Component {
   }
 
   componentDidMount() {
-    fetchChartById(this.props.chartId);
+    const chartId = this.props.match.params.id;
+    if (chartId) this.props.dispatchGetChartData(chartId);
   }
 
   componentWillMount() {
@@ -360,6 +361,10 @@ const mapDispatchToProps = function(dispatch) {
     },
     updateTheTitle: title => {
       const action = updateTitle(title);
+      dispatch(action);
+    },
+    dispatchGetChartData: chartId => {
+      const action = fetchSankeyByIdThunk(chartId);
       dispatch(action);
     }
   };

@@ -47,8 +47,6 @@ class TimelineWrapper extends React.Component {
       'Timeline Wrapper MOUNTED with chartId:',
       this.props.match.params.id
     );
-    console.log(this.props.match);
-    console.log(this.props.match.params);
     const chartId = this.props.match.params.id;
     if (chartId) this.props.dispatchGetChartData(chartId);
   }
