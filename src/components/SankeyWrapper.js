@@ -16,7 +16,7 @@ import {
 } from '../store/sankeyChart';
 import {
   deleteChart,
-  updateChart,
+  saveExistingChart,
   fetchChartById,
   publishChart
 } from '../database/charts';
@@ -82,7 +82,7 @@ class SankeyWrapper extends React.Component {
 
   handleUpdate() {
     let { data, chartId } = this.props;
-    updateChart(data, chartId);
+    saveExistingChart(data, chartId);
   }
 
   delete() {

@@ -1,7 +1,7 @@
 import { userRef, chartsRef } from '../base';
 import firebase from 'firebase';
 import history from '../routes/history';
-import { saveChart } from '../database/charts';
+import { saveNewChart } from '../database/charts';
 
 let defaultData = {
   chartId: '',
@@ -206,7 +206,7 @@ export const updateTitle = title => ({
 //THUNKS
 export const saveSankeyChartThunk = (data, title, chartType) => {
   return dispatch => {
-    saveChart(data, title, chartType)
+    saveNewChart(data, title, chartType)
       .then(chartId => {
         dispatch(setSankeyTitle(title));
         dispatch(setSankeyId(chartId));

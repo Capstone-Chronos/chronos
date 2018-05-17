@@ -2,7 +2,11 @@ import React, { Component } from 'react';
 import { Button, Input, Checkbox } from 'semantic-ui-react';
 import { FooterBar, PublishButton } from '../../components';
 import { connect } from 'react-redux';
-import { updateChart, publishChart, deleteChart } from '../../database/charts';
+import {
+  saveExistingChart,
+  publishChart,
+  deleteChart
+} from '../../database/charts';
 import { clearTimelineData, saveTimelineThunk } from '../../store/timeline';
 
 class TimelineTools extends Component {
@@ -10,10 +14,10 @@ class TimelineTools extends Component {
     super(props);
     this.state = {
       visible: true,
-      height: this.props.height,
-      width: this.props.width,
-      start: '',
-      end: ''
+      height: 800,
+      width: 800,
+      start: '2001,01,01',
+      end: '2020,01,01'
     };
 
     this.toggleVisibility = this.toggleVisibility.bind(this);
@@ -24,6 +28,15 @@ class TimelineTools extends Component {
     this.handleDelete = this.handleDelete.bind(this);
     this.submitEvent = this.submitEvent.bind(this);
     this.submitRange = this.submitRange.bind(this);
+  }
+
+  componentDidMount() {
+    this.setState({
+      height: this.props.data.height,
+      width: this.props.data.width,
+      start: this.props.data.start,
+      end: this.props.data.end
+    });
   }
 
   toggleVisibility = () => this.setState({ visible: !this.state.visible });
@@ -50,8 +63,7 @@ class TimelineTools extends Component {
 
   handleUpdate() {
     const { data, chartId } = this.props;
-    console.log('Update data', data);
-    this.props.updateChart(data, chartId);
+    saveExistingChart(data, chartId);
   }
 
   handleSubmit() {
@@ -209,11 +221,9 @@ class TimelineTools extends Component {
 const mapStateToProps = state => {
   return {
     chartId: state.timeline.chartId,
-    // data: state.timeline.data,
+    data: state.timeline.data,
     title: state.timeline.title,
     uid: state.user.uid
-    // height: state.timeline.data.height,
-    // width: state.timeline.data.width
   };
 };
 

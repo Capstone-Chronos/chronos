@@ -4,7 +4,7 @@ import MapChartTools from '../toolbars/MapChartTools';
 import { mapWidth, mapHeight } from './constants';
 import { default as Modal } from './modal';
 import ColorPicker from '../toolbars/tools/ColorPicker';
-import { fetchMapChartById } from '../../database/mapChart';
+import { fetchChartById } from '../../database/charts';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { updateMapColors } from '../../store/mapChart';
@@ -48,7 +48,7 @@ class Choropleth extends React.Component {
   componentDidMount() {
     if (!this.props.chartId) {
       const chartId = this.props.match.params.id;
-      fetchMapChartById(chartId);
+      fetchChartById(chartId);
     }
     if (this.props.data) {
       if (this.props.data.stateColors) {

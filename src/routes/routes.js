@@ -1,7 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Route, Switch, Redirect } from 'react-router-dom';
-import Sankey, { Main, AllProjects, SignUp, Login, PresentationView, Editor, SankeyWrapper, TimelineWrapper, Choropleth } from '../components';
+import Sankey, {
+  Main,
+  AllProjects,
+  SignUp,
+  Login,
+  PresentationView,
+  Editor,
+  SankeyWrapper,
+  TimelineWrapper,
+  Choropleth
+} from '../components';
 
 /**
  * COMPONENT
@@ -22,6 +32,7 @@ class Routes extends Component {
               <Route exact path="/" component={Main} />
               <Route exact path="/charts" component={AllProjects} />
               <Route exact path="/projects" component={AllProjects} />
+
               <Route
                 exact
                 path="/edit/sankey/:id/:title"
@@ -29,18 +40,17 @@ class Routes extends Component {
               />
               <Route
                 exact
-                path="/edit/sankey" 
-                component={SankeyWrapper} />
-              <Route exact path="/edit/timeline/:id" component={SankeyWrapper} />
+                path="/edit/timeline/:id"
+                component={SankeyWrapper}
+              />
+              <Route exact path="/edit/sankey" component={SankeyWrapper} />
+
               <Route
                 exact
                 path="/edit/timeline/:id/:title"
                 component={TimelineWrapper}
               />
-              <Route
-                exact
-                path="/edit/timeline" 
-                component={TimelineWrapper} />
+              <Route exact path="/edit/timeline" component={TimelineWrapper} />
               <Route exact path="/edit/choropleth/:id" component={Choropleth} />
               <Route
                 exact
@@ -60,7 +70,7 @@ class Routes extends Component {
               <Route path="/edit/choropleth" component={Choropleth} />
               <Route path="/show/choropleth" component={Choropleth} />
               <Route path="/view/timeline" component={Choropleth} />
-              
+
               <Route path="/edit" component={Editor} />
               <Route path="/show" component={PresentationView} />
               <Route path="/view" component={PresentationView} />

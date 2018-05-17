@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { loadData, readFile } from './../toolbars/SankeyUtils/utils';
 import {
   deleteChart,
-  updateChart,
-  fetchMapChartById,
+  saveExistingChart,
+  fetchChartById,
   publishChart
-} from '../../database/mapChart';
+} from '../../database/charts';
 import {
   loadDefaultData,
   clearMapData,
@@ -17,7 +17,7 @@ import { connect } from 'react-redux';
 import { Button, Input } from 'semantic-ui-react';
 import FooterBar from './SankeyUtils/FooterBar';
 import PublishButton from './tools/PublishButton';
-import {withRouter} from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 class MapChartTools extends Component {
   constructor(props) {
@@ -41,8 +41,8 @@ class MapChartTools extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleUpdate = this.handleUpdate.bind(this);
   }
-  componentDidMount(){
-    fetchMapChartById(this.props.match.params.id);
+  componentDidMount() {
+    fetchChartById(this.props.match.params.id);
   }
 
   setTitle(evt) {
@@ -76,13 +76,8 @@ class MapChartTools extends Component {
   }
 
   handleUpdate() {
-    let { chartId } = this.props;
-    const data = {
-      json: this.props.data,
-      stateColors: this.props.data.stateColors
-    };
-
-    updateChart(data, chartId);
+    let { data, chartId } = this.props;
+    saveExistingChart(data, chartId);
   }
 
   handleSubmit() {
@@ -113,9 +108,7 @@ class MapChartTools extends Component {
       <div>
         <div>
           <h2>{this.props.title}</h2>
-          <form
-            onSubmit={this.setTitle}
-          >
+          <form onSubmit={this.setTitle}>
             <input
               type="text"
               name="title"
@@ -125,7 +118,8 @@ class MapChartTools extends Component {
             <input type="submit" value="Update Title" />
           </form>
         </div>
-        <h4>Edit Chart Dimensions</h4><hr />
+        <h4>Edit Chart Dimensions</h4>
+        <hr />
         <div className="form">
           <form onSubmit={this.submitHeightWidth}>
             <div className="tool-item">
@@ -145,11 +139,8 @@ class MapChartTools extends Component {
               />
             </div>
             <div className="tool-item">
-              <Button
-                className="tool-button"
-                onClick={this.submitHeightWidth}
-              >
-                    Update chart size
+              <Button className="tool-button" onClick={this.submitHeightWidth}>
+                Update chart size
               </Button>
             </div>
           </form>
@@ -157,14 +148,18 @@ class MapChartTools extends Component {
           <hr />
           <div className="tool-item">
             <Button className="tool-button" onClick={this.handleUpdate}>
-                  Update Chart
+              Update Chart
             </Button>
           </div>
           <div className="tool-item">
             <Button className="tool-button" onClick={this.handleSubmit}>
-                  Save Changes as New Chart
+              Save Changes as New Chart
             </Button>
-            <PublishButton title="fake title" publish={this.props.publishTheChart} chartId={this.props.chartId} />
+            <PublishButton
+              title="fake title"
+              publish={this.props.publishTheChart}
+              chartId={this.props.chartId}
+            />
           </div>
           <div className="tool-item">
             <FooterBar
@@ -175,17 +170,16 @@ class MapChartTools extends Component {
           </div>
           <div className="tool-item">
             <Button className="tool-button" color="red" onClick={this.delete}>
-                  Delete Chart
+              Delete Chart
             </Button>
           </div>
         </div>
       </div>
-
     );
   }
 }
 
-const mapStateToProps = function(state){
+const mapStateToProps = function(state) {
   console.log('i', state);
   return {
     data: state.mapChart.data,
@@ -228,8 +222,10 @@ const mapDispatchToProps = function(dispatch) {
     publishTheChart: chartId => {
       const action = publishChart(chartId);
       dispatch(action);
-    },
+    }
   };
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MapChartTools));
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(MapChartTools)
+);

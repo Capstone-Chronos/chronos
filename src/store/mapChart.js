@@ -1,6 +1,7 @@
 import { userRef, chartsRef, databaseRef } from '../base';
 import firebase from 'firebase';
 import history from '../routes/history';
+import { saveNewChart } from '../database/charts';
 
 let defaultData = {
   chartId: '',
@@ -85,7 +86,7 @@ export const updateTitle = title => ({
   title
 });
 
-export const saveChart = async (data, title) => {
+export const saveNewMapThunk = async (data, title) => {
   let newChartKey;
   try {
     let uid = firebase.auth().currentUser.uid;
@@ -114,7 +115,7 @@ export const saveChart = async (data, title) => {
 //THUNKS
 export const saveMapChartThunk = (data, title) => {
   return dispatch => {
-    saveChart(data, title)
+    saveNewChart(data, title, 'Choropleth')
       .then(chartId => {
         dispatch(setMapTitle(title));
         dispatch(setMapId(chartId));

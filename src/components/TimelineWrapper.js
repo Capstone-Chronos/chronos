@@ -15,9 +15,9 @@ import {
   updateTimelineHeight,
   updateTimelineWidth,
   updateTimelineRange,
-  updateTitle
+  updateTitle,
+  fetchTimelineByIdThunk
 } from '../store/timeline';
-import { updateChart, fetchChartById } from '../database/charts';
 
 class TimelineWrapper extends React.Component {
   constructor(props) {
@@ -43,20 +43,13 @@ class TimelineWrapper extends React.Component {
     this.setTitle = this.setTitle.bind(this);
   }
 
-  // componentWillReceiveProps() {
-  //   this.setState({
-  //     radius: this.props.data.radius,
-  //     dates: this.props.data.dates,
-  //     height: this.props.data.height,
-  //     width: this.props.data.width,
-  //     start: this.props.data.start,
-  //     end: this.props.data.end
-  //   });
-  // }
-
-  componentDidMount() {
-    fetchChartById(this.props.match.params.id);
-    // this.updateRange = this.updateRange.bind(this);
+  async componentDidMount() {
+    console.log(
+      'Timeline Wrapper MOUNTED with chartId:',
+      this.props.match.params.id
+    );
+    const chartId = this.props.match.params.id;
+    if (chartId) this.props.dispatchGetChartData(chartId);
   }
 
   addEvent(name, year, day, month) {
@@ -69,20 +62,8 @@ class TimelineWrapper extends React.Component {
       name,
       date: newDate
     };
-    // this.setState({ dates });
     this.props.dispatchAddEvent(dates);
   }
-
-  // componentWillMount() {
-  //   this.setState({
-  //     radius: this.props.data.radius,
-  //     dates: this.props.data.dates,
-  //     height: this.props.data.height,
-  //     width: this.props.data.width,
-  //     start: this.props.data.start,
-  //     end: this.props.data.end
-  //   });
-  // }
 
   //Function to open info pane in presentation mode or editing modal in editor mode
   handleClick(e) {
@@ -95,10 +76,6 @@ class TimelineWrapper extends React.Component {
     console.log(start, end);
     start = start || this.props.data.start;
     end = end || this.props.data.end;
-    // this.setState({
-    //   start: start || this.state.start,
-    //   end: end || this.state.end
-    // });
     this.props.dispatchUpdateRange(start, end);
   }
 
@@ -409,6 +386,10 @@ const mapDispatchToProps = dispatch => {
     },
     updateTheTitle: title => {
       const action = updateTitle(title);
+      dispatch(action);
+    },
+    dispatchGetChartData: chartId => {
+      const action = fetchTimelineByIdThunk(chartId);
       dispatch(action);
     }
   };

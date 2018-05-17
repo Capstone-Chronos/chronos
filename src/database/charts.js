@@ -3,7 +3,7 @@ import firebase, { database } from 'firebase';
 import history from '../routes/history';
 import store, { setChart } from '../store';
 
-export const saveChart = async (data, title, chartType) => {
+export const saveNewChart = async (data, title, chartType) => {
   console.log(data, title, chartType);
   let newChartKey;
   try {
@@ -30,8 +30,8 @@ export const saveChart = async (data, title, chartType) => {
   return newChartKey;
 };
 
-export const updateChart = async (data, chartId) => {
-  if (!chartId) throw Error('Update chart received a falsy chartId');
+export const saveExistingChart = async (data, chartId) => {
+  if (!chartId) throw Error('Save existing chart received a falsy chartId');
   try {
     let updates = {};
     updates[`/charts/${chartId}/data`] = data;
@@ -53,6 +53,8 @@ export const publishChart = async chartId => {
 
 export const deleteChart = async (chartId, uid) => {
   console.log('deleting', chartId, uid);
+  if (!chartId || uid)
+    throw Error('Delete chart received a falsy chartId or uid');
   try {
     let toBeDeleted = {};
     toBeDeleted[`/charts/${chartId}`] = null;
@@ -64,7 +66,9 @@ export const deleteChart = async (chartId, uid) => {
   history.push(`/charts`);
 };
 
-export const fetchChartById = chartId => async dispatch => {
+export async function fetchChartById(chartId) {
+  console.log('Fetching ID...', chartId);
+  if (!chartId) throw Error('Fetch chart called with falsy chartId', chartId);
   let chart;
   try {
     chart = await chartsRef
@@ -74,5 +78,5 @@ export const fetchChartById = chartId => async dispatch => {
   } catch (err) {
     throw Error(err);
   }
-  store.dispatch(setChart(chart));
-};
+  return chart;
+}
