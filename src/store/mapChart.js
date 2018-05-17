@@ -2,6 +2,7 @@ import { userRef, chartsRef, databaseRef } from '../base';
 import firebase from 'firebase';
 import history from '../routes/history';
 import { saveNewChart } from '../database/charts';
+import { fetchChartById } from '../database/charts';
 
 let defaultData = {
   chartId: '',
@@ -31,6 +32,7 @@ const initialState = defaultData;
 
 // Action Types
 const UPDATE_COLORS = 'UPDATE_COLORS';
+const SET_MAP_ON_LOAD = 'SET_MAP_ON_LOAD';
 
 const UPDATE_DATA = 'UPDATE_DATA';
 const IMPORT_DATA = 'IMPORT_DATA';
@@ -49,6 +51,10 @@ const CLEAR_DATA = 'CLEAR_DATA';
 export const updateMapColors = singleState => ({
   type: UPDATE_COLORS,
   singleState
+});
+export const setMapOnLoad = map => ({
+  type: SET_MAP_ON_LOAD,
+  map
 });
 
 export const loadDefaultData = () => ({
@@ -125,22 +131,34 @@ export const saveMapChartThunk = (data, title) => {
   };
 };
 
-// Thunk creators
+// export const saveExistingMapThunk = (data, chartId) => {
+//   return dispatch => {
+//     saveExistingChart(data, chartId);
+//   };
+// };
+
+export const fetchMapByIdThunk = chartId => {
+  return dispatch => {
+    fetchChartById(chartId).then(map => {
+      console.log('Map return by Fetch Thunk', map);
+      let action = setMapOnLoad(map);
+      dispatch(action);
+    });
+  };
+};
 
 //Reducer
 export default function reducer(state = initialState, action) {
   switch (action.type) {
     case UPDATE_COLORS:
-      if (!state.stateColors) {
-        state['stateColors'] = {};
-      }
+      if (!state.stateColors) state['stateColors'] = {};
       return {
         ...state,
         data: {
           ...state.data,
           stateColors: Object.assign(
             {},
-            ...state.data.stateColors,
+            state.data.stateColors,
             action.singleState
           )
         }

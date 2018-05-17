@@ -41,9 +41,6 @@ class MapChartTools extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleUpdate = this.handleUpdate.bind(this);
   }
-  componentDidMount() {
-    fetchChartById(this.props.match.params.id);
-  }
 
   setTitle(evt) {
     evt.preventDefault();
@@ -180,11 +177,9 @@ class MapChartTools extends Component {
 }
 
 const mapStateToProps = function(state) {
-  console.log('i', state);
   return {
     data: state.mapChart.data,
     userId: state.user.id,
-    chartId: state.mapChart.chartId,
     title: state.mapChart.title
   };
 };

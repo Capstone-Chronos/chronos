@@ -4,10 +4,9 @@ import MapChartTools from '../toolbars/MapChartTools';
 import { mapWidth, mapHeight } from './constants';
 import { default as Modal } from './modal';
 import ColorPicker from '../toolbars/tools/ColorPicker';
-import { fetchChartById } from '../../database/charts';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { updateMapColors } from '../../store/mapChart';
+import { updateMapColors, fetchMapByIdThunk } from '../../store/mapChart';
 
 class Choropleth extends React.Component {
   constructor(props) {
@@ -46,10 +45,8 @@ class Choropleth extends React.Component {
   // }
 
   componentDidMount() {
-    if (!this.props.chartId) {
-      const chartId = this.props.match.params.id;
-      fetchChartById(chartId);
-    }
+    const chartId = this.props.match.params.id;
+    if (chartId) this.props.dispatchGetChartData(chartId);
     if (this.props.data) {
       if (this.props.data.stateColors) {
         this.renderMap(this.toggleModal, this.props.data.stateColors);
@@ -76,12 +73,14 @@ class Choropleth extends React.Component {
   }
 
   render() {
+    console.log('MAP RERENDER', this.props.data.stateColors);
     return (
       <div>
         <div>
           <MapChartTools
             stateColors={this.props.data.stateColors}
             renderMap={this.renderMap}
+            chartId={this.props.chartId}
           />
         </div>
         <div className="chartContainer">
@@ -126,6 +125,10 @@ const mapDispatchToProps = dispatch => {
     dispatchColors: singleState => {
       const action = updateMapColors(singleState);
       console.log(singleState);
+      dispatch(action);
+    },
+    dispatchGetChartData: chartId => {
+      const action = fetchMapByIdThunk(chartId);
       dispatch(action);
     }
   };
