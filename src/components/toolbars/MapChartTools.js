@@ -70,7 +70,9 @@ class MapChartTools extends Component {
     deleteChart(chartId, userId);
   }
 
-  toggleVisibility = () => this.setState({ visible: !this.state.visible });
+  toggleVisibility () {
+    this.setState(prevState => ({ visible: !prevState.visible }));
+  }
 
   handleChange(evt) {
     this.setState({ [evt.target.name]: evt.target.value });
@@ -110,12 +112,14 @@ class MapChartTools extends Component {
         console.log(err);
         throw Error('Error reading file');
       }
+      console.log('Res object:', res);
       var data = res.body.data;
       this.props.dispatchSetMapData(data);
     });
   }
 
   render() {
+    console.log('Current data on state:', this.props.data);
     return (
       <div>
         <div>
