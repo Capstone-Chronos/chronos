@@ -73,7 +73,17 @@ const empty = {
     start: '2015, 1, 1',
     end: '2018, 1, 1',
     radius: 10,
-    dates: []
+    dates: [{
+      id: 3,
+      name: '',
+      date: '',
+      color: null,
+      radius: 0,
+      height: 0,
+      description: '',
+      imgUrl: '',
+      vidUrl: ''
+    }]
   }
 };
 
