@@ -1,4 +1,4 @@
-import { Modal, Image, Button, Header, Icon, Input, TextArea } from 'semantic-ui-react';
+import { Modal, Image, Button, Header, Icon, Input, TextArea, Form } from 'semantic-ui-react';
 import React from 'react';
 import ColorPicker from './tools/ColorPicker';
 
@@ -11,19 +11,21 @@ const TimelineModal = (props) => {
             <Modal.Header><h2>{props.eventName}</h2></Modal.Header>
             <Modal.Content image scrolling>
               {props.imgUrl && !props.vidUrl ? (
-                <Image size='medium' wrapped src={props.imgUrl} width="300" height="200" />
+                <Image fluid wrapped src={props.imgUrl} />
               ) : (
                   ''
                 )}
               {props.vidUrl ? (
-                <iframe
-                  width="250"
-                  height="200"
-                  src={props.vidUrl}
-                  frameborder="0"
-                  allow="autoplay; encrypted-media"
-                  allowfullscreen
-                />
+                <div style={{margin:'3em'}}>
+                  <iframe
+                    width="800"
+                    height="400"
+                    src={props.vidUrl}
+                    frameborder="0"
+                    allow="autoplay; encrypted-media"
+                    allowfullscreen
+                  />
+                </div>
               ) : (
                   ''
                 )}
@@ -36,68 +38,77 @@ const TimelineModal = (props) => {
             </Modal.Content>
           </div>
         ) : (
-            <div>
-              <Modal.Content>
-                <h4>{props.header}</h4>
-                <Input
-                  label="Event Name"
-                  name="modalContentEventName"
-                  defaultValue={props.eventName}
-                  className="form-control fluid"
-                  onChange={props.handleInputChange}
-                />
-                <TextArea
-                  label="Event Description"
-                  name="modalContentEventDescription"
-                  defaultValue={props.description}
-                  className="form-control fluid"
-                  value={props.description}
-                  onInput={props.handleInputChange}
-                />
-                <Input
-                  label="Image URL"
-                  name="modalContentEventImgUrl"
-                  defaultValue={props.imgUrl}
-                  className="form-control fluid"
-                  onChange={props.handleInputChange}
-                />
-                <Input
-                  label="Video URL"
-                  name="modalContentEventVidUrl"
-                  defaultValue={props.vidUrl}
-                  className="form-control fluid"
-                  onChange={props.handleInputChange}
-                />
-                <Input
-                  label="Event Size"
-                  name="modalContentEventRadius"
-                  defaultValue={props.radius}
-                  className="form-control fluid"
-                  onChange={props.handleInputChange}
-                />
-                <Input
-                  label="Event Height"
-                  name="modalContentEventHeight"
-                  defaultValue={props.height}
-                  className="form-control fluid"
-                  onChange={props.handleInputChange}
-                />
-                <hr />
-                <div style={{ marginTop: '2em', marginBottom: '2em' }}>
-                  <h4>{props.color}</h4>
-                  <ColorPicker
-                    handleColorChange={props.handleColorChange}
-                  />
-                </div>
-                <div className="row">
-                  <div>
+            <Modal.Content>
+              <Modal.Header><h2>Edit Event</h2></Modal.Header>
+              <div className='modal-form'>
+                <Form>
+                  <Form.Field>
+                    <label>Event Name</label>
+                    <Input
+                      name="modalContentEventName"
+                      defaultValue={props.eventName}
+                      onChange={props.handleInputChange}
+                    />
+                  </Form.Field>
+                  <Form.Field>
+                    <label>Event Description</label>
+                    <TextArea
+                      name="modalContentEventDescription"
+                      defaultValue={props.description}
+                      value={props.description}
+                      onInput={props.handleInputChange}
+                    />
+                  </Form.Field>
+                  <Form.Field>
+                    <label>Image URL</label>
+                    <Input
+                      name="modalContentEventImgUrl"
+                      defaultValue={props.imgUrl}
+                      onChange={props.handleInputChange}
+                    />
+                  </Form.Field>
+                  <Form.Field>
+                    <label>Video URL</label>
+                    <Input
+                      name="modalContentEventVidUrl"
+                      defaultValue={props.vidUrl}
+                      onChange={props.handleInputChange}
+                    />
+                  </Form.Field>
+                  <Form.Field>
+                    <label>Event Size</label>
+                    <Input
+                      type='number'
+                      size='small'
+                      name="modalContentEventRadius"
+                      defaultValue={props.radius}
+                      onChange={props.handleInputChange}
+                    />
+                  </Form.Field>
+                  <Form.Field>
+                    <label>Event Height</label>
+                    <Input
+                      type='number'
+                      size='small'
+                      name="modalContentEventHeight"
+                      defaultValue={props.height}
+                      onChange={props.handleInputChange}
+                    />
+                  </Form.Field>
+                  <Form.Field>
+                    <label>Choose Event Color</label>
+                    <ColorPicker
+                      handleColorChange={props.handleColorChange}
+                    />
+                  </Form.Field>
+                  <Form.Field>
                     <Button onClick={props.closeAndSaveModal}>
                       Apply Changes
                     </Button>
-                  </div>
-                </div>
-              </Modal.Content>
-            </div>
+                  </Form.Field>
+                </Form>
+              </div>
+            </Modal.Content>
           )
       }
     </Modal>
