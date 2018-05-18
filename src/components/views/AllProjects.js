@@ -78,7 +78,7 @@ export class AllProjects extends React.Component {
                   .map(chart => {
                     return (
                       <div
-                        onClick={fetchChartById(chart.chartId)}
+                        // onClick={fetchChartById(chart.chartId)}
                         key={chart.chartId + '1'}
                       >
                         <SingleSelection
@@ -106,7 +106,7 @@ export class AllProjects extends React.Component {
                   .map(chart => {
                     return (
                       <div
-                        onClick={fetchChartById(chart.chartId)}
+                        // onClick={fetchChartById(chart.chartId)}
                         key={chart.chartId + '2'}
                       >
                         <SingleSelection
