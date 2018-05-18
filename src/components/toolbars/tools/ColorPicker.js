@@ -5,20 +5,20 @@ export default class ColorPicker extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      background: '#fff'
+      background: props.color
     };
     this.handleChangeComplete = this.handleChangeComplete.bind(this);
   }
 
   handleChangeComplete = color => {
-    this.setState({ background: color.hex });
+    this.setState({ background: color.hex || 'fff' });
     this.props.handleColorChange(color.hex);
   };
 
   render() {
     return (
       <ChromePicker
-        color={this.state.background}
+        color={this.props.color}
         onChangeComplete={this.handleChangeComplete}
       />
     );
