@@ -125,7 +125,7 @@ class MapChartTools extends Component {
   render() {
     console.log('PROPS', this.props);
     return (
-      <div>
+      <div className="map-chart-tools">
         <div>
           <h2>{this.props.title}</h2>
           <form onSubmit={this.setTitle}>
