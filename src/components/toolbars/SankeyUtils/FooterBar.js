@@ -3,6 +3,7 @@ import { ExportJSON, ImportJSON } from './utils';
 
 export default class extends React.Component {
   render() {
+    console.log(this.props)
     return (
       <div>
         <div className="tool-item">
