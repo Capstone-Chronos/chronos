@@ -82,7 +82,7 @@ class TimelineWrapper extends React.Component {
   updateEvent(name, idx, color, description, imgUrl, vidUrl, radius, height) {
     var dates = this.props.data.dates;
     dates[idx].name = name || "";
-    dates[idx].color = color || null;
+    dates[idx].color = color || "#1D59B0";
     dates[idx].description = description;
     dates[idx].imgUrl = imgUrl || "";
     dates[idx].vidUrl = vidUrl || "";
