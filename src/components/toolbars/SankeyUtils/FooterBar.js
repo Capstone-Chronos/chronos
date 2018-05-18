@@ -6,7 +6,7 @@ export default class extends React.Component {
     return (
       <div>
         <div className="tool-item">
-          <ImportJSON readFile={this.props.readFile} />
+          <ImportJSON readFile={this.props.readFile} uploadData={this.props.uploadData} />
         </div>
         <div className="tool-item">
           <ExportJSON nodes={this.props.nodes} links={this.props.links} />
