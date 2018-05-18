@@ -38,15 +38,15 @@ export class AllProjects extends React.Component {
       case 'Pie Chart':
         return 'https://www.highcharts.com/images/docs/pie.png';
       case 'Sankey Diagram':
-        return 'https://qph.fs.quoracdn.net/main-qimg-eec269467df6d2ac3c9c40e822d3827f';
+        return 'https://i.imgur.com/hXSOfvJm.png';
       case 'Timeline':
-        return 'http://blog.trendmicro.com/trendlabs-security-intelligence/files/2014/11/timeline_03.jpg';
+        return 'https://i.imgur.com/eQvaOqSm.png';
       case 'Map':
-        return 'https://i.stack.imgur.com/ff15l.png';
+        return 'https://i.imgur.com/kiPKzS4m.png';
       case 'Choropleth':
-        return 'https://i.stack.imgur.com/ff15l.png';
+        return 'https://i.imgur.com/kiPKzS4m.png';
       case 'Sankey':
-        return 'https://qph.fs.quoracdn.net/main-qimg-eec269467df6d2ac3c9c40e822d3827f';
+        return 'https://i.imgur.com/hXSOfvJm.png';
     }
   }
 
@@ -74,26 +74,26 @@ export class AllProjects extends React.Component {
             {!this.props.userCharts
               ? 'You currently have no saved charts'
               : Object.values(this.props.userCharts)
-                  .filter(chart => chart.uid === this.props.userId)
-                  .map(chart => {
-                    return (
-                      <div
-                        onClick={fetchChartById(chart.chartId)}
-                        key={chart.chartId + '1'}
-                      >
-                        <SingleSelection
-                          id={chart.chartId}
-                          name={chart.title}
-                          type={chart.chartType}
-                          description="THIS IS a placeholder description for our charts...."
-                          url={`/view/${chart.chartType.toLowerCase()}/${
-                            chart.chartId
+                .filter(chart => chart.uid === this.props.userId)
+                .map(chart => {
+                  return (
+                    <div
+                      onClick={fetchChartById(chart.chartId)}
+                      key={chart.chartId + '1'}
+                    >
+                      <SingleSelection
+                        id={chart.chartId}
+                        name={chart.title}
+                        type={chart.chartType}
+                        description="THIS IS a placeholder description for our charts...."
+                        url={`/view/${chart.chartType.toLowerCase()}/${
+                          chart.chartId
                           }`}
-                          imgUrl={this.getImageUrl(chart.chartType)}
-                        />
-                      </div>
-                    );
-                  })}
+                        imgUrl={this.getImageUrl(chart.chartType)}
+                      />
+                    </div>
+                  );
+                })}
           </div>
         </div>
         <div>
@@ -102,25 +102,25 @@ export class AllProjects extends React.Component {
             {!this.props.publishedCharts
               ? 'There are currently no published charts'
               : Object.values(this.props.publishedCharts)
-                  .filter(chart => chart.isPublished === true)
-                  .map(chart => {
-                    return (
-                      <div
-                        onClick={fetchChartById(chart.chartId)}
-                        key={chart.chartId + '2'}
-                      >
-                        <SingleSelection
-                          name={chart.title}
-                          type={chart.chartType}
-                          description="THIS IS a placeholder description for our charts...."
-                          url={`/show/${chart.chartType.toLowerCase()}/${
-                            chart.chartId
+                .filter(chart => chart.isPublished === true)
+                .map(chart => {
+                  return (
+                    <div
+                      onClick={fetchChartById(chart.chartId)}
+                      key={chart.chartId + '2'}
+                    >
+                      <SingleSelection
+                        name={chart.title}
+                        type={chart.chartType}
+                        description="THIS IS a placeholder description for our charts...."
+                        url={`/show/${chart.chartType.toLowerCase()}/${
+                          chart.chartId
                           }`}
-                          imgUrl={this.getImageUrl(chart.chartType)}
-                        />
-                      </div>
-                    );
-                  })}
+                        imgUrl={this.getImageUrl(chart.chartType)}
+                      />
+                    </div>
+                  );
+                })}
           </div>
         </div>
       </div>
