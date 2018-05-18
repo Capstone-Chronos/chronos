@@ -90,23 +90,28 @@ export default class Timeline extends React.Component {
       .attr('cx', function(d) {
         var newDate = new Date(d.date);
         return timeScale(newDate);
-      });
+      })
+      .append('title')
+      .text(d => {
+        let newDate = new Date(d.date).toDateString();
+        return `${d.name} \n${newDate}`}
+      )
 
     //Attach labels to event markers
-    svg
-      .append('g')
-      .selectAll('text')
-      .data(timelineEvents)
-      .enter()
-      .append('text')
-      .attr('transform', d => `translate(0, ${-d.height || 40})`)
-      .attr('x', function(d) {
-        var newDate = new Date(d.date);
-        return timeScale(newDate);
-      })
-      .text(function(d) {
-        return d.name;
-      });
+    // svg
+    //   .append('g')
+    //   .selectAll('text')
+    //   .data(timelineEvents)
+    //   .enter()
+    //   .append('text')
+    //   .attr('transform', d => `translate(0, ${(-d.height + d.radius) || 40})`)
+    //   .attr('x', function(d) {
+    //     let newDate = new Date(d.date).toLocaleDateString;
+    //     return timeScale(newDate)
+    //   })
+    //   .text(function(d) {
+    //     return d.name;
+    //   });
 
     // Create xAxis by passing in timeScale and attach to DOM
     svg
@@ -115,39 +120,6 @@ export default class Timeline extends React.Component {
       .attr('width', width + margin.left + margin.right)
       .append('g')
       .call(xAxis);
-
-    // Create area chart overlay
-    // var y = d3.scaleLinear()
-    //   .rangeRound([height, 0]);
-
-    // var area = d3.area()
-    //   .x(function (d) {
-    //     var newDate = new Date(d.date)
-    //     return timeScale(newDate);
-    //   })
-    //   .y1(function (d) { return y(d.close); });
-
-    // x.domain(d3.extent(data, (function (d) {
-    //   var newDate = new Date(d.date)
-    //   return timeScale(newDate);
-    // })))
-    // y.domain([0, d3.max(data, function (d) { return d.close; })]);
-    // area.y0(y(0));
-
-    // svg.append("path")
-    //   .datum(data)
-    //   .attr("fill", "steelblue")
-    //   .attr("d", area);
-
-    // svg.append("g")
-    //   .call(d3.axisLeft(y))
-    //   .append("text")
-    //   .attr("fill", "#000")
-    //   .attr("transform", "rotate(-90)")
-    //   .attr("y", 6)
-    //   .attr("dy", "0.71em")
-    //   .attr("text-anchor", "end")
-    //   .text("Price ($)");
 
     return svgNode.toReact();
   }

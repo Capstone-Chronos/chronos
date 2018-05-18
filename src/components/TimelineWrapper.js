@@ -82,7 +82,7 @@ class TimelineWrapper extends React.Component {
   updateEvent(name, idx, color, description, imgUrl, vidUrl, radius, height) {
     var dates = this.props.data.dates;
     dates[idx].name = name || "";
-    dates[idx].color = color || null;
+    dates[idx].color = color || "#1D59B0";
     dates[idx].description = description;
     dates[idx].imgUrl = imgUrl || "";
     dates[idx].vidUrl = vidUrl || "";
@@ -97,7 +97,6 @@ class TimelineWrapper extends React.Component {
   }
 
   openModal(e) {
-    console.log(e);
     if (e.date !== undefined) {
       var modalContent = 'event';
       var modalContentEventId = e.id;
@@ -108,6 +107,7 @@ class TimelineWrapper extends React.Component {
       var modalContentEventVidUrl = e.vidUrl;
       var modalContentEventRadius = e.radius;
       var modalContentEventHeight = e.height;
+      var modalContentEventDate = e.date;
     }
 
     this.setState({
@@ -120,7 +120,8 @@ class TimelineWrapper extends React.Component {
       modalContentEventImgUrl,
       modalContentEventVidUrl,
       modalContentEventRadius,
-      modalContentEventHeight
+      modalContentEventHeight,
+      modalContentEventDate
     });
   }
 
@@ -137,7 +138,7 @@ class TimelineWrapper extends React.Component {
       this.state.modalContentEventImgUrl,
       this.state.modalContentEventVidUrl,
       this.state.modalContentEventRadius,
-      this.state.modalContentEventHeight
+      this.state.modalContentEventHeight,
     );
     this.setState({ modalIsOpen: false });
   }
@@ -220,6 +221,8 @@ class TimelineWrapper extends React.Component {
                 vidUrl={this.state.modalContentEventVidUrl}
                 radius={this.state.modalContentEventRadius}
                 height={this.state.modalContentEventHeight}
+                color={this.state.modalContentEventColor}
+                date={this.state.modalContentEventDate}
                 isOpen={this.state.modalIsOpen}
               />
             </Grid.Column>

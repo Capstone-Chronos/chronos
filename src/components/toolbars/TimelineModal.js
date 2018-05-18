@@ -8,39 +8,44 @@ const TimelineModal = (props) => {
       {
         !props.editorMode ? (
           <div>
-            <Modal.Header><h2>{props.eventName}</h2></Modal.Header>
-            <Modal.Content image scrolling>
-              {props.imgUrl && !props.vidUrl ? (
-                <Image fluid wrapped src={props.imgUrl} />
-              ) : (
-                  ''
-                )}
-              {props.vidUrl ? (
-                <div style={{margin:'3em'}}>
-                  <iframe
-                    width="800"
-                    height="400"
-                    src={props.vidUrl}
-                    frameborder="0"
-                    allow="autoplay; encrypted-media"
-                    allowfullscreen
-                  />
-                </div>
-              ) : (
-                  ''
-                )}
-              <Modal.Description>
-                <p>{props.description}</p>
-              </Modal.Description>
-              <Button primary onClick={props.closeModal}>
-                Done <Icon name='right chevron' />
-              </Button>
-            </Modal.Content>
+            <Modal.Header>
+              <h2>{props.eventName}</h2>
+              <h3>{new Date(props.date).toDateString()}</h3>
+            </Modal.Header>
+            <div className='modal-content'>
+              <Modal.Content image scrolling>
+                {props.imgUrl && !props.vidUrl ? (
+                  <Image fluid wrapped src={props.imgUrl} />
+                ) : (
+                    ''
+                  )}
+                {props.vidUrl ? (
+                  <div style={{ margin: '3em' }}>
+                    <iframe
+                      width="800"
+                      height="400"
+                      src={props.vidUrl}
+                      frameborder="0"
+                      allow="autoplay; encrypted-media"
+                      allowfullscreen
+                    />
+                  </div>
+                ) : (
+                    ''
+                  )}
+                <Modal.Description>
+                  <p>{props.description}</p>
+                </Modal.Description>
+                <Button primary onClick={props.closeModal}>
+                  Done <Icon name='right chevron' />
+                </Button>
+              </Modal.Content>
+            </div>
           </div>
         ) : (
             <Modal.Content>
               <Modal.Header><h2>Edit Event</h2></Modal.Header>
-              <div className='modal-form'>
+              <div className='modal-content'>
                 <Form>
                   <Form.Field>
                     <label>Event Name</label>
@@ -99,6 +104,7 @@ const TimelineModal = (props) => {
                     <label>Choose Event Color</label>
                     <ColorPicker
                       handleColorChange={props.handleColorChange}
+                      color={props.color}
                     />
                   </Form.Field>
                   <Form.Field>

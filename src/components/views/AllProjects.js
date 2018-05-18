@@ -38,15 +38,15 @@ export class AllProjects extends React.Component {
       case 'Pie Chart':
         return 'https://www.highcharts.com/images/docs/pie.png';
       case 'Sankey Diagram':
-        return 'https://qph.fs.quoracdn.net/main-qimg-eec269467df6d2ac3c9c40e822d3827f';
+        return 'https://i.imgur.com/hXSOfvJm.png';
       case 'Timeline':
-        return 'http://blog.trendmicro.com/trendlabs-security-intelligence/files/2014/11/timeline_03.jpg';
+        return 'https://i.imgur.com/eQvaOqSm.png';
       case 'Map':
-        return 'https://i.stack.imgur.com/ff15l.png';
+        return 'https://i.imgur.com/kiPKzS4m.png';
       case 'Choropleth':
-        return 'https://i.stack.imgur.com/ff15l.png';
+        return 'https://i.imgur.com/kiPKzS4m.png';
       case 'Sankey':
-        return 'https://qph.fs.quoracdn.net/main-qimg-eec269467df6d2ac3c9c40e822d3827f';
+        return 'https://i.imgur.com/hXSOfvJm.png';
     }
   }
 
@@ -89,11 +89,11 @@ export class AllProjects extends React.Component {
                           url={`/view/${chart.chartType.toLowerCase()}/${
                             chart.chartId
                           }`}
-                          imgUrl={this.getImageUrl(chart.chartType)}
-                        />
-                      </div>
-                    );
-                  })}
+                        imgUrl={this.getImageUrl(chart.chartType)}
+                      />
+                    </div>
+                  );
+                })}
           </div>
         </div>
         <div>
@@ -116,11 +116,11 @@ export class AllProjects extends React.Component {
                           url={`/show/${chart.chartType.toLowerCase()}/${
                             chart.chartId
                           }`}
-                          imgUrl={this.getImageUrl(chart.chartType)}
-                        />
-                      </div>
-                    );
-                  })}
+                        imgUrl={this.getImageUrl(chart.chartType)}
+                      />
+                    </div>
+                  );
+                })}
           </div>
         </div>
       </div>
