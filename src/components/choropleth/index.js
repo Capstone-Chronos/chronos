@@ -7,6 +7,7 @@ import ColorPicker from '../toolbars/tools/ColorPicker';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { updateMapColors, fetchMapByIdThunk } from '../../store/mapChart';
+import { Table } from 'semantic-ui-react';
 
 class Choropleth extends React.Component {
   constructor(props) {
@@ -77,25 +78,30 @@ class Choropleth extends React.Component {
     if (!this.props.data) return <div />;
     console.log('MAP RERENDER', this.props.data.stateColors);
     return (
-      <div>
-        <div>
-          <MapChartTools
-            stateColors={this.props.data.stateColors}
-            renderMap={this.renderMap}
-            chartId={this.props.chartId}
-          />
-        </div>
-        <div className="chartContainer">
-          <svg
-            id="choropleth"
-            ref={node => {
-              this.node = node;
-            }}
-            className="svg-container"
-            width={mapWidth}
-            height={mapHeight}
-            style={{ marginTop: 20, marginLeft: 20 }}
-          />
+      <Table>
+        <Table.Row>
+          <Table.Cell width="1">
+            <MapChartTools
+              stateColors={this.props.data.stateColors}
+              renderMap={this.renderMap}
+              chartId={this.props.chartId}
+            />
+          </Table.Cell>
+          <Table.Cell>
+            <div className="chartContainer">
+              <svg
+                id="choropleth"
+                ref={node => {
+                  this.node = node;
+                }}
+                className="svg-container"
+                width={mapWidth}
+                height={mapHeight}
+                style={{ marginTop: 20, marginLeft: 20 }}
+              />
+            </div>
+          </Table.Cell>
+        </Table.Row>
           {this.state.openModal && (
             <Modal toggleModal={this.toggleModal}>
               <form onSubmit={this.handleSubmit}>
@@ -106,9 +112,7 @@ class Choropleth extends React.Component {
               </form>
             </Modal>
           )}
-          <div id="tooltip-container" />
-        </div>
-      </div>
+      </Table>
     );
   }
 }
