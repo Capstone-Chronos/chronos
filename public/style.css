@@ -16,6 +16,14 @@
   justify-content: center;
 }
 
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  margin: 2em;
+  justify-content: space-evenly;
+  align-items: left;
+}
+
 #carousel #carousel-text {
   position: absolute;
   top: 45vh;
@@ -70,7 +78,7 @@ nav a {
   flex-direction: column;
   margin-top: 2em;
   margin-right: 3em;
-  height: 100vh;
+  min-height: 100vh;
   min-width: 15vw;
 }
 

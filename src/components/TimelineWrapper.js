@@ -1,7 +1,7 @@
 import { Timeline, ColorPicker } from '../components';
 import React from 'react';
-import { Button, Grid, Input, TextArea, Image } from 'semantic-ui-react';
-import Modal from 'react-modal';
+import { Button, Grid, Input, TextArea, Image, Modal, Icon } from 'semantic-ui-react';
+import TimelineModal from './toolbars/TimelineModal';
 import TimelineTools from './toolbars/TimelineTools';
 import { withRouter } from 'react-router-dom';
 import firebase from 'firebase';
@@ -81,13 +81,13 @@ class TimelineWrapper extends React.Component {
 
   updateEvent(name, idx, color, description, imgUrl, vidUrl, radius, height) {
     var dates = this.props.data.dates;
-    dates[idx].name = name;
-    dates[idx].color = color;
+    dates[idx].name = name || "";
+    dates[idx].color = color || null;
     dates[idx].description = description;
-    dates[idx].imgUrl = imgUrl;
-    dates[idx].vidUrl = vidUrl;
-    dates[idx].radius = radius;
-    dates[idx].height = height;
+    dates[idx].imgUrl = imgUrl || "";
+    dates[idx].vidUrl = vidUrl || "";
+    dates[idx].radius = radius || 5;
+    dates[idx].height = height || 200;
     // this.setState({ dates });
     this.props.dispatchUpdateEvents(dates);
   }
@@ -167,34 +167,6 @@ class TimelineWrapper extends React.Component {
   }
 
   render() {
-    var eventName = this.state.modalContentEventName;
-    var eventColor = this.state.modalContentEventColor;
-    var description = this.state.modalContentEventDescription;
-    var imgUrl = this.state.modalContentEventImgUrl;
-    var vidUrl = this.state.modalContentEventVidUrl;
-    var radius = this.state.modalContentEventRadius;
-    var height = this.state.modalContentEventHeight;
-    var header = 'Update Event';
-    var color = 'Change Event Color';
-    if (this.state.editorMode) {
-      var modalWidth = 400;
-    } else {
-      var modalWidth = 500;
-    }
-
-    var modalStyle = {
-      content: {
-        top: '200px',
-        left: '37%',
-        right: 'auto',
-        bottom: 'auto',
-        border: '0px solid #333',
-        width: modalWidth
-      },
-      overlay: {
-        backgroundColor: 'rgba(0, 0, 0 , 0.35)'
-      }
-    };
     return (
       <div className="chartContainer">
         <Grid>
@@ -222,113 +194,34 @@ class TimelineWrapper extends React.Component {
                   <input type="submit" value="Update Title" />
                 </form>
               ) : (
-                ''
-              )}
+                  ''
+                )}
               <div style={{ margin: '4em' }}>
                 <Timeline
                   handleClick={this.handleClick}
                   data={this.props.data}
                   openModal={this.openModal}
                 />
-                <Modal
-                  closeTimeoutMS={150}
-                  isOpen={this.state.modalIsOpen}
-                  editorMode={this.state.editorMode}
-                  onRequestClose={this.handleModalCloseRequest}
-                  style={modalStyle}
-                  updateEvent={this.updateEvent}
-                >
-                  <button className="close" onClick={this.closeModal}>
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                  {!this.state.editorMode ? (
-                    <div>
-                      <h2>{eventName}</h2>
-                      <hr />
-                      {imgUrl ? (
-                        <Image src={imgUrl} width="300" height="200" />
-                      ) : (
-                        ''
-                      )}
-                      <p>{description}</p>
-                      {vidUrl ? (
-                        <iframe
-                          width="250"
-                          height="200"
-                          src={vidUrl}
-                          frameborder="0"
-                          allow="autoplay; encrypted-media"
-                          allowfullscreen
-                        />
-                      ) : (
-                        ''
-                      )}
-                    </div>
-                  ) : (
-                    <div>
-                      <h4>{header}</h4>
-                      <Input
-                        label="Event Name"
-                        name="modalContentEventName"
-                        defaultValue={eventName}
-                        className="form-control fluid"
-                        onChange={this.handleInputChange}
-                      />
-                      <TextArea
-                        label="Event Description"
-                        name="modalContentEventDescription"
-                        defaultValue={description}
-                        className="form-control fluid"
-                        style={{ maxWidth: modalWidth - 50, minHeight: 50 }}
-                        value={description}
-                        onInput={this.handleInputChange}
-                      />
-                      <Input
-                        label="Image URL"
-                        name="modalContentEventImgUrl"
-                        defaultValue={imgUrl}
-                        className="form-control fluid"
-                        onChange={this.handleInputChange}
-                      />
-                      <Input
-                        label="Video URL"
-                        name="modalContentEventVidUrl"
-                        defaultValue={vidUrl}
-                        className="form-control fluid"
-                        onChange={this.handleInputChange}
-                      />
-                      <Input
-                        label="Event Size"
-                        name="modalContentEventRadius"
-                        defaultValue={radius}
-                        className="form-control fluid"
-                        onChange={this.handleInputChange}
-                      />
-                      <Input
-                        label="Event Height"
-                        name="modalContentEventHeight"
-                        defaultValue={height}
-                        className="form-control fluid"
-                        onChange={this.handleInputChange}
-                      />
-                      <hr />
-                      <div style={{ marginTop: '2em', marginBottom: '2em' }}>
-                        <h4>{color}</h4>
-                        <ColorPicker
-                          handleColorChange={this.handleColorChange}
-                        />
-                      </div>
-                      <div className="row">
-                        <div>
-                          <Button onClick={this.closeAndSaveModal}>
-                            Apply Changes
-                          </Button>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                </Modal>
               </div>
+              <TimelineModal
+                closeIcon
+                size='large'
+                closeOnDocumentClick='true'
+                closeOnDimmerClick='true'
+                closeModal={this.closeModal}
+                handleInputChange={this.handleInputChange}
+                handleColorChange={this.handleColorChange}
+                closeAndSaveModal={this.closeAndSaveModal}
+                editorMode={this.state.editorMode}
+                eventName={this.state.modalContentEventName}
+                eventColor={this.state.modalContentEventColor}
+                description={this.state.modalContentEventDescription}
+                imgUrl={this.state.modalContentEventImgUrl}
+                vidUrl={this.state.modalContentEventVidUrl}
+                radius={this.state.modalContentEventRadius}
+                height={this.state.modalContentEventHeight}
+                isOpen={this.state.modalIsOpen}
+              />
             </Grid.Column>
           </Grid.Row>
         </Grid>
