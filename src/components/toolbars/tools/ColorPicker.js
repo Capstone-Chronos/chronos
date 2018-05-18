@@ -18,7 +18,7 @@ export default class ColorPicker extends React.Component {
   render() {
     return (
       <ChromePicker
-        color={this.props.color}
+        color={this.state.background}
         onChangeComplete={this.handleChangeComplete}
       />
     );
