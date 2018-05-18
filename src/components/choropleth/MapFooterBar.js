@@ -1,8 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { importMapData } from '../../store/mapChart';
+import { ExportJSON } from '../toolbars/SankeyUtils/utils';
 
 class MapFooterBar extends React.Component {
+  constructor(props) {
+    super(props);
+  }
   render() {
     return (
       <div>
@@ -10,7 +14,7 @@ class MapFooterBar extends React.Component {
           <MapImportJSONContainer />
         </div>
         <div className="tool-item">
-          {/* <ExportJSON data={this.props.data} /> */}
+          <ExportJSON data={this.props.data} />
         </div>
         <div className="tool-item">
           <button
@@ -36,7 +40,7 @@ class MapImportJSON extends React.Component {
     this.readFile = this.readFile.bind(this);
   }
 
-  readFile(e) {
+  async readFile(e) {
     var file = e.target.files[0];
     let data;
     if (!file) {
@@ -47,11 +51,12 @@ class MapImportJSON extends React.Component {
       const reader = new FileReader();
       reader.onload = function(e) {
         let contents = JSON.parse(e.target.result);
+        console.log(contents);
         data = contents.data;
-      };
+        this.props.dispatchImportMapJSON(data);
+      }.bind(this);
       reader.readAsText(file);
     }
-    this.props.dispatchImportMapJSON(data);
   }
 
   render() {

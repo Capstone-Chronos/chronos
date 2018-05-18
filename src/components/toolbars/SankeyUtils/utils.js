@@ -2,17 +2,20 @@ import React from 'react';
 import request from 'superagent';
 
 class ExportJSON extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
   render() {
-    var diagramData = {};
-    diagramData.nodes = this.props.nodes;
-    diagramData.links = this.props.links;
-    var data =
+    let { nodes, links, data } = this.props;
+    var diagramData = { nodes, links, data };
+    var downloadData =
       'data:text/json;charset=utf-8,' +
       encodeURIComponent(JSON.stringify(diagramData));
 
     return (
       <div className="tool-button">
-        <a className="ui button tool-button" href={data} download="data.json">
+        <a className="ui button tool-button" href={downloadData} download="data.json">
           Export JSON
         </a>
       </div>
@@ -21,10 +24,13 @@ class ExportJSON extends React.Component {
 }
 
 class ImportJSON extends React.Component {
+  constructor(props){
+    super(props);
+  }
   render() {
     return (
       <label className="ui icon button tool-button">
-        <input type="file" onChange={this.props.readFile} />
+        <input type="file" onInput={this.props.readFile} />
         Import JSON
         <i className="file icon" />
       </label>

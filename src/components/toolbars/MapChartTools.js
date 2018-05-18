@@ -33,7 +33,7 @@ class MapChartTools extends Component {
     this.submitHeightWidth = this.submitHeightWidth.bind(this);
     this.setTitle = this.setTitle.bind(this);
     this.publishTheChart = this.publishTheChart.bind(this);
-    this.importMapDataFromFile = this.importMapDataFromFile.bind(this);
+    // this.importMapDataFromFile = this.importMapDataFromFile.bind(this);
 
     this.emptyDiagram = this.emptyDiagram.bind(this);
 
@@ -67,7 +67,9 @@ class MapChartTools extends Component {
     deleteChart(chartId, userId);
   }
 
-  toggleVisibility = () => this.setState({ visible: !this.state.visible });
+  toggleVisibility() {
+    this.setState(prevState => ({ visible: !prevState.visible }));
+  }
 
   handleChange(evt) {
     this.setState({ [evt.target.name]: evt.target.value });
@@ -101,24 +103,24 @@ class MapChartTools extends Component {
     this.props.changeWidth(this.state.width);
   }
 
-  importMapDataFromFile(event) {
-    let file = event.target.files[0];
-    let data;
-    console.log('FILE', file);
-    if (!file) {
-      console.log('Failed to load file');
-    } else if (!file.type.match('json.*')) {
-      console.log(file.name + ' is not a valid json file.');
-    } else {
-      const reader = new FileReader();
-      reader.onload = function(event) {
-        let contents = JSON.parse(event.target.result);
-        data = contents.data;
-      };
-      reader.readAsText(file);
-    }
-    this.props.dispatchSetMapData(data);
-  }
+  // importMapDataFromFile(event) {
+  //   let file = event.target.files[0];
+  //   let data;
+  //   console.log('FILE', file);
+  //   if (!file) {
+  //     console.log('Failed to load file');
+  //   } else if (!file.type.match('json.*')) {
+  //     console.log(file.name + ' is not a valid json file.');
+  //   } else {
+  //     const reader = new FileReader();
+  //     reader.onload = function(event) {
+  //       let contents = JSON.parse(event.target.result);
+  //       data = contents.data;
+  //     };
+  //     reader.readAsText(file);
+  //   }
+  //   this.props.dispatchSetMapData(data);
+  // }
 
   render() {
     console.log('PROPS', this.props);
