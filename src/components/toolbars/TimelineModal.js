@@ -8,7 +8,7 @@ const TimelineModal = (props) => {
       {
         !props.editorMode ? (
           <div>
-            <Modal.Header>
+            <Modal.Header style={{margin: '2em'}}>
               <h2>{props.eventName}</h2>
               <h3>{new Date(props.date).toDateString()}</h3>
             </Modal.Header>
@@ -20,7 +20,7 @@ const TimelineModal = (props) => {
                     ''
                   )}
                 {props.vidUrl ? (
-                  <div style={{ margin: '3em' }}>
+                  <div style={{ margin: '1em' }}>
                     <iframe
                       width="800"
                       height="400"
@@ -33,10 +33,10 @@ const TimelineModal = (props) => {
                 ) : (
                     ''
                   )}
-                <Modal.Description>
+                <Modal.Description style={{margin:'2em'}}>
                   <p>{props.description}</p>
                 </Modal.Description>
-                <Button primary onClick={props.closeModal}>
+                <Button primary onClick={props.closeModal} style={{margin: '2em'}}>
                   Done <Icon name='right chevron' />
                 </Button>
               </Modal.Content>
