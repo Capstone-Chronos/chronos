@@ -17,7 +17,7 @@ class Choropleth extends React.Component {
     this.state = {
       openModal: false,
       selectedStateId: '',
-      stateColors: {},
+      stateColors: this.props.stateColors,
       selectedColor: ''
     };
     this.toggleModal = this.toggleModal.bind(this);
@@ -37,13 +37,11 @@ class Choropleth extends React.Component {
     }));
   }
 
-  // componentWillReceiveProps() {
-  //   console.log('helloooo', this.props)
-  //   this.setState({
-  //     stateColors: this.props,
-  //     data: this.props.data
-  //   })
-  // }
+  componentWillReceiveProps() {
+    this.setState({
+      stateColors: this.props.stateColors
+    });
+  }
 
   componentDidMount() {
     const chartId = this.props.match.params.id;
@@ -76,7 +74,6 @@ class Choropleth extends React.Component {
 
   render() {
     if (!this.props.data) return <div />;
-    console.log('MAP RERENDER', this.props.data.stateColors);
     return (
       <Table>
         <Table.Row>
@@ -122,7 +119,8 @@ const mapsStateToProps = state => {
     chartId: state.mapChart.chartId,
     data: state.mapChart.data,
     uid: state.user.uid,
-    title: state.mapChart.title
+    title: state.mapChart.title,
+    stateColors: state.mapChart.stateColors
   };
 };
 

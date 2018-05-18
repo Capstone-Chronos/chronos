@@ -15,7 +15,7 @@ let defaultData = {
   }
 };
 
-let empty = {
+const empty = {
   chartId: '',
   chartType: 'Choropleth',
   title: 'Choropleth',

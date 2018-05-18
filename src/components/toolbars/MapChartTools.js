@@ -50,7 +50,6 @@ class MapChartTools extends Component {
   }
 
   emptyDiagram() {
-    console.log('props', this.props);
     this.props.clearChart();
     this.props.renderMap(this.toggleModal, this.props.data.stateColors);
   }
@@ -123,7 +122,6 @@ class MapChartTools extends Component {
   // }
 
   render() {
-    console.log('PROPS', this.props);
     return (
       <div className="map-chart-tools">
         <div>
