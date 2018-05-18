@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { loadData, readFile } from './../toolbars/SankeyUtils/utils';
+import { readFile } from './../toolbars/SankeyUtils/utils';
+import MapFooterBar from '../choropleth/MapFooterBar';
 import {
   deleteChart,
   saveExistingChart,
@@ -9,15 +10,15 @@ import {
 import {
   loadDefaultData,
   clearMapData,
-  importData,
   saveMapChartThunk,
-  updateTitle
-} from '../../store';
+  updateTitle,
+  importMapData
+} from '../../store/mapChart';
 import { connect } from 'react-redux';
 import { Button, Input } from 'semantic-ui-react';
-import FooterBar from './SankeyUtils/FooterBar';
 import PublishButton from './tools/PublishButton';
 import { withRouter } from 'react-router-dom';
+import request from 'superagent';
 
 class MapChartTools extends Component {
   constructor(props) {
@@ -32,10 +33,10 @@ class MapChartTools extends Component {
     this.submitHeightWidth = this.submitHeightWidth.bind(this);
     this.setTitle = this.setTitle.bind(this);
     this.publishTheChart = this.publishTheChart.bind(this);
+    // this.importMapDataFromFile = this.importMapDataFromFile.bind(this);
 
     this.emptyDiagram = this.emptyDiagram.bind(this);
 
-    this.loadData = loadData.bind(this);
     this.readFile = readFile.bind(this);
     this.delete = this.delete.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -66,7 +67,9 @@ class MapChartTools extends Component {
     deleteChart(chartId, userId);
   }
 
-  toggleVisibility = () => this.setState({ visible: !this.state.visible });
+  toggleVisibility() {
+    this.setState(prevState => ({ visible: !prevState.visible }));
+  }
 
   handleChange(evt) {
     this.setState({ [evt.target.name]: evt.target.value });
@@ -100,7 +103,27 @@ class MapChartTools extends Component {
     this.props.changeWidth(this.state.width);
   }
 
+  // importMapDataFromFile(event) {
+  //   let file = event.target.files[0];
+  //   let data;
+  //   console.log('FILE', file);
+  //   if (!file) {
+  //     console.log('Failed to load file');
+  //   } else if (!file.type.match('json.*')) {
+  //     console.log(file.name + ' is not a valid json file.');
+  //   } else {
+  //     const reader = new FileReader();
+  //     reader.onload = function(event) {
+  //       let contents = JSON.parse(event.target.result);
+  //       data = contents.data;
+  //     };
+  //     reader.readAsText(file);
+  //   }
+  //   this.props.dispatchSetMapData(data);
+  // }
+
   render() {
+    console.log('PROPS', this.props);
     return (
       <div>
         <div>
@@ -159,9 +182,9 @@ class MapChartTools extends Component {
             />
           </div>
           <div className="tool-item">
-            <FooterBar
+            <MapFooterBar
               data={this.props.data}
-              readFile={this.props.readFile}
+              // readFile={this.importMapDataFromFile}
               emptyDiagram={this.emptyDiagram}
             />
           </div>
@@ -194,10 +217,6 @@ const mapDispatchToProps = function(dispatch) {
       const action = saveMapChartThunk(data, title);
       dispatch(action);
     },
-    loadData: data => {
-      const action = importData(data);
-      dispatch(action);
-    },
     delete: (chartId, userId) => {
       const action = deleteChart(chartId, userId);
       dispatch(action);
@@ -210,12 +229,16 @@ const mapDispatchToProps = function(dispatch) {
       const action = updateTitle(title);
       dispatch(action);
     },
-    uploadData: data => {
-      const action = importData(data);
-      dispatch(action);
-    },
+    // uploadData: data => {
+    //   const action = importData(data);
+    //   dispatch(action);
+    // },
     publishTheChart: chartId => {
       const action = publishChart(chartId);
+      dispatch(action);
+    },
+    dispatchSetMapData: data => {
+      const action = importMapData(data);
       dispatch(action);
     }
   };
