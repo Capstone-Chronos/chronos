@@ -57,7 +57,8 @@ class Choropleth extends React.Component {
   }
 
   componentDidUpdate() {
-    this.renderMap(this.toggleModal, this.props.data.stateColors);
+    this.props.data &&
+      this.renderMap(this.toggleModal, this.props.data.stateColors);
   }
 
   selectedColor(hexcode) {
@@ -73,6 +74,7 @@ class Choropleth extends React.Component {
   }
 
   render() {
+    if (!this.props.data) return <div />;
     console.log('MAP RERENDER', this.props.data.stateColors);
     return (
       <div>

@@ -1,8 +1,7 @@
 import { userRef, chartsRef, databaseRef } from '../base';
 import firebase from 'firebase';
 import history from '../routes/history';
-import { saveNewChart } from '../database/charts';
-import { fetchChartById } from '../database/charts';
+import { fetchChartById, saveNewChart } from '../database/charts';
 
 let defaultData = {
   chartId: '',
@@ -34,7 +33,7 @@ const initialState = defaultData;
 const UPDATE_COLORS = 'UPDATE_COLORS';
 const SET_MAP_ON_LOAD = 'SET_MAP_ON_LOAD';
 
-const UPDATE_DATA = 'UPDATE_DATA';
+const UPDATE_MAP_DATA = 'UPDATE_MAP_DATA';
 const IMPORT_DATA = 'IMPORT_DATA';
 const GET_ONE_CHART = 'GET_CHART';
 const GET_USER_CHARTS = 'GET_USER_CHARTS';
@@ -58,17 +57,17 @@ export const setMapOnLoad = map => ({
 });
 
 export const loadDefaultData = () => ({
-  type: UPDATE_DATA,
+  type: UPDATE_MAP_DATA,
   data: defaultData
 });
 
 export const importMapData = data => ({
-  type: UPDATE_DATA,
+  type: UPDATE_MAP_DATA,
   data: data
 });
 
 export const clearMapData = () => ({
-  type: UPDATE_DATA,
+  type: UPDATE_MAP_DATA,
   data: empty
 });
 
@@ -165,9 +164,8 @@ export default function reducer(state = initialState, action) {
       };
     case UPDATE_TITLE:
       return { ...state, title: action.title };
-    case UPDATE_DATA:
-      defaultData = action.data;
-      return { ...state, data: action.data };
+    case UPDATE_MAP_DATA:
+      return { ...state, data: { ...state.data, ...action.data } };
     case DELETE_USER_CHART:
       return {
         ...state,
