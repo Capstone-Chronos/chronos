@@ -62,7 +62,7 @@ class MapImportJSON extends React.Component {
   render() {
     return (
       <div>
-        <div>
+        <div className="ui button tool-button">
           <label
             htmlFor="file"
             className="ui icon button"

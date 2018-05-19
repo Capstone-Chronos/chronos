@@ -1,6 +1,14 @@
 import { Timeline, ColorPicker } from '../components';
 import React from 'react';
-import { Button, Grid, Input, TextArea, Image, Modal, Icon } from 'semantic-ui-react';
+import {
+  Button,
+  Grid,
+  Input,
+  TextArea,
+  Image,
+  Modal,
+  Icon
+} from 'semantic-ui-react';
 import TimelineModal from './toolbars/TimelineModal';
 import TimelineTools from './toolbars/TimelineTools';
 import { withRouter } from 'react-router-dom';
@@ -81,11 +89,11 @@ class TimelineWrapper extends React.Component {
 
   updateEvent(name, idx, color, description, imgUrl, vidUrl, radius, height) {
     var dates = this.props.data.dates;
-    dates[idx].name = name || "";
-    dates[idx].color = color || "#1D59B0";
+    dates[idx].name = name || '';
+    dates[idx].color = color || '#1D59B0';
     dates[idx].description = description;
-    dates[idx].imgUrl = imgUrl || "";
-    dates[idx].vidUrl = vidUrl || "";
+    dates[idx].imgUrl = imgUrl || '';
+    dates[idx].vidUrl = vidUrl || '';
     dates[idx].radius = radius || 5;
     dates[idx].height = height || 200;
     // this.setState({ dates });
@@ -138,7 +146,7 @@ class TimelineWrapper extends React.Component {
       this.state.modalContentEventImgUrl,
       this.state.modalContentEventVidUrl,
       this.state.modalContentEventRadius,
-      this.state.modalContentEventHeight,
+      this.state.modalContentEventHeight
     );
     this.setState({ modalIsOpen: false });
   }
@@ -195,8 +203,8 @@ class TimelineWrapper extends React.Component {
                   <input type="submit" value="Update Title" />
                 </form>
               ) : (
-                  ''
-                )}
+                ''
+              )}
               <div style={{ margin: '4em' }}>
                 <Timeline
                   handleClick={this.handleClick}
@@ -206,9 +214,9 @@ class TimelineWrapper extends React.Component {
               </div>
               <TimelineModal
                 closeIcon
-                size='large'
-                closeOnDocumentClick='true'
-                closeOnDimmerClick='true'
+                size="large"
+                closeOnDocumentClick="true"
+                closeOnDimmerClick="true"
                 closeModal={this.closeModal}
                 handleInputChange={this.handleInputChange}
                 handleColorChange={this.handleColorChange}
