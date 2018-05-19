@@ -52,7 +52,7 @@ export class AllProjects extends React.Component {
 
   render() {
     return (
-      <div className="chart-group-containter">
+      <div className="chart-group-containter" style={{margin: '1em'}}>
         <div>
           <h2 className="title">Create Project from Template</h2>
           <div className="grid-list">
