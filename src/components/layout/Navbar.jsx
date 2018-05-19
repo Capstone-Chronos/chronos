@@ -7,12 +7,13 @@ import { connect } from 'react-redux';
 const Navbar = ({ handleClick, isLoggedIn, user, logout }) => {
   const admin = user && user.admin;
   return (
-    <div>
+    <div style={{ background: 'black'}}>
       <Segment inverted>
         {isLoggedIn ? (
           <div>
             {/* The navbar will show these links after you log in */}
             <Menu inverted>
+              <img src='logo.svg' height="60px" width="120px" />
               <Menu.Item as={Link} to="/" name="Home" />
               <Menu.Item as={Link} to="/charts" name="Charts" />
               {admin ? (
@@ -30,16 +31,17 @@ const Navbar = ({ handleClick, isLoggedIn, user, logout }) => {
             </Menu>
           </div>
         ) : (
-          <Menu inverted>
-            {/* The navbar will show these links before you log in */}
-            <Menu.Item as={Link} to="/" name="Home" />
-            <Menu.Item as={Link} to="/charts" name="Charts" />
-            <Menu.Menu position="right">
-              <Menu.Item as={Link} to="/login" name="Login" />
-              <Menu.Item as={Link} to="signup" name="Signup" />
-            </Menu.Menu>
-          </Menu>
-        )}
+            <Menu inverted>
+              <img src='logo.svg' height="60px" width="120px" />
+              {/* The navbar will show these links before you log in */}
+              <Menu.Item as={Link} to="/" name="Home" />
+              <Menu.Item as={Link} to="/charts" name="Charts" />
+              <Menu.Menu position="right">
+                <Menu.Item as={Link} to="/login" name="Login" />
+                <Menu.Item as={Link} to="signup" name="Signup" />
+              </Menu.Menu>
+            </Menu>
+          )}
       </Segment>
     </div>
   );

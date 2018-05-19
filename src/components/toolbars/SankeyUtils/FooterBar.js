@@ -4,6 +4,7 @@ import { Button } from 'semantic-ui-react';
 
 export default class extends React.Component {
   render() {
+    console.log(this.props)
     return (
       <div>
         <div className="tool-item">
