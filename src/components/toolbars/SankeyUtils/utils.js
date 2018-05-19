@@ -1,5 +1,6 @@
 import React from 'react';
 import request from 'superagent';
+import { Button } from 'semantic-ui-react';
 
 class ExportJSON extends React.Component {
   constructor(props) {
@@ -14,26 +15,36 @@ class ExportJSON extends React.Component {
       encodeURIComponent(JSON.stringify(diagramData));
 
     return (
-      <div className="tool-button">
-        <a className="ui button tool-button" href={downloadData} download="data.json">
-          Export JSON
-        </a>
-      </div>
+      <Button
+        className="ui button tool-button fluid"
+        href={downloadData}
+        download="data.json"
+        name="submit"
+        onClick={this.submitEvent}
+      >
+        <i className="folder open icon" />
+        EXPORT JSON
+      </Button>
     );
   }
 }
 
 class ImportJSON extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
   }
   render() {
     return (
-      <label className="ui icon button tool-button">
-        <input type="file" onInput={this.props.readFile} />
-        Import JSON
+      <Button className="ui button tool-button fluid">
         <i className="file icon" />
-      </label>
+        <input type="file" onInput={this.props.readFile} />
+        IMPORT JSON
+      </Button>
+      // <label className="ui icon button tool-button fluid">
+      //   <input type="file" onInput={this.props.readFile} />
+      //   <i className="file icon" />
+      //   IMPORT JSON
+      // </label>
     );
   }
 }
@@ -54,7 +65,7 @@ function loadData(path) {
     let data = {
       nodes: nodes,
       links: links
-    }
+    };
     this.props.uploadData({ data });
   });
 }

@@ -1,3 +1,8 @@
+body {
+  font-family: Helvetica;
+  background-color: rgb(243, 243, 244);
+}
+
 .site {
   display: flex;
   min-height: 100vh;
@@ -80,22 +85,26 @@ nav a {
   margin-right: 3em;
   min-height: 100vh;
   min-width: 15vw;
+  justify-content: flex-start;
+  align-items: stretch;
 }
 
 .tool-item {
-  display: flex;
-  justify-content: left;
-  width: '8em';
-  margin-bottom: .5em;
+  /* display: flex;
+  justify-content: stretch; */
+  /* width: '8em'; */
+  margin-bottom: 0.5em;
 }
 
 .tool-button {
-  width: 20em;
-  max-width: 20em;
-  min-width: 20em;
+  /* width: 20em; */
+  /* max-width: 20em; */
+  /* min-width: 20em; */
+  align-self: stretch;
+  padding-right: 20px;
 }
 
-input[type=file] {
+input[type='file'] {
   display: none;
 }
 
@@ -107,10 +116,6 @@ input[type=file] {
   color: white;
   text-align: center;
   /* height: 4vh; */
-}
-
-body {
-  font-family: Helvetica;
 }
 
 .node rect {
@@ -185,12 +190,6 @@ select.btn {
   z-index: 0;
 }
 
-.btn-file {
-  position: relative;
-  overflow: hidden;
-  margin-right: 10px;
-}
-
 .btn-file input[type='file'] {
   position: absolute;
   top: 0;
@@ -237,6 +236,13 @@ a:hover {
   margin-top: 30px;
   margin-bottom: 30px;
 }
+
+.toolbar {
+  background-color: #2e9cca;
+  border-radius: 8px;
+  padding: 20px;
+}
+
 .chart {
   margin-bottom: 20px;
 }
@@ -362,6 +368,7 @@ span.buttonText {
   padding-bottom: 100%; */
   vertical-align: top;
   overflow: hidden;
+  background-color: white;
 }
 
 .svg-content {
@@ -371,6 +378,7 @@ span.buttonText {
   left: 0;
   border: #252525;
   border-width: 1px;
+  background-color: white;
 }
 
 .svg-centered {
@@ -380,16 +388,28 @@ span.buttonText {
   align-items: center;
 }
 
-.states { 
+.states {
   stroke: #fff;
   stroke-linejoin: round;
 }
 
 .time-event {
-  opacity: .5;
+  opacity: 0.5;
   cursor: pointer;
 }
 
 .time-event:hover {
   opacity: 1;
+}
+
+.stretch {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+}
+
+.toggleContainer {
+  display: flex;
+  justify-content: space-evenly;
 }

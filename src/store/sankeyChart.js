@@ -202,7 +202,7 @@ export const setSankeyId = chartId => ({
 });
 
 export const setSankeyChart = chart => ({
-  type: SET_CHART,
+  type: SET_SANKEY_CHART,
   chart
 });
 
@@ -242,7 +242,10 @@ export default function reducer(state = initialState, action) {
     case UPDATE_TITLE:
       return { ...state, title: action.title };
     case UPDATE_DATA:
-      return { ...state, data: { nodes: action.data.nodes, links: action.data.links } };
+      return {
+        ...state,
+        data: { nodes: action.data.nodes, links: action.data.links }
+      };
     case DELETE_USER_CHART:
       return { ...state, nodes: empty.nodes, links: empty.links };
     case SET_CHART_ID:
