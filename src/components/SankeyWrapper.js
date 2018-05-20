@@ -1,5 +1,6 @@
 import React from 'react';
 import { Sankey, SankeyTools, FooterBar, ColorPicker } from '../components';
+import { Button, Input, Grid } from 'semantic-ui-react';
 import history from '../routes/history';
 import Modal from 'react-modal';
 import addNode from './toolbars/SankeyUtils/AddNode';
@@ -26,7 +27,8 @@ class SankeyWrapper extends React.Component {
     super(props);
     this.state = {
       modalIsOpen: false,
-      titleIsSet: false
+      titleIsSet: false,
+      editorMode: true
     };
 
     this.loadData = loadData.bind(this);
@@ -51,6 +53,7 @@ class SankeyWrapper extends React.Component {
     this.changeHeight = this.changeHeight.bind(this);
     this.changeWidth = this.changeWidth.bind(this);
     this.handleColorChange = this.handleColorChange.bind(this);
+    this.toggleEditor = this.toggleEditor.bind(this);
   }
 
   componentDidMount() {
@@ -221,6 +224,10 @@ class SankeyWrapper extends React.Component {
     }
   }
 
+  toggleEditor() {
+    this.setState({ editorMode: !this.state.editorMode })
+  }
+
   render() {
     if (this.state.modalContent === 'link') {
       var modalValue = this.state.modalContentLinkValue;
@@ -249,83 +256,89 @@ class SankeyWrapper extends React.Component {
     return !this.props.data ? (
       <div />
     ) : (
-      <div>
-        <div className="chartContainer">
-          <div>
-            <SankeyTools
-              data={this.props.data}
-              addNode={this.addNode}
-              addLink={this.addLink}
-              openModal={this.openModal}
-              handleSubmit={this.handleSubmit}
-              handleUpdate={this.handleUpdate}
-              changeHeight={this.changeHeight}
-              changeWidth={this.changeWidth}
-              height={this.state.height}
-              width={this.state.width}
-              readFile={this.readFile}
-              emptyDiagram={this.emptyDiagram}
-              deleteChart={this.delete}
-              publishTheChart={this.publishTheChart}
-              chartId={this.props.chartId}
-              uploadData={this.props.uploadData}
-            />
-          </div>
-          <div>
-            <h2>{this.props.title}</h2>
-            <form onSubmit={this.setTitle}>
-              <input
-                type="text"
-                name="title"
-                placeholder="Change Title Here"
-                value={this.state.title}
-              />
-              <input type="submit" value="Update Title" />
-            </form>
-            <Sankey
-              data={this.props.data}
-              openModal={this.openModal}
-              height={this.state.height}
-              width={this.state.width}
-            />
-          </div>
-        </div>
         <div>
-          <Modal
-            closeTimeoutMS={150}
-            isOpen={this.state.modalIsOpen}
-            onRequestClose={this.handleModalCloseRequest}
-            style={modalStyle}
-          >
-            <button className="close" onClick={this.closeModal}>
-              <span aria-hidden="true">&times;</span>
-            </button>
-            <h4>{header}</h4>
-            <hr />
-            <input
-              className="form-control"
-              defaultValue={modalValue}
-              onChange={this.handleInputChange}
-            />
-            <hr />
-            <div style={{ marginTop: '2em', marginBottom: '2em' }}>
-              <h4>{color}</h4>
-              <ColorPicker handleColorChange={this.handleColorChange} />
-            </div>
-            <div className="row">
-              <div className="col-xs-12">
-                <button
-                  className="ui button primary"
-                  onClick={this.closeAndSaveModal}
-                >
-                  Apply Changes
-                </button>
+          <div className="chartContainer">
+            <Grid>
+              <Grid.Row>
+                <Grid.Column width='4'>
+                  <SankeyTools
+                    data={this.props.data}
+                    addNode={this.addNode}
+                    addLink={this.addLink}
+                    openModal={this.openModal}
+                    handleSubmit={this.handleSubmit}
+                    handleUpdate={this.handleUpdate}
+                    changeHeight={this.changeHeight}
+                    changeWidth={this.changeWidth}
+                    height={this.state.height}
+                    width={this.state.width}
+                    readFile={this.readFile}
+                    emptyDiagram={this.emptyDiagram}
+                    deleteChart={this.delete}
+                    publishTheChart={this.publishTheChart}
+                    chartId={this.props.chartId}
+                    uploadData={this.props.uploadData}
+                    editorMode={this.state.editorMode}
+                    toggleEditor={this.toggleEditor}
+                  />
+                </Grid.Column>
+                <Grid.Column width='12'>
+                  <h2>{this.props.title}</h2>
+                  <form onSubmit={this.setTitle}>
+                    <input
+                      type="text"
+                      name="title"
+                      placeholder="Change Title Here"
+                      value={this.state.title}
+                    />
+                    <input type="submit" value="Update Title" />
+                  </form>
+                  <Sankey
+                    data={this.props.data}
+                    openModal={this.openModal}
+                    height={this.state.height}
+                    width={this.state.width}
+                  />
+                </Grid.Column>
+              </Grid.Row>
+            </Grid>
+          </div>
+          <div>
+            <Modal
+              closeTimeoutMS={150}
+              isOpen={this.state.modalIsOpen}
+              onRequestClose={this.handleModalCloseRequest}
+              style={modalStyle}
+            >
+              <button className="close" onClick={this.closeModal}>
+                <span aria-hidden="true">&times;</span>
+              </button>
+              <h4>{header}</h4>
+              <hr />
+              <input
+                className="form-control"
+                defaultValue={modalValue}
+                onChange={this.handleInputChange}
+              />
+              <hr />
+              <div style={{ marginTop: '2em', marginBottom: '2em' }}>
+                <h4>{color}</h4>
+                <ColorPicker handleColorChange={this.handleColorChange} />
               </div>
-            </div>
-          </Modal>
+              <div className="row">
+                <div className="col-xs-12">
+                  <button
+                    className="ui button primary"
+                    onClick={this.closeAndSaveModal}
+                  >
+                    Apply Changes
+                </button>
+                </div>
+              </div>
+            </Modal>
+          </div>
         </div>
-      </div>
-    );
+      );
   }
 }
 
@@ -342,7 +355,7 @@ const mapStateToProps = storeState => {
   };
 };
 
-const mapDispatchToProps = function(dispatch) {
+const mapDispatchToProps = function (dispatch) {
   return {
     fetchDefaultData: () => {
       const action = loadDefaultData();

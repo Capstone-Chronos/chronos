@@ -35,7 +35,7 @@ export default class extends React.Component {
   }
 
   render() {
-    if (this.props.data){
+    if (this.props.data) {
       let { nodes, links } = this.props.data
       var sourceNodes = nodes.map((node, i) => {
         return (
@@ -44,13 +44,13 @@ export default class extends React.Component {
           </option>
         );
       });
-  
+
       sourceNodes.unshift(
         <option value={NaN} key="000">
           {'Select Source'}
         </option>
       );
-  
+
       var targetNodes = nodes
         .filter((node, i) => {
           return node.node !== this.state.source;
@@ -62,7 +62,7 @@ export default class extends React.Component {
             </option>
           );
         });
-  
+
       targetNodes.unshift(
         <option value={NaN.toString()} key="000">
           {'Select Target'}
@@ -88,6 +88,7 @@ export default class extends React.Component {
         </div>
         <div className='tool-item'>
           <Input
+            fluid
             label="Name"
             value={this.state.weight}
             onFocus={this.clearInput}
@@ -97,7 +98,7 @@ export default class extends React.Component {
         </div>
         <div className='tool-item'>
           <Button
-            className='tool-button primary'
+            className='tool-button fluid'
             onClick={this.props.addLink.bind(
               null,
               parseInt(this.state.source),
