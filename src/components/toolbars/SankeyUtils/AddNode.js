@@ -36,6 +36,7 @@ export default class extends React.Component {
       <div>
         <div className='tool-item'>
           <Input
+            fluid
             className="form-control"
             label="Name"
             value={defaultValue}
@@ -45,7 +46,7 @@ export default class extends React.Component {
         <span>
           <div className='tool-item'>
             <Button
-              className='tool-button primary'
+              fluid
               onClick={this.props.addNode.bind(null, this.state.name)}
             >
               Add Node
