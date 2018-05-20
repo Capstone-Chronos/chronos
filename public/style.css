@@ -230,6 +230,9 @@ a:hover {
 .toolBar {
   margin-top: 30px;
   margin-bottom: 30px;
+}
+
+.toolbar {
   background-color: #2e9cca;
   border-radius: 8px;
   padding: 20px;
