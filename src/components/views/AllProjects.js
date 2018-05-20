@@ -38,7 +38,7 @@ export class AllProjects extends React.Component {
       case 'Pie Chart':
         return 'https://www.highcharts.com/images/docs/pie.png';
       case 'Sankey Diagram':
-        return this.randomSnapshot('https://i.imgur.com/9wV1tMp.png', 'https://i.imgur.com/hXSOfvJm.png', 'https://i.imgur.com/oByDC8e.png');
+        return this.randomSnapshot('https://i.imgur.com/rwgKLuY.png', 'https://i.imgur.com/9wV1tMp.png', 'https://i.imgur.com/hXSOfvJm.png', 'https://i.imgur.com/oByDC8e.png');
       case 'Timeline':
         return this.randomSnapshot('https://i.imgur.com/eQvaOqS.png', 'https://i.imgur.com/r6ZHVvEl.png', 'https://i.imgur.com/ZkbJQWJl.png');
       case 'Map':
@@ -46,7 +46,7 @@ export class AllProjects extends React.Component {
       case 'Choropleth':
         return this.randomSnapshot('https://i.imgur.com/kiPKzS4m.png', 'https://i.imgur.com/lKs4rok.png', 'https://i.imgur.com/YiFnSZi.png');
       case 'Sankey':
-        return this.randomSnapshot('https://i.imgur.com/hXSOfvJm.png', 'https://i.imgur.com/oByDC8e.png', 'https://i.imgur.com/9wV1tMp.png');
+        return this.randomSnapshot('https://i.imgur.com/rwgKLuY.png', 'https://i.imgur.com/hXSOfvJm.png', 'https://i.imgur.com/oByDC8e.png', 'https://i.imgur.com/9wV1tMp.png');
     }
   }
 
