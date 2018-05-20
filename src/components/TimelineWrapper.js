@@ -180,8 +180,9 @@ class TimelineWrapper extends React.Component {
       <div className="chartContainer">
         <Grid>
           <Grid.Row>
-            <Grid.Column width="3">
+            <Grid.Column width='3' verticalAlign='center' textAlign='center'>
               <TimelineTools
+                editorMode={this.state.editorMode}
                 changeHeight={this.changeHeight}
                 changeWidth={this.changeWidth}
                 toggleEditor={this.toggleEditor}
@@ -203,8 +204,9 @@ class TimelineWrapper extends React.Component {
                   <input type="submit" value="Update Title" />
                 </form>
               ) : (
-                ''
-              )}
+                  <div style={{margin: '3em'}}>
+                  </div>
+                )}
               <div style={{ margin: '4em' }}>
                 <Timeline
                   handleClick={this.handleClick}
