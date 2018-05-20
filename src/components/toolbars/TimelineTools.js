@@ -86,7 +86,7 @@ class TimelineTools extends Component {
   }
 
   render() {
-    const { data, title, chartId } = this.props;
+    const { data, title, chartId, editorMode } = this.props;
     return (
       <div className="toolbar">
         <h2>Tools</h2>
@@ -102,139 +102,140 @@ class TimelineTools extends Component {
             />
           </div>
         </div>
-        <div className="tools">
-          <h4>New Event</h4>
-          <div className="form">
-            <form className="stretch">
-              <div className="tool-item">
-                <div className="ui fluid labeled input">
-                  <div className="ui label">Year</div>
-                  <input
-                    type="text"
-                    placeholder="2015"
-                    onChange={this.handleChange}
-                    name="year"
-                  />
-                </div>
-              </div>
-              <div className="tool-item">
-                <div className="ui fluid labeled input">
-                  <div className="ui label">Day</div>
-                  <input
-                    type="text"
-                    placeholder="03"
-                    onChange={this.handleChange}
-                    name="day"
-                  />
-                </div>
-              </div>
-              <div className="tool-item">
-                <div className="ui fluid labeled input">
-                  <div className="ui label">Month</div>
-                  <input
-                    type="text"
-                    placeholder="06"
-                    onChange={this.handleChange}
-                    name="month"
-                  />
-                </div>
-              </div>
-              <div className="tool-item">
-                <Button
-                  className="tool-button fluid"
-                  name="submit"
-                  onClick={this.submitEvent}
-                >
-                  <i class="calendar plus icon" />
-                  ADD EVENT
-                </Button>
-              </div>
-            </form>
-          </div>
-          <h4>Edit Dimensions</h4>
-          <div className="form">
-            <form onSubmit={this.submitHeightWidth}>
-              <div className="tool-item">
-                <div className="ui fluid labeled input">
-                  <div className="ui label">Width</div>
-                  <input
-                    type="text"
-                    placeholder={this.props.data.width || '1000'}
-                    onChange={this.handleChange}
-                    name="width"
-                  />
-                </div>
-              </div>
-              <div className="tool-item">
-                <div className="ui fluid labeled input">
-                  <div className="ui label">Height</div>
-                  <input
-                    type="text"
-                    placeholder={this.props.data.height || '800'}
-                    onChange={this.handleChange}
-                    name="height"
-                  />
-                </div>
-              </div>
-              <div className="tool-item">
-                <Button
-                  className="tool-button fluid"
-                  onClick={this.submitHeightWidth}
-                >
-                  <i className="expand icon" />
-                  RESIZE
-                </Button>
-              </div>
-            </form>
-            <h4>Edit Range (YYYY,MM,DD)</h4>
-            <hr />
+        {editorMode ?
+          <div className="tools">
+            <h4>New Event</h4>
             <div className="form">
-              <form onSubmit={this.submitRange}>
+              <form className="stretch">
                 <div className="tool-item">
                   <div className="ui fluid labeled input">
-                    <div className="ui label">Start</div>
+                    <div className="ui label">Year</div>
                     <input
                       type="text"
-                      placeholder={this.props.data.start}
+                      placeholder="2015"
                       onChange={this.handleChange}
-                      name="start"
+                      name="year"
                     />
                   </div>
                 </div>
                 <div className="tool-item">
                   <div className="ui fluid labeled input">
-                    <div className="ui label">End</div>
+                    <div className="ui label">Day</div>
                     <input
                       type="text"
-                      placeholder={this.props.data.end}
+                      placeholder="03"
                       onChange={this.handleChange}
-                      name="end"
+                      name="day"
                     />
                   </div>
                 </div>
                 <div className="tool-item">
-                  <button
-                    className="ui button tool-button fluid"
-                    onClick={this.submitRange}
+                  <div className="ui fluid labeled input">
+                    <div className="ui label">Month</div>
+                    <input
+                      type="text"
+                      placeholder="06"
+                      onChange={this.handleChange}
+                      name="month"
+                    />
+                  </div>
+                </div>
+                <div className="tool-item">
+                  <Button
+                    className="tool-button fluid"
+                    name="submit"
+                    onClick={this.submitEvent}
                   >
-                    {/* <i className="arrows horizontal icon" /> */}
-                    <i className="resize horizontal icon" />
-                    UPDATE RANGE
-                  </button>
+                    <i class="calendar plus icon" />
+                    ADD EVENT
+                </Button>
                 </div>
               </form>
-              <h4>Save Changes</h4>
-              <hr />
-              <div className="tool-item">
-                <Button
-                  className="ui tool-button fluid"
-                  onClick={this.handleUpdate}
-                >
-                  <i className="save icon" />
-                  SAVE UPDATES
+            </div>
+            <h4>Edit Dimensions</h4>
+            <div className="form">
+              <form onSubmit={this.submitHeightWidth}>
+                <div className="tool-item">
+                  <div className="ui fluid labeled input">
+                    <div className="ui label">Width</div>
+                    <input
+                      type="text"
+                      placeholder={this.props.data.width || '1000'}
+                      onChange={this.handleChange}
+                      name="width"
+                    />
+                  </div>
+                </div>
+                <div className="tool-item">
+                  <div className="ui fluid labeled input">
+                    <div className="ui label">Height</div>
+                    <input
+                      type="text"
+                      placeholder={this.props.data.height || '800'}
+                      onChange={this.handleChange}
+                      name="height"
+                    />
+                  </div>
+                </div>
+                <div className="tool-item">
+                  <Button
+                    className="tool-button fluid"
+                    onClick={this.submitHeightWidth}
+                  >
+                    <i className="expand icon" />
+                    RESIZE
                 </Button>
-              </div>
-              {/* <div className="tool-item">
+                </div>
+              </form>
+              <h4>Edit Range (YYYY,MM,DD)</h4>
+              <hr />
+              <div className="form">
+                <form onSubmit={this.submitRange}>
+                  <div className="tool-item">
+                    <div className="ui fluid labeled input">
+                      <div className="ui label">Start</div>
+                      <input
+                        type="text"
+                        placeholder={this.props.data.start}
+                        onChange={this.handleChange}
+                        name="start"
+                      />
+                    </div>
+                  </div>
+                  <div className="tool-item">
+                    <div className="ui fluid labeled input">
+                      <div className="ui label">End</div>
+                      <input
+                        type="text"
+                        placeholder={this.props.data.end}
+                        onChange={this.handleChange}
+                        name="end"
+                      />
+                    </div>
+                  </div>
+                  <div className="tool-item">
+                    <button
+                      className="ui button tool-button fluid"
+                      onClick={this.submitRange}
+                    >
+                      {/* <i className="arrows horizontal icon" /> */}
+                      <i className="resize horizontal icon" />
+                      UPDATE RANGE
+                  </button>
+                  </div>
+                </form>
+                <h4>Save Changes</h4>
+                <hr />
+                <div className="tool-item">
+                  <Button
+                    className="ui tool-button fluid"
+                    onClick={this.handleUpdate}
+                  >
+                    <i className="save icon" />
+                    SAVE UPDATES
+                </Button>
+                </div>
+                {/* <div className="tool-item">
                 <Button
                   className="ui tool-button fluid"
                   onClick={this.handleSubmit}
@@ -243,33 +244,36 @@ class TimelineTools extends Component {
                   {this.props.chartId ? 'COPY' : 'SAVE'} AS NEW
                 </Button>
               </div> */}
-              <div className="tool-item">
-                <FooterBar
-                  data={this.props.data}
-                  readFile={this.props.readFile}
-                  emptyDiagram={this.props.dispatchClearChart}
-                  uploadData={this.props.uploadData}
-                />
-              </div>
-              <div className="tool-item">
-                <Button
-                  className="ui tool-button fluid"
-                  color="red"
-                  onClick={this.handleDelete}
-                >
-                  <i className="trash icon" />
-                  DELETE CHART
+                <div className="tool-item">
+                  <FooterBar
+                    data={this.props.data}
+                    readFile={this.props.readFile}
+                    emptyDiagram={this.props.dispatchClearChart}
+                    uploadData={this.props.uploadData}
+                  />
+                </div>
+                <div className="tool-item">
+                  <Button
+                    className="ui tool-button fluid"
+                    color="red"
+                    onClick={this.handleDelete}
+                  >
+                    <i className="trash icon" />
+                    DELETE CHART
                 </Button>
-              </div>
-              <div className="tool-item">
-                <PublishButton
-                  chartId={this.props.chartId}
-                  title={this.props.title}
-                />
+                </div>
+                <div className="tool-item">
+                  <PublishButton
+                    chartId={this.props.chartId}
+                    title={this.props.title}
+                  />
+                </div>
               </div>
             </div>
           </div>
-        </div>
+          :
+          ""
+        }
       </div>
     );
   }

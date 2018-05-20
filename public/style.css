@@ -86,24 +86,15 @@ nav a {
   display: flex;
   flex-direction: column;
   margin-top: 2em;
-  margin-right: 3em;
-  min-height: 100vh;
-  min-width: 15vw;
   justify-content: flex-start;
   align-items: stretch;
 }
 
 .tool-item {
-  /* display: flex;
-  justify-content: stretch; */
-  /* width: '8em'; */
   margin-bottom: 0.5em;
 }
 
 .tool-button {
-  /* width: 20em; */
-  /* max-width: 20em; */
-  /* min-width: 20em; */
   align-self: stretch;
   padding-right: 20px;
 }
