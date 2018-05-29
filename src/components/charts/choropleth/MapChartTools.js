@@ -1,22 +1,22 @@
 import React, { Component } from 'react';
-import { readFile } from './../toolbars/SankeyUtils/utils';
-import MapFooterBar from '../choropleth/MapFooterBar';
+import { readFile } from '../../toolbars/SankeyUtils/utils';
+import MapFooterBar from './MapFooterBar';
 import {
   deleteChart,
   saveExistingChart,
   fetchChartById,
   publishChart
-} from '../../database/charts';
+} from '../../../database/charts';
 import {
   loadDefaultData,
   clearMapData,
   saveMapChartThunk,
   updateTitle,
   importMapData
-} from '../../store/mapChart';
+} from '../../../store/mapChart';
 import { connect } from 'react-redux';
 import { Button, Input } from 'semantic-ui-react';
-import PublishButton from './tools/PublishButton';
+import PublishButton from '../../toolbars/tools/PublishButton';
 import { withRouter } from 'react-router-dom';
 import request from 'superagent';
 

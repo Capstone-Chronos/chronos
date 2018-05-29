@@ -1,12 +1,12 @@
 import React from 'react';
 import renderMap from './renderMap';
-import MapChartTools from '../toolbars/MapChartTools';
+import MapChartTools from './MapChartTools';
 import { mapWidth, mapHeight } from './constants';
 import { default as Modal } from './modal';
-import ColorPicker from '../toolbars/tools/ColorPicker';
+import ColorPicker from '../../toolbars/tools/ColorPicker';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { updateMapColors, fetchMapByIdThunk } from '../../store/mapChart';
+import { updateMapColors, fetchMapByIdThunk } from '../../../store/mapChart';
 import { Table } from 'semantic-ui-react';
 
 class Choropleth extends React.Component {
@@ -37,14 +37,6 @@ class Choropleth extends React.Component {
     }));
   }
 
-  // componentWillReceiveProps() {
-  //   console.log('helloooo', this.props)
-  //   this.setState({
-  //     stateColors: this.props,
-  //     data: this.props.data
-  //   })
-  // }
-
   componentDidMount() {
     const chartId = this.props.match.params.id;
     if (chartId) this.props.dispatchGetChartData(chartId);
@@ -53,8 +45,6 @@ class Choropleth extends React.Component {
         this.renderMap(this.toggleModal, this.props.data.stateColors);
       }
     }
-    // this.renderMap(this.toggleModal, this.props.data.stateColors);
-    // this.renderMap(this.toggleModal, this.state.stateColors);
   }
 
   componentDidUpdate() {
@@ -75,8 +65,6 @@ class Choropleth extends React.Component {
   }
 
   render() {
-    if (!this.props.data) return <div />;
-    console.log('MAP RERENDER', this.props.data.stateColors);
     return (
       <Table>
         <Table.Row>
@@ -91,9 +79,7 @@ class Choropleth extends React.Component {
             <div className="chartContainer">
               <svg
                 id="choropleth"
-                ref={node => {
-                  this.node = node;
-                }}
+                ref={node => { this.node = node; }}
                 className="svg-container"
                 width={mapWidth}
                 height={mapHeight}
@@ -107,7 +93,6 @@ class Choropleth extends React.Component {
               <form onSubmit={this.handleSubmit}>
                 <h4>{this.state.selectedStateId}</h4>
                 <ColorPicker handleColorChange={this.selectedColor} />
-
                 <input type="submit" value="Submit" />
               </form>
             </Modal>

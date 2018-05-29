@@ -30,13 +30,8 @@ export default function renderMap (toggleModal, stateColors) {
         // This will hold a callback to render details on the
         // selected state
       })
-      .on('click', function (data) {
-        toggleModal(data.id);
-      })
-      .style('fill', function (data) {
-
-        return stateColors[data.id] || 'black';
-      });
+      .on('click', (data) => { toggleModal(data.id); })
+      .style('fill', (data) => stateColors[data.id] || 'black');
 
     select(node)
       .append('path')

@@ -1,33 +1,28 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { importMapData } from '../../store/mapChart';
-import { ExportJSON } from '../toolbars/SankeyUtils/utils';
+import { importMapData } from '../../../store/mapChart';
+import { ExportJSON } from '../../toolbars/SankeyUtils/utils';
 
-class MapFooterBar extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-  render() {
-    return (
-      <div>
-        <div className="tool-item">
-          <MapImportJSONContainer />
-        </div>
-        <div className="tool-item">
-          <ExportJSON data={this.props.data} />
-        </div>
-        <div className="tool-item">
-          <button
-            className="ui button tool-button orange"
-            onClick={this.props.emptyDiagram}
-          >
-            Clear Diagram
-          </button>
-        </div>
+const MapFooterBar = props => {
+  return (
+    <div>
+      <div className="tool-item">
+        <MapImportJSONContainer />
       </div>
-    );
-  }
-}
+      <div className="tool-item">
+        <ExportJSON data={props.data} />
+      </div>
+      <div className="tool-item">
+        <button
+          type="button" className="ui button tool-button orange"
+          onClick={props.emptyDiagram}
+        >
+          Clear Diagram
+        </button>
+      </div>
+    </div>
+  );
+};
 
 export default MapFooterBar;
 
