@@ -26,3 +26,4 @@ export var modalStyle = {
     }
 };
 
+export const geoFileUrl = 'https://d3js.org/us-10m.v1.json';

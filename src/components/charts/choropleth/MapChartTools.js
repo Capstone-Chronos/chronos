@@ -19,6 +19,7 @@ import { Button, Input } from 'semantic-ui-react';
 import PublishButton from '../../toolbars/tools/PublishButton';
 import { withRouter } from 'react-router-dom';
 import request from 'superagent';
+import { Title, ChartDimensions } from './Toolbar';
 
 class MapChartTools extends Component {
   constructor(props) {
@@ -45,12 +46,10 @@ class MapChartTools extends Component {
 
   setTitle(evt) {
     evt.preventDefault();
-    console.log(evt.target.title.value);
     this.props.updateTheTitle(evt.target.title.value);
   }
 
   emptyDiagram() {
-    console.log('props', this.props);
     this.props.clearChart();
     this.props.renderMap(this.toggleModal, this.props.data.stateColors);
   }
@@ -81,7 +80,6 @@ class MapChartTools extends Component {
   }
 
   handleSubmit() {
-    console.log(this.props, this.props.data);
     let savedData = {
       name: this.props.title,
       data: this.state.data || this.props.data,
@@ -103,75 +101,28 @@ class MapChartTools extends Component {
     this.props.changeWidth(this.state.width);
   }
 
-  // importMapDataFromFile(event) {
-  //   let file = event.target.files[0];
-  //   let data;
-  //   console.log('FILE', file);
-  //   if (!file) {
-  //     console.log('Failed to load file');
-  //   } else if (!file.type.match('json.*')) {
-  //     console.log(file.name + ' is not a valid json file.');
-  //   } else {
-  //     const reader = new FileReader();
-  //     reader.onload = function(event) {
-  //       let contents = JSON.parse(event.target.result);
-  //       data = contents.data;
-  //     };
-  //     reader.readAsText(file);
-  //   }
-  //   this.props.dispatchSetMapData(data);
-  // }
-
   render() {
-    console.log('PROPS', this.props);
     return (
       <div className="map-chart-tools">
-        <div>
-          <h2>{this.props.title}</h2>
-          <form onSubmit={this.setTitle}>
-            <input
-              type="text"
-              name="title"
-              placeholder="Change Title Here"
-              value={this.state.title}
-            />
-            <input type="submit" value="Update Title" />
-          </form>
-        </div>
-        <h4>Edit Chart Dimensions</h4>
+        <Title
+          title={this.props.title}
+          setTitle={this.setTitle}
+          titleInput={this.state.title}
+        />
+        <ChartDimensions
+          submitHeightWidth={this.submitHeightWidth}
+          handleChange={this.handleChange}
+          width={this.props.width}
+          height={this.props.height}
+        />
+        <h4>Save Changes</h4>
         <hr />
-        <div className="form">
-          <form onSubmit={this.submitHeightWidth}>
-            <div className="tool-item">
-              <Input
-                onChange={this.handleChange}
-                name="width"
-                label="Width"
-                defaultValue={this.props.width}
-              />
-            </div>
-            <div className="tool-item">
-              <Input
-                onChange={this.handleChange}
-                name="height"
-                label="Height"
-                defaultValue={this.props.height}
-              />
-            </div>
-            <div className="tool-item">
-              <Button className="tool-button" onClick={this.submitHeightWidth}>
-                Update chart size
-              </Button>
-            </div>
-          </form>
-          <h4>Save Changes</h4>
-          <hr />
-          <div className="tool-item">
-            <Button className="tool-button" onClick={this.handleUpdate}>
-              Update Chart
-            </Button>
-          </div>
-          <div className="tool-item">
+        <div className="tool-item">
+          <Button className="tool-button" onClick={this.handleUpdate}>
+            Update Chart
+          </Button>
+        </div>
+        <div className="tool-item">
             <Button className="tool-button" onClick={this.handleSubmit}>
               Save Changes as New Chart
             </Button>
@@ -180,19 +131,18 @@ class MapChartTools extends Component {
               publish={this.props.publishTheChart}
               chartId={this.props.chartId}
             />
-          </div>
-          <div className="tool-item">
+        </div>
+        <div className="tool-item">
             <MapFooterBar
               data={this.props.data}
               // readFile={this.importMapDataFromFile}
               emptyDiagram={this.emptyDiagram}
             />
-          </div>
-          <div className="tool-item">
+        </div>
+        <div className="tool-item">
             <Button className="tool-button" color="red" onClick={this.delete}>
               Delete Chart
             </Button>
-          </div>
         </div>
       </div>
     );

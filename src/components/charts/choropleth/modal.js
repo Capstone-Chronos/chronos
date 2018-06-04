@@ -4,21 +4,23 @@ import { modalStyle } from './constants';
 
 ReactModal.setAppElement('#root');
 
-const Modal = props => (
-  <ReactModal
-    closeTimeoutMS={150}
-    isOpen={true}
-    style={modalStyle}
-  >
-    <button
-      type="button"
-      className="close"
-      onClick={props.toggleModal}
+const Modal = props => {
+  return (
+    <ReactModal
+      closeTimeoutMS={150}
+      isOpen={true}
+      style={modalStyle}
     >
-      <span aria-hidden="true">&times;</span>
-    </button>
-    {props.children}
-  </ReactModal>
-);
+      <button
+        type="button"
+        className="close"
+        onClick={props.toggleModal}
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+      {props.children}
+    </ReactModal>
+  );
+};
 
 export default Modal;
