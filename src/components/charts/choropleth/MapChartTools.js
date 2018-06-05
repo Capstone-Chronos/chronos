@@ -15,8 +15,6 @@ import {
   importMapData
 } from '../../../store/mapChart';
 import { connect } from 'react-redux';
-import { Button, Input } from 'semantic-ui-react';
-import PublishButton from '../../toolbars/tools/PublishButton';
 import { withRouter } from 'react-router-dom';
 import request from 'superagent';
 import { Title, ChartDimensions, FileOptions } from './Toolbar';
@@ -24,7 +22,6 @@ import { Title, ChartDimensions, FileOptions } from './Toolbar';
 class MapChartTools extends Component {
   constructor(props) {
     super(props);
-    this.setTitle = this.setTitle.bind(this);
     this.publishTheChart = this.publishTheChart.bind(this);
     // this.importMapDataFromFile = this.importMapDataFromFile.bind(this);
 
@@ -34,11 +31,6 @@ class MapChartTools extends Component {
     this.delete = this.delete.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleUpdate = this.handleUpdate.bind(this);
-  }
-
-  setTitle(evt) {
-    evt.preventDefault();
-    this.props.updateTheTitle(evt.target.title.value);
   }
 
   emptyDiagram() {
@@ -82,10 +74,7 @@ class MapChartTools extends Component {
   render() {
     return (
       <div className="map-chart-tools">
-        <Title
-          title={this.props.title}
-          setTitle={this.setTitle}
-        />
+        <Title />
         <ChartDimensions />
         <FileOptions
           handleUpdate={this.handleUpdate}
@@ -105,8 +94,7 @@ class MapChartTools extends Component {
 const mapStateToProps = function(state) {
   return {
     data: state.mapChart.data,
-    userId: state.user.id,
-    title: state.mapChart.title
+    userId: state.user.id
   };
 };
 

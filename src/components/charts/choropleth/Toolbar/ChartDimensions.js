@@ -24,13 +24,13 @@ class ChartDimensions extends React.Component {
   handleSubmit(evt) {
     evt.preventDefault();
     let { heightInput, widthInput } = this.state;
-    this.props.submitHeightWidth(heightInput, widthInput);
+    let { submitHeightWidth } = this.props;
+    submitHeightWidth(heightInput, widthInput);
   }
 
   render() {
     let { handleChange, handleSubmit } = this;
     let { width, height } = this.props;
-    console.log(this.state);
     return (
       <div>
         <h4>Edit Chart Dimensions</h4>
