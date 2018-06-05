@@ -1,7 +1,7 @@
 import React from 'react';
 import renderMap from './renderMap';
 import MapChartTools from './MapChartTools';
-import { mapWidth, mapHeight } from './constants';
+import { defaultWidth, defaultHeight } from './constants';
 import { default as Modal } from './modal';
 import ColorPicker from '../../toolbars/tools/ColorPicker';
 import { connect } from 'react-redux';
@@ -65,6 +65,9 @@ class Choropleth extends React.Component {
   }
 
   render() {
+    let mapWidth = this.props.width || defaultWidth;
+    let mapHeight = this.props.height || defaultHeight;
+
     return (
       <Table>
         <Table.Row>
@@ -107,7 +110,9 @@ const mapsStateToProps = state => {
     chartId: state.mapChart.chartId,
     data: state.mapChart.data,
     uid: state.user.uid,
-    title: state.mapChart.title
+    title: state.mapChart.title,
+    height: state.mapChart.data.height,
+    width: state.mapChart.data.width
   };
 };
 
