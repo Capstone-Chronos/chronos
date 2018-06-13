@@ -22,20 +22,19 @@ class ColorPickModal extends React.Component {
   handleSubmit(evt) {
     evt.preventDefault();
     let { selectedColor } = this.state;
-    let { stateId, dispatchColors, closeModal } = this.props;
+    let { targetId, dispatchColors, closeModal } = this.props;
 
-    dispatchColors({ [stateId]: selectedColor });
+    dispatchColors({ [targetId]: selectedColor });
     closeModal();
   }
 
   render() {
-    let { stateId, closeModal } = this.props;
-    let { handleColorChange, handleSubmit } = this;
+    let { targetId, closeModal } = this.props;
     return (
       <Modal closeModal={closeModal}>
-        <form onSubmit={handleSubmit}>
-          <h4>{stateId}</h4>
-          <ColorPicker handleColorChange={handleColorChange} />
+        <form onSubmit={this.handleSubmit}>
+          <h4>{targetId}</h4>
+          <ColorPicker handleColorChange={this.handleColorChange} />
           <input type="submit" value="Submit" />
         </form>
       </Modal>
@@ -49,7 +48,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     dispatch(action);
   },
   closeModal: ownProps.closeModal,
-  stateId: ownProps.stateId
+  targetId: ownProps.targetId
 });
 
 export default connect(null, mapDispatchToProps)(ColorPickModal);

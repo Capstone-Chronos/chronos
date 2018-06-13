@@ -1,9 +1,6 @@
 import React from 'react';
 import renderMap from './renderMap';
 import MapChartTools from './MapChartTools';
-import { defaultWidth, defaultHeight } from './constants';
-import { default as Modal } from './modal';
-import ColorPicker from '../../toolbars/tools/ColorPicker';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { updateMapColors, fetchMapByIdThunk } from '../../../store/mapChart';
@@ -13,22 +10,18 @@ import ColorPickModal from './ColorPickModal';
 class Choropleth extends React.Component {
   constructor(props) {
     super(props);
-    this.renderMap = renderMap.bind(this);
 
     this.state = {
       openModal: false,
-      selectedStateId: '',
-      stateColors: {},
+      selectedStateId: ''
     };
+
+    this.renderMap = renderMap.bind(this);
     this.toggleModal = this.toggleModal.bind(this);
   }
 
   toggleModal(stateId) {
-    console.log('state id:', stateId);
-    let selectedStateId = isNaN(Number(stateId))
-      ? ''
-      : stateId;
-
+    const selectedStateId = isNaN(Number(stateId)) ? '' : stateId;
     this.setState(prevState => ({
       openModal: !prevState.openModal,
       selectedStateId
@@ -37,17 +30,17 @@ class Choropleth extends React.Component {
 
   componentDidMount() {
     const chartId = this.props.match.params.id;
-    if (chartId) this.props.dispatchGetChartData(chartId);
-    if (this.props.data) {
-      if (this.props.data.stateColors) {
-        this.renderMap(this.toggleModal, this.props.data.stateColors);
-      }
+    const { data, dispatchGetChartData } = this.props;
+
+    if (chartId) dispatchGetChartData(chartId);
+    if (data && data.stateColors) {
+      this.renderMap(this.toggleModal, data.stateColors);
     }
   }
 
   componentDidUpdate() {
-    this.props.data &&
-      this.renderMap(this.toggleModal, this.props.data.stateColors);
+    let { data } = this.props;
+    data && this.renderMap(this.toggleModal, data.stateColors);
   }
 
   render() {
@@ -80,7 +73,7 @@ class Choropleth extends React.Component {
         </Table.Row>
           {this.state.openModal && (
             <ColorPickModal
-              stateId={selectedStateId}
+              targetId={selectedStateId}
               closeModal={toggleModal}
             />
           )}
