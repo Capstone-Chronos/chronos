@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { readFile } from '../../toolbars/SankeyUtils/utils';
-import MapFooterBar from './MapFooterBar';
 import {
   deleteChart,
   saveExistingChart,
@@ -11,7 +10,6 @@ import {
   loadDefaultData,
   clearMapData,
   saveMapChartThunk,
-  updateTitle,
   importMapData
 } from '../../../store/mapChart';
 import { connect } from 'react-redux';
@@ -58,10 +56,10 @@ class MapChartTools extends Component {
   handleSubmit() {
     let savedData = {
       name: this.props.title,
-      data: this.state.data || this.props.data,
+      data: this.props.data,
       userId: this.props.userId,
-      width: this.state.width || this.props.width,
-      height: this.state.height || this.props.height
+      width: this.props.width,
+      height: this.props.height
     };
     const data = {
       json: this.props.data,
@@ -77,7 +75,6 @@ class MapChartTools extends Component {
         <Title />
         <ChartDimensions />
         <FileOptions
-          handleUpdate={this.handleUpdate}
           handleSubmit={this.handleSubmit}
           publishTheChart={this.props.publishTheChart}
           chartId={this.props.chartId}
@@ -94,7 +91,8 @@ class MapChartTools extends Component {
 const mapStateToProps = function(state) {
   return {
     data: state.mapChart.data,
-    userId: state.user.id
+    userId: state.user.id,
+    title: state.mapChart.title
   };
 };
 
@@ -114,10 +112,6 @@ const mapDispatchToProps = function(dispatch) {
     },
     clearChart: () => {
       const action = clearMapData();
-      dispatch(action);
-    },
-    updateTheTitle: title => {
-      const action = updateTitle(title);
       dispatch(action);
     },
     // uploadData: data => {

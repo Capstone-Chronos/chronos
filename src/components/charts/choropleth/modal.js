@@ -14,7 +14,7 @@ const Modal = props => {
       <button
         type="button"
         className="close"
-        onClick={props.toggleModal}
+        onClick={props.closeModal}
       >
         <span aria-hidden="true">&times;</span>
       </button>

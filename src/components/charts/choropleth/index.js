@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { updateMapColors, fetchMapByIdThunk } from '../../../store/mapChart';
 import { Table } from 'semantic-ui-react';
+import ColorPickModal from './ColorPickModal';
 
 class Choropleth extends React.Component {
   constructor(props) {
@@ -18,18 +19,15 @@ class Choropleth extends React.Component {
       openModal: false,
       selectedStateId: '',
       stateColors: {},
-      selectedColor: ''
     };
     this.toggleModal = this.toggleModal.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.selectedColor = this.selectedColor.bind(this);
   }
 
   toggleModal(stateId) {
-    let selectedStateId = stateId;
-    selectedStateId = Number.isNaN(Number(selectedStateId))
+    console.log('state id:', stateId);
+    let selectedStateId = isNaN(Number(stateId))
       ? ''
-      : selectedStateId;
+      : stateId;
 
     this.setState(prevState => ({
       openModal: !prevState.openModal,
@@ -52,21 +50,10 @@ class Choropleth extends React.Component {
       this.renderMap(this.toggleModal, this.props.data.stateColors);
   }
 
-  selectedColor(hexcode) {
-    this.setState({ selectedColor: hexcode });
-  }
-
-  handleSubmit(event) {
-    event.preventDefault();
-    let stateId = this.state.selectedStateId;
-    let color = this.state.selectedColor;
-    this.props.dispatchColors({ [stateId]: color });
-    this.toggleModal();
-  }
-
   render() {
-    let mapWidth = this.props.width || defaultWidth;
-    let mapHeight = this.props.height || defaultHeight;
+    let { width, height } = this.props;
+    const { selectedStateId } = this.state;
+    const { toggleModal } = this;
 
     return (
       <Table>
@@ -84,21 +71,18 @@ class Choropleth extends React.Component {
                 id="choropleth"
                 ref={node => { this.node = node; }}
                 className="svg-container"
-                width={mapWidth}
-                height={mapHeight}
+                width={width}
+                height={height}
                 style={{ marginTop: 20, marginLeft: 20 }}
               />
             </div>
           </Table.Cell>
         </Table.Row>
           {this.state.openModal && (
-            <Modal toggleModal={this.toggleModal}>
-              <form onSubmit={this.handleSubmit}>
-                <h4>{this.state.selectedStateId}</h4>
-                <ColorPicker handleColorChange={this.selectedColor} />
-                <input type="submit" value="Submit" />
-              </form>
-            </Modal>
+            <ColorPickModal
+              stateId={selectedStateId}
+              closeModal={toggleModal}
+            />
           )}
       </Table>
     );
@@ -120,7 +104,6 @@ const mapDispatchToProps = dispatch => {
   return {
     dispatchColors: singleState => {
       const action = updateMapColors(singleState);
-      console.log(singleState);
       dispatch(action);
     },
     dispatchGetChartData: chartId => {
