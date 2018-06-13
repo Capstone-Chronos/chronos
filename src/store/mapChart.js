@@ -33,8 +33,7 @@ const SET_MAP_TITLE = 'SET_MAP_TITLE';
 const SET_CHART = 'SET_CHART';
 const UPDATE_TITLE = 'UPDATE_TITLE';
 const CLEAR_DATA = 'CLEAR_DATA';
-const SET_HEIGHT = 'SET_HEIGHT';
-const SET_WIDTH = 'SET_WIDTH';
+const SET_HEIGHT_WIDTH = 'SET_HEIGHT_WIDTH';
 
 //ACTION CREATORS
 export const updateMapColors = singleState => ({
@@ -80,15 +79,16 @@ export const updateTitle = title => ({
   title
 });
 
-export const setHeight = height => ({
-  type: SET_HEIGHT,
-  height
-});
+export const setHeightWidth = (heightInput, widthInput) => {
+  let height = isNaN(Number(heightInput)) ? null : Number(heightInput);
+  let width = isNaN(Number(widthInput)) ? null : Number(widthInput);
 
-export const setWidth = width => ({
-  type: SET_WIDTH,
-  width
-});
+  return {
+    type: SET_HEIGHT_WIDTH,
+    height,
+    width
+  };
+}
 
 export const saveNewMapThunk = async (data, title) => {
   let newChartKey;
@@ -177,15 +177,15 @@ export default function reducer(state = initialState, action) {
         ...state,
         stateColors: {}
       };
-    case SET_HEIGHT:
+    case SET_HEIGHT_WIDTH:
       return {
         ...state,
         data: {
           ...state.data,
-          height: action.height,
-          width: action.width
+          height: action.height || state.data.height,
+          width: action.width || state.data.width
         }
-      }
+      };
     default:
       return state;
   }

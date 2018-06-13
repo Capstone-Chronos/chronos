@@ -2,14 +2,14 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Button, Input } from 'semantic-ui-react';
-import { setHeight, setWidth } from '../../../../store/mapChart';
+import { setHeightWidth } from '../../../../store/mapChart';
 
 class ChartDimensions extends React.Component {
   constructor (props) {
     super(props);
     this.state = {
-      heightInput: '',
-      widthInput: ''
+      heightInput: this.props.height + '',
+      widthInput: this.props.width + ''
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -30,7 +30,7 @@ class ChartDimensions extends React.Component {
   }
 
   render() {
-    let { width, height } = this.props;
+    let {widthInput, heightInput } = this.state;
     return (
       <div>
         <h4>Edit Chart Dimensions</h4>
@@ -42,14 +42,14 @@ class ChartDimensions extends React.Component {
               onChange={this.handleChange}
               name="widthInput"
               label="Width"
-              defaultValue={width}
+              value={widthInput}
             />
             <Input
               className="tool-item"
               onChange={this.handleChange}
               name="heightInput"
               label="Height"
-              defaultValue={height}
+              value={heightInput}
             />
             <Button className="tool-item tool-button" onClick={this.handleSubmit}>
               Update chart size
@@ -68,8 +68,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
   submitHeightWidth: (height, width) => {
-    if (height !== '' && !isNaN(height)) dispatch(setHeight(height));
-    if (width !== '' && !isNaN(width)) dispatch(setWidth(width));
+    const action = setHeightWidth(height, width);
+    dispatch(action);
   }
 });
 
