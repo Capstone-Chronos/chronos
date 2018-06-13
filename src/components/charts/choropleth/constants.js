@@ -9,8 +9,8 @@ export const colors = {
   strokeDisabled: 'rgb(200, 200, 200)',
 };
 
-export const mapWidth = 960;
-export const mapHeight = 600;
+export const defaultWidth = 960;
+export const defaultHeight = 600;
 
 export var modalStyle = {
   content: {
@@ -26,3 +26,4 @@ export var modalStyle = {
     }
 };
 
+export const geoFileUrl = 'https://d3js.org/us-10m.v1.json';
