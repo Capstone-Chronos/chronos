@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { importMapData } from '../../../store/mapChart';
+import { importMapData, clearMapData } from '../../../store/mapChart';
 import { ExportJSON } from '../../toolbars/SankeyUtils/utils';
 
 const MapFooterBar = props => {
@@ -11,14 +11,6 @@ const MapFooterBar = props => {
       </div>
       <div className="tool-item">
         <ExportJSON data={props.data} />
-      </div>
-      <div className="tool-item">
-        <button
-          type="button" className="ui button tool-button orange"
-          onClick={props.emptyDiagram}
-        >
-          Clear Diagram
-        </button>
       </div>
     </div>
   );
@@ -78,15 +70,18 @@ class MapImportJSON extends React.Component {
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    dispatchImportMapJSON: data => {
-      const action = importMapData(data);
-      dispatch(action);
-    }
-  };
-};
 
-const MapImportJSONContainer = connect(() => ({}), mapDispatchToProps)(
+const mapDispatchToProps = dispatch => ({
+  dispatchImportMapJSON: data => {
+    const action = importMapData(data);
+    dispatch(action);
+  },
+  clearChart: () => {
+    const action = clearMapData();
+    dispatch(action);
+  }
+});
+
+const MapImportJSONContainer = connect(null, mapDispatchToProps)(
   MapImportJSON
 );

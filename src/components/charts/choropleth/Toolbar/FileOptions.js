@@ -1,8 +1,10 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import {Button} from 'semantic-ui-react';
 import PublishButton from '../../../toolbars/tools/PublishButton';
 import MapFooterBar from '../MapFooterBar';
 import {saveExistingChart} from '../../../../database/charts';
+import { clearMapData } from '../../../../store/mapChart';
 
 const FileOptions = props => {
   let {
@@ -13,6 +15,7 @@ const FileOptions = props => {
     importMapDataFromFile,
     emptyDiagram,
     deleteChart,
+    clearChart
   } = props;
 
   return (
@@ -40,6 +43,14 @@ const FileOptions = props => {
         readFile={importMapDataFromFile}
         emptyDiagram={emptyDiagram}
       />
+
+      <Button
+        className="tool-item ui button tool-button orange"
+        onClick={clearChart}
+      >
+        Clear Diagram
+      </Button>
+
       <Button
         className="tool-item tool-button"
         color="red"
@@ -52,5 +63,12 @@ const FileOptions = props => {
 
 const mapStateToProps = state => ({...state.mapChart});
 
-const mapDispatchToProps = dispatch => ({});
-export default FileOptions;
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  clearChart: () => {
+    const action = clearMapData();
+    dispatch(action);
+  },
+  ...ownProps
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(FileOptions);

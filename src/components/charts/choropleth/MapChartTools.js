@@ -8,7 +8,6 @@ import {
 } from '../../../database/charts';
 import {
   loadDefaultData,
-  clearMapData,
   saveMapChartThunk,
   importMapData
 } from '../../../store/mapChart';
@@ -23,17 +22,11 @@ class MapChartTools extends Component {
     this.publishTheChart = this.publishTheChart.bind(this);
     // this.importMapDataFromFile = this.importMapDataFromFile.bind(this);
 
-    this.emptyDiagram = this.emptyDiagram.bind(this);
 
     this.readFile = readFile.bind(this);
     this.delete = this.delete.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleUpdate = this.handleUpdate.bind(this);
-  }
-
-  emptyDiagram() {
-    const { clearChart } = this.props;
-    clearChart();
   }
 
   publishTheChart() {
@@ -78,7 +71,6 @@ class MapChartTools extends Component {
           chartId={this.props.chartId}
           data={this.props.data}
           importMapDataFromFile={this.importMapDataFromFile}
-          emptyDiagram={this.emptyDiagram}
           deleteChart={this.delete}
         />
       </div>
@@ -104,9 +96,6 @@ const mapDispatchToProps = dispatch => ({
   delete: (chartId, userId) => {
     const action = deleteChart(chartId, userId);
     dispatch(action);
-  },
-  clearChart: () => {
-    dispatch(clearMapData());
   },
   publishTheChart: chartId => {
     const action = publishChart(chartId);
