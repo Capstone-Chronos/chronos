@@ -25,33 +25,33 @@ class ChartDimensions extends React.Component {
     evt.preventDefault();
     let { heightInput, widthInput } = this.state;
     let { submitHeightWidth } = this.props;
+
     submitHeightWidth(heightInput, widthInput);
   }
 
   render() {
-    let { handleChange, handleSubmit } = this;
     let { width, height } = this.props;
     return (
       <div>
         <h4>Edit Chart Dimensions</h4>
         <hr />
         <div className="form">
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={this.handleSubmit}>
             <Input
               className="tool-item"
-              onChange={handleChange}
+              onChange={this.handleChange}
               name="widthInput"
               label="Width"
               defaultValue={width}
             />
             <Input
               className="tool-item"
-              onChange={handleChange}
+              onChange={this.handleChange}
               name="heightInput"
               label="Height"
               defaultValue={height}
             />
-            <Button className="tool-item tool-button" onClick={handleSubmit}>
+            <Button className="tool-item tool-button" onClick={this.handleSubmit}>
               Update chart size
             </Button>
           </form>
@@ -61,10 +61,10 @@ class ChartDimensions extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  height: state.mapChart.data.height,
-  width: state.mapChart.data.width
-});
+const mapStateToProps = state => {
+  let { height, width } = state.mapChart.data;
+  return { height, width };
+};
 
 const mapDispatchToProps = dispatch => ({
   submitHeightWidth: (height, width) => {

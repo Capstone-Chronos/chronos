@@ -32,8 +32,8 @@ class MapChartTools extends Component {
   }
 
   emptyDiagram() {
-    this.props.clearChart();
-    this.props.renderMap(this.toggleModal, this.props.data.stateColors);
+    const { clearChart } = this.props;
+    clearChart();
   }
 
   publishTheChart() {
@@ -42,9 +42,7 @@ class MapChartTools extends Component {
   }
 
   delete() {
-    console.log(this.props);
-    let chartId = this.props.chartId;
-    let userId = this.props.userId;
+    let { chartId, userId } = this.props;
     deleteChart(chartId, userId);
   }
 
@@ -88,46 +86,37 @@ class MapChartTools extends Component {
   }
 }
 
-const mapStateToProps = function(state) {
-  return {
-    data: state.mapChart.data,
-    userId: state.user.id,
-    title: state.mapChart.title
-  };
-};
+const mapStateToProps = state => ({
+  data: state.mapChart.data,
+  userId: state.user.id,
+  title: state.mapChart.title
+});
 
-const mapDispatchToProps = function(dispatch) {
-  return {
-    fetchDefaultData: () => {
-      const action = loadDefaultData();
-      dispatch(action);
-    },
-    saveChanges: (data, title) => {
-      const action = saveMapChartThunk(data, title);
-      dispatch(action);
-    },
-    delete: (chartId, userId) => {
-      const action = deleteChart(chartId, userId);
-      dispatch(action);
-    },
-    clearChart: () => {
-      const action = clearMapData();
-      dispatch(action);
-    },
-    // uploadData: data => {
-    //   const action = importData(data);
-    //   dispatch(action);
-    // },
-    publishTheChart: chartId => {
-      const action = publishChart(chartId);
-      dispatch(action);
-    },
-    dispatchSetMapData: data => {
-      const action = importMapData(data);
-      dispatch(action);
-    }
-  };
-};
+const mapDispatchToProps = dispatch => ({
+  fetchDefaultData: () => {
+    const action = loadDefaultData();
+    dispatch(action);
+  },
+  saveChanges: (data, title) => {
+    const action = saveMapChartThunk(data, title);
+    dispatch(action);
+  },
+  delete: (chartId, userId) => {
+    const action = deleteChart(chartId, userId);
+    dispatch(action);
+  },
+  clearChart: () => {
+    dispatch(clearMapData());
+  },
+  publishTheChart: chartId => {
+    const action = publishChart(chartId);
+    dispatch(action);
+  },
+  dispatchSetMapData: data => {
+    const action = importMapData(data);
+    dispatch(action);
+  }
+});
 
 export default withRouter(
   connect(mapStateToProps, mapDispatchToProps)(MapChartTools)

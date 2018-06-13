@@ -31,31 +31,30 @@ class Choropleth extends React.Component {
   componentDidMount() {
     const chartId = this.props.match.params.id;
     const { data, dispatchGetChartData } = this.props;
+    const { stateColors } = this.props;
 
     if (chartId) dispatchGetChartData(chartId);
-    if (data && data.stateColors) {
-      this.renderMap(this.toggleModal, data.stateColors);
-    }
+
+    this.renderMap(this.toggleModal, stateColors);
   }
 
   componentDidUpdate() {
-    let { data } = this.props;
-    data && this.renderMap(this.toggleModal, data.stateColors);
+    const { stateColors } = this.props;
+    this.renderMap(this.toggleModal, stateColors);
   }
 
   render() {
-    let { width, height } = this.props;
+    let { width, height, stateColors, chartId } = this.props;
     const { selectedStateId } = this.state;
-    const { toggleModal } = this;
 
     return (
       <Table>
         <Table.Row>
           <Table.Cell width="1">
             <MapChartTools
-              stateColors={this.props.data.stateColors}
+              stateColors={stateColors}
               renderMap={this.renderMap}
-              chartId={this.props.chartId}
+              chartId={chartId}
             />
           </Table.Cell>
           <Table.Cell>
@@ -74,7 +73,7 @@ class Choropleth extends React.Component {
           {this.state.openModal && (
             <ColorPickModal
               targetId={selectedStateId}
-              closeModal={toggleModal}
+              closeModal={this.toggleModal}
             />
           )}
       </Table>
@@ -83,13 +82,15 @@ class Choropleth extends React.Component {
 }
 
 const mapsStateToProps = state => {
+  let { chartId, data, title, stateColors } = state.mapChart;
   return {
-    chartId: state.mapChart.chartId,
-    data: state.mapChart.data,
+    chartId,
+    data,
     uid: state.user.uid,
-    title: state.mapChart.title,
-    height: state.mapChart.data.height,
-    width: state.mapChart.data.width
+    title,
+    height: data.height,
+    width: data.width,
+    stateColors
   };
 };
 

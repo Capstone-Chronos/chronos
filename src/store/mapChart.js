@@ -3,31 +3,19 @@ import firebase from 'firebase';
 import history from '../routes/history';
 import { fetchChartById, saveNewChart } from '../database/charts';
 
-let defaultData = {
+let initialState = {
   chartId: '',
   chartType: 'Choropleth',
   title: 'Choropleth',
   data: {
     json: 'https://d3js.org/us-10m.v1.json',
-    stateColors: {},
     width: 1000,
     height: 800
-  }
+  },
+  stateColors: {}
 };
 
-let empty = {
-  chartId: '',
-  chartType: 'Choropleth',
-  title: 'Choropleth',
-  data: {
-    json: 'https://d3js.org/us-10m.v1.json',
-    stateColors: {},
-    width: 1000,
-    height: 800
-  }
-};
-
-const initialState = defaultData;
+let empty = initialState;
 
 // Action Types
 const UPDATE_COLORS = 'UPDATE_COLORS';
@@ -60,7 +48,7 @@ export const setMapOnLoad = map => ({
 
 export const loadDefaultData = () => ({
   type: UPDATE_MAP_DATA,
-  data: defaultData
+  data: initialState
 });
 
 export const importMapData = data => ({
@@ -69,8 +57,7 @@ export const importMapData = data => ({
 });
 
 export const clearMapData = () => ({
-  type: UPDATE_MAP_DATA,
-  data: empty
+  type: CLEAR_DATA
 });
 
 export const setMapTitle = title => ({
@@ -162,16 +149,11 @@ export const fetchMapByIdThunk = chartId => {
 export default function reducer(state = initialState, action) {
   switch (action.type) {
     case UPDATE_COLORS:
-      if (!state.stateColors) state['stateColors'] = {};
       return {
         ...state,
-        data: {
-          ...state.data,
-          stateColors: Object.assign(
-            {},
-            state.data.stateColors,
-            action.singleState
-          )
+        stateColors: {
+          ...state.stateColors,
+          ...action.singleState
         }
       };
     case UPDATE_TITLE:
@@ -182,19 +164,18 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         data: empty.data.json,
-        stateColors: empty.data.stateColors
+        stateColors: empty.stateColors
       };
     case SET_CHART_ID:
       return { ...state, chartId: action.chartId };
     case SET_CHART:
       return action.chart;
     case LOAD_DEFAULT_DATA:
-      return defaultData;
+      return initialState;
     case CLEAR_DATA:
       return {
         ...state,
-        data: empty.data.json,
-        stateColors: empty.data.stateColors
+        stateColors: {}
       };
     case SET_HEIGHT:
       return {

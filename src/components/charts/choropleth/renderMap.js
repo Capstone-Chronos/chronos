@@ -4,7 +4,7 @@ import { mesh, feature } from 'topojson';
 import { geoPath } from 'd3-geo';
 import { geoFileUrl } from './constants';
 
-export default function renderMap (toggleModal, stateColors) {
+export default function renderMap (toggleModal, stateColors = {}) {
   return readJSON(geoFileUrl, (err, us) => {
     if (err) throw err;
 
