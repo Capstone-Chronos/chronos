@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import {Button} from 'semantic-ui-react';
 import PublishButton from '../../../toolbars/tools/PublishButton';
 import MapFooterBar from '../MapFooterBar';
-import {saveExistingChart} from '../../../../database/charts';
+import { saveExistingChart, publishChart } from '../../../../database/charts';
 import { clearMapData } from '../../../../store/mapChart';
 
 const FileOptions = props => {
@@ -61,11 +61,17 @@ const FileOptions = props => {
   );
 };
 
-const mapStateToProps = state => ({...state.mapChart});
+const mapStateToProps = state => ({
+  data: state.mapChart.data,
+});
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   clearChart: () => {
     const action = clearMapData();
+    dispatch(action);
+  },
+  publishTheChart: chartId => {
+    const action = publishChart(chartId);
     dispatch(action);
   },
   ...ownProps

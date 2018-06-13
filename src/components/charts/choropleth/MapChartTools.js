@@ -19,7 +19,7 @@ import { Title, ChartDimensions, FileOptions } from './Toolbar';
 class MapChartTools extends Component {
   constructor(props) {
     super(props);
-    this.publishTheChart = this.publishTheChart.bind(this);
+    //this.publishTheChart = this.publishTheChart.bind(this);
     // this.importMapDataFromFile = this.importMapDataFromFile.bind(this);
 
 
@@ -27,11 +27,6 @@ class MapChartTools extends Component {
     this.delete = this.delete.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleUpdate = this.handleUpdate.bind(this);
-  }
-
-  publishTheChart() {
-    let { chartId } = this.props;
-    publishChart(chartId);
   }
 
   delete() {
@@ -67,9 +62,7 @@ class MapChartTools extends Component {
         <ChartDimensions />
         <FileOptions
           handleSubmit={this.handleSubmit}
-          publishTheChart={this.props.publishTheChart}
           chartId={this.props.chartId}
-          data={this.props.data}
           importMapDataFromFile={this.importMapDataFromFile}
           deleteChart={this.delete}
         />
@@ -95,10 +88,6 @@ const mapDispatchToProps = dispatch => ({
   },
   delete: (chartId, userId) => {
     const action = deleteChart(chartId, userId);
-    dispatch(action);
-  },
-  publishTheChart: chartId => {
-    const action = publishChart(chartId);
     dispatch(action);
   },
   dispatchSetMapData: data => {
